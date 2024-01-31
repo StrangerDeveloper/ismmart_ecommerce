@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ismmart_ecommerce/helpers/common_function.dart';
 
+import '../../helpers/common_function.dart';
 import '../../widgets/custom_button.dart';
 
 class HomeView extends StatelessWidget {
@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
       ),
       body: Center(
         child: CustomIconTextBtn(
-          title: 'CustomIconTextBtn',
+          title: 'Custom Icon text button',
           onPressed: () {
             CommonFunction.showBottomSheet(context: context);
           },
