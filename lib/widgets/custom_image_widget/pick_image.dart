@@ -6,10 +6,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import '../custom_snackbar.dart';
 import 'bottomsheet_item.dart';
 
 class PickImage {
@@ -116,7 +115,7 @@ class PickImage {
     double length = await checkImageSize(result!);
 
     if (length > 2) {
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: "Image Size must be less than 2MB");
       return null;
     }
@@ -226,10 +225,10 @@ class PickImage {
         double length = await checkImageSize(result!);
 
         if (length > 2) {
-          CustomSnackBar.showSnackBar(
-              title: "Error",
-              message: "image size should be less then 2MB",
-              color: AppColors.red);
+          CommonFunction.showSnackBar(
+            title: "Error",
+            message: "image size should be less then 2MB",
+          );
         } else {
           File file = File(result.path);
           tempList.add(file);

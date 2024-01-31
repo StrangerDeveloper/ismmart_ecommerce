@@ -45,9 +45,9 @@ class CommonFunction {
   //   return outputDate;
   // }
   //
-  // static void closeKeyboard() {
-  //   FocusScope.of(Get.context!).requestFocus(FocusNode());
-  // }
+  static void closeKeyboard() {
+    FocusScope.of(Get.context!).requestFocus(FocusNode());
+  }
 
   static colorConsole(String value) {
     debugPrint('\x1B[32m$value\x1B[0m');
@@ -77,7 +77,6 @@ class CommonFunction {
     int tempIndex = 0;
     Get.bottomSheet(
       Container(
-        color: AppColors.white,
         height: 250,
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: Row(
