@@ -77,7 +77,6 @@ class CommonFunction {
     int tempIndex = 0;
     Get.bottomSheet(
       Container(
-        color: AppColors.white,
         height: 250,
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: Row(
