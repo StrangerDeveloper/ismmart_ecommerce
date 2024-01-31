@@ -9,8 +9,6 @@ import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/urls.dart';
 
-import '../widgets/custom_snackbar.dart';
-
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
   Map<String, String> header = {
