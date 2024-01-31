@@ -45,9 +45,9 @@ class CommonFunction {
   //   return outputDate;
   // }
   //
-  // static void closeKeyboard() {
-  //   FocusScope.of(Get.context!).requestFocus(FocusNode());
-  // }
+  static void closeKeyboard() {
+    FocusScope.of(Get.context!).requestFocus(FocusNode());
+  }
 
   static colorConsole(String value) {
     debugPrint('\x1B[32m$value\x1B[0m');
