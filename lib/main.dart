@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeHelper.lightTheme,
       darkTheme: ThemeHelper.darkTheme,
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      //getPages: AppRoutes,
+      //getPages: AppRouter().getRoutes(),
     );
   }
 }
