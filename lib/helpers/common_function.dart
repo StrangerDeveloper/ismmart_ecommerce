@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,15 +68,80 @@ class CommonFunction {
     }
   }
 
+  static showBottomSheet({
+    List? itemsList,
+    int? selectedIndex,
+    required BuildContext context,
+    final void Function(int)? onChanged,
+  }) {
+    int tempIndex = 0;
+    Get.bottomSheet(
+      Container(
+        color: AppColors.white,
+        height: 250,
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CupertinoButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontSize: 14),
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            Expanded(
+              child: CupertinoPicker(
+                scrollController: FixedExtentScrollController(
+                  initialItem: selectedIndex ?? 0,
+                ),
+                itemExtent: 40,
+                onSelectedItemChanged: (int index) {
+                  tempIndex = index;
+                },
+                children: List.generate(
+                  (itemsList ?? []).length,
+                  (int index) {
+                    return Center(
+                      child: Text(
+                        itemsList != null ? itemsList[index].name! : '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            CupertinoButton(
+              onPressed: () {
+                onChanged!(tempIndex);
+                Get.back();
+              },
+              child: const Text(
+                'Done',
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-  static showSnackBar( {String? title, String? message,SnackPosition? position}) {
-     var bgColor = AppColors.limeGreen;
+  static showSnackBar(
+      {String? title, String? message, SnackPosition? position}) {
+    var bgColor = AppColors.limeGreen;
     var icon = Icons.gpp_good_sharp;
     var titleNew = title;
 
     if (title!.toLowerCase().contains('error')) {
       titleNew = "Oops!";
-     bgColor = AppColors.red;
+      bgColor = AppColors.red;
       icon = Icons.error_outline;
     }
 

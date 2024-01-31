@@ -31,7 +31,7 @@ class ThemeHelper {
     ),
   );
 
-  ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
+  static ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
     //useMaterial3: false,
     //primarySwatch: ThemeHelper.platte1,
     scaffoldBackgroundColor: AppColors.background,

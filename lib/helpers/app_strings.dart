@@ -1,5 +1,5 @@
 class AppStrings {
-
+  AppStrings._();
   static String generalApiError = 'Something went wrong';
   static String noInternetError = 'No internet connection';
 
@@ -8,5 +8,5 @@ class AppStrings {
   static String timeOutException = 'server is taking too long to respond ';
   static String sessionException =
       'Your request is not authorized as your token is expired.';
-
 }
+
