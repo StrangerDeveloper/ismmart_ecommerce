@@ -135,22 +135,22 @@ class ApiBaseHelper {
       return parsedJSON;
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.noInternetError);
       throw AppStrings.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.timeOutException);
       throw AppStrings.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.formatException);
       throw AppStrings.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.generalApiError);
       throw e.toString();
     }
