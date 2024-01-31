@@ -71,7 +71,7 @@ class CommonFunction {
   static showBottomSheet({
     List? itemsList,
     int? selectedIndex,
-    required BuildContext? context,
+    required BuildContext context,
     final void Function(int)? onChanged,
   }) {
     int tempIndex = 0;
