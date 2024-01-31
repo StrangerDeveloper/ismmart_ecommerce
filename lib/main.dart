@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:ismmart_ecommerce/screens/signup/singup_view.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
@@ -10,7 +12,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -18,10 +19,8 @@ class MyApp extends StatelessWidget {
       title: 'ISMMART eCommerce',
       theme: ThemeHelper.lightTheme,
       darkTheme: ThemeHelper.darkTheme,
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: SignupView(),
       //getPages: AppRouter().getRoutes(),
     );
   }
 }
-
-
