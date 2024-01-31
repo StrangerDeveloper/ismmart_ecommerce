@@ -10,7 +10,6 @@ import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import '../custom_snackbar.dart';
 import 'bottomsheet_item.dart';
 
 class PickImage {
