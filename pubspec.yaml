@@ -28,7 +28,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cached_network_image: ^3.3.1
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -37,12 +36,15 @@ dependencies:
   http: ^1.2.0
   google_fonts: ^6.1.0
   intl: ^0.19.0
-
   get_storage: ^2.1.1
   path: ^1.8.3
   cached_network_image: ^3.3.1
   image_picker: ^1.0.7
   flutter_image_compress: ^2.0.4
+  google_sign_in: ^6.2.1
+  permission_handler: ^11.1.0
+  sign_in_with_apple: ^5.0.0
+  flutter_svg: ^2.0.1
   
 
 dev_dependencies:
@@ -67,9 +69,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-#  assets:
-#  - assets/images
-#  - assets/icons
+  assets:
+#    - assets/logo/
+    - assets/icons/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

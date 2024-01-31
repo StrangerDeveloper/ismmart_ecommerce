@@ -7,13 +7,11 @@ abstract class AppRouter {
 }
 
 class AppRoutes extends AppRouter {
-
   @override
   List<GetPage> getRoutes() {
     return [
-      GetPage(name: '', page: ()=> const LoginView()),
-      GetPage(name: '', page: ()=> const HomeView()),
-
+      GetPage(name: '', page: () => LogInView()),
+      GetPage(name: '', page: () => const HomeView()),
     ];
   }
 }
