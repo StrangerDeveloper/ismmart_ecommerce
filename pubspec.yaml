@@ -45,6 +45,8 @@ dependencies:
   permission_handler: ^11.1.0
   sign_in_with_apple: ^5.0.0
   flutter_svg: ^2.0.1
+  country_code_picker: ^3.0.0
+  flutter_multi_formatter: ^2.5.8
   
 
 dev_dependencies:

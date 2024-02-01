@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
 
 import '../../../helpers/common_function.dart';
@@ -36,7 +37,13 @@ class LogInView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 52),
-                        titleAndBackBtn(),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Login",
+                            style: ThemeHelper.textTheme.titleMedium,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 72,
@@ -73,29 +80,6 @@ class LogInView extends StatelessWidget {
             const LoaderView()
           ],
         ),
-      ),
-    );
-  }
-
-  Widget titleAndBackBtn() {
-    return Container(
-      padding: const EdgeInsets.only(left: 58, right: 57),
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Login",
-            ),
-          ),
-          // CustomBackButton(
-          //   onTap: () {
-          //     Get.back();
-          //   },
-          // ),
-        ],
       ),
     );
   }
