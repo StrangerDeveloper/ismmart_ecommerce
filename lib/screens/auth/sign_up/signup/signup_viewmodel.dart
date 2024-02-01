@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 
+import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/global_variables.dart';
 import '../../../../widgets/custom_image_widget/pick_image.dart';
 import '../signup_methods/signup_mehods_viewmodel.dart';
@@ -121,24 +123,24 @@ class SignUpScreen1ViewModel extends GetxController {
         GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
             .postMethodForImage(
-                url: Urls.register, files: fileList, fields: param)
+                url: "Urls.register", files: fileList, fields: param)
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
             GlobalVariable.showLoader.value = false;
             param.removeWhere((key, value) => value == "1");
-            Get.to(() => SignUp2View(), arguments: param);
+            // Get.to(() => SignUp2View(), arguments: param);
           } else {
             GlobalVariable.showLoader(false);
-            AppConstant.displaySnackBar(
-              "Error",
-              parsedJson['message'],
+            CommonFunction.showSnackBar(
+              title: 'Error',
+              message: parsedJson['message'],
             );
           }
         });
       } else {
-        AppConstant.displaySnackBar(
-          "Error",
-          'Please Accept Terms & Condition',
+        CommonFunction.showSnackBar(
+          title: 'Error',
+          message: 'Please Accept Terms & Condition',
         );
       }
     } else {

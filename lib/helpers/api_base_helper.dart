@@ -204,57 +204,61 @@ class ApiBaseHelper {
 //   }
 // }
 //
-//
-// Future<dynamic> postMethodForImage({
-//   required String url,
-//   required List<http.MultipartFile> files,
-//   required Map<String, String> fields,
-// }) async {
-//   try {
-//     Uri urlValue = Uri.parse(_baseUrl + url);
-//     debugPrint('*********************** Request ********************************');
-//     debugPrint("$urlValue");
-//
-//     http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
-//     request.headers.remove('Content-Type');
-//     request.headers.addAll({
-//       'Content-Type': 'multipart/form-data',
-//       'Authorization': 'Bearer ${GlobalVariable.token}',
-//     });
-//     request.fields.addAll(fields);
-//     request.files.addAll(files);
-//
-//     http.StreamedResponse response = await request.send();
-//     Map<String, dynamic> parsedJson =
-//         await jsonDecode(await response.stream.bytesToString());
-//
-//     debugPrint(
-//         '*********************** Response ********************************');
-//     debugPrint("$urlValue");
-//     debugPrint(parsedJson.toString());
-//     AppConstant.colorConsole(
-//         '****************************************************************************************');
-//     return parsedJson;
-//   } on SocketException catch (_) {
-//     GlobalVariable.showLoader.value = false;
-//     GlobalVariable.noInternet(true);
-//     //AppConstant.displaySnackBar(titlege)(title, message: AppStrings.noInternetError);
-//     throw AppStrings.noInternetError;
-//   } on TimeoutException catch (_) {
-//     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.timeOutException);
-//     throw AppStrings.timeOutException;
-//   } on FormatException catch (_) {
-//     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.formatException);
-//     throw AppStrings.formatException;
-//   } catch (e) {
-//     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.generalApiError);
-//     throw e.toString();
-//   }
-// }
-//
+
+  Future<dynamic> postMethodForImage({
+    required String url,
+    required List<http.MultipartFile> files,
+    required Map<String, String> fields,
+  }) async {
+    try {
+      Uri urlValue = Uri.parse(_baseUrl + url);
+      debugPrint(
+          '*********************** Request ********************************');
+      debugPrint("$urlValue");
+
+      http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
+      request.headers.remove('Content-Type');
+      request.headers.addAll({
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ${GlobalVariable.token}',
+      });
+      request.fields.addAll(fields);
+      request.files.addAll(files);
+
+      http.StreamedResponse response = await request.send();
+      Map<String, dynamic> parsedJson =
+          await jsonDecode(await response.stream.bytesToString());
+
+      debugPrint(
+          '*********************** Response ********************************');
+      debugPrint("$urlValue");
+      debugPrint(parsedJson.toString());
+      CommonFunction.colorConsole(
+          '****************************************************************************************');
+      return parsedJson;
+    } on SocketException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      GlobalVariable.noInternet(true);
+      //CommonFunction.showSnackBar(titlege)(title, message: AppStrings.noInternetError);
+      throw AppStrings.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.timeOutException);
+      throw AppStrings.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.formatException);
+      throw AppStrings.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.generalApiError);
+      throw e.toString();
+    }
+  }
+
 // Future<dynamic> putMethodForImage({
 //   required String url,
 //   required List<http.MultipartFile> files,
@@ -277,25 +281,25 @@ class ApiBaseHelper {
 //         '*********************** Response ********************************');
 //     debugPrint("$urlValue");
 //     debugPrint(parsedJson.toString());
-//     AppConstant.colorConsole(
+//     CommonFunction.colorConsole(
 //         '****************************************************************************************');
 //     return parsedJson;
 //   } on SocketException catch (_) {
 //     GlobalVariable.showLoader.value = false;
 //     GlobalVariable.noInternet(true);
-//     //AppConstant.displaySnackBar(titlege)(title, message: AppStrings.noInternetError);
+//     //CommonFunction.showSnackBar(titlege)(title, message: AppStrings.noInternetError);
 //     throw AppStrings.noInternetError;
 //   } on TimeoutException catch (_) {
 //     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.timeOutException);
+//     CommonFunction.showSnackBar('Error', AppStrings.timeOutException);
 //     throw AppStrings.timeOutException;
 //   } on FormatException catch (_) {
 //     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.formatException);
+//     CommonFunction.showSnackBar('Error', AppStrings.formatException);
 //     throw AppStrings.formatException;
 //   } catch (e) {
 //     GlobalVariable.showLoader.value = false;
-//     AppConstant.displaySnackBar('Error', AppStrings.generalApiError);
+//     CommonFunction.showSnackBar('Error', AppStrings.generalApiError);
 //     throw e.toString();
 //   }
 // }
