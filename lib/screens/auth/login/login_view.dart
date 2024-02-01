@@ -7,7 +7,7 @@ import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
-import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/loader_view.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
 import '../sign_up/signup_methods/singup_methods_view.dart';

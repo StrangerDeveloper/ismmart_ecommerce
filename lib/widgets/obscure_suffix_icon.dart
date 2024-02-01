@@ -15,7 +15,7 @@ class ObscureSuffixIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: IconButton(
         visualDensity: VisualDensity.compact,
         icon: Icon(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../helpers/app_colors.dart';
-import '../../helpers/theme_helper.dart';
 
 class ImageLayoutContainer extends StatelessWidget {
   final void Function() onTap;
