@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -911,151 +912,151 @@ class CustomTextField5 extends StatelessWidget {
 //     );
 //   }
 // }
-//
-// class CountryCodePickerTextField2 extends StatelessWidget {
-//   final String? title;
-//   final TextEditingController? controller;
-//   final TextInputType? keyboardType;
-//   final String? initialValue;
-//   final FormFieldValidator<String>? validator;
-//   final AutovalidateMode? autoValidateMode;
-//   final ValueChanged<CountryCode>? onChanged;
-//   final ValueChanged<String>? onPhoneFieldChange;
-//   final bool? showCursor;
-//   final bool readOnly;
-//   final bool enabled;
-//   final bool required;
-//   final String? errorText;
-//   final TextStyle? textStyle;
-//   final List<TextInputFormatter>? inputFormatters;
-//   final String? hintText;
-//
-//   const CountryCodePickerTextField2({
-//     super.key,
-//     this.validator,
-//     this.autoValidateMode,
-//     this.controller,
-//     this.initialValue,
-//     this.keyboardType,
-//     this.onChanged,
-//     this.showCursor,
-//     this.readOnly = false,
-//     this.enabled = true,
-//     this.inputFormatters,
-//     this.errorText,
-//     this.onPhoneFieldChange,
-//     this.textStyle,
-//     this.title,
-//     this.hintText,
-//     this.required = false,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         if (title != null)
-//           Padding(
-//             padding: const EdgeInsets.only(bottom: 3),
-//             child: RichText(
-//               text: TextSpan(
-//                 text: title!,
-//                 style: const TextStyle(
-//                   color: Colors.black,
-//                   fontWeight: FontWeight.w500,
-//                 ),
-//                 children: [
-//                   if (required)
-//                     const TextSpan(
-//                       text: ' *',
-//                       style: TextStyle(color: Colors.red),
-//                     )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         TextFormField(
-//           inputFormatters: inputFormatters,
-//           showCursor: showCursor,
-//           readOnly: readOnly,
-//           autovalidateMode: autoValidateMode,
-//           validator: validator,
-//           onChanged: onPhoneFieldChange,
-//           decoration: InputDecoration(
-//             hintText: hintText,
-//             hintStyle: newFontStyleSize14.copyWith(
-//               color: AppColors.fadedBlue,
-//             ),
-//             errorText: errorText,
-//             prefixIconConstraints: BoxConstraints.tight(const Size(120, 50)),
-//             prefixIcon: Row(
-//               children: [
-//                 CountryCodePicker(
-//                   padding: EdgeInsets.zero,
-//                   flagDecoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(1),
-//                   ),
-//                   searchDecoration: InputDecoration(
-//                     contentPadding: EdgeInsets.zero,
-//                     enabledBorder: OutlineInputBorder(
-//                       borderSide: const BorderSide(
-//                         color: Colors.black,
-//                         width: 1,
-//                         style: BorderStyle.solid,
-//                       ), //B
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
-//                     focusedBorder: OutlineInputBorder(
-//                       borderSide: const BorderSide(
-//                         color: Colors.black,
-//                         width: 1,
-//                         style: BorderStyle.solid,
-//                       ), //B
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
-//                   ),
-//                   textStyle: newFontStyleSize14.copyWith(
-//                     color: Colors.black,
-//                   ),
-//                   enabled: enabled,
-//                   onChanged: onChanged,
-//                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-//                   initialSelection: initialValue,
-//                 ),
-//                 const Icon(
-//                   Icons.arrow_drop_down_sharp,
-//                   size: 16,
-//                   color: AppColors.lightGrey,
-//                 ),
-//               ],
-//             ),
-//             contentPadding: const EdgeInsets.only(top: 12),
-//             enabledBorder: const UnderlineInputBorder(
-//               borderSide: BorderSide(color: Color(0xffEEEEEE)),
-//             ),
-//             focusedBorder: const UnderlineInputBorder(
-//               borderSide: BorderSide(color: Color(0xff929AAB)),
-//             ),
-//             errorBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
-//             ),
-//             focusedErrorBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
-//             ),
-//             errorStyle: GoogleFonts.dmSans(
-//               fontSize: 13,
-//               color: Colors.red.shade700,
-//             ),
-//           ),
-//           controller: controller,
-//           keyboardType: keyboardType,
-//         ),
-//       ],
-//     );
-//   }
-// }
-//
+
+class CountryCodePickerTextField2 extends StatelessWidget {
+  final String? title;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final String? initialValue;
+  final FormFieldValidator<String>? validator;
+  final AutovalidateMode? autoValidateMode;
+  final ValueChanged<CountryCode>? onChanged;
+  final ValueChanged<String>? onPhoneFieldChange;
+  final bool? showCursor;
+  final bool readOnly;
+  final bool enabled;
+  final bool required;
+  final String? errorText;
+  final TextStyle? textStyle;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? hintText;
+
+  const CountryCodePickerTextField2({
+    super.key,
+    this.validator,
+    this.autoValidateMode,
+    this.controller,
+    this.initialValue,
+    this.keyboardType,
+    this.onChanged,
+    this.showCursor,
+    this.readOnly = false,
+    this.enabled = true,
+    this.inputFormatters,
+    this.errorText,
+    this.onPhoneFieldChange,
+    this.textStyle,
+    this.title,
+    this.hintText,
+    this.required = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 3),
+            child: RichText(
+              text: TextSpan(
+                text: title!,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+                children: [
+                  if (required)
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(color: Colors.red),
+                    )
+                ],
+              ),
+            ),
+          ),
+        TextFormField(
+          inputFormatters: inputFormatters,
+          showCursor: showCursor,
+          readOnly: readOnly,
+          autovalidateMode: autoValidateMode,
+          validator: validator,
+          onChanged: onPhoneFieldChange,
+          decoration: InputDecoration(
+            hintText: hintText,
+            // hintStyle: newFontStyleSize14.copyWith(
+            //   color: AppColors.fadedBlue,
+            // ),
+            errorText: errorText,
+            prefixIconConstraints: BoxConstraints.tight(const Size(120, 50)),
+            prefixIcon: Row(
+              children: [
+                CountryCodePicker(
+                  padding: EdgeInsets.zero,
+                  flagDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(1),
+                  ),
+                  searchDecoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ), //B
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ), //B
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  // textStyle: newFontStyleSize14.copyWith(
+                  //   color: Colors.black,
+                  // ),
+                  enabled: enabled,
+                  onChanged: onChanged,
+                  // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                  initialSelection: initialValue,
+                ),
+                const Icon(
+                  Icons.arrow_drop_down_sharp,
+                  size: 16,
+                  color: AppColors.lightGrey,
+                ),
+              ],
+            ),
+            contentPadding: const EdgeInsets.only(top: 12),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffEEEEEE)),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xff929AAB)),
+            ),
+            errorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
+            ),
+            focusedErrorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
+            ),
+            errorStyle: GoogleFonts.dmSans(
+              fontSize: 13,
+              color: Colors.red.shade700,
+            ),
+          ),
+          controller: controller,
+          keyboardType: keyboardType,
+        ),
+      ],
+    );
+  }
+}
+
 // //
 // // class FormInputFieldWithIcon extends StatelessWidget {
 // //   const FormInputFieldWithIcon({
