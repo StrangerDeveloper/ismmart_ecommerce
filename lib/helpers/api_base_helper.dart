@@ -9,8 +9,6 @@ import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/urls.dart';
 
-import '../widgets/custom_snackbar.dart';
-
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
   Map<String, String> header = {
@@ -135,22 +133,22 @@ class ApiBaseHelper {
       return parsedJSON;
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.noInternetError);
       throw AppStrings.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.timeOutException);
       throw AppStrings.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.formatException);
       throw AppStrings.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(
+      CommonFunction.showSnackBar(
           title: 'Error', message: AppStrings.generalApiError);
       throw e.toString();
     }
