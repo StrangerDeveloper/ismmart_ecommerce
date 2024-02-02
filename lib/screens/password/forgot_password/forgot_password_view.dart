@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
+import 'package:ismmart_ecommerce/screens/password/forgot_password/forgot_password_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
 import '../../../widgets/custom_button.dart';
@@ -10,7 +11,8 @@ import '../../../widgets/custom_text_field.dart';
 import '../reset_password/reset_password_view.dart';
 
 class ForgotPasswordView extends StatelessWidget {
-  const ForgotPasswordView({super.key});
+  final viewModel = Get.put(ForgotPasswordViewModel());
+  ForgotPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class ForgotPasswordView extends StatelessWidget {
         prefixIcon: Icons.person,
         title: 'Email / Phone Number',
         hintText: 'asha****iq11@gmail.com',
-        //controller: viewModel.emailController,
+        controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           //return Validator.validateEmail(value);
