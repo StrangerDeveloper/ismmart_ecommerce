@@ -7,8 +7,10 @@ import '../../../helpers/app_colors.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_image_widget/custom_image_view.dart';
+import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_text_field.dart';
+import '../../../widgets/obscure_suffix_icon.dart';
 
 class ResetPasswordView extends StatelessWidget {
   final viewModel = Get.put(ResetPasswordViewModel());
@@ -31,12 +33,8 @@ class ResetPasswordView extends StatelessWidget {
         ),
         body: Column(
           children: [
-            CustomImageView(
-              imagePath: 'assets/images/forgot_password.png',
-              height: 200,
-              width: 200,
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
+            const CustomNetworkImage(
+              imageUrl: 'assets/images/forgot_password.png',
             ),
             _resetPasswordForm(context),
           ],
@@ -61,8 +59,8 @@ class ResetPasswordView extends StatelessWidget {
               ),
             ),
             const CustomText(title: "Set your new password"),
-            _newPassword(),
-            _confirmPassword(),
+            _password("New Password"),
+            _password("Confirm Password"),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: _resetPasswordBtn(),
@@ -73,38 +71,29 @@ class ResetPasswordView extends StatelessWidget {
     );
   }
 
-  Widget _newPassword() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: CustomTextField1(
-        prefixIcon: Icons.lock,
-        suffixIcon: Icons.remove_red_eye_outlined,
-        title: 'New Password',
-        hintText: '********',
-        controller: viewModel.passwordController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          return Validator.validateEmail(value);
-        },
-        keyboardType: TextInputType.emailAddress,
-      ),
-    );
-  }
-
-  Widget _confirmPassword() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: CustomTextField1(
-        prefixIcon: Icons.lock,
-        suffixIcon: Icons.remove_red_eye_outlined,
-        title: 'Confirm Password',
-        hintText: '********',
-        controller: viewModel.passwordController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          return Validator.validateEmail(value);
-        },
-        keyboardType: TextInputType.emailAddress,
+  Widget _password(String title) {
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.only(top: 32),
+        child: CustomTextField1(
+          prefixIcon: Icons.lock,
+          title: title,
+          hintText: '********',
+          obscureText: viewModel.obscurePassword.value ? true : false,
+          suffixIconButton: ObscureSuffixIcon(
+            isObscured: viewModel.obscurePassword.value ? true : false,
+            onPressed: () {
+              viewModel.obscurePassword.value =
+                  !viewModel.obscurePassword.value;
+            },
+          ),
+          controller: viewModel.passwordController,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            return Validator.validateEmail(value);
+          },
+          keyboardType: TextInputType.emailAddress,
+        ),
       ),
     );
   }
