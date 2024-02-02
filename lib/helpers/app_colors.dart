@@ -6,12 +6,17 @@ class AppColors {
 
   static const white = Colors.white;
   static const white38 = Colors.white38;
+  static const kContainerFillColor = Color(0xffF9FAFB);
+  static const kTextFieldBorderColor = Color(0xffEEEEEE);
 
   static const black = Colors.black;
   static const black12 = Colors.black12;
 
+  static const primaryGrey = Color(0xFF24282D);
   static const grey2 = Color(0xFF6F6F6F);
   static const grey3 = Color(0xFF6B7280);
+  static final grey700 = Colors.grey.shade700;
+  static const hintTextGrey = Color(0xff929AAB);
 
   static const limeGreen = Colors.greenAccent;
 
