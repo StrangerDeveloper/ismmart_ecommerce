@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
-import 'package:ismmart_ecommerce/screens/password/forgot_password/forgot_password_viewModel.dart';
-import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
+import '../../../screens/password/forgot_password/forgot_password_viewModel.dart';
+import '../../../widgets/custom_text.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_network_image.dart';
