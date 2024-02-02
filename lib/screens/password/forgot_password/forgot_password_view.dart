@@ -8,6 +8,7 @@ import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_image_widget/custom_image_view.dart';
+import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../reset_password/reset_password_view.dart';
 
@@ -29,13 +30,16 @@ class ForgotPasswordView extends StatelessWidget {
                 weight: FontWeight.bold,
               ),
             ),
-            CustomImageView(
-              imagePath: 'assets/images/forgot_password.png',
-              height: 200,
-              width: 200,
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
+            const CustomNetworkImage(
+              imageUrl: 'assets/images/forgot_password.png',
             ),
+            // CustomImageView(
+            //   imagePath: 'assets/images/forgot_password.png',
+            //   height: 200,
+            //   width: 200,
+            //   fit: BoxFit.cover,
+            //   alignment: Alignment.center,
+            // ),
             _resetPasswordForm(context),
             _rememberAccount(),
           ],
