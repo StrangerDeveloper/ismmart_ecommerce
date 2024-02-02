@@ -6,7 +6,6 @@ import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import '../../../helpers/app_colors.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_image_widget/custom_image_view.dart';
 import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_text_field.dart';
