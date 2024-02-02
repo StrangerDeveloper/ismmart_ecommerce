@@ -10,6 +10,7 @@ class AppColors {
 
   static const black = Colors.black;
   static const black12 = Colors.black12;
+  static const black3 = Color(0xFF24282D);
 
   static const limeGreen = Colors.greenAccent;
 
