@@ -4,6 +4,7 @@ import 'package:ismmart_ecommerce/screens/password/reset_password/reset_password
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 
 import '../../../helpers/app_colors.dart';
+import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_image_widget/custom_image_view.dart';
 import '../../../widgets/custom_text.dart';
@@ -101,7 +102,7 @@ class ResetPasswordView extends StatelessWidget {
         controller: viewModel.passwordController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          //return Validator.validateEmail(value);
+          return Validator.validateEmail(value);
         },
         keyboardType: TextInputType.emailAddress,
       ),
