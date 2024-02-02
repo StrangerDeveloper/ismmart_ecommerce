@@ -80,7 +80,7 @@ class ResetPasswordView extends StatelessWidget {
         suffixIcon: Icons.remove_red_eye_outlined,
         title: 'New Password',
         hintText: '********',
-        //controller: viewModel.emailController,
+        controller: viewModel.passwordController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           //return Validator.validateEmail(value);
@@ -98,7 +98,7 @@ class ResetPasswordView extends StatelessWidget {
         suffixIcon: Icons.remove_red_eye_outlined,
         title: 'Confirm Password',
         hintText: '********',
-        //controller: viewModel.emailController,
+        controller: viewModel.passwordController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           //return Validator.validateEmail(value);
