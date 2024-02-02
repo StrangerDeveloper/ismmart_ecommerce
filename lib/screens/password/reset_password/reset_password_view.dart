@@ -33,7 +33,7 @@ class ResetPasswordView extends StatelessWidget {
         body: Column(
           children: [
             const CustomNetworkImage(
-              imageUrl: 'assets/images/forgot_password.png',
+              imageUrl: 'https://www.example.com/images/forgot_password.png',
             ),
             _resetPasswordForm(context),
             _resetPasswordBtn(),
