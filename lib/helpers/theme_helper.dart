@@ -143,7 +143,7 @@ class TextThemes {
           fontWeight: FontWeight.w700,
         ),
         bodyMedium: TextStyle(
-          color: AppColors.grey2,
+          color: Colors.black,
           //color: isDark ? Colors.black : Colors.white,
           fontSize: 14,
           //fontFamily: 'Inter',
