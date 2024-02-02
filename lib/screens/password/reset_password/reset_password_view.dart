@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 
 import '../../../helpers/app_colors.dart';
-import '../../../helpers/app_strings.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_image_widget/custom_image_view.dart';
 import '../../../widgets/custom_text.dart';
@@ -57,7 +56,7 @@ class ResetPasswordView extends StatelessWidget {
                 weight: FontWeight.bold,
               ),
             ),
-            CustomText(title: "Set your new password"),
+            const CustomText(title: "Set your new password"),
             _newPassword(),
             _confirmPassword(),
             Padding(
