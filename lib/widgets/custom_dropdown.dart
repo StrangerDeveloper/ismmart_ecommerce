@@ -65,7 +65,7 @@ class CustomDropDownList1 extends StatelessWidget {
               fillColor: AppColors.kContainerFillColor,
               hintText: hintText,
               hintStyle: GoogleFonts.dmSans(
-                  color: AppColors.hintTextGrey, fontWeight: FontWeight.w400),
+                  color: AppColors.lightGrey, fontWeight: FontWeight.w400),
               contentPadding: contentPadding,
               enabledBorder: OutlineInputBorder(
                 borderSide:
@@ -101,7 +101,7 @@ class CustomDropDownList1 extends StatelessWidget {
                     dropDownItem.name ?? 'N/A',
                     style: GoogleFonts.dmSans(
                       color: dropDownItem.id != value.value
-                          ? AppColors.grey700
+                          ? AppColors.grey7
                           : Colors.black,
                       fontWeight: dropDownItem.id != value.value
                           ? FontWeight.w400

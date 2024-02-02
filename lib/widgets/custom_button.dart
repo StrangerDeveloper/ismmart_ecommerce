@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
@@ -19,6 +20,7 @@ class CustomTextBtn extends StatelessWidget {
   final MaterialTapTargetSize? tapTargetSize;
   final OutlinedBorder? shape;
   final BorderSide borderSide;
+  final Color? textColor;
 
   const CustomTextBtn({
     super.key,
@@ -34,6 +36,7 @@ class CustomTextBtn extends StatelessWidget {
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
+    this.textColor,
   });
 
   @override
@@ -57,7 +60,11 @@ class CustomTextBtn extends StatelessWidget {
       child: child ??
           Text(
             title,
-            style: const TextStyle(fontSize: 12),
+            style: GoogleFonts.inter(
+              color: textColor ?? Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w500
+            )
           ),
     );
   }

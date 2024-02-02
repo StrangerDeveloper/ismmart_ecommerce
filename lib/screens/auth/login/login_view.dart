@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
-
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
@@ -135,7 +133,7 @@ class LogInView extends StatelessWidget {
         title: 'Sign in with Gmail',
         imagePath: 'assets/images/googleIcon.svg',
         onPressed: () {
-          viewModel.googleLogIn();
+          // viewModel.googleLogIn();
         });
   }
 

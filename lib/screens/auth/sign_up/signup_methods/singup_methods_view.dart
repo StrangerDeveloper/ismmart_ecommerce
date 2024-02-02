@@ -162,7 +162,7 @@ class SingupMethodsView extends StatelessWidget {
         title: 'Sign in with Gmail',
         imagePath: 'assets/images/googleIcon.svg',
         onPressed: () {
-          viewModel.googleLogIn();
+          // viewModel.googleLogIn();
         });
   }
 
@@ -192,7 +192,7 @@ class SingupMethodsView extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          viewModel.appleSignin();
+          // viewModel.appleSignin();
         },
       ),
     );
