@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 
 class ThemeHelper {
-  
-
   static final textTheme = Theme.of(Get.context!).textTheme;
 
   //main Theme Setting
@@ -64,7 +62,7 @@ class ThemeHelper {
                 color: AppColors.white.withOpacity(0.4),
               ),
     ),
-    appBarTheme:  AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.background,
       elevation: 0,
       iconTheme: const IconThemeData(color: AppColors.white),
@@ -98,21 +96,15 @@ class TextThemes {
   //static bool isDark = Get.isDarkMode  ? true: false;
 
   static TextTheme textTheme({required Color color}) => TextTheme(
-        bodyMedium: TextStyle(
-          color: color,
-          //color: isDark ? Colors.black : Colors.white,
-          fontSize: 14,
-          //fontFamily: 'Inter',
-          fontWeight: FontWeight.w300,
-        ),
-        bodySmall: TextStyle(
-          color: color,
-          //color: isDark ? Colors.black : Colors.white,
-          fontSize: 10,
-          //fontFamily: 'Inter',
-          fontWeight: FontWeight.w400,
-        ),
         headlineLarge: TextStyle(
+          color: color,
+          //color: appTheme.gray90001,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 30,
+          //fontFamily: 'DM Serif Display',
+          fontWeight: FontWeight.bold,
+        ),
+        headlineMedium: TextStyle(
           color: color,
           //color: appTheme.gray90001,
           //color: isDark ? Colors.black : Colors.white,
@@ -128,37 +120,19 @@ class TextThemes {
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
         ),
-        labelLarge: TextStyle(
-          color: color,
-          //color: appTheme.gray90001,
-          //color: isDark ? Colors.black : Colors.white,
-          fontSize: 12,
-          //fontFamily: 'Inter',
-          fontWeight: FontWeight.w500,
-        ),
-        labelMedium: TextStyle(
-          color: color,
-          // color: appTheme.blueGray30001,
-          //color: isDark ? Colors.black : Colors.white,
-          fontSize: 10,
-          //fontFamily: 'Inter',
-          fontWeight: FontWeight.w500,
-        ),
         titleLarge: TextStyle(
           color: color,
           //color: appTheme.blueGray90001,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 20,
+          fontSize: 28,
           //fontFamily: 'DM Serif Text',
           fontWeight: FontWeight.w400,
         ),
         titleMedium: TextStyle(
-          color: color,
-          //color: appTheme.gray900,
-          //color: isDark ? Colors.black : Colors.white,
-          fontSize: 15,
+          color: AppColors.black,
+          fontSize: 24,
           //fontFamily: 'Inter',
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w700,
         ),
         titleSmall: TextStyle(
           color: color,
@@ -167,6 +141,28 @@ class TextThemes {
           fontSize: 13,
           // fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
+        ),
+        bodyMedium: TextStyle(
+          color: color,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 14,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w300,
+        ),
+        bodySmall: TextStyle(
+          color: color,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 10,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w400,
+        ),
+        labelMedium: TextStyle(
+          color: color,
+          // color: appTheme.blueGray30001,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 10,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w500,
         ),
       ).apply(
         fontFamily: GoogleFonts.inter().fontFamily,
