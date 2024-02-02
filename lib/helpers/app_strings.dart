@@ -8,5 +8,6 @@ class AppStrings {
   static String timeOutException = 'server is taking too long to respond ';
   static String sessionException =
       'Your request is not authorized as your token is expired.';
+  static String resetPassword =
+      'Enter Email/No. account to reset your password';
 }
-

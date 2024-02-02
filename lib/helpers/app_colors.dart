@@ -12,10 +12,12 @@ class AppColors {
 
   static const black = Colors.black;
   static const black12 = Colors.black12;
+  static const black3 = Color(0xFF24282D);
 
   static const limeGreen = Colors.greenAccent;
 
   static const red = Color(0xFFFE3A30);
+  static final red700 = Colors.red.shade700;
 
   static const grey1 = Color(0xffEEEEEE);
   static const grey2 = Color(0xff929AAB);

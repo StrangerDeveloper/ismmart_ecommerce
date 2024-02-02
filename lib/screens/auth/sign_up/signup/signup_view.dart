@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
 
@@ -24,8 +25,8 @@ import '../../../../widgets/obscure_suffix_icon.dart';
 import '../../login/login_view.dart';
 import 'signup_viewmodel.dart';
 
-class SignUpOnBoardView extends StatelessWidget {
-  SignUpOnBoardView({super.key});
+class SignUp1View extends StatelessWidget {
+  SignUp1View({super.key});
 
   final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
 
@@ -42,183 +43,51 @@ class SignUpOnBoardView extends StatelessWidget {
           color: AppColors.black
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: Stack(
         children: [
-          // Divider(thickness: 1.2, color: AppColors.grey2.withOpacity(0.25),),
           SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
-              child: Column(
-                children: [
-                  // SvgPicture.asset(
-                  //     'assets/images/logo_circle.svg',
-                  //   width: 70,
-                  //   placeholderBuilder: (context) {
-                  //       return CircularProgressIndicator(color: Colors.black,);
-                  //   },
-                  //   semanticsLabel: 'Logo',
-                  //   height: 70,
-                  // ),
-                  // CustomImageView(
-                  //   imagePath: 'assets/images/logo_circle.svg',
-                  //   height: 70,
-                  //   width: 70,
-                  // ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                          'Get Onboard!',
-                        style: GoogleFonts.inter(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700
-                        )
-                      ),
-                      const SizedBox(height: 8,),
-                      Text(
-                      'Create your account',
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          color: AppColors.grey2,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20,),
-                  CustomTextBtn(
-                      onPressed: () {},
-                    radius: 20,
-                    backgroundColor: AppColors.black,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
+            child: Column(
+              children: [
+                Form(
+                  key: viewModel.signUpFormKey1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Continue with email',
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500
+                        // titleAndBackBtn(),
+                        // divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 60),
+                          child: Text(
+                            'Create an account',
+                            // style: newFontStyleSize20,
                           ),
                         ),
-                        const SizedBox(width: 5,),
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          size: 18,
-                          color: Colors.white,
-                        )
+                        nameField(),
+                        emailTextField(),
+                        phoneNumberTextField(),
+                        genderTextField(),
+                        // genderField(context),
+                        cnicNumberField(),
+                        cnicFrontImage(),
+                        cnicBackImage(),
+                        SizedBox(height: 10),
+                        passwordTextField(),
+                        confirmPasswordTextField(),
+                        checkedStatement(),
+                        signUpInBtn(),
+                        SizedBox(height: 100)
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8,),
-                  CustomTextBtn(
-                    onPressed: () {},
-                    radius: 20,
-                    backgroundColor: AppColors.white,
-                    borderSide: const BorderSide(
-                      color: AppColors.grey1,
-                    ),
-                    textColor: AppColors.black,
-                    title: 'Continue with phone number',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            height: 1.5,
-                            // width: 10,
-                            color: AppColors.grey2.withOpacity(0.25),
-                          ),
-                        ),
-                        Text(
-                          'or',
-                          style: GoogleFonts.inter(
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w500
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            height: 1.5,
-                            // width: 10,
-                            color: AppColors.grey2.withOpacity(0.25),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  CustomTextBtn(
-                      onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SvgPicture.asset('assets/images/googleIcon.svg', semanticsLabel: 'Google Logo', width: 25, height: 25,),
-                        SizedBox(width: 5,),
-                        Text(
-                          'Sign in with Gmail',
-                          style: GoogleFonts.inter(
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13
-                          ),
-                        ),
-                      ],
-                    ),
-                    backgroundColor: Colors.white,
-                    radius: 20,
-                    borderSide: BorderSide(
-                      color: AppColors.grey2.withOpacity(0.25),
-                    ),
-                  )
-                  // Form(
-                  //   key: viewModel.signUpFormKey1,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(
-                  //       top: 10,
-                  //       left: 20,
-                  //       right: 20,
-                  //     ),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         // titleAndBackBtn(),
-                  //         // divider(),
-                  //         Padding(
-                  //           padding: const EdgeInsets.only(top: 60),
-                  //           child: Text(
-                  //             'Create an account',
-                  //             // style: newFontStyleSize20,
-                  //           ),
-                  //         ),
-                  //         nameField(),
-                  //         emailTextField(),
-                  //         phoneNumberTextField(),
-                  //         genderTextField(),
-                  //         // genderField(context),
-                  //         cnicNumberField(),
-                  //         cnicFrontImage(),
-                  //         cnicBackImage(),
-                  //         SizedBox(height: 10),
-                  //         passwordTextField(),
-                  //         confirmPasswordTextField(),
-                  //         checkedStatement(),
-                  //         signUpInBtn(),
-                  //         SizedBox(height: 100)
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const LoaderView()
@@ -433,6 +302,10 @@ class SignUpOnBoardView extends StatelessWidget {
       child: CustomTextField1(
         keyboardType: TextInputType.number,
         inputFormatters: [
+          MaskTextInputFormatter(
+            mask: "#####-#######-#",
+            type: MaskAutoCompletionType.lazy,
+          ),
           // MaskedInputFormatter(
           //   "#####-#######-#",
           //   allowedCharMatcher: RegExp(r'[0-9]+'),
@@ -545,16 +418,16 @@ class SignUpOnBoardView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32),
       child: CustomTextBtn(
         radius: 30,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Create Account",
               // style: newFontStyleSize14.copyWith(
               //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
             SizedBox(width: 4),
-            Icon(
+            const Icon(
               Icons.arrow_forward,
               size: 20,
             ),
@@ -601,22 +474,22 @@ class SignUpOnBoardView extends StatelessWidget {
   }
 
   Widget orWidget() {
-    return const Row(
+    return Row(
       children: [
-        Expanded(
+        const Expanded(
           child: Divider(
             //color: newColorLightGrey,
             thickness: 1,
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             "Or",
             //style: newFontStyle4,
           ),
         ),
-        Expanded(
+        const Expanded(
           child: Divider(
             //color: newColorLightGrey,
             thickness: 1,

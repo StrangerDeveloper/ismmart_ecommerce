@@ -253,7 +253,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: appBarColor == null ? Colors.black : Colors.white,
+              color: appBarColor == null ? AppColors.black : AppColors.white,
               size: 16,
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 import '../helpers/app_colors.dart';
 
@@ -91,10 +92,7 @@ class CustomTextField1 extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                     text: title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: ThemeHelper.textTheme.labelMedium,
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -263,11 +261,13 @@ class CustomTextField1 extends StatelessWidget {
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(width: 1, color: AppColors.red),
+                    borderSide:
+                        BorderSide(width: 1, color: AppColors.red700),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(width: 1.3, color: AppColors.red),
+                    borderSide:
+                        BorderSide(width: 1.3, color: AppColors.red700),
                   ),
                 ),
               ),

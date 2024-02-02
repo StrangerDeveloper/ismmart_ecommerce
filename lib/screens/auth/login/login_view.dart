@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
+
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
@@ -34,30 +39,10 @@ class LogInView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 52),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Login",
-                            style: ThemeHelper.textTheme.titleMedium,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 72,
-                          ),
-                          child: CustomText(
-                            title: 'Welcome Back!',
-                            size: 20,
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                right: 20, bottom: 15, top: 16),
-                            child: Text(
-                              maxLines: 2,
-                              'Please login or sign up to continue our app',
-                            )),
+                        Gap(26),
+                        login(),
+                        logo(),
+                        wellcomeBackText(),
                         emailTextField(),
                         passwordTextField(),
                         forgotPassword(),
@@ -67,7 +52,7 @@ class LogInView extends StatelessWidget {
                         googlelogInBtn(),
                         // facebooklogInBtn(),
                         // if (Platform.isIOS) applelogInBtn(),
-
+                        Gap(54),
                         doNotHaveAnAccount(),
                       ],
                     ),
@@ -83,19 +68,16 @@ class LogInView extends StatelessWidget {
   }
 
   Widget emailTextField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: CustomTextField1(
-        prefixIcon: Icons.person,
-        title: 'Email ',
-        hintText: 'Email ',
-        controller: viewModel.emailController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          return Validator.validateEmail(value);
-        },
-        keyboardType: TextInputType.emailAddress,
-      ),
+    return CustomTextField1(
+      prefixIcon: Icons.person,
+      title: 'Email ',
+      hintText: 'Email ',
+      controller: viewModel.emailController,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        return Validator.validateEmail(value);
+      },
+      keyboardType: TextInputType.emailAddress,
     );
   }
 
@@ -125,16 +107,6 @@ class LogInView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-//Google Button
-  Widget googlelogInBtn() {
-    return customImageBtn(
-        title: 'Sign in with Gmail',
-        imagePath: 'assets/images/googleIcon.svg',
-        onPressed: () {
-          // viewModel.googleLogIn();
-        });
   }
 
   // Widget applelogInBtn() {
@@ -202,6 +174,28 @@ class LogInView extends StatelessWidget {
   //     ),
   //   );
   // }
+  Widget forgotPassword() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: TextButton(
+          onPressed: () {
+            CommonFunction.debugPrint(
+                "forget --------${viewModel.emailController.text}");
+            Get.toNamed(AppRoutes.singupMethodsViewRoute);
+            // Get.toNamed(Routes.forgotPassword1, arguments: {
+            //   'email': GetUtils.isEmail(viewModel.emailController.text)
+            //       ? viewModel.emailController.text
+            //       : ''
+            // }
+            // );
+          },
+          child: Text(
+            'Forget Password?',
+            style: ThemeHelper.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w600, color: AppColors.black3),
+          )),
+    );
+  }
 
   Widget logInBtn() {
     return Padding(
@@ -216,7 +210,7 @@ class LogInView extends StatelessWidget {
                 // style: newFontStyleSize14.copyWith(
                 //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
               ),
-              SizedBox(width: 4),
+              SizedBox(width: 2),
               const Icon(
                 Icons.arrow_forward,
                 size: 20,
@@ -230,32 +224,9 @@ class LogInView extends StatelessWidget {
         ));
   }
 
-  Widget forgotPassword() {
-    return Container(
-        margin: const EdgeInsets.only(
-          bottom: 20,
-          right: 10,
-        ),
-        alignment: Alignment.centerRight,
-        child: TextButton(
-            onPressed: () {
-              CommonFunction.debugPrint(
-                  "forget --------${viewModel.emailController.text}");
-              // Get.toNamed(Routes.forgotPassword1, arguments: {
-              //   'email': GetUtils.isEmail(viewModel.emailController.text)
-              //       ? viewModel.emailController.text
-              //       : ''
-              // }
-              // );
-            },
-            child: CustomText(
-              title: 'Forget Password?',
-            )));
-  }
-
   Widget orWidget() {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 16),
+      padding: const EdgeInsets.only(top: 24, bottom: 24),
       child: Row(
         children: [
           const Expanded(
@@ -266,9 +237,11 @@ class LogInView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text("Or"
-                //style: newFontStyle4,
-                ),
+            child: Text(
+              "Or",
+              style: TextStyle(
+                  color: AppColors.black, fontWeight: FontWeight.w500),
+            ),
           ),
           const Expanded(
             child: Divider(
@@ -281,12 +254,22 @@ class LogInView extends StatelessWidget {
     );
   }
 
+  //Google Button
+  Widget googlelogInBtn() {
+    return customImageBtn(
+        title: 'Sign in with Gmail',
+        imagePath: 'assets/images/googleIcon.svg',
+        onPressed: () {
+          viewModel.googleLogIn();
+        });
+  }
+
   Widget doNotHaveAnAccount() {
     return Align(
       alignment: Alignment.bottomCenter,
       child: TextButton(
         onPressed: () {
-          Get.to(() => SingupMethodsView());
+          Get.toNamed(AppRoutes.singupMethodsViewRoute);
         },
         child: Center(
           child: RichText(
@@ -294,15 +277,71 @@ class LogInView extends StatelessWidget {
               children: [
                 TextSpan(
                     text: "Don't have an account?",
-                    style: TextStyle(color: AppColors.primary)),
+                    style: ThemeHelper.textTheme.bodyMedium),
                 TextSpan(
                     text: " Create Account",
-                    style: TextStyle(color: AppColors.red)),
+                    style: ThemeHelper.textTheme.labelMedium),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget login() {
+    return Align(
+      alignment: Alignment.center,
+      child: Text(
+        "Login",
+        style: ThemeHelper.textTheme.titleMedium,
+      ),
+    );
+  }
+
+  Widget logo() {
+    return Padding(
+      padding:
+          const EdgeInsets.only(left: 128.0, right: 128, top: 41, bottom: 41),
+      child: Container(
+        // color: Colors.green,
+        height: 117,
+        width: 120,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(1.0),
+            child:
+                // Image.asset("assets/images/googleIcon.svg")
+                SvgPicture.asset(
+              height: 40,
+              width: 20,
+              //semanticsLabel: 'My SVG Picture',
+              'assets/images/logo_s.svg',
+              //fit: BoxFit.fill,
+            )),
+      ),
+    );
+  }
+
+  wellcomeBackText() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Welcome Back!',
+          style: ThemeHelper.textTheme.titleSmall,
+        ),
+        Padding(
+            padding: const EdgeInsets.only(
+              top: 8,
+              right: 20,
+              bottom: 32,
+            ),
+            child: Text(
+              maxLines: 2,
+              'Please login or sign up to continue our app',
+              style: ThemeHelper.textTheme.bodyMedium,
+            )),
+      ],
     );
   }
 }

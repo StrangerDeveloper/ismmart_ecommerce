@@ -145,14 +145,7 @@ class CommonFunction {
     }
 
     var messageNew = message;
-    // if (message.toString().toLowerCase().contains(SESSION_EXPIRED)) {
-    //   messageNew =
-    //       "Your session has expired. For security reasons, please sign in again to continue.";
-    // } else if (message.toString().toLowerCase().contains(INVALID_USER)) {
-    //   messageNew =
-    //       "We're sorry, but we couldn't recognize that user. Please double-check and try again, or contact support for assistance.";
-    // }
-
+    
     Get.snackbar(titleNew!.capitalizeFirst!.toString(), messageNew.toString(),
         duration: const Duration(milliseconds: 1000),
         snackPosition: position ?? SnackPosition.TOP,

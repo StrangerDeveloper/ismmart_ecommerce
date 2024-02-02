@@ -7,6 +7,7 @@ import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/loader_view.dart';
 import '../../login/login_view.dart';
+import '../signup/signup_view.dart';
 
 class SingupMethodsView extends StatelessWidget {
   SingupMethodsView({super.key});
@@ -83,6 +84,7 @@ class SingupMethodsView extends StatelessWidget {
             ],
           ),
           onPressed: () {
+            Get.to(SignUp1View());
             // Get.to(SignUp1View());
             // Get.offNamed(Routes.dashboard);
             //
