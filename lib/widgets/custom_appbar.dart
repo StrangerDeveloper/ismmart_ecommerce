@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 
 import 'custom_text.dart';
 
@@ -246,7 +247,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: appBarColor == null ? Colors.black : Colors.white,
+              color: appBarColor == null ? AppColors.black : AppColors.white,
               size: 16,
             ),
           ),

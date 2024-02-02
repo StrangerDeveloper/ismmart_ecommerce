@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:path/path.dart' as p;
 
@@ -28,10 +28,10 @@ class SignUp1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar2(
+      appBar: const CustomAppBar2(
         title: 'Sign Up',
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -290,10 +290,14 @@ class SignUp1View extends StatelessWidget {
       child: CustomTextField1(
         keyboardType: TextInputType.number,
         inputFormatters: [
-          MaskedInputFormatter(
-            "#####-#######-#",
-            allowedCharMatcher: RegExp(r'[0-9]+'),
+          MaskTextInputFormatter(
+            mask: "#####-#######-#",
+            type: MaskAutoCompletionType.lazy,
           ),
+          // MaskedInputFormatter(
+          //   "#####-#######-#",
+          //   allowedCharMatcher: RegExp(r'[0-9]+'),
+          // ),
         ],
         title: 'CNIC',
         hintText: '35404-4770789-7',

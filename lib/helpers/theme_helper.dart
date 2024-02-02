@@ -169,6 +169,6 @@ class TextThemes {
           fontWeight: FontWeight.w400,
         ),
       ).apply(
-        fontFamily: GoogleFonts.poppins().fontFamily,
+        fontFamily: GoogleFonts.inter().fontFamily,
       );
 }
