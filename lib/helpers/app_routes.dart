@@ -16,7 +16,7 @@ class AppRoutes extends AppRouter {
     return [
       GetPage(name: initRoute, page: () => LogInView()),
       GetPage(name: singupMethodsViewRoute, page: () => SingupMethodsView()),
-      GetPage(name: '', page: () => const HomeView()),
+      GetPage(name: '', page: () => HomeView()),
     ];
   }
 }

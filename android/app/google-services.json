@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773942743604",
+    "project_id": "ismmart-ecom",
+    "storage_bucket": "ismmart-ecom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773942743604:android:b41ba3810fffbafe6c3061",
+        "android_client_info": {
+          "package_name": "com.ismmartgroup.ismmart_ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773942743604-etce3hog9fqkjojris7h2mdqksvcf8a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLvVOMFtccmCAHba59MPj7cli3_KQfS_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773942743604-etce3hog9fqkjojris7h2mdqksvcf8a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

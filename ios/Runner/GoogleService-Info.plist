@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>773942743604-sd4ervru99dhif9lsuvb9hqdu5gc2jlo.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.773942743604-sd4ervru99dhif9lsuvb9hqdu5gc2jlo</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB5mjXE3TDyI_J83FDQMjTK2iog50mq6WQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>773942743604</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ismmartgroup.ismmartEcommerce</string>
+	<key>PROJECT_ID</key>
+	<string>ismmart-ecom</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ismmart-ecom.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:773942743604:ios:c494e422cbfd59cb6c3061</string>
+</dict>
+</plist>
