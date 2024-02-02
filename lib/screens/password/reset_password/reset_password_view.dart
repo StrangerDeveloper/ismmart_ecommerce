@@ -120,8 +120,6 @@ class ResetPasswordView extends StatelessWidget {
           children: [
             Text(
               "Reset",
-              // style: newFontStyleSize14.copyWith(
-              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
           ],
         ),
