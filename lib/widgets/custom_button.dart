@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
@@ -26,7 +28,7 @@ class CustomTextBtn extends StatelessWidget {
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = AppColors.primary,
+    this.backgroundColor = AppColors.black,
     this.foregroundColor = Colors.white,
     this.child,
     this.radius = 8,
@@ -57,7 +59,7 @@ class CustomTextBtn extends StatelessWidget {
       child: child ??
           Text(
             title,
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
     );
   }
@@ -151,15 +153,18 @@ Widget customImageBtn(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: CustomImageView(
-              imagePath: imagePath,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(50.0),
+              child: SvgPicture.asset(imagePath!, fit: BoxFit.cover)),
           const SizedBox(
-            width: 10,
+            width: 5,
           ),
-          Text(title),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                color: AppColors.black),
+          ),
         ],
       ),
       onPressed: onPressed);

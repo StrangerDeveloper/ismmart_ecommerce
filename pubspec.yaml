@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^2.0.1
   country_code_picker: ^3.0.0
   flutter_multi_formatter: ^2.5.8
+  firebase_core: ^2.24.2
   
 
 dev_dependencies:
