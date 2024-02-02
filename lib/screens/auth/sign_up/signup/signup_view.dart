@@ -1,19 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import 'package:path/path.dart' as p;
-
 import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_image_widget/image_layout_container.dart';
-import '../../../../widgets/custom_image_widget/pick_image.dart';
+import '../../../../widgets/custom_heading_and_subheading_text.dart';
 import '../../../../widgets/custom_textfield.dart';
 import '../../../../widgets/loader_view.dart';
 import '../../../../widgets/obscure_suffix_icon.dart';
@@ -30,52 +24,50 @@ class SignUp1View extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppBar2(
         title: 'Sign Up',
+        centerTitle: true,
+        containsLeading: true,
       ),
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
-              children: [
-                Form(
-                  key: viewModel.signUpFormKey1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // titleAndBackBtn(),
-                        // divider(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 60),
-                          child: Text(
-                            'Create an account',
-                            // style: newFontStyleSize20,
-                          ),
-                        ),
-                        nameField(),
-                        emailTextField(),
-                        phoneNumberTextField(),
-                        genderTextField(),
-                        // genderField(context),
-                        cnicNumberField(),
-                        cnicFrontImage(),
-                        cnicBackImage(),
-                        SizedBox(height: 10),
-                        passwordTextField(),
-                        confirmPasswordTextField(),
-                        checkedStatement(),
-                        signUpInBtn(),
-                        SizedBox(height: 100)
-                      ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 40,),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: CustomHeadingAndSubHeadingText(
+                      headingText: 'Create Account',
+                      subHeadingText: 'Get onboard as a user',
                     ),
                   ),
-                ),
-              ],
+                  Form(
+                    key: viewModel.signUpFormKey1,
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Column(
+                            children: [
+                              nameField(),
+                              emailTextField(),
+                              phoneNumberTextField(),
+                              genderTextField(),
+                              cnicNumberField(),
+                              passwordTextField(),
+                              confirmPasswordTextField(),
+                              checkedStatement(),
+                              signUpInBtn(),
+                              alreadyHaveAnAccount()
+                              // SizedBox(height: 100)
+                            ]
+                        )
+                    ),
+                  ),
+                ]
             ),
           ),
           const LoaderView()
@@ -100,10 +92,10 @@ class SignUp1View extends StatelessWidget {
                       color: Colors.grey,
                     )
                   : const Icon(
-                      Icons.check_box,
-                      color: Colors.blue,
+                      Icons.check_box_rounded,
+                      color: AppColors.black,
                     ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               SizedBox(
                 width: Get.width * 0.7,
                 child: const Text(
@@ -116,14 +108,6 @@ class SignUp1View extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget divider() {
-    return const Divider(
-      color: Color(0xffEEEEEE),
-      thickness: 1,
-      height: 20,
     );
   }
 
@@ -220,70 +204,6 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  // Widget genderField(BuildContext context) {
-  //   return Column(
-  //     children: [
-  //       Align(
-  //         alignment: Alignment.centerLeft,
-  //         child: RichText(
-  //           text: const TextSpan(
-  //               text: 'Gender',
-  //               style: TextStyle(
-  //                   fontSize: 14,
-  //                   color: Colors.black,
-  //                   fontWeight: FontWeight.w700),
-  //               children: [
-  //                 // TextSpan(text: ' *', style: TextStyle(color: Colors.red))
-  //               ]),
-  //         ),
-  //       ),
-  //       SizedBox(height: 30, child: genderRadioBtns(context)),
-  //     ],
-  //   );
-  // }
-
-  // Widget genderRadioBtns(BuildContext buildContext) {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(top: 10),
-  //     child: Center(
-  //       child: ListView.builder(
-  //         itemCount: viewModel.gender.length,
-  //         scrollDirection: Axis.horizontal,
-  //         physics: const NeverScrollableScrollPhysics(),
-  //         shrinkWrap: true,
-  //         itemBuilder: (buildContext, index) {
-  //           return radioButton(index, viewModel.gender[index]);
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget radioButton(int btnValue, String title) {
-  //   return Obx(
-  //     () => Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: <Widget>[
-  //         Radio(
-  //           fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
-  //           activeColor: Theme.of(Get.context!).primaryColor,
-  //           value: viewModel.gender[btnValue],
-  //           groupValue: viewModel.selectedGender.value,
-  //           onChanged: (value) {
-  //             viewModel.selectedGender.value = value ?? "";
-  //           },
-  //         ),
-  //         Text(
-  //           title,
-  //           style: const TextStyle(
-  //               color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget cnicNumberField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -294,10 +214,6 @@ class SignUp1View extends StatelessWidget {
             mask: "#####-#######-#",
             type: MaskAutoCompletionType.lazy,
           ),
-          // MaskedInputFormatter(
-          //   "#####-#######-#",
-          //   allowedCharMatcher: RegExp(r'[0-9]+'),
-          // ),
         ],
         title: 'CNIC',
         hintText: '35404-4770789-7',
@@ -312,44 +228,6 @@ class SignUp1View extends StatelessWidget {
             return null;
           }
         },
-      ),
-    );
-  }
-
-  Widget cnicFrontImage() {
-    return Obx(
-      () => ImageLayoutContainer(
-        title: 'CNIC Front Image',
-        filePath: viewModel.cnicFrontImage.value == ''
-            ? ''
-            : p.basename(viewModel.cnicFrontImage.value.path),
-        onTap: () async {
-          viewModel.myfocus.requestFocus();
-          viewModel.cnicFrontImage.value =
-              await PickImage().pickSingleImage() ?? File('');
-          if (viewModel.cnicFrontImage.value.path.isNotEmpty) {
-            viewModel.cnicFrontImageErrorVisibility.value = false;
-          }
-        },
-        errorVisibility: viewModel.cnicFrontImageErrorVisibility.value,
-        errorPrompt: 'CNIC Front Image is required',
-      ),
-    );
-  }
-
-  Widget cnicBackImage() {
-    return Obx(
-      () => ImageLayoutContainer(
-        title: 'CNIC Back Image',
-        filePath: viewModel.cnicBackImage.value == ''
-            ? ''
-            : p.basename(viewModel.cnicBackImage.value),
-        onTap: () async {
-          await viewModel.selectImage(
-              viewModel.cnicBackImage, viewModel.cnicBackImageErrorVisibility);
-        },
-        errorVisibility: viewModel.cnicBackImageErrorVisibility.value,
-        errorPrompt: 'CNIC Back Image is required',
       ),
     );
   }
@@ -403,19 +281,17 @@ class SignUp1View extends StatelessWidget {
 
   Widget signUpInBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
+      padding: const EdgeInsets.only(top: 32,bottom: 15),
       child: CustomTextBtn(
         radius: 30,
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Create Account",
-              // style: newFontStyleSize14.copyWith(
-              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
             SizedBox(width: 4),
-            const Icon(
+            Icon(
               Icons.arrow_forward,
               size: 20,
             ),
@@ -432,7 +308,7 @@ class SignUp1View extends StatelessWidget {
   Widget alreadyHaveAnAccount() {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.symmetric(vertical: 15),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: () {
@@ -448,7 +324,7 @@ class SignUp1View extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: 'Sign In',
+                  text: ' Sign In',
                   style: TextStyle(
                     color: Colors.black,
                   ),
@@ -458,32 +334,6 @@ class SignUp1View extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget orWidget() {
-    return Row(
-      children: [
-        const Expanded(
-          child: Divider(
-            //color: newColorLightGrey,
-            thickness: 1,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            "Or",
-            //style: newFontStyle4,
-          ),
-        ),
-        const Expanded(
-          child: Divider(
-            //color: newColorLightGrey,
-            thickness: 1,
-          ),
-        ),
-      ],
     );
   }
 }

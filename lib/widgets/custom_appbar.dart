@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 
 import 'custom_text.dart';
@@ -73,14 +75,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return Container(
           height: 44,
           width: double.maxFinite,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             // color: whiteA700,
             boxShadow: [
               BoxShadow(
                 // color: black900.withOpacity(0.05),
                 spreadRadius: 2,
                 blurRadius: 2,
-                offset: const Offset(0, 1),
+                offset: Offset(0, 1),
               ),
             ],
           ),
@@ -89,14 +91,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return Container(
           height: 82,
           width: double.maxFinite,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             // color: whiteA700,
             boxShadow: [
               BoxShadow(
                 // color: black900.withOpacity(0.08),
                 spreadRadius: 2,
                 blurRadius: 2,
-                offset: const Offset(0, 1),
+                offset: Offset(0, 1),
               ),
             ],
           ),
@@ -219,28 +221,39 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
   final TextStyle? titleTextStyle;
+  final bool? centerTitle;
+  final bool containsLeading;
 
   const CustomAppBar2({
     super.key,
     this.title,
+    this.centerTitle,
     this.appBarColor,
     this.actions,
     this.leading,
     this.bottom,
     this.titleTextStyle,
+    this.containsLeading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: centerTitle,
+      elevation: 1,
+      shadowColor: AppColors.kTextFieldBorderColor,
       title: title != null
           ? Text(
               title!,
-              style: titleTextStyle,
+              style: titleTextStyle ?? GoogleFonts.inter(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black
+              ),
             )
           : null,
-      backgroundColor: appBarColor,
-      leading: leading ??
+      backgroundColor: appBarColor ?? AppColors.white,
+      leading: containsLeading ? leading ??
           IconButton(
             onPressed: () {
               Get.back();
@@ -248,11 +261,16 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
               color: appBarColor == null ? AppColors.black : AppColors.white,
-              size: 16,
+              size: 20,
             ),
-          ),
+          ) : null,
       actions: actions,
       bottom: bottom,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,  /// For Android
+        statusBarBrightness: Brightness.light  /// For iOS
+      ),
     );
   }
 

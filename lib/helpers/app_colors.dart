@@ -7,6 +7,8 @@ class AppColors {
 
   static const white = Colors.white;
   static const white38 = Colors.white38;
+  static const kContainerFillColor = Color(0xffF9FAFB);
+  static const kTextFieldBorderColor = Color(0xffEEEEEE);
 
   static const black = Colors.black;
   static const black12 = Colors.black12;
