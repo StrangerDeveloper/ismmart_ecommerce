@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
-import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/signup_mehods_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
@@ -15,7 +14,7 @@ class AppRoutes extends AppRouter {
   List<GetPage> getRoutes() {
     return [
       GetPage(name: initRoute, page: () => LogInView()),
-      GetPage(name: singupMethodsViewRoute, page: () => SingupMethodsView()),
+      GetPage(name: singupMethodsViewRoute, page: () => SignUpMethodsView()),
       GetPage(name: '', page: () => HomeView()),
     ];
   }

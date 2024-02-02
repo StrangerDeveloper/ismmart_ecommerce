@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
-import '../../../helpers/urls.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -138,50 +133,50 @@ class LogInViewModel extends GetxController {
   }
 
 //apple login
-  appleSignin() async {
-    if (Platform.isIOS) {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-          AppleIDAuthorizationScopes.values[0],
-        ],
-      );
-      appleCredential.state;
-
-      try {
-        Map<dynamic, dynamic> param = {
-          "social": {
-            "name": "Apple",
-            "token": '${appleCredential.identityToken}',
-          }
-        };
-
-        await ApiBaseHelper()
-            .postMethod(url: " Urls.login", body: param)
-            .then((parsedJson) {
-          if (parsedJson['success'] == true) {
-            String status = parsedJson['data']['status'] ?? "";
-            accountStatusCheck(status, emailController.text);
-            GlobalVariable.showLoader.value = false;
-            GlobalVariable.token = parsedJson['data']['token'];
-            GlobalVariable.showLoader.value = false;
-          } else {
-            GlobalVariable.showLoader.value = false;
-            // AppConstant.displaySnackBar(
-            //   "Error",
-            //   'Account not found',
-            // );
-          }
-        });
-      } catch (error) {
-        GlobalVariable.showLoader.value = false;
-      }
-
-      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have bee n validated with Apple (see `Integration` section for more information on how to do this)
-    }
-  }
+//   appleSignin() async {
+//     if (Platform.isIOS) {
+//       final appleCredential = await SignInWithApple.getAppleIDCredential(
+//         scopes: [
+//           AppleIDAuthorizationScopes.email,
+//           AppleIDAuthorizationScopes.fullName,
+//           AppleIDAuthorizationScopes.values[0],
+//         ],
+//       );
+//       appleCredential.state;
+//
+//       try {
+//         Map<dynamic, dynamic> param = {
+//           "social": {
+//             "name": "Apple",
+//             "token": '${appleCredential.identityToken}',
+//           }
+//         };
+//
+//         await ApiBaseHelper()
+//             .postMethod(url: " Urls.login", body: param)
+//             .then((parsedJson) {
+//           if (parsedJson['success'] == true) {
+//             String status = parsedJson['data']['status'] ?? "";
+//             accountStatusCheck(status, emailController.text);
+//             GlobalVariable.showLoader.value = false;
+//             GlobalVariable.token = parsedJson['data']['token'];
+//             GlobalVariable.showLoader.value = false;
+//           } else {
+//             GlobalVariable.showLoader.value = false;
+//             // AppConstant.displaySnackBar(
+//             //   "Error",
+//             //   'Account not found',
+//             // );
+//           }
+//         });
+//       } catch (error) {
+//         GlobalVariable.showLoader.value = false;
+//       }
+//
+//       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+//       // after they have bee n validated with Apple (see `Integration` section for more information on how to do this)
+//     }
+//   }
 
   resetValues() {
     emailController.clear();

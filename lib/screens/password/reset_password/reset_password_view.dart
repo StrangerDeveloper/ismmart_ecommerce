@@ -33,9 +33,10 @@ class ResetPasswordView extends StatelessWidget {
         body: Column(
           children: [
             const CustomNetworkImage(
-              imageUrl: 'assets/images/forgot_password.png',
+              imageUrl: 'https://www.example.com/images/forgot_password.png',
             ),
             _resetPasswordForm(context),
+            _resetPasswordBtn(),
           ],
         ),
       ),
@@ -43,29 +44,23 @@ class ResetPasswordView extends StatelessWidget {
   }
 
   Widget _resetPasswordForm(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8),
-              child: CustomText(
-                title: "Resest Password",
-                size: 20,
-                weight: FontWeight.bold,
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0, bottom: 8),
+            child: CustomText(
+              title: "Resest Password",
+              size: 20,
+              weight: FontWeight.bold,
             ),
-            const CustomText(title: "Set your new password"),
-            _password("New Password"),
-            _password("Confirm Password"),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: _resetPasswordBtn(),
-            ),
-          ],
-        ),
+          ),
+          const CustomText(title: "Set your new password"),
+          _password("New Password"),
+          _password("Confirm Password"),
+        ],
       ),
     );
   }
@@ -99,8 +94,9 @@ class ResetPasswordView extends StatelessWidget {
 
   Widget _resetPasswordBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
+      padding: const EdgeInsets.all(8.0),
       child: CustomTextBtn(
+        width: 200,
         backgroundColor: AppColors.black,
         radius: 30,
         child: const Row(

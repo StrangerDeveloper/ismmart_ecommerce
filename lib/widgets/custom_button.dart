@@ -142,17 +142,16 @@ Widget customImageBtn(
   return CustomTextBtn(
       radius: 30,
       borderSide: const BorderSide(
-        // color: newColorLightGrey, // your color here
-        width: 1,
+        color: AppColors.kTextFieldBorderColor, // your color here
+        width: 1.5,
       ),
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
+      onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: SvgPicture.asset(imagePath!, fit: BoxFit.cover)),
+          SvgPicture.asset(imagePath, fit: BoxFit.cover),
           const SizedBox(
             width: 5,
           ),
@@ -164,8 +163,7 @@ Widget customImageBtn(
                 color: AppColors.black),
           ),
         ],
-      ),
-      onPressed: onPressed);
+      ));
 }
 
 // //FINAL VERSION...

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/signup_mehods_viewmodel.dart';
-
+import 'package:ismmart_ecommerce/widgets/custom_heading_and_subheading_text.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/loader_view.dart';
 import '../../login/login_view.dart';
 import '../signup/signup_view.dart';
 
-class SingupMethodsView extends StatelessWidget {
-  SingupMethodsView({super.key});
+class SignUpMethodsView extends StatelessWidget {
+  SignUpMethodsView({super.key});
+
   final SignupMehtodsViewModel viewModel = Get.put(SignupMehtodsViewModel());
 
   @override
@@ -18,9 +20,9 @@ class SingupMethodsView extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
-        appBar: CustomAppBar2(
+        appBar: const CustomAppBar2(
           title: 'Sign Up',
-          // titleTextStyle: appbarFontStyle,
+          centerTitle: true,
         ),
         backgroundColor: Colors.white,
         body: Stack(
@@ -30,29 +32,18 @@ class SingupMethodsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 52, bottom: 10),
-                    child: CustomText(
-                      title: 'Get onboard!',
-                      // style: newFontStyleSize20,
-                    ),
+                  // SvgPicture.asset('assets/images/logo_circle.svg'),
+                  const CustomHeadingAndSubHeadingText(
+                      headingText: 'Get onboard!',
+                      subHeadingText: 'Create your account'
                   ),
-                  Padding(
-                      padding:
-                          const EdgeInsets.only(right: 20, bottom: 32, top: 16),
-                      child: Text(
-                        'Create your account',
-                        // style: newFontStyleSize14)
-                      )),
                   signUpEmail(),
-                  // signupNumber(),
-
                   orWidget(),
-                  googlelogInBtn(),
+                  googleLogInBtn(),
                   // facebooklogInBtn(),
                   //   if (Platform.isIOS) applelogInBtn(),
                   const Spacer(),
-                  doNotHaveAnAccount(),
+                  Align(alignment: Alignment.bottomCenter, child: doNotHaveAnAccount()),
                 ],
               ),
             ),
@@ -68,23 +59,21 @@ class SingupMethodsView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Continue with email',
-                // style: newFontStyleSize14.copyWith(
-                //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
               ),
               SizedBox(width: 4),
-              const Icon(
+              Icon(
                 Icons.arrow_forward,
                 size: 20,
               ),
             ],
           ),
           onPressed: () {
-            Get.to(SignUp1View());
+            Get.to(() => SignUp1View());
             // Get.to(SignUp1View());
             // Get.offNamed(Routes.dashboard);
             //
@@ -96,7 +85,6 @@ class SingupMethodsView extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(top: 22),
         child: CustomTextBtn(
-          // padding: const EdgeInsets.only(top: 5),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           radius: 30,
@@ -104,20 +92,16 @@ class SingupMethodsView extends StatelessWidget {
             color: Colors.black, // your color here
             width: 1,
           ),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Continue with phone number',
-
-                // style: newFontStyleSize14.copyWith(
-                //     color: newColorDarkBlack, fontWeight: FontWeight.w600),
               ),
               SizedBox(width: 4),
-              const Icon(
+              Icon(
                 Icons.arrow_forward,
                 size: 20,
-                // color: newColorDarkBlack,
               ),
             ],
           ),
@@ -130,26 +114,25 @@ class SingupMethodsView extends StatelessWidget {
   }
 
   Widget orWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 24),
+    return const Padding(
+      padding: EdgeInsets.only(top: 24, bottom: 24),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Divider(
-              //color: newColorLightGrey,
+              color: AppColors.kTextFieldBorderColor,
               thickness: 1,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               "or",
-              //style: newFontStyle4,
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Divider(
-              //color: newColorLightGrey,
+              color: AppColors.kTextFieldBorderColor,
               thickness: 1,
             ),
           ),
@@ -158,17 +141,16 @@ class SingupMethodsView extends StatelessWidget {
     );
   }
 
-//Google Button
-  Widget googlelogInBtn() {
+  Widget googleLogInBtn() {
     return customImageBtn(
         title: 'Sign in with Gmail',
         imagePath: 'assets/images/googleIcon.svg',
         onPressed: () {
-          viewModel.googleLogIn();
+          // viewModel.googleLogIn();
         });
   }
 
-  Widget applelogInBtn() {
+  Widget appleLogInBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: CustomTextBtn(
@@ -194,35 +176,36 @@ class SingupMethodsView extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          viewModel.appleSignin();
+          // viewModel.appleSignin();
         },
       ),
     );
   }
 
   Widget doNotHaveAnAccount() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 133),
-      child: Center(
-        child: TextButton(
-          onPressed: () {
-            Get.to(() => LogInView());
-          },
-          child: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Already have an account?',
-                  // style:
-                  //     newFontStyleSize14.copyWith(color: newColorLightGrey2)
-                ),
-                TextSpan(
-                  text: " Login",
-                  // style: newFontStyleSize14.copyWith(
-                  //     fontWeight: FontWeight.w700)),
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Get.to(() => LogInView());
+        },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Already have an account?',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.grey2
                 )
-              ],
-            ),
+              ),
+              TextSpan(
+                text: " Login",
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.black
+                )
+              )
+            ],
           ),
         ),
       ),
