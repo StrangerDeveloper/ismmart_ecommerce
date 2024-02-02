@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 
 import 'custom_text.dart';
@@ -221,6 +222,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final TextStyle? titleTextStyle;
   final bool? centerTitle;
+  final bool containsLeading;
 
   const CustomAppBar2({
     super.key,
@@ -231,6 +233,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.bottom,
     this.titleTextStyle,
+    this.containsLeading = false,
   });
 
   @override
@@ -238,15 +241,19 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       centerTitle: centerTitle,
       elevation: 1,
-      shadowColor: AppColors.grey2.withOpacity(0.25),
+      shadowColor: AppColors.kTextFieldBorderColor,
       title: title != null
           ? Text(
               title!,
-              style: titleTextStyle,
+              style: titleTextStyle ?? GoogleFonts.inter(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black
+              ),
             )
           : null,
-      backgroundColor: appBarColor,
-      leading: leading ??
+      backgroundColor: appBarColor ?? AppColors.white,
+      leading: containsLeading ? leading ??
           IconButton(
             onPressed: () {
               Get.back();
@@ -254,9 +261,9 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
               color: appBarColor == null ? AppColors.black : AppColors.white,
-              size: 16,
+              size: 20,
             ),
-          ),
+          ) : null,
       actions: actions,
       bottom: bottom,
       systemOverlayStyle: const SystemUiOverlayStyle(

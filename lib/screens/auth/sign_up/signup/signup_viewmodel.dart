@@ -77,14 +77,11 @@ class SignUpScreen1ViewModel extends GetxController {
   List<http.MultipartFile> fileList = [];
   void signUpStep1() async {
     fileList.clear();
-    //------    Image Varification and Send To Api ------------
-    await imgCheck();
     if (signUpFormKey1.currentState?.validate() ??
         false ||
             cnicFrontImageErrorVisibility.value ||
             cnicFrontImageErrorVisibility.value) {
       if (isChecked.value == true) {
-        //------- Social Signup Checks ----------
         String regex =
             r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
 
@@ -148,35 +145,6 @@ class SignUpScreen1ViewModel extends GetxController {
     }
   }
 
-  Future<void> imgCheck() async {
-    print(fileList.length);
-    print(cnicFrontImage.value);
-    print(cnicBackImage.value);
-    if (cnicFrontImage.value.path.isNotEmpty &&
-        cnicBackImage.value.isNotEmpty) {
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          cnicFrontImage.value.path,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          cnicBackImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-    } else {
-      cnicFrontImageErrorVisibility.value = true;
-      cnicBackImageErrorVisibility.value = true;
-      // AppConstant.displaySnackBar(
-      //   " Error",
-      //   " please upload CNIC Images",
-      // );
-    }
-  }
   //
   // //Google singin
   // RxString socialSignUpId = ''.obs;

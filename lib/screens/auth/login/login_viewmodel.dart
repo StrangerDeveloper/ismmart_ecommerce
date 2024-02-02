@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
 
@@ -77,59 +78,59 @@ class LogInViewModel extends GetxController {
     }
   }
 
-  // final googleSignin = GoogleSignIn();
-  // GoogleSignInAccount? _user;
-  // GoogleSignInAccount get user => _user!;
-  // Future googleLogIn() async {
-  //   GlobalVariable.showLoader.value = true;
-  //   GoogleSignIn googleSignIn = GoogleSignIn(
-  //     scopes: [
-  //       'email',
-  //       'https://www.googleapis.com/auth/contacts.readonly',
-  //     ],
-  //   );
-  //   GoogleSignInAccount? credential;
-  //   try {
-  //     // Get.to(DrawerBottomBarView());
-  //     await googleSignIn.signOut();
-  //     credential = await googleSignIn.signIn();
-  //     GlobalVariable.showLoader.value = false;
-  //
-  //     credential?.authentication.then((value) async {
-  //       Map<dynamic, dynamic> param = {
-  //         "social": {
-  //           "name": "Google",
-  //           "token": '${value.accessToken}',
-  //         }
-  //       };
-  //       print(credential);
-  //
-  //       await ApiBaseHelper()
-  //           .postMethod(url: "Urls.login", body: param)
-  //           .then((parsedJson) {
-  //         if (parsedJson['success'] == true) {
-  //           String status = parsedJson['data']['status'] ?? "";
-  //           accountStatusCheck(status, emailController.text);
-  //           GlobalVariable.showLoader.value = false;
-  //           GlobalVariable.token = parsedJson['data']['token'];
-  //           GlobalVariable.showLoader.value = false;
-  //         } else {
-  //           GlobalVariable.showLoader.value = false;
-  //           // AppConstant.displaySnackBar(
-  //           //   "Error",
-  //           //   '${parsedJson['message']}',
-  //           // );
-  //         }
-  //       });
-  //     });
-  //   } catch (error) {
-  //     print(error);
-  //     GlobalVariable.showLoader.value = false;
-  //     //  debugPrint("$error");
-  //   }
-  //   update();
-  //   // debugPrint("google signin Credential ===> ${credential}");
-  // }
+  final googleSignin = GoogleSignIn();
+  GoogleSignInAccount? _user;
+  GoogleSignInAccount get user => _user!;
+  Future googleLogIn() async {
+    GlobalVariable.showLoader.value = true;
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    GoogleSignInAccount? credential;
+    try {
+      // Get.to(DrawerBottomBarView());
+      await googleSignIn.signOut();
+      credential = await googleSignIn.signIn();
+      GlobalVariable.showLoader.value = false;
+
+      credential?.authentication.then((value) async {
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Google",
+            "token": '${value.accessToken}',
+          }
+        };
+        print(credential);
+
+        await ApiBaseHelper()
+            .postMethod(url: "Urls.login", body: param)
+            .then((parsedJson) {
+          if (parsedJson['success'] == true) {
+            String status = parsedJson['data']['status'] ?? "";
+            accountStatusCheck(status, emailController.text);
+            GlobalVariable.showLoader.value = false;
+            GlobalVariable.token = parsedJson['data']['token'];
+            GlobalVariable.showLoader.value = false;
+          } else {
+            GlobalVariable.showLoader.value = false;
+            // AppConstant.displaySnackBar(
+            //   "Error",
+            //   '${parsedJson['message']}',
+            // );
+          }
+        });
+      });
+    } catch (error) {
+      print(error);
+      GlobalVariable.showLoader.value = false;
+      //  debugPrint("$error");
+    }
+    update();
+    // debugPrint("google signin Credential ===> ${credential}");
+  }
 
 //apple login
 //   appleSignin() async {
