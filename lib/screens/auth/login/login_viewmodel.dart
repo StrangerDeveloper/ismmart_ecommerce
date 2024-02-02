@@ -109,6 +109,7 @@ class LogInViewModel extends GetxController {
           }
         };
         print(credential);
+        print(value);
 
         await ApiBaseHelper()
             .postMethod(url: "Urls.login", body: param)
