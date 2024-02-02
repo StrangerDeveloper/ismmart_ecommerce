@@ -12,11 +12,11 @@ import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_image_widget/image_layout_container.dart';
-import '../../../../widgets/custom_image_widget/pick_image.dart';
 import '../../../../widgets/custom_textfield.dart';
+import '../../../../widgets/image_layout_container.dart';
 import '../../../../widgets/loader_view.dart';
 import '../../../../widgets/obscure_suffix_icon.dart';
+import '../../../../widgets/pick_image.dart';
 import '../../login/login_view.dart';
 import 'signup_viewmodel.dart';
 

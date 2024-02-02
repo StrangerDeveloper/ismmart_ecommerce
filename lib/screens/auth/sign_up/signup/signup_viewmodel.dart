@@ -7,7 +7,7 @@ import 'package:ismmart_ecommerce/helpers/common_function.dart';
 
 import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/global_variables.dart';
-import '../../../../widgets/custom_image_widget/pick_image.dart';
+import '../../../../widgets/pick_image.dart';
 import '../signup_methods/signup_mehods_viewmodel.dart';
 
 class SignUpScreen1ViewModel extends GetxController {

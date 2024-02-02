@@ -5,16 +5,12 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
-
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/loader_view.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
-import '../sign_up/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
 
 class LogInView extends StatelessWidget {
