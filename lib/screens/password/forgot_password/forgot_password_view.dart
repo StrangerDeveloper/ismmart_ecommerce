@@ -108,7 +108,7 @@ class ForgotPasswordView extends StatelessWidget {
         ),
         onPressed: () {
           //viewModel.signIn();
-          Get.to(() => const ResetPasswordView());
+          Get.to(() => ResetPasswordView());
         },
       ),
     );
