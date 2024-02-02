@@ -5,6 +5,7 @@ import 'package:ismmart_ecommerce/helpers/app_strings.dart';
 import 'package:ismmart_ecommerce/screens/password/forgot_password/forgot_password_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
+import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_image_widget/custom_image_view.dart';
 import '../../../widgets/custom_text_field.dart';
@@ -80,7 +81,7 @@ class ForgotPasswordView extends StatelessWidget {
         controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          //return Validator.validateEmail(value);
+          return Validator.validateEmail(value);
         },
         keyboardType: TextInputType.emailAddress,
       ),
