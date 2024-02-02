@@ -96,8 +96,6 @@ class ForgotPasswordView extends StatelessWidget {
           children: [
             Text(
               "Reset",
-              // style: newFontStyleSize14.copyWith(
-              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
             SizedBox(width: 4),
             Icon(
@@ -108,7 +106,7 @@ class ForgotPasswordView extends StatelessWidget {
         ),
         onPressed: () {
           //viewModel.signIn();
-          Get.to(() => ResetPasswordView());
+          Get.to(() => const ResetPasswordView());
         },
       ),
     );
