@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../helpers/app_colors.dart';
-import '../helpers/common_function.dart';
 
 //FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {

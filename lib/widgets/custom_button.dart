@@ -202,28 +202,28 @@ Widget customImageBtn(
 //   }
 // }
 //
-// //FINAL VERSION...
-// class CustomIconBtn2 extends StatelessWidget {
-//   final IconData icon;
-//   final void Function()? onTap;
-//   final Color? color;
-//
-//   const CustomIconBtn2({
-//     super.key,
-//     required this.icon,
-//     this.onTap,
-//     this.color,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: onTap,
-//       borderRadius: BorderRadius.circular(8),
-//       child: Padding(
-//         padding: const EdgeInsets.all(8),
-//         child: Icon(icon, size: 15, color: color ?? Colors.black),
-//       ),
-//     );
-//   }
-// }
+//FINAL VERSION...
+class CustomIconBtn2 extends StatelessWidget {
+  final IconData icon;
+  final void Function()? onTap;
+  final Color? color;
+
+  const CustomIconBtn2({
+    super.key,
+    required this.icon,
+    this.onTap,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(icon, size: 15, color: color ?? Colors.black),
+      ),
+    );
+  }
+}
