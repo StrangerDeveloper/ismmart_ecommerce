@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 
@@ -18,6 +20,41 @@ class HomeView extends StatelessWidget {
       body: Column(
         children: [
           carousel(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            child: Row(
+              children: [
+                discountContainers(
+                  title: 'Free Shipping',
+                  description: 'on orders of Rs 5000',
+                  icon: Icons.local_shipping_rounded,
+                ),
+                const SizedBox(width: 16),
+                discountContainers(
+                  title: 'FLASH SALE',
+                  description: 'Dont miss out!',
+                  icon: 'assets/images/sale_percent.svg',
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              offOnOrders(
+                title: 'RS 250 OFF',
+                description: 'on orders of Rs 5000',
+              ),
+              offOnOrders(
+                title: 'RS 500 OFF',
+                description: 'on orders of Rs 8000',
+              ),
+              offOnOrders(
+                title: 'RS 1000 OFF',
+                description: 'on orders of Rs 10,000',
+              ),
+            ],
+          ),
+          promoCode(),
         ],
       ),
     );
@@ -25,6 +62,11 @@ class HomeView extends StatelessWidget {
 
   AppBar appBar() {
     return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        // statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+      ),
       leading: IconButton(
         onPressed: () {},
         icon: const Icon(
@@ -152,7 +194,7 @@ class HomeView extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: imageProvider,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
               );
@@ -178,7 +220,7 @@ class HomeView extends StatelessWidget {
           ),
           ClipRRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
               child: Container(
                 color: Colors.grey.withOpacity(0.01),
                 alignment: Alignment.center,
@@ -186,6 +228,116 @@ class HomeView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget discountContainers({
+    required String title,
+    required String description,
+    required dynamic icon, // image or icon
+  }) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6, right: 8),
+        decoration: const BoxDecoration(
+          color: Color(0xff262626),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Free Shipping',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'on orders of Rs 5000 ',
+                    style: TextStyle(
+                      color: Color(0xFFD9D9D9),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                icon.runtimeType == IconData
+                    ? Icon(
+                        icon,
+                        color: Colors.white,
+                        size: 12,
+                      )
+                    : SvgPicture.asset(
+                        'assets/images/sale_percent.svg',
+                        height: 12,
+                        width: 12,
+                      )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget offOnOrders({
+    required String title,
+    required String description,
+  }) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            description,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 10,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget promoCode() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+      decoration: const BoxDecoration(
+        color: Color(0xff262626),
+      ),
+      child: RichText(
+        text: const TextSpan(
+          text: 'CODE : ',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w400,
+          ),
+          children: [
+            TextSpan(
+              text: 'ISM024',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 
-import 'custom_image_widget/custom_image_view.dart';
-
 //FINAL VERSION...
 class CustomTextBtn extends StatelessWidget {
   final String title;

@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/widgets/custom_image_widget/custom_image_view.dart';
 
 import 'package:path/path.dart' as p;
 
@@ -18,7 +14,6 @@ import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_image_widget/image_layout_container.dart';
 import '../../../../widgets/custom_image_widget/pick_image.dart';
-import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/custom_textfield.dart';
 import '../../../../widgets/loader_view.dart';
 import '../../../../widgets/obscure_suffix_icon.dart';
@@ -33,7 +28,7 @@ class SignUp1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar2(
+      appBar: const CustomAppBar2(
         title: 'Sign Up',
         centerTitle: true,
         appBarColor: AppColors.white,
@@ -115,7 +110,7 @@ class SignUp1View extends StatelessWidget {
                       Icons.check_box,
                       color: Colors.blue,
                     ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               SizedBox(
                 width: Get.width * 0.7,
                 child: const Text(
@@ -198,7 +193,7 @@ class SignUp1View extends StatelessWidget {
             viewModel.validatorPhoneNumber(newPhoneValue);
           },
           onChanged: (value) {
-            // viewModel.countryCode.value = value.dialCode ?? '+92';
+            viewModel.countryCode.value = value.dialCode ?? '+92';
             String newPhoneValue = viewModel.countryCode.value +
                 viewModel.phoneNumberController.text;
             viewModel.validatorPhoneNumber(newPhoneValue);
