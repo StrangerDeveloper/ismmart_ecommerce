@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsViewModel extends GetxController {
@@ -7,5 +8,11 @@ class ProductDetailsViewModel extends GetxController {
     'https://ismmart.com/cdn/shop/files/ADI02876.jpg',
   ];
 
-  RxInt carouselIndicatorIndex = 0.obs;
+  RxInt carouselIndex = 0.obs;
+  PageController pageViewController = PageController(initialPage: 0);
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 }

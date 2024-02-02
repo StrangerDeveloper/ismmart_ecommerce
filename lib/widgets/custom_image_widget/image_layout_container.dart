@@ -48,7 +48,7 @@ class ImageLayoutContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
+              const Text(
                 'Image should be less than 2 MB',
                 style: TextStyle(
                   color: AppColors.fadedBlue,

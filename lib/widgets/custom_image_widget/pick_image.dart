@@ -6,8 +6,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 
 import 'bottomsheet_item.dart';
 
