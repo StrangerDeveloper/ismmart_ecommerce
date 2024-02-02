@@ -84,7 +84,7 @@ class ResetPasswordView extends StatelessWidget {
         controller: viewModel.passwordController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          //return Validator.validateEmail(value);
+          return Validator.validateEmail(value);
         },
         keyboardType: TextInputType.emailAddress,
       ),
