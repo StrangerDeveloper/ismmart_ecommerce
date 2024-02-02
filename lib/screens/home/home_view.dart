@@ -1,12 +1,13 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+
+import '../../widgets/custom_network_image.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -17,45 +18,63 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
-      body: Column(
-        children: [
-          carousel(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25),
-            child: Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            carousel(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: Row(
+                children: [
+                  discountContainers(
+                    title: 'Free Shipping',
+                    description: 'on orders of Rs 5000',
+                    icon: Icons.local_shipping_rounded,
+                  ),
+                  const SizedBox(width: 16),
+                  discountContainers(
+                    title: 'FLASH SALE',
+                    description: 'Dont miss out!',
+                    icon: 'assets/images/sale_percent.svg',
+                  ),
+                ],
+              ),
+            ),
+            Row(
               children: [
-                discountContainers(
-                  title: 'Free Shipping',
+                offOnOrders(
+                  title: 'RS 250 OFF',
                   description: 'on orders of Rs 5000',
-                  icon: Icons.local_shipping_rounded,
                 ),
-                const SizedBox(width: 16),
-                discountContainers(
-                  title: 'FLASH SALE',
-                  description: 'Dont miss out!',
-                  icon: 'assets/images/sale_percent.svg',
+                offOnOrders(
+                  title: 'RS 500 OFF',
+                  description: 'on orders of Rs 8000',
+                ),
+                offOnOrders(
+                  title: 'RS 1000 OFF',
+                  description: 'on orders of Rs 10,000',
                 ),
               ],
             ),
-          ),
-          Row(
-            children: [
-              offOnOrders(
-                title: 'RS 250 OFF',
-                description: 'on orders of Rs 5000',
+            promoCode(),
+            bottomBanner(),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
               ),
-              offOnOrders(
-                title: 'RS 500 OFF',
-                description: 'on orders of Rs 8000',
-              ),
-              offOnOrders(
-                title: 'RS 1000 OFF',
-                description: 'on orders of Rs 10,000',
-              ),
-            ],
-          ),
-          promoCode(),
-        ],
+            ),
+            categoriesCarousel(),
+            countDown(),
+            productList(),
+          ],
+        ),
       ),
     );
   }
@@ -107,7 +126,7 @@ class HomeView extends StatelessWidget {
   Widget carousel() {
     return Obx(
       () => SizedBox(
-        height: 220,
+        height: 200,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -119,7 +138,9 @@ class HomeView extends StatelessWidget {
               },
               itemCount: viewModel.bannersList.length,
               itemBuilder: (context, index) {
-                return carouselImage(index);
+                return CustomNetworkImage(
+                  imageUrl: viewModel.bannersList[index],
+                );
               },
             ),
             Padding(
@@ -149,74 +170,12 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget carouselImage(int index) {
-    return CachedNetworkImage(
-      imageUrl: viewModel.bannersList[index],
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.fill,
-            ),
-          ),
-        );
-      },
-      errorWidget: (context, url, error) {
-        return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/banner_default_image.png'),
-              fit: BoxFit.fill,
-            ),
-          ),
-        );
-      },
-      placeholder: (context, url) {
-        return Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 2.0,
-            color: Get.theme.primaryColor,
-          ),
-        );
-      },
-    );
-  }
-
   Widget appBarBackgroundImage() {
     return Obx(
       () => Stack(
         children: [
-          CachedNetworkImage(
+          CustomNetworkImage(
             imageUrl: viewModel.appBarImage.value,
-            imageBuilder: (context, imageProvider) {
-              return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-            errorWidget: (context, url, error) {
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/banner_default_image.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              );
-            },
-            placeholder: (context, url) {
-              return Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  color: Get.theme.primaryColor,
-                ),
-              );
-            },
           ),
           ClipRRect(
             child: BackdropFilter(
@@ -338,6 +297,220 @@ class HomeView extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget bottomBanner() {
+    return const CustomNetworkImage(
+      height: 100,
+      imageUrl:
+          'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    );
+  }
+
+  Widget countDown() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Electronics Deals',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'See All',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          countDownItem(digit: '13', unit: 'Hour'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: countDownItem(digit: '34', unit: 'Min '),
+          ),
+          countDownItem(digit: '56', unit: 'Sec '),
+        ],
+      ),
+    );
+  }
+
+  Widget countDownItem({required String digit, required String unit}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      color: Colors.black,
+      child: Column(
+        children: [
+          Text(
+            digit,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            unit,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget categoriesCarousel() {
+    return SizedBox(
+      height: 280,
+      child: GridView.builder(
+        // padding: EdgeInsets.symmetric(horizontal: 5),
+        scrollDirection: Axis.horizontal,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 25,
+          childAspectRatio: 0.92,
+        ),
+        itemCount: viewModel.categoriesList.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Expanded(
+                child: CustomNetworkImage(
+                  // height: 58,
+                  // width: 58,
+                  imageUrl: viewModel.categoriesList[index],
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Men',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                ),
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget productList() {
+    return SizedBox(
+      height: 1000,
+      child: GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        // scrollDirection: Axis.horizontal,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 25,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: viewModel.categoriesList.length,
+        itemBuilder: (context, index) {
+          return productListItem(index);
+        },
+      ),
+    );
+  }
+
+  Widget productListItem(int index) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0C000000),
+            blurRadius: 3,
+            offset: Offset(0, 1),
+            spreadRadius: 0,
+          )
+        ],
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomNetworkImage(
+            height: 130,
+            imageUrl:
+                'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            // height: 100,
+          ),
+          Text(
+            'TMA-2 HD Wireless',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            'Techstore',
+            style: TextStyle(
+              color: Color(0xFF929AAB),
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            'Rs 1,000',
+            style: TextStyle(
+              color: Color(0xFF24272C),
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          Text(
+            'Rs 1,500',
+            style: TextStyle(
+              color: Color(0xFFFE3A30),
+              fontSize: 10,
+              fontWeight: FontWeight.w900,
+              decoration: TextDecoration.lineThrough,
+            ),
+          ),
+          Row(
+            children: [
+              Icon(Icons.star, color: Color(0xffFFC120),),
+              Text(
+                '4.6',
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+              SizedBox(width: 10),
+              Text(
+                '86 Reviews',
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
