@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/password/reset_password/reset_password_viewMOdel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 
 import '../../../helpers/app_colors.dart';
@@ -8,7 +10,8 @@ import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_text_field.dart';
 
 class ResetPasswordView extends StatelessWidget {
-  const ResetPasswordView({super.key});
+  final viewModel = Get.put(ResetPasswordViewModel());
+  ResetPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
