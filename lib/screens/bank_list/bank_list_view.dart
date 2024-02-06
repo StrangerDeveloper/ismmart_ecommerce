@@ -12,6 +12,7 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_checkbox.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/loader_view.dart';
+import '../add_bank/add_bank_view.dart';
 
 class BankListView extends StatelessWidget {
   BankListView({super.key});
@@ -102,7 +103,7 @@ class BankListView extends StatelessWidget {
     return Column(
       children: [
         SwipeActionCell(
-          backgroundColor:  Colors.grey.shade50,
+          backgroundColor: Colors.grey.shade50,
           key: UniqueKey(),
           // confirmDismiss: (confirmDismiss) {
           //   return deleteConfirmationDialog(index);
@@ -187,16 +188,15 @@ class BankListView extends StatelessWidget {
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         viewModel.dataList[index].title ?? 'N/A',
                         style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          color: AppColors.grey2,
+                          fontSize: 14,
                         ),
                       )
                     ],
@@ -225,6 +225,7 @@ class BankListView extends StatelessWidget {
         // foregroundColor: ThemeHelper.blue1,
         onPressed: () {
           // Get.to(() => AddBankView(), arguments: {'editData': false});
+          Get.to(() => AddBankView());
         },
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,8 +1,10 @@
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../bank_list/bank_model.dart';
 
 class AddBankViewModel extends GetxController {
+  FlipCardController flipCardController =  FlipCardController();
   bool isEdit = false;
   BankModel bankModel = BankModel();
   GlobalKey<FormState> addBankFormKey = GlobalKey<FormState>();
@@ -10,9 +12,13 @@ class AddBankViewModel extends GetxController {
   TextEditingController accountNumberController = TextEditingController();
   TextEditingController ibanController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
+  TextEditingController expiryDateController = TextEditingController();
+  TextEditingController cvvController = TextEditingController();
   RxString accountTitle = 'Card Holder'.obs;
   RxString accountNumber = '0000 0000 0000 0000'.obs;
-  RxString bankName = 'Meezan Bank'.obs;
+  // RxString bankName = 'Meezan Bank'.obs;
+  RxString expiryDate = 'Meezan Bank'.obs;
+  RxString cvv = '000'.obs;
 
   // @override
   // void onInit() {
