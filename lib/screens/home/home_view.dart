@@ -82,6 +82,7 @@ class HomeView extends StatelessWidget {
                   title: 'Trending Products',
                   onTap: () {},
                 ),
+                const SizedBox(height: 80),
               ],
             ),
           ),
