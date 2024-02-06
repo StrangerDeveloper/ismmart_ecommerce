@@ -1,7 +1,9 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
 
