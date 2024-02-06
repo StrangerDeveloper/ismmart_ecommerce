@@ -245,32 +245,39 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
       title: title != null
           ? Text(
               title!,
-              style: titleTextStyle ?? GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.black
-              ),
+              style: titleTextStyle ??
+                  GoogleFonts.inter(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black),
             )
           : null,
       backgroundColor: appBarColor ?? AppColors.white,
-      leading: containsLeading ? leading ??
-          IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: appBarColor == null ? AppColors.black : AppColors.white,
-              size: 20,
-            ),
-          ) : null,
+      leading: containsLeading
+          ? leading ??
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color:
+                      appBarColor == null ? AppColors.black : AppColors.white,
+                  size: 20,
+                ),
+              )
+          : null,
       actions: actions,
       bottom: bottom,
       systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,  /// For Android
-        statusBarBrightness: Brightness.light  /// For iOS
-      ),
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+
+          /// For Android
+          statusBarBrightness: Brightness.light
+
+          /// For iOS
+          ),
     );
   }
 

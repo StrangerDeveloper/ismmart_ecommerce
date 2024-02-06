@@ -238,8 +238,9 @@ class LogInView extends StatelessWidget {
 
   Widget applelogInBtn() {
     return customImageBtn(
+        isSvg: true,
         title: 'Sign in with Gmail',
-        imagePath: 'assets/icons/apple_logo.png',
+        imagePath: 'assets/icons/apple_logo.svg',
         onPressed: () {
           viewModel.appleSignin();
         });
