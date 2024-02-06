@@ -23,9 +23,9 @@ class HomeView extends StatelessWidget {
         controller: viewModel.mainScrollController,
         slivers: [
           appBar(),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
                 carousel(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 25),
@@ -90,9 +90,9 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  appBar(){
+  appBar() {
     return Obx(
-          () => SliverAppBar(
+      () => SliverAppBar(
         backgroundColor: viewModel.isScrolled.value ? Colors.white : null,
         foregroundColor: viewModel.isScrolled.value ? Colors.black : null,
         // iconTheme: IconThemeData(
@@ -148,7 +148,7 @@ class HomeView extends StatelessWidget {
           ),
         ],
         flexibleSpace:
-        viewModel.isScrolled.value ? null : appBarBackgroundImage(),
+            viewModel.isScrolled.value ? null : appBarBackgroundImage(),
       ),
     );
   }
@@ -304,28 +304,30 @@ class HomeView extends StatelessWidget {
   }
 
   Widget promoCode() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 25),
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
-      decoration: const BoxDecoration(
-        color: Color(0xff262626),
-      ),
-      child: RichText(
-        text: const TextSpan(
-          text: 'CODE : ',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 10,
-            fontWeight: FontWeight.w400,
+    return Align(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+        decoration: const BoxDecoration(
+          color: Color(0xff262626),
+        ),
+        child: RichText(
+          text: const TextSpan(
+            text: 'CODE : ',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+            ),
+            children: [
+              TextSpan(
+                text: 'ISM024',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            ],
           ),
-          children: [
-            TextSpan(
-              text: 'ISM024',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-              ),
-            )
-          ],
         ),
       ),
     );

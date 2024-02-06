@@ -2,16 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:ismmart_ecommerce/screens/bottom_navigation/drawer_bottom_bar_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_viewmodel.dart';
 
 import '../../helpers/global_variables.dart';
 
-class DrawerBottomBarView extends StatelessWidget {
-  DrawerBottomBarView({super.key, this.child});
+class BottomNavigationView extends StatelessWidget {
+  BottomNavigationView({super.key});
 
-  final Widget? child;
-  final DrawerBottomBarViewModel viewModel =
-      Get.put(DrawerBottomBarViewModel());
+  final BottomNavigationViewModel viewModel =
+      Get.put(BottomNavigationViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +20,6 @@ class DrawerBottomBarView extends StatelessWidget {
         viewModel.onBackPressed(context);
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Obx(
-            () => Text(
-              viewModel.appBarTitle(GlobalVariable.selectedIndex.value),
-            ),
-          ),
-          actions: [
-            bellIcon(),
-          ],
-        ),
         resizeToAvoidBottomInset: false,
         extendBody: true,
         body: Obx(

@@ -6,25 +6,7 @@ import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../../helpers/global_variables.dart';
 
-class DrawerBottomBarViewModel extends GetxController {
-
-
-  String appBarTitle(int value) {
-    switch (value) {
-      case 0:
-        return 'Dashboard';
-      case 1:
-        return 'Order List';
-      case 2:
-        return 'Add Product';
-      case 3:
-        return 'Products';
-      case 4:
-        return 'Profile Details';
-      default:
-        return '';
-    }
-  }
+class BottomNavigationViewModel extends GetxController {
 
   Widget selectView(int index) {
     switch (index) {
@@ -72,7 +54,6 @@ class DrawerBottomBarViewModel extends GetxController {
                       onPressed: () {
                         Navigator.of(context).pop(true);
                         exit(0);
-
                       },
                     ),
                   ),
