@@ -59,8 +59,8 @@ class HomeViewModel extends GetxController {
         }else{
           isScrolled.value = false;
         }
-        isScrolled.value =
-            mainScrollController.hasClients && mainScrollController.offset > 50;
+        // isScrolled.value =
+        //     mainScrollController.hasClients && mainScrollController.offset > 50;
       });
     super.onInit();
   }

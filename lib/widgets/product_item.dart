@@ -66,12 +66,22 @@ class ProductItem extends StatelessWidget {
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
-                            fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       )
                     : const SizedBox(),
+                Positioned(
+                  top: 1,
+                  left: 1,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.black,
+                    ),
+                  ),
+                )
               ],
             ),
             Padding(
