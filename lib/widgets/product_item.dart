@@ -71,6 +71,17 @@ class ProductItem extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
+                Positioned(
+                  top: 1,
+                  left: 1,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.black,
+                    ),
+                  ),
+                )
               ],
             ),
             Padding(
