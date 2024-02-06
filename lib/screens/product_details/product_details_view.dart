@@ -7,7 +7,6 @@ import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
-import 'package:path/path.dart';
 
 class ProductDetailsView extends StatelessWidget {
   ProductDetailsView({super.key});
@@ -146,11 +145,36 @@ class ProductDetailsView extends StatelessWidget {
 
   Widget _titlePrice() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'TMA-2HD Wireless',
-          style: ThemeHelper.textTheme.headlineLarge,
+          style: ThemeHelper.textTheme.titleMedium,
         ),
+        Text(
+          'RS 1500.0',
+          style:
+              ThemeHelper.textTheme.bodySmall!.copyWith(color: AppColors.red),
+        ),
+        //Review section
+        Row(
+          children: [
+            const Icon(
+              Icons.star,
+              color: AppColors.yellow,
+            ),
+            const Gap(2),
+            Text(
+              '4.6',
+              style: ThemeHelper.textTheme.labelSmall,
+            ),
+            const Gap(10),
+            Text(
+              '86 Reviews',
+              style: ThemeHelper.textTheme.labelSmall,
+            ),
+          ],
+        )
       ],
     );
   }

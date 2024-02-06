@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'ISMMART eCommerce',
       theme: ThemeHelper.lightTheme,
       darkTheme: ThemeHelper.darkTheme,
-      home: HomeView(),
+      home: ProductDetailsView(),
       //getPages: AppRouter().getRoutes(),
     );
   }
