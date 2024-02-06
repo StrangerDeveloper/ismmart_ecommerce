@@ -9,6 +9,7 @@ import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
 import '../../widgets/custom_network_image.dart';
+import '../wishlist/wishlist_view.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -134,7 +135,9 @@ class HomeView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => WishlistView());
+            },
             icon: const Icon(
               Icons.favorite_border_sharp,
               // color: Colors.white,
