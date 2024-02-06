@@ -76,19 +76,16 @@ class WishlistView extends StatelessWidget {
       itemCount: viewModel.categoriesList.length,
       itemBuilder: (context, index) {
         return ProductItem(
-            onTap: () {},
-            image: '',
-            name: 'Product Name',
-            category: 'Category',
-            price: 'Rs 1000',
-            rating: '4.6',
-            reviews: '46',
-            previousPrice: 'Rs 1500',
-            //discount: '10',
-            hamburgerIcon: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
-            ));
+          onTap: () {},
+          image: '',
+          name: 'Product Name',
+          category: 'Category',
+          price: 'Rs 1000',
+          rating: '4.6',
+          reviews: '46',
+          previousPrice: 'Rs 1500',
+          //discount: '10',
+        );
       },
     );
   }
