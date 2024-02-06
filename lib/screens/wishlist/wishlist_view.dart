@@ -44,13 +44,15 @@ class WishlistView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //show nuber of items in wishlist
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: CustomText(
-                    title: '6 items', size: 16, weight: FontWeight.bold),
+                  title: '6 items',
+                  size: 16,
+                  weight: FontWeight.bold,
+                ),
               ),
             ),
             Container(
@@ -84,7 +86,6 @@ class WishlistView extends StatelessWidget {
           rating: '4.6',
           reviews: '46',
           previousPrice: 'Rs 1500',
-          //discount: '10',
         );
       },
     );
