@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
-
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
 import '../../widgets/custom_network_image.dart';
@@ -20,53 +19,10 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: appBar(),
       body: CustomScrollView(
+        controller: viewModel.mainScrollController,
         slivers: [
-          Obx(() => SliverAppBar(
-            pinned: true,
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor:
-              viewModel.isScrolled.value ? Colors.white : Colors.transparent,
-              // statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness:
-              viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
-            ),
-            leading: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                CupertinoIcons.search,
-                color: Colors.white,
-              ),
-            ),
-            title: const Text(
-              'ISMMART',
-              style: TextStyle(
-                // color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border_sharp,
-                  color: Colors.white,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-            flexibleSpace: appBarBackgroundImage(),
-          ),),
+          appBar(),
           SliverToBoxAdapter(
             child: Column(
               children: [
@@ -134,49 +90,66 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  AppBar appBar() {
-    return AppBar(
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor:
-            viewModel.isScrolled.value ? Colors.white : Colors.transparent,
-        // statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness:
-            viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
-      ),
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          CupertinoIcons.search,
-          color: Colors.white,
+  appBar(){
+    return Obx(
+          () => SliverAppBar(
+        backgroundColor: viewModel.isScrolled.value ? Colors.white : null,
+        foregroundColor: viewModel.isScrolled.value ? Colors.black : null,
+        // iconTheme: IconThemeData(
+        //     color: viewModel.isScrolled.value
+        //         ? Colors.black
+        //         : Colors.orange),
+        // actionsIconTheme: IconThemeData(
+        //     color: viewModel.isScrolled.value
+        //         ? Colors.black
+        //         : Colors.orange),
+        pinned: true,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: viewModel.isScrolled.value
+              ? Colors.white
+              : Colors.transparent, //for Android
+          statusBarIconBrightness: viewModel.isScrolled.value
+              ? Brightness.dark
+              : Brightness.light, //for Android
+          statusBarBrightness: viewModel.isScrolled.value
+              ? Brightness.dark
+              : Brightness.light, //for IOS
         ),
-      ),
-      title: const Text(
-        'ISMMART',
-        style: TextStyle(
-          // color: Colors.white,
-          fontSize: 20,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
-      ),
-      actions: [
-        IconButton(
+        leading: IconButton(
           onPressed: () {},
           icon: const Icon(
-            Icons.favorite_border_sharp,
+            CupertinoIcons.search,
             color: Colors.white,
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.shopping_cart_outlined,
+        title: const Text(
+          'ISMMART',
+          style: TextStyle(
+            fontSize: 20,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
         ),
-      ],
-      flexibleSpace: appBarBackgroundImage(),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_border_sharp,
+              // color: Colors.white,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+        flexibleSpace:
+        viewModel.isScrolled.value ? null : appBarBackgroundImage(),
+      ),
     );
   }
 
@@ -315,7 +288,7 @@ class HomeView extends StatelessWidget {
             style: const TextStyle(
               color: Colors.black,
               fontSize: 12,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
             ),
           ),
           Text(
@@ -437,7 +410,6 @@ class HomeView extends StatelessWidget {
     return SizedBox(
       height: 280,
       child: GridView.builder(
-        // padding: EdgeInsets.symmetric(horizontal: 5),
         scrollDirection: Axis.horizontal,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
@@ -451,8 +423,6 @@ class HomeView extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomNetworkImage(
-                  // height: 58,
-                  // width: 58,
                   imageUrl: viewModel.categoriesList[index],
                   shape: BoxShape.circle,
                 ),
@@ -482,9 +452,9 @@ class HomeView extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 8,
+        mainAxisSpacing: 12,
         crossAxisSpacing: 25,
-        childAspectRatio: 0.6,
+        childAspectRatio: 0.62,
       ),
       itemCount: viewModel.categoriesList.length,
       itemBuilder: (context, index) {

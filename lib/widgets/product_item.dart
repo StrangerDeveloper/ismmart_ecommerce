@@ -66,7 +66,6 @@ class ProductItem extends StatelessWidget {
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
-                            fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w700,
                           ),
                         ),
