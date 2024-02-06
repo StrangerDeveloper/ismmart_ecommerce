@@ -1,12 +1,15 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+
+import 'package:ismmart_ecommerce/widgets/product_item.dart';
+
+import '../../widgets/custom_network_image.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -16,45 +19,116 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
-      body: Column(
-        children: [
-          carousel(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25),
-            child: Row(
-              children: [
-                discountContainers(
-                  title: 'Free Shipping',
-                  description: 'on orders of Rs 5000',
-                  icon: Icons.local_shipping_rounded,
+      backgroundColor: Colors.white,
+      // appBar: appBar(),
+      body: CustomScrollView(
+        slivers: [
+          Obx(() => SliverAppBar(
+            pinned: true,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor:
+              viewModel.isScrolled.value ? Colors.white : Colors.transparent,
+              // statusBarBrightness: Brightness.dark,
+              statusBarIconBrightness:
+              viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
+            ),
+            leading: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                CupertinoIcons.search,
+                color: Colors.white,
+              ),
+            ),
+            title: const Text(
+              'ISMMART',
+              style: TextStyle(
+                // color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite_border_sharp,
+                  color: Colors.white,
                 ),
-                const SizedBox(width: 16),
-                discountContainers(
-                  title: 'FLASH SALE',
-                  description: 'Dont miss out!',
-                  icon: 'assets/images/sale_percent.svg',
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+            flexibleSpace: appBarBackgroundImage(),
+          ),),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                carousel(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: Row(
+                    children: [
+                      discountContainers(
+                        title: 'Free Shipping',
+                        description: 'on orders of Rs 5000',
+                        icon: Icons.local_shipping_rounded,
+                      ),
+                      const SizedBox(width: 16),
+                      discountContainers(
+                        title: 'FLASH SALE',
+                        description: 'Dont miss out!',
+                        icon: 'assets/images/sale_percent.svg',
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    offOnOrders(
+                      title: 'RS 250 OFF',
+                      description: 'on orders of Rs 5000',
+                    ),
+                    offOnOrders(
+                      title: 'RS 500 OFF',
+                      description: 'on orders of Rs 8000',
+                    ),
+                    offOnOrders(
+                      title: 'RS 1000 OFF',
+                      description: 'on orders of Rs 10,000',
+                    ),
+                  ],
+                ),
+                promoCode(),
+                bottomBanner(),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+                categoriesCarousel(),
+                flashSaleCountDown(),
+                flashSaleProductList(),
+                seeAllItem(
+                  title: 'Trending Products',
+                  onTap: () {},
                 ),
               ],
             ),
           ),
-          Row(
-            children: [
-              offOnOrders(
-                title: 'RS 250 OFF',
-                description: 'on orders of Rs 5000',
-              ),
-              offOnOrders(
-                title: 'RS 500 OFF',
-                description: 'on orders of Rs 8000',
-              ),
-              offOnOrders(
-                title: 'RS 1000 OFF',
-                description: 'on orders of Rs 10,000',
-              ),
-            ],
-          ),
-          promoCode(),
         ],
       ),
     );
@@ -62,10 +136,12 @@ class HomeView extends StatelessWidget {
 
   AppBar appBar() {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor:
+            viewModel.isScrolled.value ? Colors.white : Colors.transparent,
         // statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness:
+            viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
       ),
       leading: IconButton(
         onPressed: () {},
@@ -107,7 +183,7 @@ class HomeView extends StatelessWidget {
   Widget carousel() {
     return Obx(
       () => SizedBox(
-        height: 220,
+        height: 200,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -119,7 +195,9 @@ class HomeView extends StatelessWidget {
               },
               itemCount: viewModel.bannersList.length,
               itemBuilder: (context, index) {
-                return carouselImage(index);
+                return CustomNetworkImage(
+                  imageUrl: viewModel.bannersList[index],
+                );
               },
             ),
             Padding(
@@ -149,74 +227,12 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget carouselImage(int index) {
-    return CachedNetworkImage(
-      imageUrl: viewModel.bannersList[index],
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.fill,
-            ),
-          ),
-        );
-      },
-      errorWidget: (context, url, error) {
-        return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/banner_default_image.png'),
-              fit: BoxFit.fill,
-            ),
-          ),
-        );
-      },
-      placeholder: (context, url) {
-        return Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 2.0,
-            color: Get.theme.primaryColor,
-          ),
-        );
-      },
-    );
-  }
-
   Widget appBarBackgroundImage() {
     return Obx(
       () => Stack(
         children: [
-          CachedNetworkImage(
+          CustomNetworkImage(
             imageUrl: viewModel.appBarImage.value,
-            imageBuilder: (context, imageProvider) {
-              return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-            errorWidget: (context, url, error) {
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/banner_default_image.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              );
-            },
-            placeholder: (context, url) {
-              return Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  color: Get.theme.primaryColor,
-                ),
-              );
-            },
           ),
           ClipRRect(
             child: BackdropFilter(
@@ -339,6 +355,180 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget bottomBanner() {
+    return const CustomNetworkImage(
+      height: 100,
+      imageUrl:
+          'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    );
+  }
+
+  Widget flashSaleCountDown() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Electronics Deals',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'See All',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          countDownItem(digit: '13', unit: 'Hour'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: countDownItem(digit: '34', unit: 'Min '),
+          ),
+          countDownItem(digit: '56', unit: 'Sec '),
+        ],
+      ),
+    );
+  }
+
+  Widget countDownItem({required String digit, required String unit}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      color: Colors.black,
+      child: Column(
+        children: [
+          Text(
+            digit,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            unit,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget categoriesCarousel() {
+    return SizedBox(
+      height: 280,
+      child: GridView.builder(
+        // padding: EdgeInsets.symmetric(horizontal: 5),
+        scrollDirection: Axis.horizontal,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 25,
+          childAspectRatio: 0.92,
+        ),
+        itemCount: viewModel.categoriesList.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Expanded(
+                child: CustomNetworkImage(
+                  // height: 58,
+                  // width: 58,
+                  imageUrl: viewModel.categoriesList[index],
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Men',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                ),
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget flashSaleProductList() {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 25,
+        childAspectRatio: 0.6,
+      ),
+      itemCount: viewModel.categoriesList.length,
+      itemBuilder: (context, index) {
+        return ProductItem(
+          onTap: () {},
+          image: '',
+          name: 'Product Name',
+          category: 'Category',
+          price: 'Rs 1000',
+          rating: '4.6',
+          reviews: '46',
+          previousPrice: 'Rs 1500',
+          discount: '10',
+        );
+      },
+    );
+  }
+
+  Widget seeAllItem({required String title, void Function()? onTap}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: const Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 16, 10),
+            child: Text(
+              'See All',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

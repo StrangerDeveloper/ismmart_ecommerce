@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +10,7 @@ import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_image_view.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/loader_view.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
@@ -45,9 +48,9 @@ class LogInView extends StatelessWidget {
                         logInBtn(),
 
                         orWidget(),
-                        googlelogInBtn(),
+                        if (Platform.isAndroid) googlelogInBtn(),
                         // facebooklogInBtn(),
-                        // if (Platform.isIOS) applelogInBtn(),
+                        if (Platform.isIOS) applelogInBtn(),
                         Gap(54),
                         doNotHaveAnAccount(),
                       ],
@@ -104,34 +107,6 @@ class LogInView extends StatelessWidget {
       ),
     );
   }
-
-  // Widget applelogInBtn() {
-  //   return CustomTextBtn(
-  //     radius: 30,
-  //     borderSide: const BorderSide(
-  //       width: 1,
-  //     ),
-  //     backgroundColor: Colors.white,
-  //     foregroundColor: Colors.black,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         CustomImageView(
-  //           imagePath: 'assets/images/googleIcon.svg',
-  //         ),
-  //         const SizedBox(
-  //           width: 5,
-  //         ),
-  //         const Text(
-  //           "Signin with Apple ID",
-  //         ),
-  //       ],
-  //     ),
-  //     onPressed: () {
-  //       viewModel.appleSignin();
-  //     },
-  //   );
-  // }
 
   //Facebook Button
   // Widget facebooklogInBtn() {
@@ -253,10 +228,20 @@ class LogInView extends StatelessWidget {
   //Google Button
   Widget googlelogInBtn() {
     return customImageBtn(
+        isSvg: true,
         title: 'Sign in with Gmail',
         imagePath: 'assets/images/googleIcon.svg',
         onPressed: () {
           viewModel.googleLogIn();
+        });
+  }
+
+  Widget applelogInBtn() {
+    return customImageBtn(
+        title: 'Sign in with Gmail',
+        imagePath: 'assets/icons/apple_logo.png',
+        onPressed: () {
+          viewModel.appleSignin();
         });
   }
 
@@ -301,17 +286,14 @@ class LogInView extends StatelessWidget {
           const EdgeInsets.only(left: 128.0, right: 128, top: 41, bottom: 41),
       child: Container(
         // color: Colors.green,
-        height: 117,
-        width: 120,
+
         child: ClipRRect(
             borderRadius: BorderRadius.circular(1.0),
             child:
                 // Image.asset("assets/images/googleIcon.svg")
-                SvgPicture.asset(
-              height: 40,
-              width: 20,
+                Image.asset(
               //semanticsLabel: 'My SVG Picture',
-              'assets/images/logo_s.svg',
+              'assets/images/logo1.png',
               //fit: BoxFit.fill,
             )),
       ),
