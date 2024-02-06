@@ -166,37 +166,37 @@ Widget customImageBtn(
       ));
 }
 
-// //FINAL VERSION...
-// class CustomIconBtn extends StatelessWidget {
-//   final IconData icon;
-//   final bool enabled;
-//   final double? iconSize;
-//   final void Function()? onTap;
-//
-//   const CustomIconBtn({
-//     super.key,
-//     this.iconSize,
-//     this.enabled = true,
-//     required this.icon,
-//     this.onTap,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: onTap,
-//       borderRadius: BorderRadius.circular(8),
-//       child: Container(
-//         padding: const EdgeInsets.all(8),
-//         child: Icon(
-//                 icon,
-//                 color: enabled ? null : Colors.grey.shade400,
-//                 size: iconSize ?? 15,
-//               )
-//       ),
-//     );
-//   }
-// }
+//FINAL VERSION...
+class CustomIconBtn extends StatelessWidget {
+  final IconData icon;
+  final bool enabled;
+  final double? iconSize;
+  final void Function()? onTap;
+
+  const CustomIconBtn({
+    super.key,
+    this.iconSize,
+    this.enabled = true,
+    required this.icon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        child: Icon(
+                icon,
+                color: enabled ? null : Colors.grey.shade400,
+                size: iconSize ?? 15,
+              )
+      ),
+    );
+  }
+}
 //
 //FINAL VERSION...
 class CustomIconBtn2 extends StatelessWidget {

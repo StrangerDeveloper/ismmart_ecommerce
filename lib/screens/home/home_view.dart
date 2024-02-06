@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 
+import 'package:ismmart_ecommerce/widgets/product_item.dart';
+
 import '../../widgets/custom_network_image.dart';
 
 class HomeView extends StatelessWidget {
@@ -17,74 +19,129 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            carousel(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              child: Row(
-                children: [
-                  discountContainers(
-                    title: 'Free Shipping',
-                    description: 'on orders of Rs 5000',
-                    icon: Icons.local_shipping_rounded,
-                  ),
-                  const SizedBox(width: 16),
-                  discountContainers(
-                    title: 'FLASH SALE',
-                    description: 'Dont miss out!',
-                    icon: 'assets/images/sale_percent.svg',
-                  ),
-                ],
+      backgroundColor: Colors.white,
+      // appBar: appBar(),
+      body: CustomScrollView(
+        slivers: [
+          Obx(() => SliverAppBar(
+            pinned: true,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor:
+              viewModel.isScrolled.value ? Colors.white : Colors.transparent,
+              // statusBarBrightness: Brightness.dark,
+              statusBarIconBrightness:
+              viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
+            ),
+            leading: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                CupertinoIcons.search,
+                color: Colors.white,
               ),
             ),
-            Row(
+            title: const Text(
+              'ISMMART',
+              style: TextStyle(
+                // color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite_border_sharp,
+                  color: Colors.white,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+            flexibleSpace: appBarBackgroundImage(),
+          ),),
+          SliverToBoxAdapter(
+            child: Column(
               children: [
-                offOnOrders(
-                  title: 'RS 250 OFF',
-                  description: 'on orders of Rs 5000',
+                carousel(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: Row(
+                    children: [
+                      discountContainers(
+                        title: 'Free Shipping',
+                        description: 'on orders of Rs 5000',
+                        icon: Icons.local_shipping_rounded,
+                      ),
+                      const SizedBox(width: 16),
+                      discountContainers(
+                        title: 'FLASH SALE',
+                        description: 'Dont miss out!',
+                        icon: 'assets/images/sale_percent.svg',
+                      ),
+                    ],
+                  ),
                 ),
-                offOnOrders(
-                  title: 'RS 500 OFF',
-                  description: 'on orders of Rs 8000',
+                Row(
+                  children: [
+                    offOnOrders(
+                      title: 'RS 250 OFF',
+                      description: 'on orders of Rs 5000',
+                    ),
+                    offOnOrders(
+                      title: 'RS 500 OFF',
+                      description: 'on orders of Rs 8000',
+                    ),
+                    offOnOrders(
+                      title: 'RS 1000 OFF',
+                      description: 'on orders of Rs 10,000',
+                    ),
+                  ],
                 ),
-                offOnOrders(
-                  title: 'RS 1000 OFF',
-                  description: 'on orders of Rs 10,000',
+                promoCode(),
+                bottomBanner(),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+                categoriesCarousel(),
+                flashSaleCountDown(),
+                flashSaleProductList(),
+                seeAllItem(
+                  title: 'Trending Products',
+                  onTap: () {},
                 ),
               ],
             ),
-            promoCode(),
-            bottomBanner(),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ),
-            categoriesCarousel(),
-            countDown(),
-            productList(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   AppBar appBar() {
     return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor:
+            viewModel.isScrolled.value ? Colors.white : Colors.transparent,
         // statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness:
+            viewModel.isScrolled.value ? Brightness.dark : Brightness.light,
       ),
       leading: IconButton(
         onPressed: () {},
@@ -309,7 +366,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget countDown() {
+  Widget flashSaleCountDown() {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -418,100 +475,60 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget productList() {
-    return SizedBox(
-      height: 1000,
-      child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        // scrollDirection: Axis.horizontal,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 25,
-          childAspectRatio: 0.75,
-        ),
-        itemCount: viewModel.categoriesList.length,
-        itemBuilder: (context, index) {
-          return productListItem(index);
-        },
+  Widget flashSaleProductList() {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 25,
+        childAspectRatio: 0.6,
       ),
+      itemCount: viewModel.categoriesList.length,
+      itemBuilder: (context, index) {
+        return ProductItem(
+          onTap: () {},
+          image: '',
+          name: 'Product Name',
+          category: 'Category',
+          price: 'Rs 1000',
+          rating: '4.6',
+          reviews: '46',
+          previousPrice: 'Rs 1500',
+          discount: '10',
+        );
+      },
     );
   }
 
-  Widget productListItem(int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0C000000),
-            blurRadius: 3,
-            offset: Offset(0, 1),
-            spreadRadius: 0,
-          )
-        ],
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomNetworkImage(
-            height: 130,
-            imageUrl:
-                'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            // height: 100,
-          ),
-          Text(
-            'TMA-2 HD Wireless',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
+  Widget seeAllItem({required String title, void Function()? onTap}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
             ),
           ),
-          Text(
-            'Techstore',
-            style: TextStyle(
-              color: Color(0xFF929AAB),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Text(
-            'Rs 1,000',
-            style: TextStyle(
-              color: Color(0xFF24272C),
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          Text(
-            'Rs 1,500',
-            style: TextStyle(
-              color: Color(0xFFFE3A30),
-              fontSize: 10,
-              fontWeight: FontWeight.w900,
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          Row(
-            children: [
-              Icon(Icons.star, color: Color(0xffFFC120),),
-              Text(
-                '4.6',
-                style: TextStyle(
-                  fontSize: 10,
-                ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: const Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 16, 10),
+            child: Text(
+              'See All',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
               ),
-              SizedBox(width: 10),
-              Text(
-                '86 Reviews',
-                style: TextStyle(
-                  fontSize: 10,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
