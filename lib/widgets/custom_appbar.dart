@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 import 'custom_text.dart';
 
@@ -44,11 +45,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       //backgroundColor: kAppBarColor,
       actions: action,
       flexibleSpace: _getStyle(),
-      title: searchBar ??
-          CustomText(
-            title: title ?? '',
-            // style: appBarTitleSize,
-          ),
+      title: Center(
+        child: searchBar ??
+            CustomText(
+                title: title ?? '',
+                // style: appBarTitleSize,
+                style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                )),
+      ),
       leading: leading ??
           (menuItem != null
               ? null

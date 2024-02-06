@@ -10,7 +10,6 @@ import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_image_view.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/loader_view.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
