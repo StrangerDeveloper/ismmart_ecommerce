@@ -99,7 +99,7 @@ class OrderListingView extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         // Container(
         //   width: 62.h,
         //   padding: EdgeInsets.symmetric(vertical: 9.v),
@@ -186,7 +186,7 @@ class OrderListingView extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 8),
+                margin: const EdgeInsets.only(top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -205,7 +205,7 @@ class OrderListingView extends StatelessWidget {
                       child: Row(children: [
                         _status(viewModel.orderItemList[index].paymentStatus ??
                             "status"),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         _status(
                             viewModel.orderItemList[index].fulfilmentStatus ??
                                 "status")
@@ -227,7 +227,7 @@ class OrderListingView extends StatelessWidget {
                           ],
                         )),
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 8,
                         left: 8,
                         bottom: 16,
@@ -248,7 +248,7 @@ class OrderListingView extends StatelessWidget {
   Widget _customField1(text1) {
     return CustomText(
       title: text1,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
@@ -258,7 +258,7 @@ class OrderListingView extends StatelessWidget {
   Widget _customField2(text) {
     return CustomText(
       title: text.toString(),
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 12,
       ),
     );
@@ -282,7 +282,7 @@ class OrderListingView extends StatelessWidget {
               color: color,
               size: 10,
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Text(
               text,
               style: const TextStyle(
