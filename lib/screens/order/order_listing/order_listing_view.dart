@@ -21,8 +21,10 @@ class OrderListingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(
+      appBar: const CustomAppBar(
         title: "My Orders",
+        centerTitle: true,
+        backBtn: true,
       ),
       body: Stack(
         children: [
