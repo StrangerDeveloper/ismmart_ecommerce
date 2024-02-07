@@ -7,6 +7,8 @@ import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
 import '../../helpers/app_colors.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_text_field.dart';
 import '../wishlist/wishlist_view.dart';
 
 class CartView extends StatelessWidget {
@@ -17,18 +19,53 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: appBar(),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '3 Items',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 16, bottom: 10),
+              child: Text(
+                '3 Items',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             listView(),
-
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+              child: CustomTextField1(
+                // controller: viewModel.ibanController,
+                title: 'Promo Code',
+                hintText: 'mypromocode22',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+              child: CustomTextBtn(
+                height: 45,
+                title: 'Check OUt',
+                onPressed: () {
+                  // viewModel.saveAndCreateBtn();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CustomTextBtn(
+                height: 45,
+                foregroundColor: Colors.black,
+                borderSide: const BorderSide(),
+                title: 'Continue Shopping',
+                backgroundColor: Colors.transparent,
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -154,7 +191,7 @@ class CartView extends StatelessWidget {
               width: 85,
               height: 85,
               imageUrl:
-              'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             ),
             const SizedBox(width: 15),
             Expanded(
