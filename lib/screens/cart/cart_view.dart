@@ -198,13 +198,34 @@ class CartView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Nike Air Max Z',
-                    style: TextStyle(
-                      color: Color(0xFF24272C),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Nike Air Max Z',
+                          style: TextStyle(
+                            color: Color(0xFF24272C),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){},
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFF6F6F8),
+                          ),
+                          child: const Icon(
+                            Icons.favorite,
+                            color: AppColors.red,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 3, bottom: 8),
