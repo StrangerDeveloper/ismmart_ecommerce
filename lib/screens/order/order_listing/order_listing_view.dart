@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewModel.dart';
-import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
 import '../../../helpers/global_variables.dart';
-import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
