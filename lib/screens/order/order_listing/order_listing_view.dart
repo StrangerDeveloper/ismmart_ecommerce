@@ -21,14 +21,16 @@ class OrderListingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: const CustomAppBar2(
+        title: "My Orders",
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 17.0, bottom: 5.0),
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 2.0),
                   child: _buildSearchRow(),
                 ),
                 Obx(
@@ -65,12 +67,6 @@ class OrderListingView extends StatelessWidget {
           const LoaderView(),
         ],
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return const CustomAppBar2(
-      title: "Order List",
     );
   }
 
@@ -154,37 +150,25 @@ class OrderListingView extends StatelessWidget {
             right: 10.0,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      _customField1(
-                          "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
-
-                      // _customField2("${DateFormat("y MMM d").format(
-                      //   DateTime.parse(
-                      //       viewModel.orderItemList[index].createdAt ?? "now"),
-                      // )} at ${DateFormat("h:mm a").format(
-                      //   DateTime.parse(
-                      //       viewModel.orderItemList[index].createdAt ?? "now"),
-                      // )}"),
-                    ],
+                  Expanded(
+                    child: _customField1(
+                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
                   ),
                   // _customField2(viewModel
                   //             .orderItemList[index].orderDetails?.market !=
                   //         null
                   //     ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
                   //     : 'market'),
-                  _customField2("${DateFormat("y MMM d").format(
+                  _customField2(DateFormat("d MMM y").format(
                     DateTime.parse(
                         viewModel.orderItemList[index].createdAt ?? "now"),
-                  )}${DateFormat("h:mm").format(
-                    DateTime.parse(
-                        viewModel.orderItemList[index].createdAt ?? "now"),
-                  )}"),
+                  )),
                 ],
               ),
               Container(
