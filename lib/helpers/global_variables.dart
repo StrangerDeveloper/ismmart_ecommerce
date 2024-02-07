@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class GlobalVariable {
   static String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NThkNWVhY2QyMjViNjM0NzJiZWU1YzIiLCJuYW1lIjoiaGFzbmFpbiIsImlhdCI6MTcwNjI2Mzk5NCwiZXhwIjoxNzA4ODU1OTk0fQ.x0hgmcnU7uP7GgEZC5OT2BGI22G8HE3ZC_JyBEt9PTk';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTc4MDlkNjYzNTM0ZTNmY2ZiMTljNzIiLCJuYW1lIjoic3llZCBXYWplZWggQWhzYW4gIiwiaWF0IjoxNzA0OTY5NDg0LCJleHAiOjE3MDc1NjE0ODR9.0ObCFtDKGu-omkTGtGTuAHpX9IoLVSaDjmsO23lXbkU';
   // static String token = "";
   static RxBool showLoader = false.obs;
   static RxBool noInternet = false.obs;
