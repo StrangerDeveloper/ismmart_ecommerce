@@ -6,6 +6,7 @@ import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_view
 
 import '../../../helpers/global_variables.dart';
 import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/loader_view.dart';
@@ -20,14 +21,14 @@ class OrderListingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: callingFor!.toLowerCase().contains('all') ? null : _buildAppBar(),
+      appBar: _buildAppBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 17.0, bottom: 17.0),
+                  padding: const EdgeInsets.only(top: 17.0, bottom: 5.0),
                   child: _buildSearchRow(),
                 ),
                 Obx(
@@ -86,7 +87,7 @@ class OrderListingView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 250,
+          width: 300,
           child: CustomTextField1(
             controller: viewModel.searchController,
             filled: false,
@@ -140,8 +141,11 @@ class OrderListingView extends StatelessWidget {
   Widget _buildOrderCard(int index) {
     return Obx(
       () => Card(
-        margin: const EdgeInsets.all(0),
-        elevation: 0,
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         color: const Color(0xFFF9FAFB),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -157,30 +161,30 @@ class OrderListingView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      _customField2(
-                          viewModel.orderItemList[index].orderId ?? "id"),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6, right: 6),
-                        child: Icon(
-                          Icons.circle,
-                          color: Colors.grey.shade400,
-                          size: 5,
-                        ),
-                      ),
-                      _customField2("${DateFormat("y MMM d").format(
-                        DateTime.parse(
-                            viewModel.orderItemList[index].createdAt ?? "now"),
-                      )} at ${DateFormat("h:mm a").format(
-                        DateTime.parse(
-                            viewModel.orderItemList[index].createdAt ?? "now"),
-                      )}"),
+                      _customField1(
+                          "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
+
+                      // _customField2("${DateFormat("y MMM d").format(
+                      //   DateTime.parse(
+                      //       viewModel.orderItemList[index].createdAt ?? "now"),
+                      // )} at ${DateFormat("h:mm a").format(
+                      //   DateTime.parse(
+                      //       viewModel.orderItemList[index].createdAt ?? "now"),
+                      // )}"),
                     ],
                   ),
-                  _customField2(viewModel
-                              .orderItemList[index].orderDetails?.market !=
-                          null
-                      ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
-                      : 'market'),
+                  // _customField2(viewModel
+                  //             .orderItemList[index].orderDetails?.market !=
+                  //         null
+                  //     ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
+                  //     : 'market'),
+                  _customField2("${DateFormat("y MMM d").format(
+                    DateTime.parse(
+                        viewModel.orderItemList[index].createdAt ?? "now"),
+                  )}${DateFormat("h:mm").format(
+                    DateTime.parse(
+                        viewModel.orderItemList[index].createdAt ?? "now"),
+                  )}"),
                 ],
               ),
               Container(
@@ -188,50 +192,46 @@ class OrderListingView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _customField2(
+                        "Tracking number: ${viewModel.orderItemList[index].orderId ?? "id"}"),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    //   child: Row(children: [
+                    //     _status(viewModel.orderItemList[index].paymentStatus ??
+                    //         "status"),
+                    //     const SizedBox(width: 8),
+                    //     _status(
+                    //         viewModel.orderItemList[index].fulfilmentStatus ??
+                    //             "status")
+                    //   ]),
+                    // ),
+                    Obx(() => _customField2(
+                        "Quantity: ${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"}")),
+                    Obx(() => _customField2(
+                        "Total Amount: ${(viewModel.orderItemList[index].totals?.total) ?? "zero"}")),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _customField1(
-                            viewModel.orderItemList[index].customer?.name ??
-                                "naaam"),
-                        _customField1(
-                            "Rs. ${viewModel.orderItemList[index].totals?.total?.toStringAsFixed(2) ?? "0"}"),
+                        CustomTextBtn(
+                          title: "Details",
+                          onPressed: () {},
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
+                          ),
+                          width: 80,
+                          radius: 20,
+                          padding: const EdgeInsets.all(5),
+                        ),
+                        Obx(
+                          () => _customField2(
+                              viewModel.orderItemList[index].fulfilmentStatus ??
+                                  "status"),
+                        ),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(children: [
-                        _status(viewModel.orderItemList[index].paymentStatus ??
-                            "status"),
-                        const SizedBox(width: 8),
-                        _status(
-                            viewModel.orderItemList[index].fulfilmentStatus ??
-                                "status")
-                      ]),
-                    ),
-                    Obx(() => Row(
-                          children: [
-                            _customField2(
-                                "${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8, left: 8),
-                              child: Icon(
-                                Icons.circle,
-                                color: Colors.grey.shade400,
-                                size: 5,
-                              ),
-                            ),
-                            _customField2("Standard"),
-                          ],
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        left: 8,
-                        bottom: 16,
-                      ),
-                      child: _status("COD Verified"),
-                    ),
+                    )
                   ],
                 ),
               ),
