@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
@@ -185,7 +186,7 @@ class OrderListingView extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 8.v),
+                margin: EdgeInsets.only(top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -204,7 +205,7 @@ class OrderListingView extends StatelessWidget {
                       child: Row(children: [
                         _status(viewModel.orderItemList[index].paymentStatus ??
                             "status"),
-                        SizedBox(width: 8.h),
+                        SizedBox(width: 8),
                         _status(
                             viewModel.orderItemList[index].fulfilmentStatus ??
                                 "status")
