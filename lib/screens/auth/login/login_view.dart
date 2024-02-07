@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
@@ -237,8 +236,9 @@ class LogInView extends StatelessWidget {
 
   Widget applelogInBtn() {
     return customImageBtn(
+        isSvg: true,
         title: 'Sign in with Gmail',
-        imagePath: 'assets/icons/apple_logo.png',
+        imagePath: 'assets/icons/apple_logo.svg',
         onPressed: () {
           viewModel.appleSignin();
         });

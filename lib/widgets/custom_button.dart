@@ -27,7 +27,7 @@ class CustomTextBtn extends StatelessWidget {
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = AppColors.black,
+    this.backgroundColor = Colors.black,
     this.foregroundColor = Colors.white,
     this.child,
     this.radius = 8,
@@ -137,7 +137,7 @@ class CustomIconTextBtn extends StatelessWidget {
     required this.title,
     this.width = double.minPositive,
     required this.onPressed,
-    this.backgroundColor = AppColors.primary,
+    this.backgroundColor = Colors.black,
     this.foregroundColor = Colors.white,
     this.radius = 8,
     this.padding,
@@ -177,7 +177,7 @@ class CustomIconTextBtn extends StatelessWidget {
             const Gap(8),
             CustomText(
               title: title,
-              size: 10,
+              color: Colors.white,
             ),
           ],
         ),
@@ -210,7 +210,6 @@ Widget customImageBtn(
               child: isSvg
                   ? SvgPicture.asset(imagePath, fit: BoxFit.cover)
                   : Image.asset(imagePath)),
-          SvgPicture.asset(imagePath, fit: BoxFit.cover),
           const SizedBox(
             width: 5,
           ),

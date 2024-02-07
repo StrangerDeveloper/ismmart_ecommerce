@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_view.dart';
 
 import '../../screens/wishlist/wishlist_viewModel.dart';
 import '../../widgets/custom_text.dart';
@@ -78,7 +79,9 @@ class WishlistView extends StatelessWidget {
       itemCount: viewModel.categoriesList.length,
       itemBuilder: (context, index) {
         return ProductItem(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => OrderListingView());
+          },
           image: viewModel.categoriesList[index],
           name: 'Product Name',
           category: 'Category',

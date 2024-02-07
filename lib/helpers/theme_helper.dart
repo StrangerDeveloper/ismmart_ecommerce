@@ -27,6 +27,8 @@ class ThemeHelper {
       elevation: 3,
       shadowColor: AppColors.black12,
     ),
+    tabBarTheme: const TabBarTheme(
+        labelColor: AppColors.black, indicatorColor: AppColors.black),
   );
 
   static ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
@@ -84,6 +86,8 @@ class ThemeHelper {
         borderRadius: BorderRadius.circular(13),
       ),
     ),
+    tabBarTheme: const TabBarTheme(
+        labelColor: AppColors.white, indicatorColor: AppColors.white38),
     // textButtonTheme: const TextButtonThemeData(
     // style: ButtonStyle(
     //   backgroundColor: platte1
@@ -156,12 +160,26 @@ class TextThemes {
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
-        labelMedium: TextStyle(
+        labelLarge: TextStyle(
           color: AppColors.black,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 16,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w600,
+        ),
+        labelMedium: TextStyle(
+          color: color,
           //color: isDark ? Colors.black : Colors.white,
           fontSize: 14,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w700,
+        ),
+        labelSmall: TextStyle(
+          color: color,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 14,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w400,
         ),
       ).apply(
         fontFamily: GoogleFonts.inter().fontFamily,
