@@ -6,7 +6,7 @@ import 'package:ismmart_ecommerce/screens/user_profile/user_profile_viewmodel.da
 
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_cached_network_image.dart';
+import '../../widgets/custom_network_image.dart';
 import '../../widgets/loader_view.dart';
 import '../edit_user_profile/edit_user_profile_view.dart';
 
@@ -94,7 +94,7 @@ class UserProfileView extends StatelessWidget {
   Widget profileImage() {
     return Align(
       alignment: Alignment.center,
-      child: Obx(() => CustomCachedNetworkImage(
+      child: Obx(() => CustomNetworkImage(
             imageUrl: viewModel.userProfileModel.value.image != null
                 ? viewModel.userProfileModel.value.image!
                 : '',

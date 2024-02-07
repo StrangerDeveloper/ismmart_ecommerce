@@ -12,7 +12,8 @@ import '../../helpers/validator.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_bottom_sheet.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_cached_network_image.dart';
+
+import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/image_layout_container.dart';
 import '../../widgets/loader_view.dart';
@@ -110,7 +111,7 @@ class EditUserProfileView extends StatelessWidget {
                           ),
                         ),
                       )
-                    : CustomCachedNetworkImage(
+                    : CustomNetworkImage(
                         height: 80,
                         width: 80,
                         imageUrl: viewModel.userProfileModel.value.image != null
