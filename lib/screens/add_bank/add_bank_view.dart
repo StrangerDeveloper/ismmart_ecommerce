@@ -1,9 +1,11 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/screens/add_bank/add_bank_viewmodel.dart';
+
 import '../../helpers/validator.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
@@ -25,31 +27,37 @@ class AddBankView extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
             child: Form(
               key: viewModel.addBankFormKey,
               child: Column(
                 children: [
                   creditCard(),
-                  accountTitleTxtField(),
-                  accountNumberTxtField(),
-                  ibanNumberTxtField(),
-                  bankNameTxtField(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 5),
-                    child: CustomTextBtn(
-                      title: viewModel.isEdit ? 'Update' : 'Save & Create',
-                      onPressed: () {
-                        // viewModel.saveAndCreateBtn();
-                      },
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: Column(
+                      children: [
+                        accountTitleTxtField(),
+                        accountNumberTxtField(),
+                        ibanNumberTxtField(),
+                        bankNameTxtField(),
+                        expiryDateTxtField(),
+                        cvvTxtField(),
+                        CustomTextBtn(
+                          title: viewModel.isEdit ? 'Update' : 'Save & Create',
+                          onPressed: () {
+                            // viewModel.saveAndCreateBtn();
+                          },
+                        ),
+                        const SizedBox(height: 5),
+                        CustomTextBtn(
+                          title: 'Discard',
+                          backgroundColor: Colors.black,
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  CustomTextBtn(
-                    title: 'Discard',
-                    backgroundColor: Colors.black,
-                    onPressed: () {
-                      Get.back();
-                    },
                   ),
                 ],
               ),
@@ -62,78 +70,128 @@ class AddBankView extends StatelessWidget {
   }
 
   Widget creditCard() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(25, 16, 15, 20),
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 30),
-      height: Get.height * 0.23,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xff02251F).withOpacity(0.2),
-            spreadRadius: 5,
-            blurRadius: 10,
-            offset: const Offset(0, 0), // changes position of shadow
+    return FlipCard(
+      controller: viewModel.flipCardController,
+      front: Container(
+        padding: const EdgeInsets.fromLTRB(40, 100, 15, 42),
+        width: double.infinity,
+        height: Get.height * 0.32,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          image: const DecorationImage(
+            fit: BoxFit.fill,
+            image: AssetImage('assets/images/card_bg.png'),
           ),
-        ],
-        gradient: const LinearGradient(
-          begin: Alignment(0.96, -0.28),
-          end: Alignment(-0.96, 0.28),
-          colors: [
-            Color(0xFF632400),
-            Color(0xFF064A7D),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Obx(
+              () => Text(
+                viewModel.accountNumber.value,
+                maxLines: 1,
+                style: GoogleFonts.metrophobic(
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: Get.width * 0.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(
+                    () => cardItem(
+                      title: 'Card Holder Name',
+                      value: viewModel.accountTitle.value,
+                    ),
+                  ),
+                  Obx(
+                    () => cardItem(
+                      title: 'Expiry Date',
+                      value: viewModel.expiryDate.value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        image: const DecorationImage(
-          alignment: Alignment.centerLeft,
-          image: AssetImage('assets/images/card_layer.png'),
+      ),
+      back: Container(
+        padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+        height: Get.height * 0.23,
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 26),
+        decoration: BoxDecoration(
+          color: const Color(0xFF222222),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 40,
+              color: Colors.black,
+            ),
+            Container(
+              color: Colors.white.withOpacity(0.2),
+              margin: const EdgeInsets.only(top: 13),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Obx(
+                      () => Text(
+                        viewModel.cvv.value,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget cardItem({required String title, required String value}) {
+    return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Obx(
-                () => Expanded(
-                  child: Text(
-                    viewModel.bankName.value,
-                    maxLines: 1,
-                    style: GoogleFonts.ubuntu(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-              ),
-              SvgPicture.asset('assets/images/master_card.svg'),
-            ],
-          ),
-          const Spacer(),
-          Obx(
-            () => Text(
-              viewModel.accountTitle.value,
-              maxLines: 1,
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 16,
-                color: Colors.white,
-              ),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontFamily: 'Metropolis',
             ),
           ),
           const SizedBox(height: 3),
-          Obx(
-            () => Text(
-              viewModel.accountNumber.value,
-              maxLines: 1,
-              style: GoogleFonts.ibmPlexMono(
-                fontSize: 16,
-                color: Colors.white,
-              ),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontFamily: 'Metropolis',
             ),
-          ),
+          )
         ],
       ),
     );
@@ -144,6 +202,11 @@ class AddBankView extends StatelessWidget {
       controller: viewModel.accountTitleController,
       title: 'Account Title',
       hintText: 'Ashar Atique',
+      onTap: () {
+        if (!viewModel.flipCardController.state!.isFront) {
+          viewModel.flipCardController.toggleCard();
+        }
+      },
       onChanged: (value) {
         viewModel.accountTitle.value = value;
         if (value.isEmpty) {
@@ -151,7 +214,8 @@ class AddBankView extends StatelessWidget {
         }
       },
       validator: (value) {
-        return Validator.validateDefaultField(value, errorMessage: 'Account Title is required');
+        return Validator.validateDefaultField(value,
+            errorMessage: 'Account Title is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
@@ -164,6 +228,11 @@ class AddBankView extends StatelessWidget {
         controller: viewModel.accountNumberController,
         title: 'Account Number',
         hintText: '0029 3103 1091 0553',
+        onTap: () {
+          if (!viewModel.flipCardController.state!.isFront) {
+            viewModel.flipCardController.toggleCard();
+          }
+        },
         onChanged: (value) {
           viewModel.accountNumber.value = value;
           if (value.isEmpty) {
@@ -171,14 +240,16 @@ class AddBankView extends StatelessWidget {
           }
         },
         inputFormatters: [
+          // CreditCardNumberInputFormatter(),
           MaskedInputFormatter(
-            "#### #### #### ####",
+            "0000 0000 0000 0000",
             allowedCharMatcher: RegExp(r'[0-9]+'),
           ),
         ],
         keyboardType: TextInputType.number,
         validator: (value) {
-          return Validator.validateDefaultField(value, errorMessage: 'Account Number is required');
+          return Validator.validateDefaultField(value,
+              errorMessage: 'Account Number is required');
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
       ),
@@ -186,31 +257,81 @@ class AddBankView extends StatelessWidget {
   }
 
   Widget ibanNumberTxtField() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18),
-      child: CustomTextField1(
-        controller: viewModel.ibanController,
-        title: 'IBAN Number',
-        hintText: 'PKMEZN00293103109103',
-      ),
+    return CustomTextField1(
+      controller: viewModel.ibanController,
+      title: 'IBAN Number',
+      hintText: 'PKMEZN00293103109103',
     );
   }
 
   Widget bankNameTxtField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18),
+      child: CustomTextField1(
+        controller: viewModel.bankNameController,
+        title: 'Bank Name',
+        hintText: 'Meezan Bank',
+        // onChanged: (value) {
+        //   viewModel.bankName.value = value;
+        //   if (value.isEmpty) {
+        //     viewModel.bankName.value = 'Meezan Bank';
+        //   }
+        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value,
+              errorMessage: 'Bank Name is required');
+        },
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
+  }
+
+  Widget expiryDateTxtField() {
     return CustomTextField1(
-      controller: viewModel.bankNameController,
-      title: 'Bank Name',
-      hintText: 'Meezan Bank',
-      onChanged: (value) {
-        viewModel.bankName.value = value;
-        if (value.isEmpty) {
-          viewModel.bankName.value = 'Meezan Bank';
+      controller: viewModel.expiryDateController,
+      title: 'Expiry Date',
+      hintText: '00/00',
+      onTap: () {
+        if (!viewModel.flipCardController.state!.isFront) {
+          viewModel.flipCardController.toggleCard();
         }
       },
-      validator: (value) {
-        return Validator.validateDefaultField(value, errorMessage: 'Bank Name is required');
+      onChanged: (value) {
+        viewModel.expiryDate.value = value;
+        if (value.isEmpty) {
+          viewModel.expiryDate.value = '00/00';
+        }
       },
-      autoValidateMode: AutovalidateMode.onUserInteraction,
+      inputFormatters: [
+        CreditCardExpirationDateFormatter(),
+      ],
+      keyboardType: TextInputType.number,
+    );
+  }
+
+  Widget cvvTxtField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18, bottom: 30),
+      child: CustomTextField1(
+        controller: viewModel.cvvController,
+        title: 'CVV',
+        hintText: '000',
+        onTap: () {
+          if (viewModel.flipCardController.state!.isFront) {
+            viewModel.flipCardController.toggleCard();
+          }
+        },
+        onChanged: (value) {
+          viewModel.cvv.value = value;
+          if (value.isEmpty) {
+            viewModel.cvv.value = '000';
+          }
+        },
+        inputFormatters: [
+          CreditCardCvcInputFormatter(),
+        ],
+        keyboardType: TextInputType.number,
+      ),
     );
   }
 }

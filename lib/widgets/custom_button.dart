@@ -157,7 +157,6 @@ Widget customImageBtn(
               child: isSvg
                   ? SvgPicture.asset(imagePath, fit: BoxFit.cover)
                   : Image.asset(imagePath)),
-          SvgPicture.asset(imagePath, fit: BoxFit.cover),
           const SizedBox(
             width: 5,
           ),
