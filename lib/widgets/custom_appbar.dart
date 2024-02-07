@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 import 'custom_text.dart';
 
@@ -44,11 +45,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       //backgroundColor: kAppBarColor,
       actions: action,
       flexibleSpace: _getStyle(),
-      title: searchBar ??
-          CustomText(
-            title: title ?? '',
-            // style: appBarTitleSize,
-          ),
+      title: Center(
+        child: searchBar ??
+            CustomText(
+                title: title ?? '',
+                // style: appBarTitleSize,
+                style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                )),
+      ),
       leading: leading ??
           (menuItem != null
               ? null
@@ -245,32 +252,39 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
       title: title != null
           ? Text(
               title!,
-              style: titleTextStyle ?? GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.black
-              ),
+              style: titleTextStyle ??
+                  GoogleFonts.inter(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black),
             )
           : null,
       backgroundColor: appBarColor ?? AppColors.white,
-      leading: containsLeading ? leading ??
-          IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: appBarColor == null ? AppColors.black : AppColors.white,
-              size: 20,
-            ),
-          ) : null,
+      leading: containsLeading
+          ? leading ??
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color:
+                      appBarColor == null ? AppColors.black : AppColors.white,
+                  size: 20,
+                ),
+              )
+          : null,
       actions: actions,
       bottom: bottom,
       systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,  /// For Android
-        statusBarBrightness: Brightness.light  /// For iOS
-      ),
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+
+          /// For Android
+          statusBarBrightness: Brightness.light
+
+          /// For iOS
+          ),
     );
   }
 

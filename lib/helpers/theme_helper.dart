@@ -160,6 +160,13 @@ class TextThemes {
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
+        labelLarge: TextStyle(
+          color: AppColors.black,
+          //color: isDark ? Colors.black : Colors.white,
+          fontSize: 16,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w600,
+        ),
         labelMedium: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
