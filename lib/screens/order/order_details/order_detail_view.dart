@@ -100,41 +100,8 @@ class OrderDetailView extends StatelessWidget {
               ],
             ),
 
-            // Row(
-            //   children: [
-            //     _status(
-            //         viewModel.orderItemModel.value.paymentStatus ?? "status"),
-            //     SizedBox(width: 8),
-            //     _status(viewModel.orderItemModel.value.fulfilmentStatus ??
-            //         "status"),
-            //   ],
-            // ),
             const SizedBox(height: 20),
-            // Row(
-            //   children: [
-            //     _customField2(
-            //         "${viewModel.orderItemModel.value.lineitems?.length.toString()} items"),
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 8, left: 8),
-            //       child: Icon(
-            //         Icons.circle,
-            //         color: Colors.grey.shade400,
-            //         size: 5,
-            //       ),
-            //     ),
-            //     _customField2("Standard")
-            //   ],
-            // ),
-            // Padding(
-            //     padding: const EdgeInsets.only(top: 8, bottom: 8),
-            //     child: _status("COD Verified")),
-            // _customField1("Location"),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 8, bottom: 8),
-            //   child: _customField2(
-            //       "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
-            // ),
-            //_buildFrame2(),
+
             const SizedBox(width: 8),
             _customField2(
                 "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? "length"} Items"),
