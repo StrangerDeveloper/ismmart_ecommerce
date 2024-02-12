@@ -181,7 +181,6 @@ class OrderDetailView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  //if status is delivered than show the review button
                                   if (viewModel.orderItemModel.value
                                           .lineitems?[index].fulfilmentStatus ==
                                       "delivered")
@@ -204,17 +203,6 @@ class OrderDetailView extends StatelessWidget {
                                         height: 10,
                                       )),
                                     )
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //     top: 16.0,
-                                  //     left: 56.0,
-                                  //   ),
-                                  //   child: _customField2(
-                                  //       "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total.toString()}  x ${viewModel.orderItemModel.value.lineitems?[index].qty?.toString()}"),
-                                  // ),
-                                  // const SizedBox(
-                                  //   height: 12,
-                                  // )
                                 ],
                               ),
                               Padding(
