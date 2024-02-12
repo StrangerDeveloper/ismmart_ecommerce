@@ -7,12 +7,15 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
+import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/loader_view.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
+import '../forgot_password/forget_password/forgot_password_view.dart';
 import 'login_viewmodel.dart';
 
 class LogInView extends StatelessWidget {
@@ -68,12 +71,13 @@ class LogInView extends StatelessWidget {
   Widget emailTextField() {
     return CustomTextField1(
       prefixIcon: Icons.person,
-      title: 'Email ',
-      hintText: 'Email ',
+      title: 'Email / Phone No',
+      hintText: 'Email / Phone No ',
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateEmail(value);
+        return Validator.validateDefaultField(value,
+            errorMessage: "Required Email/Phone No");
       },
       keyboardType: TextInputType.emailAddress,
     );
@@ -151,13 +155,7 @@ class LogInView extends StatelessWidget {
           onPressed: () {
             CommonFunction.debugPrint(
                 "forget --------${viewModel.emailController.text}");
-            Get.toNamed(AppRoutes.singupMethodsViewRoute);
-            // Get.toNamed(Routes.forgotPassword1, arguments: {
-            //   'email': GetUtils.isEmail(viewModel.emailController.text)
-            //       ? viewModel.emailController.text
-            //       : ''
-            // }
-            // );
+            Get.to(() => ForgotPasswordView1());
           },
           child: Text(
             'Forget Password?',
@@ -175,10 +173,11 @@ class LogInView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Login",
-                // style: newFontStyleSize14.copyWith(
-                //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
+              const CustomText(
+                title: "Login",
+                size: 14,
+                color: AppColors.white,
+                weight: FontWeight.w500,
               ),
               SizedBox(width: 2),
               const Icon(
@@ -237,9 +236,8 @@ class LogInView extends StatelessWidget {
 
   Widget applelogInBtn() {
     return customImageBtn(
-        isSvg: true,
         title: 'Sign in with Gmail',
-        imagePath: 'assets/icons/apple_logo.svg',
+        imagePath: 'assets/icons/apple_logo.png',
         onPressed: () {
           viewModel.appleSignin();
         });
@@ -250,7 +248,8 @@ class LogInView extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: TextButton(
         onPressed: () {
-          Get.toNamed(AppRoutes.singupMethodsViewRoute);
+          Get.to(() => SignUpMethodsView());
+          // Get.toNamed(AppRoutes.singupMethodsViewRoute);
         },
         child: Center(
           child: RichText(
@@ -258,7 +257,8 @@ class LogInView extends StatelessWidget {
               children: [
                 TextSpan(
                     text: "Don't have an account?",
-                    style: ThemeHelper.textTheme.bodyMedium),
+                    style: ThemeHelper.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.grey2)),
                 TextSpan(
                     text: " Create Account",
                     style: ThemeHelper.textTheme.labelMedium),
@@ -289,9 +289,7 @@ class LogInView extends StatelessWidget {
 
         child: ClipRRect(
             borderRadius: BorderRadius.circular(1.0),
-            child:
-                // Image.asset("assets/images/googleIcon.svg")
-                Image.asset(
+            child: Image.asset(
               //semanticsLabel: 'My SVG Picture',
               'assets/images/logo1.png',
               //fit: BoxFit.fill,
@@ -317,7 +315,8 @@ class LogInView extends StatelessWidget {
             child: Text(
               maxLines: 2,
               'Please login or sign up to continue our app',
-              style: ThemeHelper.textTheme.bodyMedium,
+              style: ThemeHelper.textTheme.bodyMedium
+                  ?.copyWith(color: AppColors.grey2),
             )),
       ],
     );
