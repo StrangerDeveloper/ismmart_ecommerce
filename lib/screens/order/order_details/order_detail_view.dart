@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,6 +15,7 @@ import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/loader_view.dart';
+import '../../../widgets/pick_image.dart';
 
 class OrderDetailView extends StatelessWidget {
   final OrderDetailViewModel viewModel = Get.put(OrderDetailViewModel());
@@ -417,7 +420,10 @@ class OrderDetailView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () async {
+          viewModel.userProfileImage.value =
+              await PickImage().pickSingleImage() ?? File('');
+        },
         child: Card(
           color: Colors.white,
           child: Padding(
