@@ -352,7 +352,7 @@ class OrderDetailView extends StatelessWidget {
           const Spacer(),
           IconButton(
             icon: const Icon(
-              Icons.cancel_outlined,
+              Icons.close,
               color: Colors.black,
             ),
             onPressed: () {
