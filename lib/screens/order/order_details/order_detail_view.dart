@@ -318,31 +318,6 @@ class OrderDetailView extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
-                                                    // Expanded(
-                                                    //   child:
-                                                    //       SingleChildScrollView(
-                                                    //     child:
-                                                    //         _buildBottomSheetContent(),
-                                                    //   ),
-                                                    // ),
-                                                    // Align(
-                                                    //   alignment:
-                                                    //       Alignment.bottomRight,
-                                                    //   child: Padding(
-                                                    //     padding:
-                                                    //         const EdgeInsets
-                                                    //             .only(
-                                                    //             left: 16.0,
-                                                    //             right: 16,
-                                                    //             top: 8,
-                                                    //             bottom: 16),
-                                                    //     child:
-                                                    //         CustomRoundedTextBtn(
-                                                    //       title: "Post",
-                                                    //       height: 48.v,
-                                                    //       width: MediaQuery.of(
-                                                    //                   context)
-                                                    //               .size
                                                     //               .width *
                                                     //           0.1,
                                                     //       borderRadius: 8.h,
