@@ -199,153 +199,137 @@ class OrderDetailView extends StatelessWidget {
                                         title: "Write a review",
                                         onPressed: () {
                                           showModalBottomSheet(
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(12),
-                                                  topRight: Radius.circular(12),
-                                                ),
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
                                               ),
-                                              backgroundColor: Colors.white,
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                double rating = 0;
-                                                return Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        top: 12.0,
-                                                        right: 12.0,
-                                                        left: 12.0,
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          const Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 2.0,
-                                                                    right:
-                                                                        12.0),
-                                                            child: Icon(
-                                                              Icons.menu,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
+                                            ),
+                                            backgroundColor: Colors.white,
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              double rating = 0;
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      top: 12.0,
+                                                      right: 12.0,
+                                                      left: 12.0,
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 2.0,
+                                                                  right: 12.0),
+                                                          child: Icon(
+                                                            Icons.menu,
+                                                            color: Colors.black,
                                                           ),
-                                                          const Text(
-                                                            "Write a Review",
-                                                            // style: newFontStyle2
-                                                            //     .copyWith(
-                                                            //   color: ThemeHelper
-                                                            //       .blue1,
-                                                            // ),
+                                                        ),
+                                                        const Text(
+                                                          "Write a Review",
+                                                        ),
+                                                        const Spacer(),
+                                                        IconButton(
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .cancel_outlined,
+                                                            color: Colors.black,
                                                           ),
-                                                          const Spacer(),
-                                                          IconButton(
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .cancel_outlined,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16.0,
+                                                            right: 16,
+                                                            top: 8,
+                                                            bottom: 16),
+                                                    child: Column(
+                                                      children: [
+                                                        const CustomText(
+                                                          title:
+                                                              "Rate the product",
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                        RatingBar.builder(
+                                                          unratedColor:
+                                                              Colors.grey,
+                                                          initialRating: rating,
+                                                          minRating: 0,
+                                                          direction:
+                                                              Axis.horizontal,
+                                                          itemPadding:
+                                                              const EdgeInsets
+                                                                  .all(6),
+                                                          itemCount: 5,
+                                                          itemSize: 50,
+                                                          itemBuilder:
+                                                              (context, _) =>
+                                                                  Icon(
+                                                            rating == 0
+                                                                ? Icons
+                                                                    .star_border_rounded
+                                                                : (rating >
+                                                                        _.toDouble()
+                                                                    ? Icons.star
+                                                                    : Icons.star_border_rounded),
+                                                            color: Colors.amber,
                                                           ),
-                                                        ],
+                                                          onRatingUpdate:
+                                                              (newrating) {
+                                                            rating = newrating;
+                                                          },
+                                                          tapOnlyMode: true,
+                                                        ),
+                                                        const CustomTextField1(
+                                                          title: "Comment",
+                                                          maxLines: 7,
+                                                          hintText:
+                                                              "Please write your comment here...",
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: CustomTextBtn2(
+                                                      onPressed: () {},
+                                                      width: 300,
+                                                      title: "Leave Review",
+                                                      textStyle:
+                                                          GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white,
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16.0,
-                                                              right: 16,
-                                                              top: 8,
-                                                              bottom: 16),
-                                                      child: Column(
-                                                        children: [
-                                                          const CustomText(
-                                                            title:
-                                                                "Rate the product",
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 12,
-                                                          ),
-                                                          RatingBar.builder(
-                                                            unratedColor:
-                                                                Colors.grey,
-                                                            initialRating:
-                                                                rating,
-                                                            minRating: 0,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            itemPadding:
-                                                                const EdgeInsets
-                                                                    .all(6),
-                                                            itemCount: 5,
-                                                            itemSize: 50,
-                                                            itemBuilder:
-                                                                (context, _) =>
-                                                                    Icon(
-                                                              rating == 0
-                                                                  ? Icons
-                                                                      .star_border_rounded
-                                                                  : (rating >
-                                                                          _
-                                                                              .toDouble()
-                                                                      ? Icons
-                                                                          .star
-                                                                      : Icons
-                                                                          .star_border_rounded),
-                                                              color:
-                                                                  Colors.amber,
-                                                            ),
-                                                            onRatingUpdate:
-                                                                (newrating) {
-                                                              rating =
-                                                                  newrating;
-                                                            },
-                                                            tapOnlyMode: true,
-                                                          ),
-                                                          const CustomTextField1(
-                                                            title: "Comment",
-                                                            maxLines: 7,
-                                                            hintText:
-                                                                "Please write your comment here...",
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: CustomTextBtn2(
-                                                        onPressed: () {},
-                                                        width: 300,
-                                                        title: "Leave Review",
-                                                        textStyle:
-                                                            GoogleFonts.inter(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    )
-                                                  ],
-                                                );
-                                              });
+                                                  )
+                                                ],
+                                              );
+                                            },
+                                          );
                                         },
                                         icon: Icons.edit,
                                         radius: 20,
                                         height: 10,
                                       )),
-                                    )
+                                    ),
                                 ],
                               ),
                               Padding(
@@ -448,7 +432,6 @@ class OrderDetailView extends StatelessWidget {
   Widget _customField1(String text1) {
     return CustomText(
       title: text1.toString(),
-      //style: newFontStyle5,
     );
   }
 
