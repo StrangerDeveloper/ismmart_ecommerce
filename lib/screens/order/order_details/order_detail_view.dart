@@ -321,15 +321,6 @@ class OrderDetailView extends StatelessWidget {
     );
   }
 
-  Widget _customField3(String text1) {
-    return CustomText(
-      title: text1,
-      // style: newFontStyle5.copyWith(
-      //   fontWeight: FontWeight.w200,
-      // ),
-    );
-  }
-
   Widget _status(String value) {
     Color color = statusColor(value);
     return Text(
