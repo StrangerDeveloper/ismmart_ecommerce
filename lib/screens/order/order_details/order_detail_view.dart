@@ -285,9 +285,12 @@ class OrderDetailView extends StatelessWidget {
                                                                 ? Icons
                                                                     .star_border_rounded
                                                                 : (rating >
-                                                                        _.toDouble()
-                                                                    ? Icons.star
-                                                                    : Icons.star_border_rounded),
+                                                                        _
+                                                                            .toDouble()
+                                                                    ? Icons
+                                                                        .star_rounded
+                                                                    : Icons
+                                                                        .star_border_rounded),
                                                             color: Colors.amber,
                                                           ),
                                                           onRatingUpdate:
