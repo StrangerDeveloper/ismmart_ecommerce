@@ -140,15 +140,6 @@ class OrderDetailView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // _status(viewModel
-                                  //         .orderItemModel
-                                  //         .value
-                                  //         .lineitems?[index]
-                                  //         .fulfilmentStatus ??
-                                  //     "status"),
-                                  // const SizedBox(
-                                  //   height: 8,
-                                  // ),
                                   Row(
                                     children: [
                                       CustomNetworkImage(
@@ -158,8 +149,6 @@ class OrderDetailView extends StatelessWidget {
                                                 .lineitems?[index].media ??
                                             'assets/images/image_not_found.png',
                                         shape: BoxShape.rectangle,
-                                        // assetsImage: const AssetImage(
-                                        //     'assets/images/image_not_found.png'),
                                       ),
                                       const SizedBox(
                                         width: 16,
