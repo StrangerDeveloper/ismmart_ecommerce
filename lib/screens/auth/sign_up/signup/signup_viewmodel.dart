@@ -2,54 +2,33 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
+import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 
 import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/global_variables.dart';
+import '../../../../helpers/urls.dart';
 import '../../../../widgets/pick_image.dart';
 import '../signup_methods/signup_mehods_viewmodel.dart';
 
-class SignUpScreen1ViewModel extends GetxController {
-  GlobalKey<FormState> signUpFormKey1 = GlobalKey<FormState>();
+class SignUpViewModel extends GetxController {
+  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController cnicController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  Rx<File> cnicFrontImage = File('').obs;
-  RxString cnicBackImage = ''.obs;
-  RxBool cnicFrontImageErrorVisibility = false.obs;
-  RxBool cnicBackImageErrorVisibility = false.obs;
-  RxMap<String, dynamic> body = <String, dynamic>{}.obs;
   RxBool obscurePassword = true.obs;
   RxBool obscureConfirmPassword = true.obs;
   Rxn phoneErrorText = Rxn<String>();
   RxString countryCode = '+92'.obs;
-  RxBool changeView = false.obs;
   RxBool isChecked = false.obs;
   FocusNode myfocus = FocusNode();
 
-  validatorPhoneNumber(String? value) {
-    if (GetUtils.isBlank(value)!) {
-      phoneErrorText.value = "Field is required";
-    } else if (value!.length > 16 || value.length < 7) {
-      phoneErrorText.value = "Incorrect Phone number";
-    } else {
-      phoneErrorText.value = null;
-    }
-  }
-
-  selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
-    final image = await PickImage().pickSingleImage();
-    if (image != null) {
-      imageVar.value = image.path;
-      imageVisibilityVar.value = false;
-    }
-  }
-
-  final SignupMehtodsViewModel _socialviewModel =
-      Get.put(SignupMehtodsViewModel());
+  final SignupMehtodViewModel _socialviewModel =
+      Get.put(SignupMehtodViewModel());
   String socialToken = '';
   @override
   void onReady() {
@@ -58,6 +37,8 @@ class SignUpScreen1ViewModel extends GetxController {
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;
     socialToken = _socialviewModel.socialToken.value;
+    print("====== social name ===${nameController.text}");
+    print("====== social name ===${_socialviewModel.socialName.value}");
 
     super.onReady();
   }
@@ -74,12 +55,9 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   List<http.MultipartFile> fileList = [];
-  void signUpStep1() async {
+  void signUp() async {
     fileList.clear();
-    if (signUpFormKey1.currentState?.validate() ??
-        false ||
-            cnicFrontImageErrorVisibility.value ||
-            cnicFrontImageErrorVisibility.value) {
+    if (signUpFormKey.currentState?.validate() ?? false) {
       if (isChecked.value == true) {
         String regex =
             r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
@@ -95,12 +73,10 @@ class SignUpScreen1ViewModel extends GetxController {
             "email": emailController.text,
             "gender": genderList[genderSelectedIndex.value],
             "cnic": cnicNo,
-            "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
-            "Socila":
-                "{ social[name]: ${_socialviewModel.socialPlatform.value}, 'social[token]': ${_socialviewModel.socialToken.value}   }",
-            'step': '1'
+            "social":
+                "{ social[name]: ${_socialviewModel.socialPlatform.value}, social[token]: ${_socialviewModel.socialToken.value}   }",
           };
         } else {
           param = {
@@ -108,22 +84,19 @@ class SignUpScreen1ViewModel extends GetxController {
             "email": emailController.text,
             "gender": genderList[genderSelectedIndex.value],
             "cnic": cnicNo,
-            "phone": countryCode.value + phoneNumberController.text,
+            // "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
-            'step': '1'
           };
         }
-        changeView.value = true;
-        body.value = param;
+        print(param);
         GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
-            .postMethodForImage(
-                url: "Urls.register", files: fileList, fields: param)
+            .postMethod(url: Urls.register, body: param)
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
             GlobalVariable.showLoader.value = false;
-            param.removeWhere((key, value) => value == "1");
+            Get.to(LogInView());
             // Get.to(() => SignUp2View(), arguments: param);
           } else {
             GlobalVariable.showLoader(false);
@@ -197,4 +170,14 @@ class SignUpScreen1ViewModel extends GetxController {
   TextEditingController genderController = TextEditingController();
   RxInt genderSelectedIndex = 0.obs;
   List genderList = ['Male', 'Female', 'Other'];
+
+  validatorPhoneNumber(String? value) {
+    if (GetUtils.isBlank(value)!) {
+      phoneErrorText.value = "Field is required";
+    } else if (value!.length > 16 || value.length < 7) {
+      phoneErrorText.value = "Incorrect Phone number";
+    } else {
+      phoneErrorText.value = null;
+    }
+  }
 }

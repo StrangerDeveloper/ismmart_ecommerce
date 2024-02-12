@@ -206,7 +206,7 @@ Widget customImageBtn(
         width: 1.5,
       ),
       backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      foregroundColor: AppColors.black3,
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
