@@ -100,7 +100,6 @@ class OrderDetailView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const SizedBox(width: 8),
             _customField2(
                 "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? "length"} Items"),
             Obx(
