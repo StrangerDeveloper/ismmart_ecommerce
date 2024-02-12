@@ -6,7 +6,7 @@ class ProductItem extends StatelessWidget {
   final String image;
   final String? discount;
   final String name;
-  final String category;
+  final String? category;
   final String price;
   final String? previousPrice;
   final String rating;
@@ -18,7 +18,7 @@ class ProductItem extends StatelessWidget {
     required this.image,
     this.discount,
     required this.name,
-    required this.category,
+    this.category,
     required this.price,
     this.previousPrice,
     required this.rating,
@@ -102,8 +102,8 @@ class ProductItem extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      category,
+                    child: category != null && category != '' ? Text(
+                      category!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -111,7 +111,7 @@ class ProductItem extends StatelessWidget {
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                       ),
-                    ),
+                    ) : const SizedBox(),
                   ),
                   Text(
                     price,
@@ -154,7 +154,7 @@ class ProductItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        '$reviews Reviews',
+                        reviews == 'null' ? '0 Reviews' : '$reviews Reviews',
                         style: const TextStyle(
                           fontSize: 10,
                         ),
