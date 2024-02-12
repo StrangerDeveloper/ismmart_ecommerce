@@ -43,7 +43,6 @@ class OrderDetailView extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: _buildOrderDetail(context),
                   ),
-                  //logInBtn(),
                 ],
               ),
             ),
@@ -55,43 +54,11 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget _buildOrderListFrame() {
-    // Map<String, String> statusTextMap = {
-    //   "Unfulfilled": "Unfulfilled Orders",
-    //   "Fulfilled": "Fulfilled Order List",
-    //   "Cancelled": "Cancelled Order List",
-    //   "Returned": "Returned Order List",
-    //   "In Transit": "In Transit Order List",
-    //   "Out for Delivery": "Out for Delivery",
-    //   "Delivered": "Delivered Order List",
-    //   "COD Verified": "COD Verified",
-    //   "Processing": "Processing",
-    //   "Shipped": "Shipped Order List",
-    //   "Failed": "Failed Order List",
-    //   "Paid": "Paid Order List",
-    //   "Refunded": "Refunded Order List",
-    //   "Partially Paid": "Partially Paid",
-    //   "Pending": "Pending Order List",
-    // };
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // CustomText(
-          //   title: statusTextMap[
-          //           viewModel.orderItemModel.value.fulfilmentStatus] ??
-          //       "sss",
-          //   style: const TextStyle(
-          //       //color: ThemeHelper.,
-          //       ),
-          // ),
-          // CustomImageView(
-          //   imagePath: ImageConstant.imgIconsArrowForward,
-          //   margin: EdgeInsets.only(
-          //     left: 8.adaptSize,
-          //     right: 8.adaptSize,
-          //   ),
-          // ),
           _customField2(
               "Order No ${viewModel.orderItemModel.value.orderId ?? "1234"}"),
           _customField1(
