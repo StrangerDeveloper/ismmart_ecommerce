@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/signup_mehods_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_heading_and_subheading_text.dart';
+import 'package:ismmart_ecommerce/widgets/custom_text.dart';
+import '../../../../helpers/app_routes.dart';
+import '../../../../helpers/theme_helper.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/loader_view.dart';
@@ -13,17 +18,14 @@ import '../signup/signup_view.dart';
 class SignUpMethodsView extends StatelessWidget {
   SignUpMethodsView({super.key});
 
-  final SignupMehtodsViewModel viewModel = Get.put(SignupMehtodsViewModel());
+  final SignupMehtodViewModel viewModel = Get.put(SignupMehtodViewModel());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
       child: Scaffold(
-        appBar: const CustomAppBar2(
-          title: 'Sign Up',
-          centerTitle: true,
-        ),
+        appBar: appbar(),
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -32,18 +34,18 @@ class SignUpMethodsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // SvgPicture.asset('assets/images/logo_circle.svg'),
-                  const CustomHeadingAndSubHeadingText(
-                      headingText: 'Get onboard!',
-                      subHeadingText: 'Create your account'
-                  ),
+                  logo(),
+                  getOnBaordHeading(),
                   signUpEmail(),
+                  signupNumber(),
                   orWidget(),
                   googleLogInBtn(),
                   // facebooklogInBtn(),
-                  //   if (Platform.isIOS) applelogInBtn(),
+                  if (Platform.isIOS) appleLogInBtn(),
                   const Spacer(),
-                  Align(alignment: Alignment.bottomCenter, child: doNotHaveAnAccount()),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: doNotHaveAnAccount()),
                 ],
               ),
             ),
@@ -62,8 +64,11 @@ class SignUpMethodsView extends StatelessWidget {
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Continue with email',
+              CustomText(
+                title: 'Continue with email',
+                color: Colors.white,
+                size: 14,
+                weight: FontWeight.w500,
               ),
               SizedBox(width: 4),
               Icon(
@@ -73,9 +78,7 @@ class SignUpMethodsView extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            Get.to(() => SignUp1View());
-            // Get.to(SignUp1View());
-            // Get.offNamed(Routes.dashboard);
+            Get.to(SignUpView());
             //
           },
         ));
@@ -83,29 +86,23 @@ class SignUpMethodsView extends StatelessWidget {
 
   Widget signupNumber() {
     return Padding(
-        padding: const EdgeInsets.only(top: 22),
+        padding: const EdgeInsets.only(top: 16),
         child: CustomTextBtn(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
           radius: 30,
           borderSide: const BorderSide(
-            color: Colors.black, // your color here
-            width: 1,
+            color: AppColors.kTextFieldBorderColor, // your color here
+            width: 1.5,
           ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Continue with phone number',
-              ),
-              SizedBox(width: 4),
-              Icon(
-                Icons.arrow_forward,
-                size: 20,
-              ),
-            ],
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          child: const CustomText(
+            title: 'Continue with phone Number',
+            color: AppColors.black3,
+            size: 14,
+            weight: FontWeight.w500,
           ),
           onPressed: () {
+            Get.toNamed(AppRoutes.signUpView);
             // Get.to(SignUp1View());
             // Get.offNamed(Routes.dashboard);
             //
@@ -143,10 +140,10 @@ class SignUpMethodsView extends StatelessWidget {
 
   Widget googleLogInBtn() {
     return customImageBtn(
-        title: 'Sign in with Gmail',
-        imagePath: 'assets/images/googleIcon.svg',
+        title: 'Sign Up with Gmail',
+        imagePath: 'assets/icons/google_logo.png',
         onPressed: () {
-          // viewModel.googleLogIn();
+          viewModel.googleLogIn();
         });
   }
 
@@ -165,7 +162,7 @@ class SignUpMethodsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/logo/apple_logo.png',
+              'assets/icons/apple_logo.png',
             ),
             const SizedBox(
               width: 5,
@@ -176,7 +173,7 @@ class SignUpMethodsView extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          // viewModel.appleSignin();
+          viewModel.appleSignin();
         },
       ),
     );
@@ -192,23 +189,48 @@ class SignUpMethodsView extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'Already have an account?',
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.grey2
-                )
-              ),
+                  text: 'Already have an account?',
+                  style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w400, color: AppColors.grey2)),
               TextSpan(
-                text: " Login",
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.black
-                )
-              )
+                  text: " Login",
+                  style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w700, color: AppColors.black))
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget logo() {
+    return Padding(
+      padding:
+          const EdgeInsets.only(left: 128.0, right: 128, top: 41, bottom: 41),
+      child: Container(
+        // color: Colors.green,
+
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(1.0),
+            child: Image.asset(
+              //semanticsLabel: 'My SVG Picture',
+              'assets/images/logo1.png',
+              //fit: BoxFit.fill,
+            )),
+      ),
+    );
+  }
+
+  PreferredSizeWidget appbar() {
+    return CustomAppBar2(
+      title: 'Sign Up',
+      titleTextStyle: ThemeHelper.textTheme.titleMedium,
+      centerTitle: true,
+    );
+  }
+
+  Widget getOnBaordHeading() {
+    return const CustomHeadingAndSubHeadingText(
+        headingText: 'Get onboard!', subHeadingText: 'Create your account');
   }
 }

@@ -200,7 +200,7 @@ Widget customImageBtn(
         width: 1.5,
       ),
       backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      foregroundColor: AppColors.black3,
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -245,16 +245,16 @@ class CustomIconBtn extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Icon(
-                icon,
-                color: enabled ? null : Colors.grey.shade400,
-                size: iconSize ?? 15,
-              )
-      ),
+          padding: const EdgeInsets.all(8),
+          child: Icon(
+            icon,
+            color: enabled ? null : Colors.grey.shade400,
+            size: iconSize ?? 15,
+          )),
     );
   }
 }
+
 //
 //FINAL VERSION...
 class CustomIconBtn2 extends StatelessWidget {
