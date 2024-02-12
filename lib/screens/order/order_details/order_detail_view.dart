@@ -283,8 +283,8 @@ class OrderDetailView extends StatelessWidget {
                                                             direction:
                                                                 Axis.horizontal,
                                                             itemPadding:
-                                                                EdgeInsets.all(
-                                                                    6),
+                                                                const EdgeInsets
+                                                                    .all(6),
                                                             itemCount: 5,
                                                             itemSize: 50,
                                                             itemBuilder:
@@ -318,18 +318,6 @@ class OrderDetailView extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
-                                                    //               .width *
-                                                    //           0.1,
-                                                    //       borderRadius: 8.h,
-                                                    //       backgroundColor:
-                                                    //           ThemeHelper.blue1,
-                                                    //       onPressed: () {
-                                                    //         Navigator.pop(
-                                                    //             context);
-                                                    //       },
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
                                                   ],
                                                 );
                                               });
