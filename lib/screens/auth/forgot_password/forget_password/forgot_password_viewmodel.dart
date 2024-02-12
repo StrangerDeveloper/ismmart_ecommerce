@@ -5,6 +5,7 @@ import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/common_function.dart';
 import '../../../../helpers/global_variables.dart';
 import '../../../../helpers/urls.dart';
+import '../otp_verification/otp_verification_view.dart';
 
 class ForgotPasswordViewModel extends GetxController {
   GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
@@ -13,8 +14,9 @@ class ForgotPasswordViewModel extends GetxController {
 
   @override
   void onReady() {
+    emailController.text = Get.arguments ?? "test@gmail.com";
+
     GlobalVariable.showLoader.value = false;
-    emailController.text = Get.arguments['email'] ?? "test@gmail.com";
 
     super.onReady();
   }
@@ -26,35 +28,38 @@ class ForgotPasswordViewModel extends GetxController {
     super.onClose();
   }
 
-  void sendBtn() async {
+  void forgotApi() async {
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
       try {
         Map<String, dynamic> param = {"email": emailController.text};
         GlobalVariable.showLoader.value = true;
         parsedJson = await ApiBaseHelper()
             .postMethod(url: Urls.forgetPassword, body: param);
-
         if (parsedJson['success'] == true) {
-          GlobalVariable.showLoader.value = false;
-          CommonFunction.showSnackBar(
-            title: "success",
-            message: "Reset Password Link send to your Email",
-          );
-          Future.delayed(const Duration(seconds: 3), () => Get.back());
+          gotoNextScreen();
         } else {
-          GlobalVariable.showLoader.value = false;
-          CommonFunction.showSnackBar(
-            title: "succErroress",
-            message: "${parsedJson['message']}",
-          );
+          error();
         }
       } catch (e) {
-        GlobalVariable.showLoader.value = false;
-        CommonFunction.showSnackBar(
-          title: "Error",
-          message: "${parsedJson['message']}",
-        );
+        error();
       }
     }
+  }
+
+  void gotoNextScreen() {
+    GlobalVariable.showLoader.value = false;
+    CommonFunction.showSnackBar(
+      title: "success",
+      message: "Reset Password Link send to your Email",
+    );
+    Get.to(() => OtpVerificationView(), arguments: emailController.text);
+  }
+
+  void error() {
+    GlobalVariable.showLoader.value = false;
+    CommonFunction.showSnackBar(
+      title: "Error",
+      message: "${parsedJson['message']}",
+    );
   }
 }

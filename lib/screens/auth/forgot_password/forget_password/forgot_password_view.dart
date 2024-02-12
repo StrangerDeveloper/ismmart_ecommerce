@@ -29,15 +29,18 @@ class ForgotPasswordView1 extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    logo(),
-                    headings(),
-                    emailTextField(),
-                    resetBtn(),
-                    remeberMe(),
-                  ],
+                child: Form(
+                  key: viewModel.forgotPasswordFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      logo(),
+                      headings(),
+                      emailTextField(),
+                      resetBtn(),
+                      remeberMe(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -63,10 +66,11 @@ class ForgotPasswordView1 extends StatelessWidget {
       hintText: 'Email  ',
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) {
-        return Validator.validateDefaultField(value,
-            errorMessage: "Required Email/Phone No");
-      },
+      // validator: (value) {
+      //   return Validator.validateEmail(
+      //     value,
+      //   );
+      // },
       keyboardType: TextInputType.emailAddress,
     );
   }
@@ -148,7 +152,8 @@ class ForgotPasswordView1 extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            Get.to(() => OtpVerificationView());
+            viewModel.forgotApi();
+
             // viewModel.signIn();
             //
           },

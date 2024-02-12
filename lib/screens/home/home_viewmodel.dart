@@ -42,7 +42,8 @@ class HomeViewModel extends GetxController {
   RxString minutes = '00'.obs;
   RxString seconds = '00'.obs;
   Timer? timer;
-  List<DiscountedProductModel> discountedProductList = <DiscountedProductModel>[].obs;
+  List<DiscountedProductModel> discountedProductList =
+      <DiscountedProductModel>[].obs;
 
   @override
   void onInit() {
@@ -65,7 +66,6 @@ class HomeViewModel extends GetxController {
     getCollections(0);
     getNews();
     getDiscount();
-
   }
 
   @override
@@ -141,7 +141,9 @@ class HomeViewModel extends GetxController {
 
   getDiscount() async {
     // GlobalVariable.showLoader.value = true;
-    await ApiBaseHelper().getMethod(url: Urls.getDiscountedProducts).then((parsedJson) {
+    await ApiBaseHelper()
+        .getMethod(url: Urls.getDiscountedProducts)
+        .then((parsedJson) {
       // GlobalVariable.showLoader.value = false;
       clearValues();
       if (parsedJson['success'] == true &&
@@ -149,7 +151,7 @@ class HomeViewModel extends GetxController {
         var data = parsedJson['data']['items'] as List;
         if (data.isNotEmpty) {
           discountModel?.value = DiscountModel.fromJson(data[0]);
-          if(discountModel?.value.sId != null){
+          if (discountModel?.value.sId != null) {
             getDiscountedProducts(discountModel!.value.sId!);
           }
           if (discountModel?.value.end != '') {
@@ -165,7 +167,7 @@ class HomeViewModel extends GetxController {
   getDiscountedProducts(String id) async {
     // GlobalVariable.showLoader.value = true;
     await ApiBaseHelper()
-        .getMethod(url: Urls.getDiscountedProducts+id)
+        .getMethod(url: Urls.getDiscountedProducts + id)
         .then((parsedJson) {
       // GlobalVariable.showLoader.value = false;
       clearValues();
@@ -226,9 +228,12 @@ class HomeViewModel extends GetxController {
     }
   }
 
-  String calculatePercentage(int index){
-    double percentage =  double.tryParse((discountedProductList[index].discount).toString()) ?? 0.0;
-    double price =  double.tryParse((discountedProductList[index].price).toString()) ?? 0.0;
+  String calculatePercentage(int index) {
+    double percentage =
+        double.tryParse((discountedProductList[index].discount).toString()) ??
+            0.0;
+    double price =
+        double.tryParse((discountedProductList[index].price).toString()) ?? 0.0;
     double finalPrice = price - (percentage * price);
     return finalPrice.toString();
   }

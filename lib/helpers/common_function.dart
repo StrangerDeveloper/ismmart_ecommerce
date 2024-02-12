@@ -134,7 +134,7 @@ class CommonFunction {
 
   static showSnackBar(
       {String? title, String? message, SnackPosition? position}) {
-    Color bgColor = AppColors.limeGreen;
+    Color bgColor = Colors.green;
     var icon = Icons.gpp_good_sharp;
     var titleNew = title;
 
@@ -145,7 +145,7 @@ class CommonFunction {
     }
 
     var messageNew = message;
-    
+
     Get.snackbar(titleNew!.capitalizeFirst!.toString(), messageNew.toString(),
         duration: const Duration(milliseconds: 1000),
         snackPosition: position ?? SnackPosition.TOP,

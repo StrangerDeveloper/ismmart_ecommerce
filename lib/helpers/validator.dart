@@ -198,7 +198,7 @@ class Validator {
     if (GetUtils.isBlank(value)!) {
       return "Password is Required";
     } else if (GetUtils.isLengthLessThan(value, 8)) {
-      return "atleast 8 character";
+      return "Atleast 8 character";
     } else {
       return null;
     }
