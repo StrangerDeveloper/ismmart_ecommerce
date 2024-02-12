@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 
 import '../../../helpers/global_variables.dart';
 import '../order_listing/order_listing_Model.dart';
 
 class OrderDetailViewModel extends GetxController {
+  Rx<File> userProfileImage = File('').obs;
   Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<Lineitem> lineItemList = <Lineitem>[].obs;
 
