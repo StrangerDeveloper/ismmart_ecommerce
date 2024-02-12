@@ -314,10 +314,6 @@ class OrderDetailView extends StatelessWidget {
         fontWeight: FontWeight.bold,
         fontSize: 15,
       ),
-      // style: newFontStyleSize12Grey2.copyWith(
-      //   color: newColorLightGrey3,
-      //   fontWeight: FontWeight.w600,
-      // ),
     );
   }
 
