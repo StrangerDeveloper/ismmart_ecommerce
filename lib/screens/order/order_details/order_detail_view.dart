@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_viewModel.dart';
 
+import '../../../screens/order/order_details/order_detail_viewModel.dart';
 import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';
@@ -208,7 +208,7 @@ class OrderDetailView extends StatelessWidget {
                                               backgroundColor: Colors.white,
                                               context: context,
                                               builder: (BuildContext context) {
-                                                double _rating = 0;
+                                                double rating = 0;
                                                 return Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -278,7 +278,7 @@ class OrderDetailView extends StatelessWidget {
                                                             unratedColor:
                                                                 Colors.grey,
                                                             initialRating:
-                                                                _rating,
+                                                                rating,
                                                             minRating: 0,
                                                             direction:
                                                                 Axis.horizontal,
@@ -290,10 +290,10 @@ class OrderDetailView extends StatelessWidget {
                                                             itemBuilder:
                                                                 (context, _) =>
                                                                     Icon(
-                                                              _rating == 0
+                                                              rating == 0
                                                                   ? Icons
                                                                       .star_border_rounded
-                                                                  : (_rating >
+                                                                  : (rating >
                                                                           _
                                                                               .toDouble()
                                                                       ? Icons
@@ -305,7 +305,7 @@ class OrderDetailView extends StatelessWidget {
                                                             ),
                                                             onRatingUpdate:
                                                                 (rating) {
-                                                              _rating = rating;
+                                                              rating = rating;
                                                             },
                                                             tapOnlyMode: true,
                                                           ),
