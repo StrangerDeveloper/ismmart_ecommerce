@@ -1,8 +1,9 @@
 class DiscountedProductModel {
+  String? name;
   String? sId;
   Store? store;
   int? totalReviews;
-  double? rating;
+  num? rating;
   int? quantity;
   bool? inStock;
   num? price;
@@ -11,6 +12,7 @@ class DiscountedProductModel {
 
   DiscountedProductModel(
       {this.sId,
+        this.name,
         this.store,
         this.totalReviews,
         this.rating,
@@ -21,6 +23,7 @@ class DiscountedProductModel {
         this.image});
 
   DiscountedProductModel.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
     sId = json['_id'];
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
     totalReviews = json['totalReviews'];
@@ -37,6 +40,7 @@ class DiscountedProductModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['name'] = this.name;
     if (this.store != null) {
       data['store'] = this.store!.toJson();
     }
