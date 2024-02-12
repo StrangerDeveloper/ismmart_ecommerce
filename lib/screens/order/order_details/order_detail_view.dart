@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../screens/order/order_details/order_detail_viewModel.dart';
@@ -304,8 +305,9 @@ class OrderDetailView extends StatelessWidget {
                                                                   Colors.amber,
                                                             ),
                                                             onRatingUpdate:
-                                                                (rating) {
-                                                              rating = rating;
+                                                                (newrating) {
+                                                              rating =
+                                                                  newrating;
                                                             },
                                                             tapOnlyMode: true,
                                                           ),
@@ -318,6 +320,23 @@ class OrderDetailView extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: CustomTextBtn2(
+                                                        onPressed: () {},
+                                                        width: 300,
+                                                        title: "Leave Review",
+                                                        textStyle:
+                                                            GoogleFonts.inter(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                    )
                                                   ],
                                                 );
                                               });
