@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
+import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
+import '../../../helpers/urls.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -46,36 +50,32 @@ class LogInViewModel extends GetxController {
       GlobalVariable.showLoader.value = true;
 
       ApiBaseHelper()
-          .postMethod(url: "Urls.login", body: param)
+          .postMethod(url: Urls.login, body: param)
           .then((parsedJson) async {
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
-          print(parsedJson['data']['token']);
-          GetStorage().write('token', parsedJson['data']['token']);
-          GetStorage().write('status', parsedJson['data']['status']);
           GlobalVariable.token = parsedJson['data']['token'];
-          String status = parsedJson['data']['status'] ?? "";
-          accountStatusCheck(status, emailController.text);
+          Get.offAll(() => BottomNavigationView());
         } else if (parsedJson['message'] == 'Invalid credentials') {
-          // AppConstant.displaySnackBar(
-          //   "Error",
-          //   "Wrong Credential",
-          // );
+          CommonFunction.showSnackBar(
+            title: "Error",
+            message: "Wrong Credential",
+          );
 
           GlobalVariable.showLoader.value = false;
         } else {
-          // AppConstant.displaySnackBar(
-          //   "Error",
-          //   parsedJson['message'],
-          // );
+          CommonFunction.showSnackBar(
+            title: "Error",
+            message: parsedJson['message'],
+          );
 
           GlobalVariable.showLoader.value = false;
         }
       }).catchError((e) {
-        // AppConstant.displaySnackBar(
-        //   "Error",
-        //   e.toString(),
-        // );
+        CommonFunction.showSnackBar(
+          title: "Error",
+          message: e.toString(),
+        );
         GlobalVariable.showLoader.value = false;
       });
     }
@@ -107,15 +107,11 @@ class LogInViewModel extends GetxController {
           }
         };
         print(credential);
-        print(value);
 
         await ApiBaseHelper()
-            .postMethod(url: "Urls.login", body: param)
+            .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
-            String status = parsedJson['data']['status'] ?? "";
-            accountStatusCheck(status, emailController.text);
-            GlobalVariable.showLoader.value = false;
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
           } else {
@@ -137,78 +133,52 @@ class LogInViewModel extends GetxController {
   }
 
   appleSignin() async {
-    // if (Platform.isIOS) {
-    //   final appleCredential = await SignInWithApple.getAppleIDCredential(
-    //     scopes: [
-    //       AppleIDAuthorizationScopes.email,
-    //       AppleIDAuthorizationScopes.fullName,
-    //       AppleIDAuthorizationScopes.values[0],
-    //     ],
-    //   );
-    //   appleCredential.state;
-    //
-    //   try {
-    //     Map<dynamic, dynamic> param = {
-    //       "social": {
-    //         "name": "Apple",
-    //         "token": '${appleCredential.identityToken}',
-    //       }
-    //     };
-    //
-    //     await ApiBaseHelper()
-    //         .postMethod(url: " Urls.login", body: param)
-    //         .then((parsedJson) {
-    //       if (parsedJson['success'] == true) {
-    //         String status = parsedJson['data']['status'] ?? "";
-    //         accountStatusCheck(status, emailController.text);
-    //         GlobalVariable.showLoader.value = false;
-    //         GlobalVariable.token = parsedJson['data']['token'];
-    //         GlobalVariable.showLoader.value = false;
-    //       } else {
-    //         GlobalVariable.showLoader.value = false;
-    //         // AppConstant.displaySnackBar(
-    //         //   "Error",
-    //         //   'Account not found',
-    //         // );
-    //       }
-    //     });
-    //   } catch (error) {
-    //     GlobalVariable.showLoader.value = false;
-    //   }
-    //
-    //   // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-    //   // after they have bee n validated with Apple (see `Integration` section for more information on how to do this)
-    // }
+    if (Platform.isIOS) {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+          AppleIDAuthorizationScopes.values[0],
+        ],
+      );
+      appleCredential.state;
+
+      try {
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Apple",
+            "token": '${appleCredential.identityToken}',
+          }
+        };
+
+        // await ApiBaseHelper()
+        //     .postMethod(url: " Urls.login", body: param)
+        //     .then((parsedJson) {
+        //   if (parsedJson['success'] == true) {
+        //     String status = parsedJson['data']['status'] ?? "";
+        //     accountStatusCheck(status, emailController.text);
+        //     GlobalVariable.showLoader.value = false;
+        //     GlobalVariable.token = parsedJson['data']['token'];
+        //     GlobalVariable.showLoader.value = false;
+        //   } else {
+        //     GlobalVariable.showLoader.value = false;
+        //     // AppConstant.displaySnackBar(
+        //     //   "Error",
+        //     //   'Account not found',
+        //     // );
+        //   }
+        // });
+      } catch (error) {
+        GlobalVariable.showLoader.value = false;
+      }
+
+      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+      // after they have bee n validated with Apple (see `Integration` section for more information on how to do this)
+    }
   }
 
   resetValues() {
     emailController.clear();
     passwordController.clear();
-  }
-
-  // ----------  Status Enums Check of Account-------
-  accountStatusCheck(String status, String email) {
-    // if (status == "Approved") {
-    //   Get.offAll(() => DrawerBottomBarView());
-    // } else if (status == "Rejected") {
-    //   var param = {
-    //     'status': 'Rejected',
-    //     'remarks': 'due to wrong id card',
-    //     'email': ''
-    //   };
-    //   Get.offAll(() => AccountStatusView(), arguments: param);
-    // } else if (status == "Pending") {
-    //   var param = {
-    //     'status': 'Pending',
-    //   };
-    //   Get.offAll(() => AccountStatusView(), arguments: param);
-    // } else if (status == "Not Verified") {
-    //   var param = {
-    //     'status': 'Not Verified',
-    //     'remarks': 'due to verify by your Gmail / Email Account',
-    //     'email': email
-    //   };
-    //   Get.offAll(() => AccountStatusView(), arguments: param);
-    // }
   }
 }
