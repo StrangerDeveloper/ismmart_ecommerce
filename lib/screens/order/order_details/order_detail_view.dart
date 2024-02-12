@@ -99,9 +99,7 @@ class OrderDetailView extends StatelessWidget {
                     : 'status'),
               ],
             ),
-
             const SizedBox(height: 20),
-
             const SizedBox(width: 8),
             _customField2(
                 "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? "length"} Items"),
@@ -221,12 +219,10 @@ class OrderDetailView extends StatelessWidget {
                 },
               ),
             ),
-
             const SizedBox(
               height: 17,
             ),
             _customField2("Order Information"),
-            //const Divider(),
             Container(
               height: MediaQuery.of(ctx).size.height * 0.17,
               width: MediaQuery.of(ctx).size.width * 1,
@@ -240,8 +236,6 @@ class OrderDetailView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // _status(viewModel.orderItemModel.value.fulfilmentStatus ??
-                  //     "status"),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
