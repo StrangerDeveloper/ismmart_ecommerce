@@ -8,6 +8,7 @@ import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 //FINAL VERSION...
 class CustomTextBtn extends StatelessWidget {
   final String title;
+ 
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -59,7 +60,8 @@ class CustomTextBtn extends StatelessWidget {
       child: child ??
           Text(
             title,
-            style: textStyle ?? const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style: textStyle ??
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
     );
   }
@@ -108,7 +110,8 @@ class CustomTextBtn2 extends StatelessWidget {
           child: child ??
               Text(
                 title,
-                style: textStyle ?? const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                style: textStyle ??
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
         ),
       ),
@@ -119,6 +122,7 @@ class CustomTextBtn2 extends StatelessWidget {
 //FINAL VERSION...
 class CustomIconTextBtn extends StatelessWidget {
   final String title;
+   final Color? titleColor;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -144,7 +148,8 @@ class CustomIconTextBtn extends StatelessWidget {
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
-    required this.icon,
+    required this.icon, 
+    this.titleColor,
   });
 
   @override
@@ -173,11 +178,12 @@ class CustomIconTextBtn extends StatelessWidget {
             Icon(
               icon,
               size: 16,
+              color: titleColor,
             ),
             const Gap(8),
             CustomText(
               title: title,
-              color: Colors.white,
+              color: titleColor ?? AppColors.white,
             ),
           ],
         ),
@@ -245,16 +251,16 @@ class CustomIconBtn extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Icon(
-                icon,
-                color: enabled ? null : Colors.grey.shade400,
-                size: iconSize ?? 15,
-              )
-      ),
+          padding: const EdgeInsets.all(8),
+          child: Icon(
+            icon,
+            color: enabled ? null : Colors.grey.shade400,
+            size: iconSize ?? 15,
+          )),
     );
   }
 }
+
 //
 //FINAL VERSION...
 class CustomIconBtn2 extends StatelessWidget {
