@@ -218,7 +218,7 @@ class OrderDetailView extends StatelessWidget {
                                                     _buildRatingSection(rating),
                                                     _buildCommentSection(),
                                                     _buildPhotoSection(),
-                                                    buildLeaveReviewButton(),
+                                                    _buildLeaveReviewButton(),
                                                     const SizedBox(height: 20)
                                                   ],
                                                 ),
@@ -368,7 +368,6 @@ class OrderDetailView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16, top: 8, bottom: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CustomText(
             title: "Rate the product",
@@ -398,39 +397,6 @@ class OrderDetailView extends StatelessWidget {
             },
             tapOnlyMode: true,
           ),
-          // const CustomTextField1(
-          //   title: "Comment",
-          //   maxLines: 7,
-          //   hintText: "Please write your comment here...",
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: Card(
-          //     color: Colors.white,
-          //     margin: const EdgeInsets.only(top: 16),
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(12.0),
-          //       child: Column(
-          //         children: [
-          //           Container(
-          //             padding: const EdgeInsets.all(16),
-          //             decoration: const BoxDecoration(
-          //               shape: BoxShape.circle,
-          //               color: Colors.black,
-          //             ),
-          //             child: const Icon(
-          //               Icons.camera_alt,
-          //               color: Colors.white,
-          //               size: 20,
-          //             ),
-          //           ),
-          //           const SizedBox(height: 8),
-          //           const CustomText(title: "Add your photos"),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
@@ -454,7 +420,6 @@ class OrderDetailView extends StatelessWidget {
         onTap: () {},
         child: Card(
           color: Colors.white,
-          //margin: const EdgeInsets.only(top: 16),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -481,7 +446,7 @@ class OrderDetailView extends StatelessWidget {
     );
   }
 
-  Widget buildLeaveReviewButton() {
+  Widget _buildLeaveReviewButton() {
     return Align(
       alignment: Alignment.center,
       child: CustomTextBtn2(
