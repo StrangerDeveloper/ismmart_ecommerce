@@ -90,23 +90,6 @@ class OrderDetailView extends StatelessWidget {
                   children: [
                     _customField2(
                         "Tracking Number: ${viewModel.orderItemModel.value.orderId ?? "TN"}"),
-                    // _customField2(
-                    //   DateFormat("y MMM d").format(
-                    //     DateTime.parse(
-                    //         viewModel.orderItemModel.value.createdAt ?? "now"),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    //   child: Icon(
-                    //     Icons.circle,
-                    //     color: Colors.grey.shade400,
-                    //     size: 5,
-                    //   ),
-                    // ),
-                    // _customField2(
-                    //     "${DateFormat("y MMM d").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))}"),
-                    // SizedBox(width: 8),
                   ],
                 ),
                 _customField2(viewModel
@@ -116,19 +99,7 @@ class OrderDetailView extends StatelessWidget {
                     : 'status'),
               ],
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       _customField1(viewModel.orderItemModel.value.customer?.name
-            //               .toString() ??
-            //           "name"),
-            //       _customField1(
-            //           "Rs. ${viewModel.orderItemModel.value.totals?.total?.toStringAsFixed(2) ?? "total"}"),
-            //     ],
-            //   ),
-            // ),
+
             // Row(
             //   children: [
             //     _status(
