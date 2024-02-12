@@ -209,121 +209,19 @@ class OrderDetailView extends StatelessWidget {
                                             context: context,
                                             builder: (BuildContext context) {
                                               double rating = 0;
-                                              return Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      top: 12.0,
-                                                      right: 12.0,
-                                                      left: 12.0,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 2.0,
-                                                                  right: 12.0),
-                                                          child: Icon(
-                                                            Icons.menu,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        const Text(
-                                                          "Write a Review",
-                                                        ),
-                                                        const Spacer(),
-                                                        IconButton(
-                                                          icon: const Icon(
-                                                            Icons
-                                                                .cancel_outlined,
-                                                            color: Colors.black,
-                                                          ),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 16.0,
-                                                            right: 16,
-                                                            top: 8,
-                                                            bottom: 16),
-                                                    child: Column(
-                                                      children: [
-                                                        const CustomText(
-                                                          title:
-                                                              "Rate the product",
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 12,
-                                                        ),
-                                                        RatingBar.builder(
-                                                          unratedColor:
-                                                              Colors.grey,
-                                                          initialRating: rating,
-                                                          minRating: 0,
-                                                          direction:
-                                                              Axis.horizontal,
-                                                          itemPadding:
-                                                              const EdgeInsets
-                                                                  .all(6),
-                                                          itemCount: 5,
-                                                          itemSize: 50,
-                                                          itemBuilder:
-                                                              (context, _) =>
-                                                                  Icon(
-                                                            rating == 0
-                                                                ? Icons
-                                                                    .star_border_rounded
-                                                                : (rating >
-                                                                        _
-                                                                            .toDouble()
-                                                                    ? Icons
-                                                                        .star_rounded
-                                                                    : Icons
-                                                                        .star_border_rounded),
-                                                            color: Colors.amber,
-                                                          ),
-                                                          onRatingUpdate:
-                                                              (newrating) {
-                                                            rating = newrating;
-                                                          },
-                                                          tapOnlyMode: true,
-                                                        ),
-                                                        const CustomTextField1(
-                                                          title: "Comment",
-                                                          maxLines: 7,
-                                                          hintText:
-                                                              "Please write your comment here...",
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment: Alignment.center,
-                                                    child: CustomTextBtn2(
-                                                      onPressed: () {},
-                                                      width: 300,
-                                                      title: "Leave Review",
-                                                      textStyle:
-                                                          GoogleFonts.inter(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
+                                              return SingleChildScrollView(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    _buildHeader(context),
+                                                    _buildRatingSection(rating),
+                                                    _buildCommentSection(),
+                                                    _buildPhotoSection(),
+                                                    buildLeaveReviewButton(),
+                                                    const SizedBox(height: 20)
+                                                  ],
+                                                ),
                                               );
                                             },
                                           );
@@ -427,6 +325,173 @@ class OrderDetailView extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 12.0,
+        right: 12.0,
+        left: 12.0,
+      ),
+      child: Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 2.0, right: 12.0),
+            child: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+          ),
+          const Text(
+            "Write a Review",
+          ),
+          const Spacer(),
+          IconButton(
+            icon: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRatingSection(double rating) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16, top: 8, bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CustomText(
+            title: "Rate the product",
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          RatingBar.builder(
+            unratedColor: Colors.grey,
+            initialRating: rating,
+            minRating: 0,
+            direction: Axis.horizontal,
+            itemPadding: const EdgeInsets.all(6),
+            itemCount: 5,
+            itemSize: 50,
+            itemBuilder: (context, _) => Icon(
+              rating == 0
+                  ? Icons.star_border_rounded
+                  : (rating > _.toDouble()
+                      ? Icons.star_rounded
+                      : Icons.star_border_rounded),
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (newrating) {
+              rating = newrating;
+            },
+            tapOnlyMode: true,
+          ),
+          // const CustomTextField1(
+          //   title: "Comment",
+          //   maxLines: 7,
+          //   hintText: "Please write your comment here...",
+          // ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Card(
+          //     color: Colors.white,
+          //     margin: const EdgeInsets.only(top: 16),
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(12.0),
+          //       child: Column(
+          //         children: [
+          //           Container(
+          //             padding: const EdgeInsets.all(16),
+          //             decoration: const BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               color: Colors.black,
+          //             ),
+          //             child: const Icon(
+          //               Icons.camera_alt,
+          //               color: Colors.white,
+          //               size: 20,
+          //             ),
+          //           ),
+          //           const SizedBox(height: 8),
+          //           const CustomText(title: "Add your photos"),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCommentSection() {
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
+      child: CustomTextField1(
+        title: "Comment",
+        maxLines: 7,
+        hintText: "Please write your comment here...",
+      ),
+    );
+  }
+
+  Widget _buildPhotoSection() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: InkWell(
+        onTap: () {},
+        child: Card(
+          color: Colors.white,
+          //margin: const EdgeInsets.only(top: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                  ),
+                  child: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const CustomText(title: "Add your photos"),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLeaveReviewButton() {
+    return Align(
+      alignment: Alignment.center,
+      child: CustomTextBtn2(
+        onPressed: () {},
+        width: 300,
+        title: "Leave Review",
+        textStyle: GoogleFonts.inter(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
         ),
       ),
     );
