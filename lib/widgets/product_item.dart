@@ -11,6 +11,7 @@ class ProductItem extends StatelessWidget {
   final String? previousPrice;
   final String rating;
   final String reviews;
+  final bool displayFavIcon;
 
   const ProductItem({
     super.key,
@@ -23,6 +24,7 @@ class ProductItem extends StatelessWidget {
     required this.rating,
     required this.reviews,
     this.onTap,
+    this.displayFavIcon = true
   });
 
   @override
@@ -50,6 +52,7 @@ class ProductItem extends StatelessWidget {
               children: [
                 CustomNetworkImage(
                   height: 130,
+                  boxFit: BoxFit.fill,
                   imageUrl: image,
                 ),
                 discount != null
@@ -71,7 +74,7 @@ class ProductItem extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-                Positioned(
+                displayFavIcon ? Positioned(
                   top: 1,
                   left: 1,
                   child: IconButton(
@@ -81,7 +84,7 @@ class ProductItem extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                )
+                ) : const SizedBox()
               ],
             ),
             Padding(

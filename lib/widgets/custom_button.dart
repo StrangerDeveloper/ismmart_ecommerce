@@ -19,6 +19,7 @@ class CustomTextBtn extends StatelessWidget {
   final MaterialTapTargetSize? tapTargetSize;
   final OutlinedBorder? shape;
   final BorderSide borderSide;
+  final TextStyle? textStyle;
 
   const CustomTextBtn({
     super.key,
@@ -26,12 +27,13 @@ class CustomTextBtn extends StatelessWidget {
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = AppColors.black,
+    this.backgroundColor = Colors.black,
     this.foregroundColor = Colors.white,
     this.child,
     this.radius = 8,
     this.padding,
     this.tapTargetSize,
+    this.textStyle,
     this.borderSide = BorderSide.none,
     this.shape,
   });
@@ -45,7 +47,7 @@ class CustomTextBtn extends StatelessWidget {
         tapTargetSize: tapTargetSize,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
-        minimumSize: Size(width, height),
+        // minimumSize: Size(width, height),
         side: borderSide,
         shape: (shape != null)
             ? shape
@@ -57,8 +59,59 @@ class CustomTextBtn extends StatelessWidget {
       child: child ??
           Text(
             title,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style: textStyle ?? const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
+    );
+  }
+}
+
+class CustomTextBtn2 extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  final Color? backgroundColor;
+  final double height;
+  final double width;
+  final Widget? child;
+  final double radius;
+  final EdgeInsetsGeometry? padding;
+  final BoxShape? shape;
+  final TextStyle? textStyle;
+
+  const CustomTextBtn2({
+    super.key,
+    this.height = 40,
+    this.title = "",
+    this.width = double.infinity,
+    required this.onPressed,
+    this.backgroundColor = AppColors.black,
+    this.child,
+    this.radius = 8,
+    this.padding,
+    this.textStyle,
+    this.shape,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        shape: shape ?? BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(radius),
+        color: backgroundColor,
+      ),
+      padding: padding,
+      child: InkWell(
+        onTap: onPressed,
+        child: Center(
+          child: child ??
+              Text(
+                title,
+                style: textStyle ?? const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+        ),
+      ),
     );
   }
 }
@@ -84,7 +137,7 @@ class CustomIconTextBtn extends StatelessWidget {
     required this.title,
     this.width = double.minPositive,
     required this.onPressed,
-    this.backgroundColor = AppColors.primary,
+    this.backgroundColor = Colors.black,
     this.foregroundColor = Colors.white,
     this.radius = 8,
     this.padding,
@@ -124,7 +177,7 @@ class CustomIconTextBtn extends StatelessWidget {
             const Gap(8),
             CustomText(
               title: title,
-              size: 10,
+              color: Colors.white,
             ),
           ],
         ),
