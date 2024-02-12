@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_viewModel.dart';
@@ -9,6 +10,7 @@ import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text.dart';
+import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/loader_view.dart';
 
 class OrderDetailView extends StatelessWidget {
@@ -194,7 +196,169 @@ class OrderDetailView extends StatelessWidget {
                                       ),
                                       child: (CustomIconTextBtn(
                                         title: "Write a review",
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(12),
+                                                  topRight: Radius.circular(12),
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.white,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                double _rating = 0;
+                                                return Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 12.0,
+                                                        right: 12.0,
+                                                        left: 12.0,
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          const Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 2.0,
+                                                                    right:
+                                                                        12.0),
+                                                            child: Icon(
+                                                              Icons.menu,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                          const Text(
+                                                            "Write a Review",
+                                                            // style: newFontStyle2
+                                                            //     .copyWith(
+                                                            //   color: ThemeHelper
+                                                            //       .blue1,
+                                                            // ),
+                                                          ),
+                                                          const Spacer(),
+                                                          IconButton(
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .cancel_outlined,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 16.0,
+                                                              right: 16,
+                                                              top: 8,
+                                                              bottom: 16),
+                                                      child: Column(
+                                                        children: [
+                                                          const CustomText(
+                                                            title:
+                                                                "Rate the product",
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 12,
+                                                          ),
+                                                          RatingBar.builder(
+                                                            unratedColor:
+                                                                Colors.grey,
+                                                            initialRating:
+                                                                _rating,
+                                                            minRating: 0,
+                                                            direction:
+                                                                Axis.horizontal,
+                                                            itemPadding:
+                                                                EdgeInsets.all(
+                                                                    6),
+                                                            itemCount: 5,
+                                                            itemSize: 50,
+                                                            itemBuilder:
+                                                                (context, _) =>
+                                                                    Icon(
+                                                              _rating == 0
+                                                                  ? Icons
+                                                                      .star_border_rounded
+                                                                  : (_rating >
+                                                                          _
+                                                                              .toDouble()
+                                                                      ? Icons
+                                                                          .star
+                                                                      : Icons
+                                                                          .star_border_rounded),
+                                                              color:
+                                                                  Colors.amber,
+                                                            ),
+                                                            onRatingUpdate:
+                                                                (rating) {
+                                                              _rating = rating;
+                                                            },
+                                                            tapOnlyMode: true,
+                                                          ),
+                                                          const CustomTextField1(
+                                                            title: "Comment",
+                                                            maxLines: 7,
+                                                            hintText:
+                                                                "Please write your comment here...",
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    // Expanded(
+                                                    //   child:
+                                                    //       SingleChildScrollView(
+                                                    //     child:
+                                                    //         _buildBottomSheetContent(),
+                                                    //   ),
+                                                    // ),
+                                                    // Align(
+                                                    //   alignment:
+                                                    //       Alignment.bottomRight,
+                                                    //   child: Padding(
+                                                    //     padding:
+                                                    //         const EdgeInsets
+                                                    //             .only(
+                                                    //             left: 16.0,
+                                                    //             right: 16,
+                                                    //             top: 8,
+                                                    //             bottom: 16),
+                                                    //     child:
+                                                    //         CustomRoundedTextBtn(
+                                                    //       title: "Post",
+                                                    //       height: 48.v,
+                                                    //       width: MediaQuery.of(
+                                                    //                   context)
+                                                    //               .size
+                                                    //               .width *
+                                                    //           0.1,
+                                                    //       borderRadius: 8.h,
+                                                    //       backgroundColor:
+                                                    //           ThemeHelper.blue1,
+                                                    //       onPressed: () {
+                                                    //         Navigator.pop(
+                                                    //             context);
+                                                    //       },
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                );
+                                              });
+                                        },
                                         icon: Icons.edit,
                                         radius: 20,
                                         height: 10,
