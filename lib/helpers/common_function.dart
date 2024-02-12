@@ -15,6 +15,8 @@ class CommonFunction {
   static final Debouncer debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
 
+
+
   // static DateTime convertStringToDate(String stringDate) {
   //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
   // }
