@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
-import 'package:ismmart_ecommerce/screens/home/collection_model.dart';
+import 'package:ismmart_ecommerce/screens/home/model/collection_model.dart';
+import 'package:ismmart_ecommerce/screens/home/model/discount_model.dart';
+import 'package:ismmart_ecommerce/screens/home/model/discounted_product_model.dart';
+import 'package:ismmart_ecommerce/screens/home/model/news_model.dart';
 
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
@@ -29,6 +33,17 @@ class HomeViewModel extends GetxController {
   //Categories
   List<Children> categoriesList = <Children>[].obs;
 
+  //News
+  List<NewsModel> newsList = <NewsModel>[].obs;
+
+  //Discount
+  Rx<DiscountModel>? discountModel = DiscountModel().obs;
+  RxString hours = '00'.obs;
+  RxString minutes = '00'.obs;
+  RxString seconds = '00'.obs;
+  Timer? timer;
+  List<DiscountedProductModel> discountedProductList = <DiscountedProductModel>[].obs;
+
   @override
   void onInit() {
     mainScrollController = ScrollController()
@@ -48,10 +63,15 @@ class HomeViewModel extends GetxController {
   void onReady() {
     super.onReady();
     getCollections(0);
+    getNews();
+    getDiscount();
+
   }
 
   @override
   void onClose() {
+    carouselTimer.cancel();
+    timer?.cancel();
     carouselPageController.dispose();
     mainScrollController.dispose();
     super.onClose();
@@ -104,6 +124,66 @@ class HomeViewModel extends GetxController {
     });
   }
 
+  getNews() async {
+    // GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper().getMethod(url: Urls.getNews).then((parsedJson) {
+      // GlobalVariable.showLoader.value = false;
+      clearValues();
+      if (parsedJson['success'] == true &&
+          parsedJson['data']['items'] != null) {
+        var data = parsedJson['data']['items'] as List;
+        newsList.addAll(data.map((e) => NewsModel.fromJson(e)));
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
+  }
+
+  getDiscount() async {
+    // GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper().getMethod(url: Urls.getDiscountedProducts).then((parsedJson) {
+      // GlobalVariable.showLoader.value = false;
+      clearValues();
+      if (parsedJson['success'] == true &&
+          parsedJson['data']['items'] != null) {
+        var data = parsedJson['data']['items'] as List;
+        if (data.isNotEmpty) {
+          discountModel?.value = DiscountModel.fromJson(data[0]);
+          if(discountModel?.value.sId != null){
+            getDiscountedProducts(discountModel!.value.sId!);
+          }
+          if (discountModel?.value.end != '') {
+            startTimer(discountModel!.value.end!);
+          }
+        }
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
+  }
+
+  getDiscountedProducts(String id) async {
+    // GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper()
+        .getMethod(url: Urls.getDiscountedProducts+id)
+        .then((parsedJson) {
+      // GlobalVariable.showLoader.value = false;
+      clearValues();
+      if (parsedJson['success'] == true &&
+          parsedJson['data']['items'] != null) {
+        var data = parsedJson['data']['items'] as List;
+        if (data.isNotEmpty) {
+          discountModel?.value = DiscountModel.fromJson(data[0]);
+          if (discountModel?.value.end != '') {
+            startTimer(discountModel!.value.end!);
+          }
+        }
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
+  }
+
   animateCarousel() {
     carouselTimer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (carouselCurrentIndex.value < carouselList.length) {
@@ -120,5 +200,36 @@ class HomeViewModel extends GetxController {
         );
       }
     });
+  }
+
+  startTimer(String endTime) {
+    /// Calculate duration
+
+    DateTime dateTime =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(endTime).toLocal();
+    DateTime currentTime = DateTime.now();
+    int diffInSeconds = dateTime.difference(currentTime).inSeconds;
+
+    if (diffInSeconds > 0) {
+      Duration duration = Duration(seconds: diffInSeconds);
+      timer = Timer.periodic(const Duration(seconds: 1), (flashSaleTimer) {
+        duration = Duration(seconds: duration.inSeconds - 1);
+        String twoDigits(int n) => n.toString().padLeft(2, "0");
+        hours.value = twoDigits(duration.inHours);
+        minutes.value = twoDigits(duration.inMinutes.remainder(60));
+        seconds.value = twoDigits(duration.inSeconds.remainder(60));
+
+        if (duration.inSeconds == 0) {
+          flashSaleTimer.cancel();
+        }
+      });
+    }
+  }
+
+  String calculatePercentage(int index){
+    double percentage =  double.tryParse((discountedProductList[index].discount).toString()) ?? 0.0;
+    double price =  double.tryParse((discountedProductList[index].price).toString()) ?? 0.0;
+    double finalPrice = price - (percentage * price);
+    return finalPrice.toString();
   }
 }

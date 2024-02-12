@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
@@ -35,10 +36,15 @@ class HomeView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       child: Row(
                         children: [
-                          discountContainers(
-                            title: 'Free Shipping',
-                            description: 'on orders of Rs 5000',
-                            icon: Icons.local_shipping_rounded,
+                          Obx(
+                            () => viewModel.newsList.isNotEmpty
+                                ? discountContainers(
+                                    title: viewModel.newsList[0].name ?? '',
+                                    description:
+                                        viewModel.newsList[0].description ?? '',
+                                    icon: Icons.discount,
+                                  )
+                                : const SizedBox(),
                           ),
                           const SizedBox(width: 16),
                           discountContainers(
@@ -51,17 +57,32 @@ class HomeView extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        offOnOrders(
-                          title: 'RS 250 OFF',
-                          description: 'on orders of Rs 5000',
+                        Obx(
+                          () => viewModel.newsList.length > 1
+                              ? offOnOrders(
+                                  title: viewModel.newsList[1].name ?? '',
+                                  description:
+                                      viewModel.newsList[1].description ?? '',
+                                )
+                              : const SizedBox(),
                         ),
-                        offOnOrders(
-                          title: 'RS 500 OFF',
-                          description: 'on orders of Rs 8000',
+                        Obx(
+                          () => viewModel.newsList.length > 2
+                              ? offOnOrders(
+                                  title: viewModel.newsList[2].name ?? '',
+                                  description:
+                                      viewModel.newsList[2].description ?? '',
+                                )
+                              : const SizedBox(),
                         ),
-                        offOnOrders(
-                          title: 'RS 1000 OFF',
-                          description: 'on orders of Rs 10,000',
+                        Obx(
+                          () => viewModel.newsList.length > 3
+                              ? offOnOrders(
+                                  title: viewModel.newsList[3].name ?? '',
+                                  description:
+                                      viewModel.newsList[3].description ?? '',
+                                )
+                              : const SizedBox(),
                         ),
                       ],
                     ),
@@ -334,25 +355,33 @@ class HomeView extends StatelessWidget {
     required String description,
   }) {
     return Expanded(
-      child: Column(
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3),
+        child: Column(
+          children: [
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
-          Text(
-            description,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-            ),
-          )
-        ],
+            Text(
+              Bidi.stripHtmlIfNeeded(description),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -399,40 +428,59 @@ class HomeView extends StatelessWidget {
   }
 
   Widget flashSaleCountDown() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Electronics Deals',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
+    return Obx(
+      () => viewModel.discountModel?.value.name != null
+          ? Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          viewModel.discountModel?.value.name ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Text(
+                          'See All',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  'See All',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
+                  Obx(
+                    () => countDownItem(
+                      digit: viewModel.hours.value,
+                      unit: 'Hour',
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          countDownItem(digit: '13', unit: 'Hour'),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: countDownItem(digit: '34', unit: 'Min '),
-          ),
-          countDownItem(digit: '56', unit: 'Sec '),
-        ],
-      ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: countDownItem(
+                        digit: viewModel.minutes.value,
+                        unit: 'Min ',
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => countDownItem(
+                      digit: viewModel.seconds.value,
+                      unit: 'Sec ',
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -486,10 +534,10 @@ class HomeView extends StatelessWidget {
 
   Widget categoriesList() {
     return Obx(
-      () => SizedBox(
-        height: 280,
-        child: (viewModel.categoriesList.isNotEmpty)
-            ? GridView.builder(
+      () => (viewModel.categoriesList.isNotEmpty)
+          ? SizedBox(
+              height: 280,
+              child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
@@ -521,37 +569,46 @@ class HomeView extends StatelessWidget {
                     ],
                   );
                 },
-              )
-            : const SizedBox(),
-      ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
   Widget flashSaleProductList() {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 25,
-        childAspectRatio: 0.62,
-      ),
-      itemCount: viewModel.categoriesList.length,
-      itemBuilder: (context, index) {
-        return ProductItem(
-          onTap: () {},
-          image: '',
-          name: 'Product Name',
-          category: 'Category',
-          price: 'Rs 1000',
-          rating: '4.6',
-          reviews: '46',
-          previousPrice: 'Rs 1500',
-          discount: '10',
-        );
-      },
+    return Obx(
+      () => viewModel.discountedProductList.isNotEmpty
+          ? GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 25,
+                childAspectRatio: 0.62,
+              ),
+              itemCount: viewModel.discountedProductList.length,
+              itemBuilder: (context, index) {
+                return ProductItem(
+                  onTap: () {},
+                  image: viewModel.discountedProductList[index].image ?? '',
+                  name: viewModel.discountedProductList[index].image ?? '',
+                  category:
+                      viewModel.discountedProductList[index].store?.name ?? '',
+                  price:
+                      'Rs ${viewModel.discountedProductList[index].price ?? 0}',
+                  rating:
+                      '${viewModel.discountedProductList[index].rating ?? 0}',
+                  reviews:
+                      '${viewModel.discountedProductList[index].totalReviews ?? 0}',
+                  previousPrice: viewModel.calculatePercentage(index),
+                  discount:
+                      '${viewModel.discountedProductList[index].discount?.percentage ?? 0}',
+                );
+              },
+            )
+          : const SizedBox(),
     );
   }
 
