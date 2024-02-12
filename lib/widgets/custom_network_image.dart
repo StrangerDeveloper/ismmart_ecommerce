@@ -27,7 +27,7 @@ class CustomNetworkImage extends StatelessWidget {
       imageBuilder: (context, imageProvider) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: shape == BoxShape.rectangle ? BorderRadius.circular(radius) : null,
             shape: shape,
             image: DecorationImage(
               image: imageProvider,
@@ -39,7 +39,7 @@ class CustomNetworkImage extends StatelessWidget {
       errorWidget: (context, url, error) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: shape == BoxShape.rectangle ? BorderRadius.circular(radius) : null,
             shape: shape,
             image: DecorationImage(
               image: const AssetImage('assets/images/no_image_found.jpg'),

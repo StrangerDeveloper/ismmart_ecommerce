@@ -10,6 +10,7 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/loader_view.dart';
+import '../order_details/order_detail_view.dart';
 
 class OrderListingView extends StatelessWidget {
   OrderListingView({super.key, this.callingFor = 'All'});
@@ -47,12 +48,12 @@ class OrderListingView extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  // Get.to(
-                                  //   () => OrderDetailView(),
-                                  //   arguments: {
-                                  //     'model': viewModel.orderItemList[index],
-                                  //   },
-                                  // );
+                                  Get.to(
+                                    () => OrderDetailView(),
+                                    arguments: {
+                                      'model': viewModel.orderItemList[index],
+                                    },
+                                  );
                                 },
                                 child: _buildOrderCard(index),
                               );

@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
+import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_network_image.dart';
 import '../wishlist/wishlist_view.dart';
 
@@ -20,73 +23,104 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        controller: viewModel.mainScrollController,
-        slivers: [
-          appBar(),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                carousel(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  child: Row(
-                    children: [
-                      discountContainers(
-                        title: 'Free Shipping',
-                        description: 'on orders of Rs 5000',
-                        icon: Icons.local_shipping_rounded,
-                      ),
-                      const SizedBox(width: 16),
-                      discountContainers(
-                        title: 'FLASH SALE',
-                        description: 'Dont miss out!',
-                        icon: 'assets/images/sale_percent.svg',
-                      ),
-                    ],
-                  ),
+      body: Stack(
+        children: [
+          CustomScrollView(
+            controller: viewModel.mainScrollController,
+            slivers: [
+              appBar(),
+              // SliverList(
+              //   delegate: SliverChildListDelegate(
+              //     [
+              //       carousel(),
+              //       // Padding(
+              //       //   padding: const EdgeInsets.symmetric(vertical: 25),
+              //       //   child: Row(
+              //       //     children: [
+              //       //       Obx(
+              //       //         () => viewModel.newsList.isNotEmpty
+              //       //             ? discountContainers(
+              //       //                 title: viewModel.newsList[0].name ?? '',
+              //       //                 description:
+              //       //                     viewModel.newsList[0].description ?? '',
+              //       //                 icon: Icons.discount,
+              //       //               )
+              //       //             : const SizedBox(),
+              //       //       ),
+              //       //       const SizedBox(width: 16),
+              //       //       discountContainers(
+              //       //         title: 'FLASH SALE',
+              //       //         description: 'Dont miss out!',
+              //       //         icon: 'assets/images/sale_percent.svg',
+              //       //       ),
+              //       //     ],
+              //       //   ),
+              //       // ),
+              //       // Row(
+              //       //   children: [
+              //       //     Obx(
+              //       //       () => viewModel.newsList.length > 1
+              //       //           ? offOnOrders(
+              //       //               title: viewModel.newsList[1].name ?? '',
+              //       //               description:
+              //       //                   viewModel.newsList[1].description ?? '',
+              //       //             )
+              //       //           : const SizedBox(),
+              //       //     ),
+              //       //     Obx(
+              //       //       () => viewModel.newsList.length > 2
+              //       //           ? offOnOrders(
+              //       //               title: viewModel.newsList[2].name ?? '',
+              //       //               description:
+              //       //                   viewModel.newsList[2].description ?? '',
+              //       //             )
+              //       //           : const SizedBox(),
+              //       //     ),
+              //       //     Obx(
+              //       //       () => viewModel.newsList.length > 3
+              //       //           ? offOnOrders(
+              //       //               title: viewModel.newsList[3].name ?? '',
+              //       //               description:
+              //       //                   viewModel.newsList[3].description ?? '',
+              //       //             )
+              //       //           : const SizedBox(),
+              //       //     ),
+              //       //   ],
+              //       // ),
+              //       // promoCode(),
+              //       // bannerImage(),
+              //       // categoriesTitle(),
+              //       // categoriesList(),
+              //       // flashSaleCountDown(),
+              //       // flashSaleProductList(),
+              //       const Divider(),
+              //       // allProductList(),
+              //       Obx(
+              //         () => viewModel.paginationLoader.value
+              //             ? const Padding(
+              //                 padding: EdgeInsets.all(8.0),
+              //                 child: CustomCircularLoader(),
+              //               )
+              //             : const SizedBox(),
+              //       ),
+              //       const SizedBox(height: 80),
+              //     ],
+              //   ),
+              // ),
+              allProductList(),
+              Obx(
+                () => SliverToBoxAdapter(
+                  child: viewModel.paginationLoader.value
+                      ? const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CustomCircularLoader(),
+                        )
+                      : const SizedBox(),
                 ),
-                Row(
-                  children: [
-                    offOnOrders(
-                      title: 'RS 250 OFF',
-                      description: 'on orders of Rs 5000',
-                    ),
-                    offOnOrders(
-                      title: 'RS 500 OFF',
-                      description: 'on orders of Rs 8000',
-                    ),
-                    offOnOrders(
-                      title: 'RS 1000 OFF',
-                      description: 'on orders of Rs 10,000',
-                    ),
-                  ],
-                ),
-                promoCode(),
-                bottomBanner(),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      'Categories',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ),
-                categoriesCarousel(),
-                flashSaleCountDown(),
-                flashSaleProductList(),
-                seeAllItem(
-                  title: 'Trending Products',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 80),
-              ],
-            ),
+              ),
+            ],
           ),
+          const LoaderView(),
         ],
       ),
     );
@@ -121,7 +155,7 @@ class HomeView extends StatelessWidget {
           onPressed: () {},
           icon: const Icon(
             CupertinoIcons.search,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         title: const Text(
@@ -130,7 +164,7 @@ class HomeView extends StatelessWidget {
             fontSize: 20,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         actions: [
@@ -140,67 +174,122 @@ class HomeView extends StatelessWidget {
             },
             icon: const Icon(
               Icons.favorite_border_sharp,
-              // color: Colors.white,
+              color: Colors.black,
             ),
           ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.shopping_cart_outlined,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ],
-        flexibleSpace:
-            viewModel.isScrolled.value ? null : appBarBackgroundImage(),
+        // flexibleSpace:
+        //     viewModel.isScrolled.value ? null : appBarBackgroundImage(),
+        bottom: collectionsList(),
       ),
     );
   }
 
-  Widget carousel() {
-    return Obx(
-      () => SizedBox(
-        height: 200,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            PageView.builder(
-              controller: viewModel.pageController,
-              onPageChanged: (value) {
-                viewModel.currentPage.value = value;
-                viewModel.appBarImage.value = viewModel.bannersList[value];
-              },
-              itemCount: viewModel.bannersList.length,
-              itemBuilder: (context, index) {
-                return CustomNetworkImage(
-                  imageUrl: viewModel.bannersList[index],
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  viewModel.bannersList.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 400),
-                    height: 6.0,
-                    width: viewModel.currentPage.value == index ? 14 : 6,
-                    margin: const EdgeInsets.only(right: 3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: viewModel.currentPage.value == index
-                          ? Colors.black
-                          : Colors.grey,
+  PreferredSizeWidget? collectionsList() {
+    return viewModel.collectionList.isNotEmpty
+        ? PreferredSize(
+            preferredSize: const Size(double.infinity, 32),
+            child: SizedBox(
+              height: 32,
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 5),
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: viewModel.collectionList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: InkWell(
+                      onTap: () {
+                        viewModel.getCollections(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              viewModel.collectionCurrentIndex.value == index
+                                  ? const Border(
+                                      bottom: BorderSide(width: 2),
+                                    )
+                                  : null,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        alignment: Alignment.center,
+                        child: Text(
+                          viewModel.collectionList[index].name
+                                  ?.capitalizeFirst ??
+                              '',
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
-          ],
-        ),
-      ),
+          )
+        : null;
+  }
+
+  Widget carousel() {
+    return Obx(
+      () => viewModel.carouselList.isNotEmpty
+          ? SizedBox(
+              height: 200,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  PageView.builder(
+                    controller: viewModel.carouselPageController,
+                    onPageChanged: (value) {
+                      viewModel.carouselCurrentIndex.value = value;
+                      viewModel.appBarImage.value =
+                          viewModel.carouselList[value];
+                    },
+                    itemCount: viewModel.carouselList.length,
+                    itemBuilder: (context, index) {
+                      return CustomNetworkImage(
+                        imageUrl: viewModel.carouselList[index],
+                      );
+                    },
+                  ),
+                  if (viewModel.carouselList.length > 1)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          viewModel.carouselList.length,
+                          (index) => AnimatedContainer(
+                            duration: const Duration(milliseconds: 400),
+                            height: 6.0,
+                            width: viewModel.carouselCurrentIndex.value == index
+                                ? 14
+                                : 6,
+                            margin: const EdgeInsets.only(right: 3),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color:
+                                  viewModel.carouselCurrentIndex.value == index
+                                      ? Colors.black
+                                      : Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -239,9 +328,11 @@ class HomeView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Free Shipping',
-              style: TextStyle(
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -250,10 +341,12 @@ class HomeView extends StatelessWidget {
             const SizedBox(height: 2),
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'on orders of Rs 5000 ',
-                    style: TextStyle(
+                    description,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
                       color: Color(0xFFD9D9D9),
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
@@ -284,25 +377,33 @@ class HomeView extends StatelessWidget {
     required String description,
   }) {
     return Expanded(
-      child: Column(
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3),
+        child: Column(
+          children: [
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
-          Text(
-            description,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-            ),
-          )
-        ],
+            Text(
+              Bidi.stripHtmlIfNeeded(description),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -337,49 +438,71 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget bottomBanner() {
-    return const CustomNetworkImage(
-      height: 100,
-      imageUrl:
-          'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Widget bannerImage() {
+    return Obx(
+      () => viewModel.bannerImage.value != ''
+          ? CustomNetworkImage(
+              height: 100,
+              imageUrl: viewModel.bannerImage.value,
+            )
+          : const SizedBox(),
     );
   }
 
   Widget flashSaleCountDown() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Electronics Deals',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
+    return Obx(
+      () => viewModel.discountModel?.value.name != null
+          ? Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          viewModel.discountModel?.value.name ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const Text(
+                          'See All',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  'See All',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
+                  Obx(
+                    () => countDownItem(
+                      digit: viewModel.hours.value,
+                      unit: 'Hour',
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          countDownItem(digit: '13', unit: 'Hour'),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: countDownItem(digit: '34', unit: 'Min '),
-          ),
-          countDownItem(digit: '56', unit: 'Sec '),
-        ],
-      ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: countDownItem(
+                        digit: viewModel.minutes.value,
+                        unit: 'Min ',
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => countDownItem(
+                      digit: viewModel.seconds.value,
+                      unit: 'Sec ',
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -412,70 +535,104 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget categoriesCarousel() {
-    return SizedBox(
-      height: 280,
-      child: GridView.builder(
-        scrollDirection: Axis.horizontal,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 25,
-          childAspectRatio: 0.92,
-        ),
-        itemCount: viewModel.categoriesList.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Expanded(
-                child: CustomNetworkImage(
-                  imageUrl: viewModel.categoriesList[index],
-                  shape: BoxShape.circle,
+  Widget categoriesTitle() {
+    return Obx(
+      () => (viewModel.categoriesList.isNotEmpty)
+          ? const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Men',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Colors.black,
+            )
+          : const SizedBox(),
+    );
+  }
+
+  Widget categoriesList() {
+    return Obx(
+      () => (viewModel.categoriesList.isNotEmpty)
+          ? SizedBox(
+              height: 280,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 25,
+                  childAspectRatio: 0.92,
                 ),
-              )
-            ],
-          );
-        },
-      ),
+                itemCount: viewModel.categoriesList.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      const Expanded(
+                        child: CustomNetworkImage(
+                          imageUrl: '',
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        viewModel.categoriesList[index].name ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
   Widget flashSaleProductList() {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 25,
-        childAspectRatio: 0.62,
-      ),
-      itemCount: viewModel.categoriesList.length,
-      itemBuilder: (context, index) {
-        return ProductItem(
-          onTap: () {},
-          image: '',
-          name: 'Product Name',
-          category: 'Category',
-          price: 'Rs 1000',
-          rating: '4.6',
-          reviews: '46',
-          previousPrice: 'Rs 1500',
-          discount: '10',
-        );
-      },
+    return Obx(
+      () => viewModel.flashProductList.isNotEmpty
+          ? GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 25,
+                childAspectRatio: 0.62,
+              ),
+              itemCount: viewModel.flashProductList.length,
+              itemBuilder: (context, index) {
+                return ProductItem(
+                  onTap: () {},
+                  image: viewModel.flashProductList[index].image ?? '',
+                  name: viewModel.flashProductList[index].name ?? '',
+                  category: viewModel.flashProductList[index].store?.name ?? '',
+                  price: 'Rs ${viewModel.flashProductList[index].price ?? 0}',
+                  rating: '${viewModel.flashProductList[index].rating ?? 0}',
+                  reviews:
+                      '${viewModel.flashProductList[index].totalReviews ?? 0}',
+                  previousPrice: viewModel.calculatePercentage(index),
+                  discount:
+                      '${viewModel.flashProductList[index].discount?.percentage ?? 0}',
+                );
+              },
+            )
+          : const SizedBox(
+              height: 150,
+              child: Center(
+                child: Text('Discount Products Not available'),
+              ),
+            ),
     );
   }
 
@@ -505,6 +662,47 @@ class HomeView extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget allProductList() {
+    return Obx(
+      () => viewModel.allProductList.isNotEmpty
+          ? SliverGrid(
+              // padding: const EdgeInsets.symmetric(horizontal: 16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 25,
+                childAspectRatio: 0.62,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return ProductItem(
+                    onTap: () {},
+                    image: viewModel.allProductList[index].image ?? '',
+                    name: viewModel.allProductList[index].name ?? '',
+                    category: viewModel.allProductList[index].store?.name ?? '',
+                    price: 'Rs ${viewModel.allProductList[index].price ?? 0}',
+                    rating: '${viewModel.allProductList[index].rating ?? 0}',
+                    reviews:
+                        '${viewModel.allProductList[index].totalReviews ?? 0}',
+                    previousPrice: viewModel.calculatePercentage2(index),
+                    discount:
+                        '${viewModel.allProductList[index].discount?.percentage ?? 0}',
+                  );
+                },
+                childCount: viewModel.allProductList.length,
+              ),
+            )
+          : const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 150,
+                child: Center(
+                  child: Text('All Products Not available'),
+                ),
+              ),
+            ),
     );
   }
 }

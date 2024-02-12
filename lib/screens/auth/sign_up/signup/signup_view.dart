@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import '../../../../helpers/theme_helper.dart';
 import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_bottom_sheet.dart';
@@ -14,60 +16,45 @@ import '../../../../widgets/obscure_suffix_icon.dart';
 import '../../login/login_view.dart';
 import 'signup_viewmodel.dart';
 
-class SignUp1View extends StatelessWidget {
-  SignUp1View({super.key});
+class SignUpView extends StatelessWidget {
+  SignUpView({super.key});
 
-  final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
+  final SignUpViewModel viewModel = Get.put(SignUpViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(
-        title: 'Sign Up',
-        centerTitle: true,
-        containsLeading: true,
-      ),
+      appBar: appbar(),
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
           SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 40,),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: CustomHeadingAndSubHeadingText(
-                      headingText: 'Create Account',
-                      subHeadingText: 'Get onboard as a user',
-                    ),
+            child: Form(
+              key: viewModel.signUpFormKey,
+              child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    left: 25,
+                    right: 25,
                   ),
-                  Form(
-                    key: viewModel.signUpFormKey1,
-                    child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: Column(
-                            children: [
-                              nameField(),
-                              emailTextField(),
-                              phoneNumberTextField(),
-                              genderTextField(),
-                              cnicNumberField(),
-                              passwordTextField(),
-                              confirmPasswordTextField(),
-                              checkedStatement(),
-                              signUpInBtn(),
-                              alreadyHaveAnAccount()
-                              // SizedBox(height: 100)
-                            ]
-                        )
-                    ),
-                  ),
-                ]
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Gap(44),
+                        getOnBaordHeading(),
+                        nameField(),
+                        emailTextField(),
+                        Gap(15),
+                        // phoneNumberTextField(),
+                        genderTextField(),
+                        cnicNumberField(),
+                        passwordTextField(),
+                        confirmPasswordTextField(),
+                        checkedStatement(),
+                        signUpInBtn(),
+                        alreadyHaveAnAccount()
+                        // SizedBox(height: 100)
+                      ])),
             ),
           ),
           const LoaderView()
@@ -98,11 +85,12 @@ class SignUp1View extends StatelessWidget {
               const SizedBox(width: 10),
               SizedBox(
                 width: Get.width * 0.7,
-                child: const Text(
-                  'By creating your account you have to agree with our terms & conditions.',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                ),
+                child: Text(
+                    'By creating your account you have to agree with our terms & conditions.',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: ThemeHelper.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.grey2)),
               ),
             ],
           ),
@@ -281,7 +269,7 @@ class SignUp1View extends StatelessWidget {
 
   Widget signUpInBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32,bottom: 15),
+      padding: const EdgeInsets.only(top: 32, bottom: 15),
       child: CustomTextBtn(
         radius: 30,
         child: const Row(
@@ -298,8 +286,7 @@ class SignUp1View extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          viewModel.signUpStep1();
-          //  Get.to(SignUp2View());
+          viewModel.signUp();
         },
       ),
     );
@@ -315,25 +302,34 @@ class SignUp1View extends StatelessWidget {
             Get.off(() => LogInView());
           },
           child: RichText(
-            text: const TextSpan(
+            text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Already have an account?',
-                  style: TextStyle(
-                    color: AppColors.lightGrey,
-                  ),
-                ),
+                    text: 'Already have an account?',
+                    style: ThemeHelper.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.grey2)),
                 TextSpan(
-                  text: ' Sign In',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
+                    text: ' Sign In', style: ThemeHelper.textTheme.labelMedium),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget appbar() {
+    return CustomAppBar2(
+      title: 'Sign Up',
+      titleTextStyle: ThemeHelper.textTheme.titleMedium,
+      centerTitle: true,
+    );
+  }
+
+  Widget getOnBaordHeading() {
+    return const CustomHeadingAndSubHeadingText(
+      headingText: 'Create Account',
+      subHeadingText: 'Get onboard as a user',
     );
   }
 }

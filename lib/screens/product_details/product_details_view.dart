@@ -4,12 +4,14 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
+import 'package:ismmart_ecommerce/helpers/constants.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
+import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 import 'package:ismmart_ecommerce/widgets/custom_product_qty_counter.dart';
-import 'package:ismmart_ecommerce/widgets/review_item.dart';
+import 'package:ismmart_ecommerce/widgets/custom_profile_name_rating.dart';
 
 class ProductDetailsView extends StatelessWidget {
   ProductDetailsView({super.key});
@@ -19,6 +21,7 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: const CustomAppBar2(
         title: 'ISMMART',
         actions: [
@@ -40,51 +43,70 @@ class ProductDetailsView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              _carousel(),
-              _titlePrice(),
-              _variants(),
-              const Divider(
-                color: AppColors.black12,
-                height: 1,
-                indent: 10,
-              ),
-              _description(),
-              _tabs(),
-              
-              
-              Container(
-                height: 100,
-                key: viewModel.reviewsKey,
-                color: Colors.black,
-                child: const SizedBox(
-                  height: 100,
-                ),
-              ),
-
-              Container(
-                height: 100,
-                key: viewModel.vendorKey,
-                color: Colors.black,
-                child: const SizedBox(
-                  height: 100,
-                ),
-              ),
-              Container(
-                height: 100,
-                key: viewModel.similarProductKey,
-                color: Colors.green,
-                child: const SizedBox(
-                  height: 100,
-                ),
-              ),
+              carousel(),
+              titlePrice(),
+              variants(),
+              kSmallDivider,
+              description(),
+              tabs(),
+              reviewsAndRatings(),
+              kSmallDivider,
+              vendorStore(),
+              kSmallDivider,
+              peopleAlsoViewed(),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          ///height: 60,
+          color: AppColors.white38,
+          child: Container(
+            // alignment: Alignment.bottomCenter,
+            width: 200,
+            decoration: BoxDecoration(
+              //color: AppColors.yellow,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                  color: AppColors.blackShadow,
+                  blurRadius: 3,
+                  offset: Offset(0, 1),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            //color: AppColors.white,
+            child: Row(
+              children: [
+                CustomIconTextBtn(
+                    radius: 20,
+                    title: 'Add to Cart',
+                    onPressed: () {},
+                    icon: Icons.shopping_cart_outlined),
+                Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: AppColors.red700.withOpacity(0.22),
+                      shape: BoxShape.circle),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_border,
+                      color: AppColors.red700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _carousel() {
+  Widget carousel() {
     return SizedBox(
       height: Get.height * 0.35,
       child: Padding(
@@ -186,7 +208,7 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _titlePrice() {
+  Widget titlePrice() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
@@ -210,19 +232,13 @@ class ProductDetailsView extends StatelessWidget {
                 //Review section
                 Row(
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: AppColors.yellow,
-                      size: 16,
-                    ),
-                    Text(
-                      '4.6',
-                      style: ThemeHelper.textTheme.bodySmall,
-                    ),
-                    const Gap(8),
-                    Text(
-                      '86 Reviews',
-                      style: ThemeHelper.textTheme.bodySmall,
+                    starWithRatings(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        '86 Reviews',
+                        style: ThemeHelper.textTheme.bodySmall,
+                      ),
                     ),
                   ],
                 )
@@ -244,16 +260,32 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _variants() {
+  Widget starWithRatings() {
+    return Row(
+      children: [
+        const Icon(
+          Icons.star,
+          color: AppColors.yellow,
+          size: 16,
+        ),
+        Text(
+          '4.6',
+          style: ThemeHelper.textTheme.bodySmall,
+        ),
+      ],
+    );
+  }
+
+  Widget variants() {
     return Column(
       children: viewModel.variantsMap.entries
-          .map((element) => _variantsListItems(
+          .map((element) => variantsListItems(
               title: element.key, variantsList: element.value))
           .toList(),
     );
   }
 
-  Widget _variantsListItems({String? title, List<String>? variantsList}) {
+  Widget variantsListItems({String? title, List<String>? variantsList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -285,24 +317,34 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _description() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          'Description',
-          style: ThemeHelper.textTheme.titleSmall,
-        ),
-        Text(
-          AppStrings.productDetails,
-          maxLines: AppStrings.productDetails.length,
-        ),
-      ],
+  Widget description() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Description',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              AppStrings.productDetails,
+              textAlign: TextAlign.justify,
+              maxLines: AppStrings.productDetails.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _tabs() {
+  Widget tabs() {
     return DefaultTabController(
         length: 3,
         child: TabBar(
@@ -335,21 +377,102 @@ class ProductDetailsView extends StatelessWidget {
         ));
   }
 
-  Widget _ratings() {
-    return ListView.builder(
-        key: viewModel.reviewsKey,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: viewModel.reviewsList.length,
-        itemBuilder: (_, index) {
-          var data = viewModel.reviewsList[index];
-          return ReviewItem(
-              profileImage: data['profileImage'],
-              duration: data['duration'],
-              name: data['name'],
-              rating: data['rating'] as double,
-              reviews: data['reviews'],
-              images: data['images']);
-        });
+  Widget reviewsAndRatings() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Reviews (${viewModel.reviewsList.length})',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                starWithRatings(),
+              ],
+            ),
+          ),
+          ListView.builder(
+              key: viewModel.reviewsKey,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: viewModel.reviewsList.length,
+              itemBuilder: (_, index) {
+                var data = viewModel.reviewsList[index];
+                return CustomProfileNameAndRating(
+                  imageUrl: data['profileImage'],
+                  rating: data['rating'],
+                  name: data['name'],
+                  description: data['reviews'],
+                );
+              }),
+        ],
+      ),
+    );
+  }
+
+  Widget vendorStore() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        //height: Get.height * 0.15,
+        key: viewModel.vendorKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'Vendor',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            CustomProfileNameAndRating(
+              imageUrl: AppStrings.profileImage,
+              name: 'Tech Store',
+              rating: 3.3,
+            ),
+            const Text('More Products from Techstore'),
+            const Gap(15),
+            CustomIconTextBtn(
+              onPressed: () {},
+              backgroundColor: AppColors.white,
+              titleColor: AppColors.black,
+              radius: 20,
+              borderSide: const BorderSide(color: AppColors.black),
+              title: 'Visit Store',
+              icon: Icons.storefront,
+              //backgroundColor: AppColors.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget peopleAlsoViewed() {
+    return SizedBox(
+      height: Get.height * 0.15,
+      key: viewModel.similarProductKey,
+      child: const Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('People also Viewed'),
+          ),
+        ],
+      ),
+    );
   }
 }

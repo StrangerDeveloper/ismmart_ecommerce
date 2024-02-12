@@ -43,24 +43,43 @@ class ProductDetailsViewModel extends GetxController
         ''
       ],
     },
+    {
+      'profileImage': 'https://ismmart.com/cdn/shop/files/IMG_8550.jpg',
+      'name': 'Madelina',
+      'rating': 4.5,
+      'reviews':
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      'duration': '1 month',
+      'images': [
+        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
+        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
+        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
+        ''
+      ],
+    },
   ];
 
   @override
   void onInit() {
     super.onInit();
 
-   // tabController = TabController(length: 3, vsync: this);
-    
+    // tabController = TabController(length: 3, vsync: this);
   }
 
-
-   void scrollTo(GlobalKey key) {
-  final RenderObject renderObject = key.currentContext!.findRenderObject()!;
+  void scrollTo(GlobalKey key) {
+    final RenderObject renderObject = key.currentContext!.findRenderObject()!;
     final position = renderObject.semanticBounds.top;
     scrollController.animateTo(
       position,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
+  }
+
+  @override
+  void onClose() {
+    pageViewController.dispose();
+    scrollController.dispose();
+    super.onClose();
   }
 }
