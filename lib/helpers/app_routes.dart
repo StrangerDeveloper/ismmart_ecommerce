@@ -21,7 +21,7 @@ class AppRoutes{
       GetPage(name: singupMethodsViewRoute, page: () => SignUpMethodsView()),
       GetPage(name: '', page: () => HomeView()),
       GetPage(name: signUpViewRoute, page: () => SignUpView()),
-      GetPage(name: successViewRoute, page: ()=>SuccessView()),
+      GetPage(name: successViewRoute, page: ()=> const SuccessView()),
     ];
   }
 }
