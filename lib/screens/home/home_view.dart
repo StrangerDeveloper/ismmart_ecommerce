@@ -29,84 +29,84 @@ class HomeView extends StatelessWidget {
             controller: viewModel.mainScrollController,
             slivers: [
               appBar(),
-              // SliverList(
-              //   delegate: SliverChildListDelegate(
-              //     [
-              //       carousel(),
-              //       // Padding(
-              //       //   padding: const EdgeInsets.symmetric(vertical: 25),
-              //       //   child: Row(
-              //       //     children: [
-              //       //       Obx(
-              //       //         () => viewModel.newsList.isNotEmpty
-              //       //             ? discountContainers(
-              //       //                 title: viewModel.newsList[0].name ?? '',
-              //       //                 description:
-              //       //                     viewModel.newsList[0].description ?? '',
-              //       //                 icon: Icons.discount,
-              //       //               )
-              //       //             : const SizedBox(),
-              //       //       ),
-              //       //       const SizedBox(width: 16),
-              //       //       discountContainers(
-              //       //         title: 'FLASH SALE',
-              //       //         description: 'Dont miss out!',
-              //       //         icon: 'assets/images/sale_percent.svg',
-              //       //       ),
-              //       //     ],
-              //       //   ),
-              //       // ),
-              //       // Row(
-              //       //   children: [
-              //       //     Obx(
-              //       //       () => viewModel.newsList.length > 1
-              //       //           ? offOnOrders(
-              //       //               title: viewModel.newsList[1].name ?? '',
-              //       //               description:
-              //       //                   viewModel.newsList[1].description ?? '',
-              //       //             )
-              //       //           : const SizedBox(),
-              //       //     ),
-              //       //     Obx(
-              //       //       () => viewModel.newsList.length > 2
-              //       //           ? offOnOrders(
-              //       //               title: viewModel.newsList[2].name ?? '',
-              //       //               description:
-              //       //                   viewModel.newsList[2].description ?? '',
-              //       //             )
-              //       //           : const SizedBox(),
-              //       //     ),
-              //       //     Obx(
-              //       //       () => viewModel.newsList.length > 3
-              //       //           ? offOnOrders(
-              //       //               title: viewModel.newsList[3].name ?? '',
-              //       //               description:
-              //       //                   viewModel.newsList[3].description ?? '',
-              //       //             )
-              //       //           : const SizedBox(),
-              //       //     ),
-              //       //   ],
-              //       // ),
-              //       // promoCode(),
-              //       // bannerImage(),
-              //       // categoriesTitle(),
-              //       // categoriesList(),
-              //       // flashSaleCountDown(),
-              //       // flashSaleProductList(),
-              //       const Divider(),
-              //       // allProductList(),
-              //       Obx(
-              //         () => viewModel.paginationLoader.value
-              //             ? const Padding(
-              //                 padding: EdgeInsets.all(8.0),
-              //                 child: CustomCircularLoader(),
-              //               )
-              //             : const SizedBox(),
-              //       ),
-              //       const SizedBox(height: 80),
-              //     ],
-              //   ),
-              // ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    carousel(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => viewModel.newsList.isNotEmpty
+                                ? discountContainers(
+                                    title: viewModel.newsList[0].name ?? '',
+                                    description:
+                                        viewModel.newsList[0].description ?? '',
+                                    icon: Icons.discount,
+                                  )
+                                : const SizedBox(),
+                          ),
+                          const SizedBox(width: 16),
+                          discountContainers(
+                            title: 'FLASH SALE',
+                            description: 'Dont miss out!',
+                            icon: 'assets/images/sale_percent.svg',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Obx(
+                          () => viewModel.newsList.length > 1
+                              ? offOnOrders(
+                                  title: viewModel.newsList[1].name ?? '',
+                                  description:
+                                      viewModel.newsList[1].description ?? '',
+                                )
+                              : const SizedBox(),
+                        ),
+                        Obx(
+                          () => viewModel.newsList.length > 2
+                              ? offOnOrders(
+                                  title: viewModel.newsList[2].name ?? '',
+                                  description:
+                                      viewModel.newsList[2].description ?? '',
+                                )
+                              : const SizedBox(),
+                        ),
+                        Obx(
+                          () => viewModel.newsList.length > 3
+                              ? offOnOrders(
+                                  title: viewModel.newsList[3].name ?? '',
+                                  description:
+                                      viewModel.newsList[3].description ?? '',
+                                )
+                              : const SizedBox(),
+                        ),
+                      ],
+                    ),
+                    promoCode(),
+                    bannerImage(),
+                    categoriesTitle(),
+                    categoriesList(),
+                    flashSaleCountDown(),
+                    flashSaleProductList(),
+                    const Divider(),
+                    // allProductList(),
+                    // Obx(
+                    //   () => viewModel.paginationLoader.value
+                    //       ? const Padding(
+                    //           padding: EdgeInsets.all(8.0),
+                    //           child: CustomCircularLoader(),
+                    //         )
+                    //       : const SizedBox(),
+                    // ),
+                    const SizedBox(height: 80),
+                  ],
+                ),
+              ),
               allProductList(),
               Obx(
                 () => SliverToBoxAdapter(
@@ -669,7 +669,6 @@ class HomeView extends StatelessWidget {
     return Obx(
       () => viewModel.allProductList.isNotEmpty
           ? SliverGrid(
-              // padding: const EdgeInsets.symmetric(horizontal: 16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,
