@@ -52,8 +52,18 @@ class HomeViewModel extends GetxController {
 
   @override
   void onInit() {
-    mainScrollController.addListener(getAllProducts);
+    // mainScrollController.addListener(getAllProducts);
+    mainScrollController.addListener(appBarSetting);
     super.onInit();
+  }
+
+  appBarSetting() {
+    //change AppBar Settings -- linked to ScrollController listener
+    if (mainScrollController.offset > 50) {
+      isScrolled.value = true;
+    } else {
+      isScrolled.value = false;
+    }
   }
 
   @override
@@ -80,6 +90,15 @@ class HomeViewModel extends GetxController {
     carouselList.clear();
     categoriesList.clear();
     bannerImage.value = '';
+    flashProductList.clear();
+    //Get all Products at Bottom...
+    pageNo = 1;
+    allProductList.clear();
+    mainScrollController.animateTo(
+      mainScrollController.position.minScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
 
     //Carousel & Banner
     int mediaLength =
@@ -104,9 +123,12 @@ class HomeViewModel extends GetxController {
         .addAll(collectionList[collectionCurrentIndex.value].children ?? []);
 
     //Call other apis...
-    getNews();
-    getFlashTimer();
-    getAllProducts();
+    getFlashTimer().then((value){
+      mainScrollController.removeListener(getAllProducts);
+      mainScrollController.addListener(getAllProducts);
+      getAllProducts();
+    });
+
   }
 
   getCollections() async {
@@ -131,6 +153,7 @@ class HomeViewModel extends GetxController {
 
         collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
         changeCollection(0);
+        getNews();
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -158,12 +181,12 @@ class HomeViewModel extends GetxController {
     });
   }
 
-  getFlashTimer() async {
+  Future getFlashTimer() async {
     Map<String, String> params = {
       'fields[name]': '1',
       'fields[start]': '1',
       'fields[end]': '1',
-      'collection': selectedCollectionId,
+      // 'collection': selectedCollectionId,
     };
 
     await ApiBaseHelper()
@@ -186,9 +209,7 @@ class HomeViewModel extends GetxController {
             startTimer(discountModel!.value.end!);
           }
 
-          //Get all Products at Bottom...
-          pageNo = 1;
-          allProductList.clear();
+
         }
       }
     }).catchError((e) {
@@ -208,7 +229,7 @@ class HomeViewModel extends GetxController {
       'fields[price]': '1',
       'fields[store][name]': '1',
       'fields[discount][percentage]': '1',
-      'collection': selectedCollectionId,
+      // 'collection': selectedCollectionId,
       'discount': discountId,
     };
 
@@ -226,14 +247,6 @@ class HomeViewModel extends GetxController {
   }
 
   getAllProducts() async {
-    //change AppBar Settings -- linked to ScrollController listener
-    if (mainScrollController.offset > 50) {
-      isScrolled.value = true;
-    } else {
-      isScrolled.value = false;
-    }
-    /////////////////////////////////////////////////////////////////
-
     Map<String, String> params = {
       'limit': '10',
       'fields[name]': '1',
@@ -265,9 +278,9 @@ class HomeViewModel extends GetxController {
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
-          // if (data.isEmpty || data.length<10) {
-          //   mainScrollController.removeListener(getAllProducts);
-          // }
+          if (data.isEmpty || data.length < 10) {
+            mainScrollController.removeListener(getAllProducts);
+          }
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
         }
       }).catchError((e) {
