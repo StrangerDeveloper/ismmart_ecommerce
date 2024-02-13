@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
+import 'package:ismmart_ecommerce/helpers/urls.dart';
+import 'package:ismmart_ecommerce/screens/product_details/product_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/review_model.dart';
 
 class ProductDetailsViewModel extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -8,65 +13,89 @@ class ProductDetailsViewModel extends GetxController
   GlobalKey vendorKey = GlobalKey();
   GlobalKey similarProductKey = GlobalKey();
   ScrollController scrollController = ScrollController();
+
   //late TabController tabController;
 
   RxBool selectedTabIndex = true.obs;
-
-  List<String> carouselList = <String>[
-    'https://ismmart.com/cdn/shop/files/STN-13-Bluetooth-Stereo-Headphone-1_1.jpg',
-    'https://ismmart.com/cdn/shop/files/ADI02840.jpg',
-    'https://ismmart.com/cdn/shop/files/ADI02876.jpg',
-  ];
-
   RxInt carouselIndex = 0.obs;
+
   PageController pageViewController = PageController(initialPage: 0);
 
   TextEditingController productQtyController = TextEditingController();
 
-  Map<String, dynamic> variantsMap = <String, dynamic>{
-    'Size': ['S', 'M', 'L', 'XL'],
-    'Color': ['Black', 'Blue', 'Green'],
-  };
+  String productID = '65bab32422427132d3c17a35';
 
-  List<dynamic> reviewsList = [
-    {
-      'profileImage': 'https://ismmart.com/cdn/shop/files/IMG_8550.jpg',
-      'name': 'Madelina',
-      'rating': 4.5,
-      'reviews':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      'duration': '1 month',
-      'images': [
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        ''
-      ],
-    },
-    {
-      'profileImage': 'https://ismmart.com/cdn/shop/files/IMG_8550.jpg',
-      'name': 'Madelina',
-      'rating': 4.5,
-      'reviews':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      'duration': '1 month',
-      'images': [
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        'https://ismmart.com/cdn/shop/files/whatsapp_image_2024-01-15_at_7.18.07_pm.jpg',
-        ''
-      ],
-    },
-  ];
+  List<Review> reviewsList = <Review>[].obs;
 
- 
+  final Rx<Product> _product = Product().obs;
+  Product get productModel => _product.value;
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (Get.arguments != null) {
+      productID = Get.arguments['productId'];
+    }
+
+    getProductById();
+    getProductReviews();
+  }
+
+  Future<void> getProductById() async {
+    Map<String, String> params = {
+      'id': productID,
+      'fields[name]': '1',
+      'fields[price]': '1',
+      'fields[options]': '1',
+      'fields[store]': '1',
+      'fields[variants]': '1',
+      'fields[media]': '1',
+      'fields[description]': '1',
+      'fields[totalReviews]': '1',
+      'fields[rating]': '1',
+      'fields[quantity]': '1',
+    };
+
+    await ApiBaseHelper()
+        .getMethodQueryParam(url: Urls.getProducts, params: params)
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+
+        ProductResponse productResponse = ProductResponse.fromJson(data);
+        _product.value = productResponse.product![0];
+      } else {
+        CommonFunction.debugPrint(parsedJson['message']);
+      }
+    });
+  }
+
+  Future getProductReviews() async {
+    Map<String, String> params = {
+      'limit': '2',
+      'product': productID,
+    };
+    await ApiBaseHelper()
+        .getMethodQueryParam(url: Urls.getProductReviews, params: params)
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        CommonFunction.debugPrint(parsedJson['message']);
+
+        var data = parsedJson['data'];
+        ReviewResponse reviewResponse = ReviewResponse.fromJson(data);
+        reviewsList.addAll(reviewResponse.review!);
+      } else {
+        CommonFunction.debugPrint(parsedJson['message']);
+      }
+    });
+  }
 
   void scrollTo(GlobalKey key) {
     final RenderObject renderObject = key.currentContext!.findRenderObject()!;
-    final position = renderObject.semanticBounds.top;
+    final position = renderObject.semanticBounds.bottom;
     scrollController.animateTo(
       position,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 900),
       curve: Curves.easeInOut,
     );
   }

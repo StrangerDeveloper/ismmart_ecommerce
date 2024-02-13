@@ -29,17 +29,17 @@ class OrderDetailView extends StatelessWidget {
         title: "Order Details",
         centerTitle: true,
         containsLeading: true,
-        titleTextStyle: ThemeHelper.textTheme.titleSmall,
+        titleTextStyle: ThemeHelper.textTheme.titleSmall!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: AppColors.black,
+        ),
       ),
       body: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 1,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: SingleChildScrollView(
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -100,6 +100,7 @@ class OrderDetailView extends StatelessWidget {
                       style: ThemeHelper.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
+                        color: AppColors.black,
                       ),
                     ),
                   ],
@@ -404,14 +405,18 @@ class OrderDetailView extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          const Text(
-            "Write a Review",
-          ),
+          CustomText(
+              title: "Write a Review",
+              style: ThemeHelper.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: AppColors.black,
+              )),
           const Spacer(),
           IconButton(
             icon: const Icon(
               Icons.close,
-              color: Colors.black,
+              color: Colors.red,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -427,9 +432,14 @@ class OrderDetailView extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16.0, right: 16, top: 8, bottom: 16),
       child: Column(
         children: [
-          const CustomText(
+          CustomText(
             title: "Rate the product",
             textAlign: TextAlign.center,
+            style: ThemeHelper.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: AppColors.black,
+            ),
           ),
           const SizedBox(
             height: 12,
@@ -538,6 +548,7 @@ class OrderDetailView extends StatelessWidget {
       style: ThemeHelper.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
         fontSize: 15,
+        color: AppColors.black,
       ),
     );
   }

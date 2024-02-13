@@ -65,20 +65,23 @@ class ApiBaseHelper {
     try {
       Uri urlValue = Uri.parse(_baseUrl + url).replace(queryParameters: params);
 
-      CommonFunction.debugPrint(
-          '*********************** Request ********************************');
-      CommonFunction.debugPrint(urlValue);
+      CommonFunction.colorConsole(
+        '*********************** Request ********************************',
+        color: 1,
+        newLine: true,
+      );
+      CommonFunction.colorConsole(urlValue.toString(), color: 1);
 
       http.Response response = await http
           .get(urlValue, headers: header)
           .timeout(const Duration(seconds: 30));
 
-      CommonFunction.debugPrint(
-          '*********************** Response ********************************');
-      CommonFunction.debugPrint(urlValue);
-      CommonFunction.debugPrint(response.body);
       CommonFunction.colorConsole(
-          '****************************************************************************************');
+          '*********************** Response ********************************', newLine: true);
+      CommonFunction.colorConsole(urlValue.toString());
+      CommonFunction.colorConsole(response.body);
+      // CommonFunction.colorConsole(
+      //     '****************************************************************************************');
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
       return parsedJSON;

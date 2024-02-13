@@ -24,7 +24,7 @@ class AppColors {
   static const grey1 = Color(0xffEDEDED);
   static const grey2 = Color(0xff929AAB);
   static const grey3 = Color(0xffF9FAFB);
-  static const grey4 = Color(0xFF6F6F6F);
+  static const grey4 = Color.fromARGB(255, 191, 190, 190);
   static const grey5 = Color(0xFF6B7280);
   static const grey6 = Color(0xFFE5E7EB);
   static const grey7 = Color(0xFF6F6F6F);
@@ -33,6 +33,7 @@ class AppColors {
   static const lightGrey = Color(0xff929AAB);
   static const fadedBlue = Color(0xff5D738A);
   static const darkblue = Color(0xFF0E1216);
+  
 
   //amber yellow
   static const yellow = Color(0xFFFFC120);
