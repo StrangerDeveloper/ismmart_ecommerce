@@ -222,7 +222,7 @@ class HomeViewModel extends GetxController {
       pageNo++;
       paginationLoader.value = true;
 
-      // String collectionId = collectionList[collectionCurrentIndex.value].sId!;
+      //String collectionId = collectionList[collectionCurrentIndex.value].sId!;
 
       await ApiBaseHelper()
           .getMethod(url: '${Urls.getSimpleProducts}&page=$pageNo')

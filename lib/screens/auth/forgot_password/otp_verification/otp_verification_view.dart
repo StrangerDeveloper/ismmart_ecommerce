@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:ffi';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -16,18 +12,12 @@ import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/loader_view.dart';
 import '../forget_password/forgot_password_viewmodel.dart';
-import '../reset_password/reset_password_view.dart';
 
-class OtpVerificationView extends StatefulWidget {
-  OtpVerificationView({Key? key}) : super(key: key);
-
-  @override
-  State<OtpVerificationView> createState() => _OtpVerificationViewState();
-}
-
-class _OtpVerificationViewState extends State<OtpVerificationView> {
-  OtpVerificationViwModel viewModel = Get.put(OtpVerificationViwModel());
+class OtpVerificationView extends StatelessWidget {
+  final OtpVerificationViwModel viewModel = Get.put(OtpVerificationViwModel());
   final ForgotPasswordViewModel viewModel1 = Get.put(ForgotPasswordViewModel());
+
+  OtpVerificationView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +32,12 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                   const EdgeInsets.symmetric(horizontal: 25.0, vertical: 26),
               child: Column(
                 children: [
-                  Gap(50),
+                  const Gap(50),
                   headings(),
                   pindValidationField(),
                   timerRow(),
                   confirmBtn(),
-                  Gap(5),
+                  const Gap(5),
                   resendCode(),
                   const Spacer(),
                   // bottomText(),
@@ -66,10 +56,10 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomText(
+              CustomText(
                 title: "Confirm code",
                 size: 14,
                 color: AppColors.white,
@@ -126,7 +116,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                       style: ThemeHelper.textTheme.bodyMedium
                           ?.copyWith(color: AppColors.grey2),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'Change?',
                       style: TextStyle(color: Colors.black),
                     ),
@@ -142,19 +132,19 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(
+        const CustomText(
           title: "Verification Code",
           size: 14,
           weight: FontWeight.w500,
         ),
-        Gap(10),
+        const Gap(10),
         PinCodeTextField(
           controller: viewModel.otpController,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly
           ],
-          appContext: context,
+          appContext: Get.context!,
           // obscureText: false,
           // obscuringWidget: Container(
           //   height: 10,
@@ -191,11 +181,11 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
 
   Widget timerRow() {
     return Padding(
-      padding: EdgeInsets.only(top: 22),
+      padding: const EdgeInsets.only(top: 22),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(
+          const CustomText(
             title: "Valid till",
             color: Colors.red,
             size: 12,
@@ -223,7 +213,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
       onPressed: () {
         viewModel1.forgotApi();
       },
-      child: CustomText(
+      child: const CustomText(
         title: "Re-send Code",
         color: AppColors.grey2,
         size: 14,

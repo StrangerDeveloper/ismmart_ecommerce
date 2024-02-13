@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -27,7 +25,7 @@ class LogInViewModel extends GetxController {
     // NotificationsServices.tokenRefresh();
     // NotificationsServices.getToken();
 
-    // TODO: implement onReady
+  
     super.onReady();
   }
 
@@ -106,7 +104,7 @@ class LogInViewModel extends GetxController {
             "token": '${value.accessToken}',
           }
         };
-        print(credential);
+        CommonFunction.debugPrint(credential);
 
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
@@ -124,7 +122,7 @@ class LogInViewModel extends GetxController {
         });
       });
     } catch (error) {
-      print(error);
+      CommonFunction.debugPrint(error);
       GlobalVariable.showLoader.value = false;
       //  debugPrint("$error");
     }
@@ -144,12 +142,12 @@ class LogInViewModel extends GetxController {
       appleCredential.state;
 
       try {
-        Map<dynamic, dynamic> param = {
-          "social": {
-            "name": "Apple",
-            "token": '${appleCredential.identityToken}',
-          }
-        };
+        // Map<dynamic, dynamic> param = {
+        //   "social": {
+        //     "name": "Apple",
+        //     "token": '${appleCredential.identityToken}',
+        //   }
+        // };
 
         // await ApiBaseHelper()
         //     .postMethod(url: " Urls.login", body: param)

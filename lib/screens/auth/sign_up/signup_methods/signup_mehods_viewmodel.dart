@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_ecommerce/screens/auth/sign_up/signup/signup_view.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../../helpers/global_variables.dart';
 
@@ -17,6 +17,9 @@ class SignupMehtodViewModel extends GetxController {
   final googleSignin = GoogleSignIn();
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
+
+  
+  
   Future googleLogIn() async {
     GlobalVariable.showLoader.value = true;
     GoogleSignIn googleSignIn = GoogleSignIn(
@@ -25,20 +28,26 @@ class SignupMehtodViewModel extends GetxController {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
+
     GoogleSignInAccount? credential;
     try {
       // Get.to(DrawerBottomBarView());
       await googleSignIn.signOut();
       credential = await googleSignIn.signIn();
 
+      
       credential?.authentication.then((value) async {
         socialName.value = credential?.displayName ?? "";
         socialEmail.value = credential?.email ?? "";
+
         socialPlatform.value = 'Google';
         socialToken.value = '${value.accessToken}';
+        
         GlobalVariable.showLoader.value = false;
-        print("social name ==>>>> ${socialName.value}");
-        Get.to(SignUpView());
+        
+        CommonFunction.debugPrint("social name ==>>>> ${socialName.value}");
+        
+        Get.toNamed(AppRoutes.signUpViewRoute);
         // Map<dynamic, dynamic> param = {
         //   "social": {
         //     "name": "Google",
@@ -65,7 +74,7 @@ class SignupMehtodViewModel extends GetxController {
         //   });
       });
     } catch (error) {
-      print(error);
+      CommonFunction.debugPrint(error);
       GlobalVariable.showLoader.value = false;
       //  debugPrint("$error");
     }
@@ -86,12 +95,12 @@ class SignupMehtodViewModel extends GetxController {
       appleCredential.state;
 
       try {
-        Map<dynamic, dynamic> param = {
-          "social": {
-            "name": "Apple",
-            "token": '${appleCredential.identityToken}',
-          }
-        };
+        // Map<dynamic, dynamic> param = {
+        //   "social": {
+        //     "name": "Apple",
+        //     "token": '${appleCredential.identityToken}',
+        //   }
+        // };
 
         // await ApiBaseHelper()
         //     .postMethod(url: " Urls.login", body: param)

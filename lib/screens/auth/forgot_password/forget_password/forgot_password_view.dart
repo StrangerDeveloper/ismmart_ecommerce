@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../../../../helpers/app_colors.dart';
 import '../../../../helpers/theme_helper.dart';
-import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/custom_text_field.dart';
 import '../../../../widgets/loader_view.dart';
-import '../otp_verification/otp_verification_view.dart';
 import 'forgot_password_viewmodel.dart';
 
 class ForgotPasswordView1 extends StatelessWidget {
@@ -92,17 +89,13 @@ class ForgotPasswordView1 extends StatelessWidget {
     return Padding(
       padding:
           const EdgeInsets.only(left: 35.0, right: 35, top: 41, bottom: 41),
-      child: Container(
-        // color: Colors.green,
-
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(1.0),
-            child: Image.asset(
-              //semanticsLabel: 'My SVG Picture',
-              'assets/images/forgetpassword_Img.png',
-              //fit: BoxFit.fill,
-            )),
-      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(1.0),
+          child: Image.asset(
+            //semanticsLabel: 'My SVG Picture',
+            'assets/images/forgetpassword_Img.png',
+            //fit: BoxFit.fill,
+          )),
     );
   }
 
@@ -135,17 +128,17 @@ class ForgotPasswordView1 extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomText(
+               CustomText(
                 title: "Reset",
                 size: 14,
                 color: AppColors.white,
                 weight: FontWeight.w500,
               ),
               SizedBox(width: 2),
-              const Icon(
+               Icon(
                 Icons.arrow_forward,
                 size: 20,
               ),
