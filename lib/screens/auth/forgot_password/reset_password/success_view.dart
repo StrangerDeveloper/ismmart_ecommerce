@@ -6,7 +6,7 @@ import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text.dart';
 
 class SuccessView extends StatelessWidget {
-  SuccessView({super.key});
+  const SuccessView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,9 @@ class SuccessView extends StatelessWidget {
               right: 20,
               bottom: 16,
             ),
-            child: Text(
+            child: CustomText(
               maxLines: 2,
-              'Set your new password',
+              title: 'Set your new password',
               style: ThemeHelper.textTheme.bodyMedium
                   ?.copyWith(color: AppColors.grey2),
             )),
@@ -62,10 +62,10 @@ class SuccessView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child:const  Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomText(
+               CustomText(
                 title: "Reset",
                 size: 14,
                 color: AppColors.white,
