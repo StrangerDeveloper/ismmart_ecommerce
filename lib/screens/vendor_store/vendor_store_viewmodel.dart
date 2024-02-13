@@ -8,28 +8,37 @@ import 'categorized_products_model.dart';
 
 class VendorStoreViewModel extends GetxController with GetTickerProviderStateMixin{
 
+  /// Controllers
   ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
   PageController sliderImagesController = PageController();
   late TabController tabController = TabController(length: 2, vsync: this);
 
-  RxInt sliderIndex = 0.obs;
-  late Timer? timer;
+  /// Loading and Retry boolean variables
   RxBool isSliderLoading = true.obs;
   RxBool fetchingCategories = true.obs;
   RxBool isCategoriesLoading = false.obs;
   RxBool fetchingProducts = true.obs;
   RxBool noMoreRecords = false.obs;
   RxBool productsRetryCheck = false.obs;
+  RxBool loadMore = false.obs;
+
+  /// Variables for Slider
+  RxInt sliderIndex = 0.obs;
+  late Timer? timer;
+
+  /// Store Name and Logo
   RxString storeLogoUrl = ''.obs;
   RxString storeName = ''.obs;
+
+  /// Lists for Products and Categories
   RxList<Products> categoryProducts = <Products>[].obs;
   RxList<CategorizedProductsModel> categoriesList = <CategorizedProductsModel>[].obs;
   RxList<Products> sliderImages = <Products>[].obs;
   RxList<CategorizedProductsModel> homePageProductsList = <CategorizedProductsModel>[].obs;
   RxList<CategorizedProductsModel> allProductsPageProductList = <CategorizedProductsModel>[].obs;
-  RxBool loadMore = false.obs;
 
+  /// API Parameters
   int limit = 10;
   int page = 0;
 
@@ -186,7 +195,7 @@ class VendorStoreViewModel extends GetxController with GetTickerProviderStateMix
           'group': 'true',
           'fields[products][name]': '1',
           'fields[products][rating]': '1',
-          'fields[products][reviews]': '1',
+          'fields[products][totalReviews]': '1',
           'fields[products][image]': '1',
           'fields[products][discount]': '1',
           'fields[products][_id]': '1',
@@ -196,7 +205,7 @@ class VendorStoreViewModel extends GetxController with GetTickerProviderStateMix
 
         ApiBaseHelper()
             .getMethodQueryParam(
-            url: Urls.getProducts, params: params)
+            url: Urls.getCollection, params: params)
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
             final data = parsedJson['data']['items'] as List;

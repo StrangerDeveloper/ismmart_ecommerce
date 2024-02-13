@@ -69,14 +69,14 @@ class CategoryProductsView extends StatelessWidget {
                         itemCount: viewModel.categoryProducts.length,
                         itemBuilder: (context, idx) {
                           Products productModel = viewModel.categoryProducts[idx];
-                          return ProductItem(
+                          return ProductItem2(
                             displayFavIcon: false,
                             image: productModel.image.toString(),
                             name: productModel.name.toString(),
-                            price: productModel.price.toString(),
-                            rating: productModel.reviews.toString(),
-                            reviews: productModel.rating.toString(),
-                            previousPrice: productModel.discount.toString(),
+                            price: productModel.price ?? 0,
+                            rating: productModel.rating ?? 0,
+                            reviews: productModel.reviews ?? 0,
+                            discount: productModel.discount != null ? productModel.discount!.percentage! : 0,
                           );
                         },
                       ),

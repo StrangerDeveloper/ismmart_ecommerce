@@ -31,71 +31,66 @@ class VendorStoreView extends StatelessWidget {
           color: AppColors.black
         )
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 25.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.grey2.withOpacity(0.1),
-                        blurRadius: 15,
-                        spreadRadius: 8,
-                        offset: const Offset(0, 8)
-                      )
-                    ]
-                  ),
-                  child: Obx(() => CircleAvatar(
-                      radius: 40,
-                      backgroundImage: viewModel.storeLogoUrl.value != '' ? null : const AssetImage('assets/images/no_image_found.jpg'),
-                      child: viewModel.storeLogoUrl.value != '' ? CustomNetworkImage(imageUrl: viewModel.storeLogoUrl.value) : SizedBox()),
-                    ),
-                  ),
-                const SizedBox(height: 20,),
-                Obx(() => Text(
-                    viewModel.storeName.value,
-                    style: ThemeHelper.textTheme.bodyLarge?.copyWith(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w700
-                    )
-                  ),
-                ),
-                const SizedBox(height: 15,),
-                TabBar(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  controller: viewModel.tabController,
-                  labelColor: AppColors.black,
-                  labelStyle: ThemeHelper.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-                  enableFeedback: false,
-                  unselectedLabelColor: AppColors.grey5,
-                  unselectedLabelStyle: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 14),
-                  indicatorColor: Colors.black,
-                    indicatorWeight: 1.5,
-                    tabs: const [
-                      Tab(text: 'Homepage',),
-                      Tab(text: 'All Products')
+      body: Padding(
+        padding: const EdgeInsets.only(top: 25.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.grey2.withOpacity(0.1),
+                    blurRadius: 15,
+                    spreadRadius: 8,
+                    offset: const Offset(0, 8)
+                  )
                 ]
+              ),
+              child: Obx(() => CircleAvatar(
+                  radius: 40,
+                  backgroundImage: viewModel.storeLogoUrl.value != '' ? null : const AssetImage('assets/images/no_image_found.jpg'),
+                  child: viewModel.storeLogoUrl.value != '' ? CustomNetworkImage(imageUrl: viewModel.storeLogoUrl.value) : SizedBox()),
                 ),
-                Expanded(
-                  child: TabBarView(
-                    controller: viewModel.tabController,
-                      children: [
-                        VendorStoreHomePage(),
-                        VendorStoreAllProducts(),
-                  ]),
-                ),
-              ],
+              ),
+            const SizedBox(height: 20,),
+            Obx(() => Text(
+                viewModel.storeName.value,
+                style: ThemeHelper.textTheme.bodyLarge?.copyWith(
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w700
+                )
+              ),
             ),
-          ),
-          const LoaderView()
-        ],
+            const SizedBox(height: 15,),
+            TabBar(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              controller: viewModel.tabController,
+              labelColor: AppColors.black,
+              labelStyle: ThemeHelper.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+              enableFeedback: false,
+              unselectedLabelColor: AppColors.grey5,
+              unselectedLabelStyle: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 14),
+              indicatorColor: Colors.black,
+                indicatorWeight: 1.5,
+                tabs: const [
+                  Tab(text: 'Homepage',),
+                  Tab(text: 'All Products')
+            ]
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: viewModel.tabController,
+                  children: [
+                    VendorStoreHomePage(),
+                    VendorStoreAllProducts(),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -148,14 +143,14 @@ class VendorStoreView extends StatelessWidget {
                         itemCount: model.products!.length,
                         itemBuilder: (context, idx) {
                           Products productModel = model.products![idx];
-                          return ProductItem(
+                          return ProductItem2(
                             displayFavIcon: false,
                             image: productModel.image.toString(),
                             name: productModel.name.toString(),
-                            price: productModel.discount != null ? ((productModel.price! / 100) * productModel.discount!.percentage!).toStringAsFixed(0) : productModel.price.toString(),
-                            rating: productModel.rating.toString(),
-                            reviews: productModel.reviews.toString(),
-                            previousPrice: productModel.discount != null ? productModel.price.toString() : '',
+                            price: productModel.price ?? 0,
+                            rating: productModel.rating ?? 0,
+                            reviews: productModel.reviews ?? 0,
+                            discount: productModel.discount != null ? productModel.discount!.percentage! : 0,
                           );
                         },
                       ),
@@ -167,9 +162,9 @@ class VendorStoreView extends StatelessWidget {
       );
   }
 
-  Widget categoryNameAndBtn(String categoryName, {String? categoryId}) {
+  Widget categoryNameAndBtn(String categoryName, {String? categoryId, bool displaySeeAllBtn = true}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 15),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -181,7 +176,7 @@ class VendorStoreView extends StatelessWidget {
                 fontWeight: FontWeight.w700
             ),
           ),
-          TextButton(
+          displaySeeAllBtn ? TextButton(
               onPressed: () {
                 Get.to(() => CategoryProductsView(), arguments: {'id': categoryId, 'name': categoryName});
               },
@@ -192,7 +187,7 @@ class VendorStoreView extends StatelessWidget {
                     fontWeight: FontWeight.w400
                 )
               )
-          )
+          ) : const SizedBox()
         ],
       ),
     );

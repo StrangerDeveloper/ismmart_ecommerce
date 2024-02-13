@@ -72,7 +72,7 @@ class CategoryProductsViewModel extends GetxController {
         }
 
         ApiBaseHelper().getMethodQueryParam(url: categoryID.value == '' ?
-        Urls.getProducts : Urls.getCollectionProducts, params: params
+        Urls.getProducts : Urls.getCollection, params: params
         ).then((parsedJson) {
           if(parsedJson['success'] == true) {
             final data = parsedJson['data']['items'] as List;

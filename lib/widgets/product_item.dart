@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
 import '../helpers/common_function.dart';
@@ -179,10 +181,10 @@ class ProductItem2 extends StatelessWidget {
   final String image;
   final num discount;
   final String name;
-  final String category;
+  final String? category;
   final num price;
-  final String rating;
-  final String reviews;
+  final num rating;
+  final num reviews;
   final bool displayFavIcon;
 
   const ProductItem2(
@@ -190,10 +192,10 @@ class ProductItem2 extends StatelessWidget {
       required this.image,
       required this.discount,
       required this.name,
-      required this.category,
+      this.category,
       required this.price,
-      required this.rating,
-      required this.reviews,
+        this.rating = 0.0,
+      this.reviews = 0,
       this.onTap,
       this.displayFavIcon = true});
 
@@ -268,14 +270,16 @@ class ProductItem2 extends StatelessWidget {
                     name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.black3,
+                      fontWeight: FontWeight.w600
+                      // fontWeight:
+                    )
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      category,
+                    child: category == null ? const SizedBox() : Text(
+                      category!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -323,16 +327,18 @@ class ProductItem2 extends StatelessWidget {
                         size: 12,
                       ),
                       Text(
-                        rating,
-                        style: const TextStyle(
-                          fontSize: 10,
+                        rating.toString(),
+                        style: ThemeHelper.textTheme.bodySmall?.copyWith(
+                            fontSize: 10,
+                            color: AppColors.black3
                         ),
                       ),
                       const SizedBox(width: 10),
                       Text(
                         '$reviews Reviews',
-                        style: const TextStyle(
+                        style: ThemeHelper.textTheme.bodySmall?.copyWith(
                           fontSize: 10,
+                          color: AppColors.black3
                         ),
                       ),
                     ],

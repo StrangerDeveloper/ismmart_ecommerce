@@ -15,14 +15,21 @@ class CategorizedProductsModel {
         products!.add(Products.fromJson(v));
       });
     }
-    media = json['media'].cast<String>();
+    if (json['media'] != null) {
+      media = <String>[];
+      json['media'].forEach((v) {
+        media!.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['name'] = name;
-    data['media'] = media;
+    if (media != null) {
+      data['media'] = media;
+    }
     if (products != null) {
       data['products'] = products!.map((v) => v.toJson()).toList();
     }
@@ -36,7 +43,7 @@ class Products {
   String? name;
   Discount? discount;
   int? reviews;
-  double? rating;
+  num? rating;
   String? image;
   int? price;
 

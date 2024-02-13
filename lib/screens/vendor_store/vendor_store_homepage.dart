@@ -55,7 +55,7 @@ class VendorStoreHomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: viewModel.fetchingProducts.isFalse && viewModel.fetchingCategories.isFalse ? [
                   categoriesList(),
-                  view.categoryAndProductsList(limit: viewModel.homePageProductsList.length < 3 ? viewModel.homePageProductsList.length : 3, productList: viewModel.homePageProductsList),
+                  Obx(() => view.categoryAndProductsList(limit: viewModel.homePageProductsList.length < 3 ? viewModel.homePageProductsList.length : 3, productList: viewModel.homePageProductsList)),
                 ] : [
                   const CustomCircularLoader()
                 ],
@@ -241,7 +241,7 @@ class VendorStoreHomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: 15,
-          vertical: 10
+          // vertical: 10
       ),
       child: Obx(() => viewModel.categoriesList.isEmpty ? Center(
         child: Text(
@@ -253,7 +253,7 @@ class VendorStoreHomePage extends StatelessWidget {
       ) : Column(
         mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            view.categoryNameAndBtn('Categories'),
+            view.categoryNameAndBtn('Categories', displaySeeAllBtn: false),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const ScrollPhysics(),
@@ -274,10 +274,9 @@ class VendorStoreHomePage extends StatelessWidget {
                               const SizedBox(height: 15,),
                               Text(
                                 viewModel.categoriesList[index].name.toString(),
-                                style: GoogleFonts.inter(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400
-                                ),
+                                style: ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.black3
+                                )
                               )
                             ],
                           ),
