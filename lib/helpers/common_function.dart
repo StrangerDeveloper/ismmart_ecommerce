@@ -165,4 +165,11 @@ class CommonFunction {
         ),
         colorText: AppColors.white);
   }
+
+  static String calculatePercentage2(num priceParam, num discountParam) {
+    double percentage = double.tryParse(discountParam.toString()) ?? 0.0;
+    double price = double.tryParse(priceParam.toString()) ?? 0.0;
+    double finalPrice = price - (price * (percentage/100));
+    return finalPrice.toString();
+  }
 }

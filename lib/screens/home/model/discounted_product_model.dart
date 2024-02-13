@@ -74,7 +74,7 @@ class Store {
 }
 
 class Discount {
-  int? percentage;
+  num? percentage;
 
   Discount({this.percentage});
 
