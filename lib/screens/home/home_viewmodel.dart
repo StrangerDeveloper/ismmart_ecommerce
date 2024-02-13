@@ -214,7 +214,7 @@ class HomeViewModel extends GetxController {
     };
 
     await ApiBaseHelper()
-        .getMethodQueryParam(url: Urls.getHomeProducts, params: params)
+        .getMethodQueryParam(url: Urls.getProducts, params: params)
         .then((parsedJson) {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
@@ -260,7 +260,7 @@ class HomeViewModel extends GetxController {
       paginationLoader.value = true;
 
       await ApiBaseHelper()
-          .getMethodQueryParam(url: Urls.getHomeProducts, params: params)
+          .getMethodQueryParam(url: Urls.getProducts, params: params)
           .then((parsedJson) {
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
