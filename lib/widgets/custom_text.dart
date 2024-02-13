@@ -30,10 +30,10 @@ class CustomText extends StatelessWidget {
       maxLines: maxLines,
       textAlign: textAlign ?? TextAlign.start,
       style: style ??
-          ThemeHelper.textTheme.bodyLarge!.copyWith(
+          ThemeHelper.textTheme.bodyMedium!.copyWith(
             fontSize: size ?? 13,
             color: color ?? AppColors.black,
-            fontWeight: weight ?? FontWeight.normal,
+            fontWeight: weight ?? FontWeight.w600,
           ),
     );
   }

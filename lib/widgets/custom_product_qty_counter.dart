@@ -50,10 +50,10 @@ class CustomProductQuantityCounter extends StatelessWidget {
               color: textColor ?? AppColors.black,
             ),
           ),
-          const Gap(4),
+         // const Gap(4),
           SizedBox(
-            width: 30,
-            height: 30,
+            width: 20,
+            height: 20,
             child: TextField(
               controller: textEditingController,
               enabled: false,
@@ -70,7 +70,7 @@ class CustomProductQuantityCounter extends StatelessWidget {
               keyboardType: TextInputType.number,
             ),
           ),
-          const Gap(4),
+          //const Gap(4),
           IconButton(
             iconSize: 20,
             alignment: Alignment.center,
@@ -82,3 +82,4 @@ class CustomProductQuantityCounter extends StatelessWidget {
     );
   }
 }
+
