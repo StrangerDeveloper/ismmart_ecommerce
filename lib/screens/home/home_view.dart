@@ -129,17 +129,6 @@ class HomeView extends StatelessWidget {
   appBar() {
     return Obx(
       () => SliverAppBar(
-        backgroundColor: viewModel.isScrolled.value ? Colors.white : null,
-        foregroundColor: viewModel.isScrolled.value ? Colors.black : null,
-        // iconTheme: IconThemeData(
-        //     color: viewModel.isScrolled.value
-        //         ? Colors.black
-        //         : Colors.orange),
-        // actionsIconTheme: IconThemeData(
-        //     color: viewModel.isScrolled.value
-        //         ? Colors.black
-        //         : Colors.orange),
-        pinned: true,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: viewModel.isScrolled.value
               ? Colors.white
@@ -151,20 +140,23 @@ class HomeView extends StatelessWidget {
               ? Brightness.dark
               : Brightness.light, //for IOS
         ),
+        iconTheme: IconThemeData(
+          color: viewModel.isScrolled.value ? Colors.black : Colors.white,
+        ),
+        pinned: true,
         leading: IconButton(
           onPressed: () {},
           icon: const Icon(
             CupertinoIcons.search,
-            color: Colors.black,
           ),
         ),
-        title: const Text(
+        title: Text(
           'ISMMART',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w700,
-            color: Colors.black,
+            color: viewModel.isScrolled.value ? Colors.black : Colors.white,
           ),
         ),
         actions: [
@@ -174,19 +166,19 @@ class HomeView extends StatelessWidget {
             },
             icon: const Icon(
               Icons.favorite_border_sharp,
-              color: Colors.black,
             ),
           ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.shopping_cart_outlined,
-              color: Colors.black,
             ),
           ),
         ],
-        // flexibleSpace:
-        //     viewModel.isScrolled.value ? null : appBarBackgroundImage(),
+        flexibleSpace:
+            (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)
+                ? null
+                : appBarBackgroundImage(),
         bottom: collectionsList(),
       ),
     );
@@ -214,8 +206,13 @@ class HomeView extends StatelessWidget {
                         decoration: BoxDecoration(
                           border:
                               viewModel.collectionCurrentIndex.value == index
-                                  ? const Border(
-                                      bottom: BorderSide(width: 2),
+                                  ? Border(
+                                      bottom: BorderSide(
+                                        width: 2,
+                                        color: viewModel.isScrolled.value
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
                                     )
                                   : null,
                         ),
@@ -225,8 +222,11 @@ class HomeView extends StatelessWidget {
                           viewModel.collectionList[index].name
                                   ?.capitalizeFirst ??
                               '',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
+                            color: viewModel.isScrolled.value
+                                ? Colors.black
+                                : Colors.white,
                           ),
                         ),
                       ),
