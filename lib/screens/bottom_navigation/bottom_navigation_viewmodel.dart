@@ -18,8 +18,6 @@ class BottomNavigationViewModel extends GetxController {
         return SizedBox();
       case 3:
         return SizedBox();
-      case 4:
-        return SizedBox();
       default:
         return Container(
           height: 300.0,

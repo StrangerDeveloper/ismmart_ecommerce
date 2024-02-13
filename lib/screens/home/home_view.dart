@@ -94,15 +94,7 @@ class HomeView extends StatelessWidget {
                     flashSaleCountDown(),
                     flashSaleProductList(),
                     const Divider(),
-                    // allProductList(),
-                    // Obx(
-                    //   () => viewModel.paginationLoader.value
-                    //       ? const Padding(
-                    //           padding: EdgeInsets.all(8.0),
-                    //           child: CustomCircularLoader(),
-                    //         )
-                    //       : const SizedBox(),
-                    // ),
+                    allProductsTitle(),
                     const SizedBox(height: 80),
                   ],
                 ),
@@ -112,7 +104,7 @@ class HomeView extends StatelessWidget {
                 () => SliverToBoxAdapter(
                   child: viewModel.paginationLoader.value
                       ? const Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.only(bottom: 80),
                           child: CustomCircularLoader(),
                         )
                       : const SizedBox(),
@@ -200,7 +192,7 @@ class HomeView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: InkWell(
                       onTap: () {
-                        viewModel.getCollections(index);
+                        viewModel.changeCollection(index);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -612,27 +604,19 @@ class HomeView extends StatelessWidget {
               ),
               itemCount: viewModel.flashProductList.length,
               itemBuilder: (context, index) {
-                return ProductItem(
+                return ProductItem2(
                   onTap: () {},
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
-                  price: 'Rs ${viewModel.flashProductList[index].price ?? 0}',
                   rating: '${viewModel.flashProductList[index].rating ?? 0}',
-                  reviews:
-                      '${viewModel.flashProductList[index].totalReviews ?? 0}',
-                  previousPrice: viewModel.calculatePercentage(index),
-                  discount:
-                      '${viewModel.flashProductList[index].discount?.percentage ?? 0}',
+                  reviews:  '${viewModel.flashProductList[index].totalReviews ?? 0}',
+                  discount: viewModel.flashProductList[index].discount?.percentage ?? 0,
+                  price: viewModel.flashProductList[index].price ?? 0,
                 );
               },
             )
-          : const SizedBox(
-              height: 150,
-              child: Center(
-                child: Text('Discount Products Not available'),
-              ),
-            ),
+          : const SizedBox(),
     );
   }
 
@@ -665,6 +649,25 @@ class HomeView extends StatelessWidget {
     );
   }
 
+  Widget allProductsTitle() {
+    return Obx(
+      () => (viewModel.allProductList.isNotEmpty)
+          ? const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'All Products',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(),
+    );
+  }
+
   Widget allProductList() {
     return Obx(
       () => viewModel.allProductList.isNotEmpty
@@ -677,30 +680,22 @@ class HomeView extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return ProductItem(
+                  return ProductItem2(
                     onTap: () {},
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',
-                    price: 'Rs ${viewModel.allProductList[index].price ?? 0}',
                     rating: '${viewModel.allProductList[index].rating ?? 0}',
-                    reviews:
-                        '${viewModel.allProductList[index].totalReviews ?? 0}',
-                    previousPrice: viewModel.calculatePercentage2(index),
-                    discount:
-                        '${viewModel.allProductList[index].discount?.percentage ?? 0}',
+                    reviews:  '${viewModel.allProductList[index].totalReviews ?? 0}',
+                    discount: viewModel.allProductList[index].discount?.percentage ?? 0,
+                    price: viewModel.allProductList[index].price ?? 0,
                   );
                 },
                 childCount: viewModel.allProductList.length,
               ),
             )
           : const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 150,
-                child: Center(
-                  child: Text('All Products Not available'),
-                ),
-              ),
+              child: SizedBox(),
             ),
     );
   }

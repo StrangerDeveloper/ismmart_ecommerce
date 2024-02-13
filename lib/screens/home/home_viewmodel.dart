@@ -21,6 +21,7 @@ class HomeViewModel extends GetxController {
   //Collections
   List<CollectionModel> collectionList = <CollectionModel>[].obs;
   RxInt collectionCurrentIndex = 0.obs;
+  String selectedCollectionId = '';
 
   //Carousel
   PageController carouselPageController = PageController(viewportFraction: 1.0);
@@ -42,24 +43,33 @@ class HomeViewModel extends GetxController {
   RxString minutes = '00'.obs;
   RxString seconds = '00'.obs;
   Timer? timer;
-  List<DiscountedProductModel> flashProductList =
-      <DiscountedProductModel>[].obs;
+  List<HomeProductModel> flashProductList = <HomeProductModel>[].obs;
 
   //All Products
-  List<DiscountedProductModel> allProductList = <DiscountedProductModel>[].obs;
+  List<HomeProductModel> allProductList = <HomeProductModel>[].obs;
   RxBool paginationLoader = false.obs;
-  int pageNo = 0;
+  int pageNo = 1;
 
   @override
   void onInit() {
-    mainScrollController.addListener(getAllProducts);
+    // mainScrollController.addListener(getAllProducts);
+    mainScrollController.addListener(appBarSetting);
     super.onInit();
+  }
+
+  appBarSetting() {
+    //change AppBar Settings -- linked to ScrollController listener
+    if (mainScrollController.offset > 50) {
+      isScrolled.value = true;
+    } else {
+      isScrolled.value = false;
+    }
   }
 
   @override
   void onReady() {
     super.onReady();
-     getCollections(0);
+    getCollections();
   }
 
   @override
@@ -71,75 +81,79 @@ class HomeViewModel extends GetxController {
     super.onClose();
   }
 
-  getData() {
-    getNews();
-    getFlashTimer();
-  }
+  changeCollection(int index) {
+    collectionCurrentIndex.value = index;
+    selectedCollectionId =
+        collectionList[collectionCurrentIndex.value].sId ?? '';
 
-  getAllProductsPagination() async {
-    pageNo = 0;
-    allProductList.clear();
-    // mainScrollController.removeListener(getAllProducts);
-    paginationLoader.value = true;
-    // if (!mainScrollController.hasListeners) {
-    //   mainScrollController = ScrollController();
-    //   mainScrollController.addListener(getAllProducts);
-    // }
-    await getAllProducts();
-    paginationLoader.value = false;
-  }
-
-  clearValues() {
-    collectionList.clear();
+    // Clear data
     carouselList.clear();
     categoriesList.clear();
     bannerImage.value = '';
     flashProductList.clear();
+    //Get all Products at Bottom...
+    pageNo = 1;
+    allProductList.clear();
+    mainScrollController.animateTo(
+      mainScrollController.position.minScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
+
+    //Carousel & Banner
+    int mediaLength =
+        collectionList[collectionCurrentIndex.value].media?.length ?? 0;
+    if (mediaLength > 1) {
+      for (int i = 0; i < mediaLength - 1; i++) {
+        carouselList
+            .add(collectionList[collectionCurrentIndex.value].media?[i] ?? '');
+      }
+      bannerImage.value =
+          collectionList[collectionCurrentIndex.value].media?.last ?? '';
+      animateCarousel();
+    } else {
+      carouselList
+          .add(collectionList[collectionCurrentIndex.value].media?[0] ?? '');
+      appBarImage.value =
+          collectionList[collectionCurrentIndex.value].media?[0] ?? '';
+    }
+
+    //Categories
+    categoriesList
+        .addAll(collectionList[collectionCurrentIndex.value].children ?? []);
+
+    //Call other apis...
+    getFlashTimer().then((value){
+      mainScrollController.removeListener(getAllProducts);
+      mainScrollController.addListener(getAllProducts);
+      getAllProducts();
+    });
+
   }
 
-  getCollections(int index) async {
-    collectionCurrentIndex.value = index;
+  getCollections() async {
     GlobalVariable.showLoader.value = true;
 
     Map<String, String> params = {
       'fields[children]': '1',
       'fields[media]=1': '1',
-      'fields[name]':'1',
-      'level':'1',
-      'limit':'0',
+      'fields[name]': '1',
+      'level': '1',
+      'limit': '0',
     };
 
     await ApiBaseHelper()
         .getMethodQueryParam(url: Urls.homeCollections, params: params)
         .then((parsedJson) {
       GlobalVariable.showLoader.value = false;
-      clearValues();
+      // clearValues();
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
 
-        //Collections
         collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
-        getAllProductsPagination();
-
-        //Call other apis...
-        getData();
-
-        //Carousel & Banner
-        int mediaLength = collectionList[collectionCurrentIndex.value].media?.length ?? 0;
-        if (mediaLength > 1) {
-          for (int i = 0; i < mediaLength - 1; i++) {
-            carouselList.add(collectionList[collectionCurrentIndex.value].media?[i] ?? '');
-          }
-          bannerImage.value = collectionList[collectionCurrentIndex.value].media?.last ?? '';
-          animateCarousel();
-        } else {
-          carouselList.add(collectionList[collectionCurrentIndex.value].media?[0] ?? '');
-          appBarImage.value = collectionList[collectionCurrentIndex.value].media?[0] ?? '';
-        }
-
-        //Categories
-        categoriesList.addAll(collectionList[collectionCurrentIndex.value].children ?? []);
+        changeCollection(0);
+        getNews();
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -147,10 +161,16 @@ class HomeViewModel extends GetxController {
   }
 
   getNews() async {
-    // GlobalVariable.showLoader.value = true;
-    await ApiBaseHelper().getMethod(url: Urls.getNews).then((parsedJson) {
-      // GlobalVariable.showLoader.value = false;
+    Map<String, String> params = {
+      'fields[name]': '1',
+      'fields[description]': '1',
+      'limit': '0',
+    };
 
+    await ApiBaseHelper()
+        .getMethodQueryParam(url: Urls.getNews, params: params)
+        .then((parsedJson) {
+      newsList.clear();
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
@@ -161,26 +181,35 @@ class HomeViewModel extends GetxController {
     });
   }
 
-  getFlashTimer() async {
-    String collectionId = collectionList[collectionCurrentIndex.value].sId!;
-    // GlobalVariable.showLoader.value = true;
-    await ApiBaseHelper()
-        .getMethod(url: Urls.getDiscount + collectionId)
-        .then((parsedJson) {
-      // GlobalVariable.showLoader.value = false;
+  Future getFlashTimer() async {
+    Map<String, String> params = {
+      'fields[name]': '1',
+      'fields[start]': '1',
+      'fields[end]': '1',
+      // 'collection': selectedCollectionId,
+    };
 
+    await ApiBaseHelper()
+        .getMethodQueryParam(url: Urls.getFlashDiscountTimer, params: params)
+        .then((parsedJson) {
+      discountModel = DiscountModel().obs;
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         if (data.isNotEmpty) {
           discountModel?.value = DiscountModel.fromJson(data[0]);
+
+          //FlashDiscount Products
           if (discountModel?.value.sId != null) {
-            getFlashProducts(discountModel!.value.sId!, collectionId);
+            getFlashProducts(discountModel!.value.sId!);
           }
-          // getAllProductsPagination();
+
+          //Start Flash Timer
           if (discountModel?.value.end != null) {
             startTimer(discountModel!.value.end!);
           }
+
+
         }
       }
     }).catchError((e) {
@@ -188,20 +217,29 @@ class HomeViewModel extends GetxController {
     });
   }
 
-  getFlashProducts(String discountId, String collectionId) async {
-    // GlobalVariable.showLoader.value = true;
-    await ApiBaseHelper()
-        .getMethod(
-            url:
-                '${Urls.getDiscountedProducts}$discountId&collection=$collectionId')
-        .then((parsedJson) {
-      // GlobalVariable.showLoader.value = false;
+  getFlashProducts(String discountId) async {
+    Map<String, String> params = {
+      'limit': '6',
+      'fields[name]': '1',
+      'fields[image]': '1',
+      'fields[quantity]': '1',
+      'fields[inStock]': '1',
+      'fields[totalReviews]': '1',
+      'fields[rating]': '1',
+      'fields[price]': '1',
+      'fields[store][name]': '1',
+      'fields[discount][percentage]': '1',
+      // 'collection': selectedCollectionId,
+      'discount': discountId,
+    };
 
+    await ApiBaseHelper()
+        .getMethodQueryParam(url: Urls.getHomeProducts, params: params)
+        .then((parsedJson) {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
-        flashProductList
-            .addAll(data.map((e) => DiscountedProductModel.fromJson(e)));
+        flashProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -209,12 +247,23 @@ class HomeViewModel extends GetxController {
   }
 
   getAllProducts() async {
-        if (mainScrollController.offset > 50) {
-          isScrolled.value = true;
-        } else {
-          isScrolled.value = false;
-        }
-    if (pageNo == 0
+    Map<String, String> params = {
+      'limit': '10',
+      'fields[name]': '1',
+      'fields[image]': '1',
+      'fields[quantity]': '1',
+      'fields[inStock]': '1',
+      'fields[totalReviews]': '1',
+      'fields[rating]': '1',
+      'fields[price]': '1',
+      'fields[store][name]': '1',
+      'fields[discount][percentage]': '1',
+      // 'collection': selectedCollectionId,
+      'page': pageNo.toString(),
+    };
+
+    //Get Products Implementation
+    if (pageNo == 1
         ? true
         : (mainScrollController.hasClients &&
             mainScrollController.position.maxScrollExtent ==
@@ -222,31 +271,17 @@ class HomeViewModel extends GetxController {
       pageNo++;
       paginationLoader.value = true;
 
-      //String collectionId = collectionList[collectionCurrentIndex.value].sId!;
-
       await ApiBaseHelper()
-          .getMethod(url: '${Urls.getSimpleProducts}&page=$pageNo')
+          .getMethodQueryParam(url: Urls.getHomeProducts, params: params)
           .then((parsedJson) {
+        paginationLoader.value = false;
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
-          // if (data.isEmpty || data.length<10) {
-          //   mainScrollController.removeListener(getAllProducts);
-          // }
-          allProductList
-              .addAll(data.map((e) => DiscountedProductModel.fromJson(e)));
-
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-          allProductList.add(DiscountedProductModel.fromJson(data[0]));
-
-          paginationLoader.value = false;
+          if (data.isEmpty || data.length < 10) {
+            mainScrollController.removeListener(getAllProducts);
+          }
+          allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
@@ -296,21 +331,7 @@ class HomeViewModel extends GetxController {
     }
   }
 
-  String calculatePercentage(int index) {
-    double percentage =
-        double.tryParse((flashProductList[index].discount).toString()) ?? 0.0;
-    double price =
-        double.tryParse((flashProductList[index].price).toString()) ?? 0.0;
-    double finalPrice = price - (percentage * price);
-    return finalPrice.toString();
-  }
 
-  String calculatePercentage2(int index) {
-    double percentage =
-        double.tryParse((allProductList[index].discount).toString()) ?? 0.0;
-    double price =
-        double.tryParse((allProductList[index].price).toString()) ?? 0.0;
-    double finalPrice = price - (percentage * price);
-    return finalPrice.toString();
-  }
+
+
 }

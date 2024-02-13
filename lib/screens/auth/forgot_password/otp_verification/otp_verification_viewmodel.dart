@@ -23,6 +23,7 @@ class OtpVerificationViwModel extends GetxController {
   RxString seconds = '00'.obs;
   Timer? timer;
 
+  //-------- Timer Show For OTP ---------
   startTimer() {
     /// Calculate duration
 
@@ -48,19 +49,24 @@ class OtpVerificationViwModel extends GetxController {
     }
   }
 
-  Map<String, dynamic> parsedJson = {};
+  //------- Api Call for OTP Verify ------
+  Map<String, dynamic> _parsedJson = {};
   Future<void> otpConfirmApi() async {
     try {
       Map<String, dynamic> param = {"otp": otpController.text, 'verify': true};
       CommonFunction.debugPrint("eeeee $param");
       GlobalVariable.showLoader.value = true;
-      parsedJson =
-          await ApiBaseHelper().putMethod(url: Urls.resetPassword, body: param);
-      if (parsedJson['success'] == true) {
-        gotoNextScreen();
-      } else {
-        error();
-      }
+
+      await ApiBaseHelper()
+          .putMethod(url: Urls.resetPassword, body: param)
+          .then((parsedJson) {
+        _parsedJson = _parsedJson;
+        if (parsedJson['success'] == true) {
+          gotoNextScreen();
+        } else {
+          error();
+        }
+      });
     } catch (e) {
       error();
     }
@@ -80,7 +86,7 @@ class OtpVerificationViwModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     CommonFunction.showSnackBar(
       title: "Error",
-      message: "${parsedJson['message']}",
+      message: "${_parsedJson['message']}",
     );
   }
 }

@@ -23,13 +23,13 @@ class ThemeHelper {
       //   fontSize: 20,
       //   fontWeight: FontWeight.w400,
       // ),
-      titleTextStyle: textTheme.titleMedium,
+      titleTextStyle: TextThemes.textTheme(color: AppColors.black).titleMedium,
       iconTheme: const IconThemeData(color: AppColors.black),
       centerTitle: true,
       elevation: 3,
       shadowColor: AppColors.black12,
     ),
-     progressIndicatorTheme:
+    progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColors.black),
     dialogTheme: DialogTheme(
       backgroundColor: AppColors.background,
@@ -78,7 +78,7 @@ class ThemeHelper {
       backgroundColor: AppColors.background,
       elevation: 0,
       iconTheme: const IconThemeData(color: AppColors.white),
-      titleTextStyle: textTheme.titleMedium,
+      titleTextStyle: TextThemes.textTheme(color: AppColors.white).titleMedium,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: AppColors.background,
         statusBarIconBrightness: Brightness.light,
@@ -153,8 +153,8 @@ class TextThemes {
           fontWeight: FontWeight.w600,
         ),
         bodyLarge: TextStyle(
-            color: color,
-          
+          color: color,
+
           fontSize: 16,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
@@ -173,7 +173,6 @@ class TextThemes {
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
-
         labelLarge: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
@@ -191,7 +190,7 @@ class TextThemes {
         labelSmall: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize:11,
+          fontSize: 11,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),

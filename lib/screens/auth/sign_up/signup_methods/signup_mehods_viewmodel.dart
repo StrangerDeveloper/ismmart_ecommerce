@@ -18,8 +18,6 @@ class SignupMehtodViewModel extends GetxController {
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
-  
-  
   Future googleLogIn() async {
     GlobalVariable.showLoader.value = true;
     GoogleSignIn googleSignIn = GoogleSignIn(
@@ -35,46 +33,20 @@ class SignupMehtodViewModel extends GetxController {
       await googleSignIn.signOut();
       credential = await googleSignIn.signIn();
 
-      
       credential?.authentication.then((value) async {
         socialName.value = credential?.displayName ?? "";
         socialEmail.value = credential?.email ?? "";
 
         socialPlatform.value = 'Google';
         socialToken.value = '${value.accessToken}';
-        
-        GlobalVariable.showLoader.value = false;
-        
-        CommonFunction.debugPrint("social name ==>>>> ${socialName.value}");
-        
-        Get.toNamed(AppRoutes.signUpViewRoute);
-        // Map<dynamic, dynamic> param = {
-        //   "social": {
-        //     "name": "Google",
-        //     "token": '${value.accessToken}',
-        //   }
-        // };
 
-        //   await ApiBaseHelper()
-        //       .postMethod(url: "Urls.login", body: param)
-        //       .then((parsedJson) {
-        //     if (parsedJson['success'] == true) {
-        //       String status = parsedJson['data']['status'] ?? "";
-        //       accountStatusCheck(status, emailController.text);
-        //       GlobalVariable.showLoader.value = false;
-        //       GlobalVariable.token = parsedJson['data']['token'];
-        //       GlobalVariable.showLoader.value = false;
-        //     } else {
-        //       GlobalVariable.showLoader.value = false;
-        //       // AppConstant.displaySnackBar(
-        //       //   "Error",
-        //       //   '${parsedJson['message']}',
-        //       // );
-        //     }
-        //   });
+        GlobalVariable.showLoader.value = false;
+        CommonFunction.debugPrint("social name ==>>>> ${socialName.value}");
+
+        Get.toNamed(AppRoutes.signUpViewRoute);
       });
     } catch (error) {
-      CommonFunction.debugPrint(error);
+      print(error);
       GlobalVariable.showLoader.value = false;
       //  debugPrint("$error");
     }
@@ -95,30 +67,12 @@ class SignupMehtodViewModel extends GetxController {
       appleCredential.state;
 
       try {
-        // Map<dynamic, dynamic> param = {
-        //   "social": {
-        //     "name": "Apple",
-        //     "token": '${appleCredential.identityToken}',
-        //   }
-        // };
-
-        // await ApiBaseHelper()
-        //     .postMethod(url: " Urls.login", body: param)
-        //     .then((parsedJson) {
-        //   if (parsedJson['success'] == true) {
-        //     String status = parsedJson['data']['status'] ?? "";
-        //     accountStatusCheck(status, emailController.text);
-        //     GlobalVariable.showLoader.value = false;
-        //     GlobalVariable.token = parsedJson['data']['token'];
-        //     GlobalVariable.showLoader.value = false;
-        //   } else {
-        //     GlobalVariable.showLoader.value = false;
-        //     // AppConstant.displaySnackBar(
-        //     //   "Error",
-        //     //   'Account not found',
-        //     // );
-        //   }
-        // });
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Apple",
+            "token": '${appleCredential.identityToken}',
+          }
+        };
       } catch (error) {
         GlobalVariable.showLoader.value = false;
       }
