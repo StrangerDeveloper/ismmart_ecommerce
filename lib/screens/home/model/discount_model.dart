@@ -14,11 +14,11 @@ class DiscountModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['start'] = this.start;
-    data['end'] = this.end;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['start'] = start;
+    data['end'] = end;
     return data;
   }
 }

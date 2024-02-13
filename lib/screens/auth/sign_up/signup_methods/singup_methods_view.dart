@@ -26,7 +26,7 @@ class SignUpMethodsView extends StatelessWidget {
       top: false,
       child: Scaffold(
         appBar: appbar(),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         body: Stack(
           children: [
             Padding(
@@ -102,7 +102,7 @@ class SignUpMethodsView extends StatelessWidget {
             weight: FontWeight.w500,
           ),
           onPressed: () {
-            Get.toNamed(AppRoutes.signUpView);
+            Get.toNamed(AppRoutes.signUpViewRoute);
             // Get.to(SignUp1View());
             // Get.offNamed(Routes.dashboard);
             //
@@ -207,17 +207,13 @@ class SignUpMethodsView extends StatelessWidget {
     return Padding(
       padding:
           const EdgeInsets.only(left: 128.0, right: 128, top: 41, bottom: 41),
-      child: Container(
-        // color: Colors.green,
-
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(1.0),
-            child: Image.asset(
-              //semanticsLabel: 'My SVG Picture',
-              'assets/images/logo1.png',
-              //fit: BoxFit.fill,
-            )),
-      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(1.0),
+          child: Image.asset(
+            //semanticsLabel: 'My SVG Picture',
+            'assets/images/logo1.png',
+            //fit: BoxFit.fill,
+          )),
     );
   }
 

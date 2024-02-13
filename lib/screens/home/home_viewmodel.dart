@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
-import 'package:ismmart_ecommerce/main.dart';
 import 'package:ismmart_ecommerce/screens/home/model/collection_model.dart';
 import 'package:ismmart_ecommerce/screens/home/model/discount_model.dart';
 import 'package:ismmart_ecommerce/screens/home/model/discounted_product_model.dart';
@@ -220,7 +219,7 @@ class HomeViewModel extends GetxController {
       pageNo++;
       paginationLoader.value = true;
 
-      String collectionId = collectionList[collectionCurrentIndex.value].sId!;
+      //String collectionId = collectionList[collectionCurrentIndex.value].sId!;
 
       await ApiBaseHelper()
           .getMethod(url: '${Urls.getSimpleProducts}&page=$pageNo')

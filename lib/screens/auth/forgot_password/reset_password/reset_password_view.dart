@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/reset_password_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
@@ -9,7 +8,6 @@ import '../../../../helpers/app_colors.dart';
 import '../../../../helpers/theme_helper.dart';
 import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_network_image.dart';
 import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/custom_text_field.dart';
 import '../../../../widgets/obscure_suffix_icon.dart';
@@ -44,7 +42,7 @@ class ResetPasswordView extends StatelessWidget {
                 ),
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
@@ -142,17 +140,13 @@ class ResetPasswordView extends StatelessWidget {
     return Padding(
       padding:
           const EdgeInsets.only(left: 35.0, right: 35, top: 41, bottom: 41),
-      child: Container(
-        // color: Colors.green,
-
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(1.0),
-            child: Image.asset(
-              //semanticsLabel: 'My SVG Picture',
-              'assets/images/reset_password_img.png',
-              //fit: BoxFit.fill,
-            )),
-      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(1.0),
+          child: Image.asset(
+            //semanticsLabel: 'My SVG Picture',
+            'assets/images/reset_password_img.png',
+            //fit: BoxFit.fill,
+          )),
     );
   }
 
@@ -161,10 +155,10 @@ class ResetPasswordView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomText(
+              CustomText(
                 title: "Reset",
                 size: 14,
                 color: AppColors.white,

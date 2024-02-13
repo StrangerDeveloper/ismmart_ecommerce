@@ -12,7 +12,7 @@ class ThemeHelper {
     useMaterial3: false,
   ).copyWith(
     scaffoldBackgroundColor: AppColors.background,
-    textTheme: TextThemes.textTheme(color: Colors.black),
+    textTheme: TextThemes.textTheme(color: AppColors.black),
     // primarySwatch: AppColors.palette1,
     // useMaterial3: false,
     appBarTheme: AppBarTheme(
@@ -35,7 +35,7 @@ class ThemeHelper {
     //useMaterial3: false,
     //primarySwatch: ThemeHelper.platte1,
     scaffoldBackgroundColor: AppColors.background,
-    textTheme: TextThemes.textTheme(color: Colors.black),
+    textTheme: TextThemes.textTheme(color: AppColors.white),
     // fontFamily: 'Poppins',
     dividerColor: AppColors.white,
     //textTheme: TextThemes.textTheme(color: white),
@@ -57,8 +57,8 @@ class ThemeHelper {
         borderRadius: BorderRadius.circular(30),
         borderSide: BorderSide.none,
       ),
-      prefixIconColor: Colors.white,
-      fillColor: Colors.white.withOpacity(0.1),
+      prefixIconColor: AppColors.white,
+      fillColor: AppColors.white.withOpacity(0.1),
       hintStyle:
           TextThemes.textTheme(color: AppColors.white).bodyMedium!.copyWith(
                 color: AppColors.white.withOpacity(0.4),
@@ -161,7 +161,7 @@ class TextThemes {
           fontWeight: FontWeight.w400,
         ),
         labelLarge: TextStyle(
-          color: AppColors.black,
+          color: color,
           //color: isDark ? Colors.black : Colors.white,
           fontSize: 16,
           //fontFamily: 'Inter',

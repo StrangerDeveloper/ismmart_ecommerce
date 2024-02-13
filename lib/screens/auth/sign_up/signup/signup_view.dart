@@ -40,11 +40,11 @@ class SignUpView extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Gap(44),
+                        const Gap(44),
                         getOnBaordHeading(),
                         nameField(),
                         emailTextField(),
-                        Gap(15),
+                        const Gap(15),
                         // phoneNumberTextField(),
                         genderTextField(),
                         cnicNumberField(),

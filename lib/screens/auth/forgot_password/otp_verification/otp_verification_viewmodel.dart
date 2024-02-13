@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/reset_password_view.dart';
 
 import '../../../../helpers/api_base_helper.dart';
@@ -53,7 +52,7 @@ class OtpVerificationViwModel extends GetxController {
   Future<void> otpConfirmApi() async {
     try {
       Map<String, dynamic> param = {"otp": otpController.text, 'verify': true};
-      print("eeeee ${param}");
+      CommonFunction.debugPrint("eeeee $param");
       GlobalVariable.showLoader.value = true;
       parsedJson =
           await ApiBaseHelper().putMethod(url: Urls.resetPassword, body: param);
@@ -73,7 +72,7 @@ class OtpVerificationViwModel extends GetxController {
       title: "success",
       message: "Reset Password Link send to your Email",
     );
-    var param = {'otp': '${otpController.text}', 'email': '${userEmail.value}'};
+    var param = {'otp': otpController.text, 'email': userEmail.value};
     Get.to(() => ResetPasswordView(), arguments: param);
   }
 

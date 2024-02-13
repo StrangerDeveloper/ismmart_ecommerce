@@ -59,12 +59,7 @@ class ProductDetailsViewModel extends GetxController
     },
   ];
 
-  @override
-  void onInit() {
-    super.onInit();
-
-    // tabController = TabController(length: 3, vsync: this);
-  }
+ 
 
   void scrollTo(GlobalKey key) {
     final RenderObject renderObject = key.currentContext!.findRenderObject()!;

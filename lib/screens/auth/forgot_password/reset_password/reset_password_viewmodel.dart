@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/success_view.dart';
-import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 
 import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/common_function.dart';
@@ -13,33 +12,41 @@ class ResetPasswordViewModel extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   RxBool obscurePassword = true.obs;
-  var param;
+  //Map<String, dynamic> param = <String, dynamic>{};
+  //var param;
   @override
   void onReady() {
-    param = Get.arguments;
-    // TODO: implement onReady
+    ///param = Get.arguments;
     super.onReady();
   }
 
-  Map<String, dynamic> parsedJson = {};
   Future<void> resetPswordApi() async {
     if (resetPasswordFormKey.currentState?.validate() ?? false) {
       try {
-        Map<String, dynamic> _param = param;
-        param['new_password'] = passwordController.text;
-        param['confirm_password'] = confirmPasswordController.text;
+        if (Get.arguments != null) {
+          Map<String, dynamic> param = Get.arguments;
 
-        print("eeeee ${_param}");
-        GlobalVariable.showLoader.value = true;
-        parsedJson = await ApiBaseHelper()
-            .putMethod(url: Urls.resetPassword, body: _param);
-        if (parsedJson['success'] == true) {
-          gotoNextScreen();
+          param['new_password'] = passwordController.text;
+          param['confirm_password'] = confirmPasswordController.text;
+
+          CommonFunction.debugPrint("eeeee $param");
+
+          GlobalVariable.showLoader.value = true;
+
+          await ApiBaseHelper()
+              .putMethod(url: Urls.resetPassword, body: param)
+              .then((parsedJson) {
+            if (parsedJson['success'] == true) {
+              gotoNextScreen();
+            } else {
+              error(parsedJson['message']);
+            }
+          });
         } else {
-          error();
+          error('Arguments are null');
         }
       } catch (e) {
-        error();
+        error(e.toString());
       }
     }
   }
@@ -50,14 +57,14 @@ class ResetPasswordViewModel extends GetxController {
       title: "success",
       message: "Reset Password Link send to your Email",
     );
-    Get.to(() => SuccessView());
+    Get.toNamed(AppRoutes.successViewRoute);
   }
 
-  void error() {
+  void error(String message) {
     GlobalVariable.showLoader.value = false;
     CommonFunction.showSnackBar(
       title: "Error",
-      message: "${parsedJson['message']}",
+      message: message,
     );
   }
 }
