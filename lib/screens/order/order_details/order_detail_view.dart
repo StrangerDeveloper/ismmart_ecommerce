@@ -5,7 +5,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_ecommerce/helpers/app_strings.dart';
 
+import '../../../helpers/app_colors.dart';
 import 'order_detail_viewmodel.dart';
 import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
@@ -23,10 +25,11 @@ class OrderDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(
+      appBar: CustomAppBar2(
         title: "Order Details",
         centerTitle: true,
         containsLeading: true,
+        titleTextStyle: ThemeHelper.textTheme.titleSmall,
       ),
       body: Stack(
         children: [
@@ -45,9 +48,10 @@ class OrderDetailView extends StatelessWidget {
                     child: _buildOrderListFrame(),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: _buildOrderDetail(context),
                   ),
+                  _buildOrderInfo(context),
                 ],
               ),
             ),
@@ -61,16 +65,51 @@ class OrderDetailView extends StatelessWidget {
   Widget _buildOrderListFrame() {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          _customField2(
-              "Order No ${viewModel.orderItemModel.value.orderId ?? "1234"}"),
-          _customField1(
-            DateFormat("y MMM d").format(
-              DateTime.parse(viewModel.orderItemModel.value.createdAt ??
-                  DateTime.now().toString()),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField2(
+                  "Order No ${viewModel.orderItemModel.value.orderId ?? "1234"}"),
+              _customField1(
+                DateFormat("y MMM d").format(
+                  DateTime.parse(viewModel.orderItemModel.value.createdAt ??
+                      DateTime.now().toString()),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Tracking number: ",
+                      style: TextStyle(
+                        color: AppColors.grey2,
+                        fontSize: 15,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          viewModel.orderItemModel.value.deliveryStatus ?? "TN",
+                      style: ThemeHelper.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+                // child: _customField2(
+                //     "Tracking Number: ${viewModel.orderItemModel.value.orderId ?? "TN"}"),
+              ),
+              _status(
+                  viewModel.orderItemModel.value.deliveryStatus ?? "status"),
+            ],
           ),
         ],
       ),
@@ -88,246 +127,263 @@ class OrderDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    _customField2(
-                        "Tracking Number: ${viewModel.orderItemModel.value.orderId ?? "TN"}"),
-                  ],
-                ),
-                _customField2(viewModel
-                            .orderItemModel.value.orderDetails?.market !=
-                        null
-                    ? '${viewModel.orderItemModel.value.orderDetails?.market!} Store'
-                    : 'status'),
-              ],
-            ),
-            const SizedBox(height: 20),
             _customField2(
                 "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? "length"} Items"),
-            Obx(
-              () =>
-                  // viewModel.lineItemList.isEmpty
-                  //     ? const Center(
-                  //         child: Text("No items found"),
-                  //       )
-                  //     :
-                  ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount:
-                    viewModel.orderItemModel.value.lineitems?.length ?? 2,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: const Color(0xFFF9FAFB),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: _status(viewModel.orderItemModel.value
-                                    .lineitems?[index].fulfilmentStatus ??
-                                "status"),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      CustomNetworkImage(
-                                        width: 40,
-                                        height: 40,
-                                        imageUrl: viewModel.orderItemModel.value
-                                                .lineitems?[index].media ??
-                                            'assets/images/image_not_found.png',
-                                        shape: BoxShape.rectangle,
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _customField2(viewModel
-                                                  .orderItemModel
-                                                  .value
-                                                  .lineitems?[index]
-                                                  .name ??
-                                              "product name"),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 6.0, bottom: 12.0),
-                                            child: _customField1(viewModel
-                                                    .orderItemModel
-                                                    .value
-                                                    .orderId
-                                                    ?.toString() ??
-                                                "Vendor"),
-                                          ),
-                                          _customField1(
-                                              "Color: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "color"}"),
-                                          _customField1(
-                                              "Size: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "size"}"),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  if (viewModel.orderItemModel.value
-                                          .lineitems?[index].fulfilmentStatus ==
-                                      "delivered")
-                                    CustomIconTextBtn(
-                                      title: "Write a review",
-                                      onPressed: () {},
-                                      icon: Icons.edit,
-                                    )
-                                  else
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 16.0,
-                                        left: 56.0,
-                                      ),
-                                      child: (CustomIconTextBtn(
-                                        title: "Write a review",
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(12),
-                                                topRight: Radius.circular(12),
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              double rating = 0;
-                                              return SingleChildScrollView(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    _buildHeader(context),
-                                                    _buildRatingSection(rating),
-                                                    _buildCommentSection(),
-                                                    _buildPhotoSection(),
-                                                    _buildLeaveReviewButton(),
-                                                    const SizedBox(height: 20)
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        icon: Icons.edit,
-                                        radius: 20,
-                                        height: 10,
-                                      )),
-                                    ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 50.0,
-                                ),
-                                child: _customField1(
-                                    "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total?.toStringAsFixed(2) ?? "total"}"),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 17.0),
+              child: Obx(
+                () =>
+                    // viewModel.lineItemList.isEmpty
+                    //     ? const Center(
+                    //         child: Text("No items found"),
+                    //       )
+                    //     :
+                    ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount:
+                      viewModel.orderItemModel.value.lineitems?.length ?? 2,
+                  itemBuilder: (context, index) {
+                    return _listViewItem(context, index);
+                  },
+                ),
               ),
             ),
-            const SizedBox(
-              height: 17,
-            ),
-            _customField2("Order Information"),
-            Container(
-              height: MediaQuery.of(ctx).size.height * 0.17,
-              width: MediaQuery.of(ctx).size.width * 1,
-              padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.name ??
-                          "Shipping Method:"),
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.cnic ??
-                          "id"),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.name ??
-                          "Payment Method:"),
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.cnic ??
-                          "id"),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.name ??
-                          "Delivery Method:"),
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.cnic ??
-                          "id"),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.name ??
-                          "Discount:"),
-                      _customField1(
-                          viewModel.orderItemModel.value.deliveryStatus ??
-                              "id"),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
-                              .assignedRider?.name ??
-                          "Total Amount:"),
-                      _customField1(
-                          viewModel.orderItemModel.value.deliveryStatus ??
-                              "id"),
-                    ],
-                  ),
-                ],
-              ),
-            )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _listViewItem(BuildContext context, int index) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: const Color(0xFFF9FAFB),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: _status(viewModel.orderItemModel.value.lineitems?[index]
+                      .fulfilmentStatus ??
+                  "status"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        CustomNetworkImage(
+                          width: 40,
+                          height: 40,
+                          imageUrl: viewModel.orderItemModel.value
+                                  .lineitems?[index].media ??
+                              'assets/images/image_not_found.png',
+                          shape: BoxShape.rectangle,
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _customField2(viewModel.orderItemModel.value
+                                    .lineitems?[index].name ??
+                                "product name"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 6.0, bottom: 12.0),
+                              child: _customField1(viewModel
+                                      .orderItemModel.value.orderId
+                                      ?.toString() ??
+                                  "Vendor"),
+                            ),
+                            RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "Color: ",
+                                style:
+                                    ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.grey2,
+                                ),
+                              ),
+                              TextSpan(
+                                text: viewModel.orderItemModel.value
+                                        .lineitems?[index].sku
+                                        ?.toString() ??
+                                    "color",
+                                style:
+                                    ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ])),
+                            // _customField1(
+                            //     "Color: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "color"}"),
+                            // _customField1(
+                            //     "Size: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "size"}"),
+                            RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "Size: ",
+                                style:
+                                    ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.grey2,
+                                ),
+                              ),
+                              TextSpan(
+                                text: viewModel.orderItemModel.value
+                                        .lineitems?[index].sku
+                                        ?.toString() ??
+                                    "size",
+                                style:
+                                    ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ])),
+                          ],
+                        ),
+                      ],
+                    ),
+                    if (viewModel.orderItemModel.value.lineitems?[index]
+                            .fulfilmentStatus ==
+                        "delivered")
+                      CustomIconTextBtn(
+                        title: "Write a review",
+                        onPressed: () {},
+                        icon: Icons.edit,
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16.0,
+                          left: 56.0,
+                        ),
+                        child: (CustomIconTextBtn(
+                          title: "Write a review",
+                          onPressed: () {
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              context: context,
+                              builder: (BuildContext context) {
+                                double rating = 0;
+                                return SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _buildHeader(context),
+                                      _buildRatingSection(rating),
+                                      _buildCommentSection(),
+                                      _buildPhotoSection(),
+                                      _buildLeaveReviewButton(),
+                                      const SizedBox(height: 20)
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          icon: Icons.edit,
+                          radius: 20,
+                          height: 10,
+                        )),
+                      ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 70.0,
+                  ),
+                  child: _customField2(
+                      "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total?.toStringAsFixed(2) ?? "total"}"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderInfo(BuildContext ctx) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _customField2("Order Information"),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                  "Shipping Method:"),
+              _customField2(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                  "id"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                  "Payment Method:"),
+              _customField2(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                  "id"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                  "Delivery Method:"),
+              _customField2(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                  "id"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                  "Discount:"),
+              _customField2(
+                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(viewModel
+                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                  "Total Amount:"),
+              _customField2(
+                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -405,12 +461,12 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget _buildCommentSection() {
-    return const Padding(
-      padding: EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: CustomTextField1(
         title: "Comment",
         maxLines: 7,
-        hintText: "Please write your comment here...",
+        hintText: AppStrings.writeComment,
       ),
     );
   }
@@ -470,6 +526,9 @@ class OrderDetailView extends StatelessWidget {
   Widget _customField1(String text1) {
     return CustomText(
       title: text1.toString(),
+      style: ThemeHelper.textTheme.bodySmall?.copyWith(
+        color: AppColors.grey2,
+      ),
     );
   }
 
@@ -487,9 +546,9 @@ class OrderDetailView extends StatelessWidget {
     Color color = statusColor(value);
     return Text(
       value,
-      style: TextStyle(
+      style: ThemeHelper.textTheme.bodySmall?.copyWith(
         color: color,
-        fontSize: 10,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
