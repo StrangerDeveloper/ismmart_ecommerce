@@ -331,21 +331,7 @@ class HomeViewModel extends GetxController {
     }
   }
 
-  String calculatePercentage(int index) {
-    double percentage =
-        double.tryParse((flashProductList[index].discount).toString()) ?? 0.0;
-    double price =
-        double.tryParse((flashProductList[index].price).toString()) ?? 0.0;
-    double finalPrice = price - (percentage * price);
-    return finalPrice.toString();
-  }
 
-  String calculatePercentage2(int index) {
-    double percentage =
-        double.tryParse((allProductList[index].discount).toString()) ?? 0.0;
-    double price =
-        double.tryParse((allProductList[index].price).toString()) ?? 0.0;
-    double finalPrice = price - (percentage * price);
-    return finalPrice.toString();
-  }
+
+
 }

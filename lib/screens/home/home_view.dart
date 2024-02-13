@@ -604,18 +604,15 @@ class HomeView extends StatelessWidget {
               ),
               itemCount: viewModel.flashProductList.length,
               itemBuilder: (context, index) {
-                return ProductItem(
+                return ProductItem2(
                   onTap: () {},
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
-                  price: 'Rs ${viewModel.flashProductList[index].price ?? 0}',
                   rating: '${viewModel.flashProductList[index].rating ?? 0}',
-                  reviews:
-                      '${viewModel.flashProductList[index].totalReviews ?? 0}',
-                  previousPrice: viewModel.calculatePercentage(index),
-                  discount:
-                      '${viewModel.flashProductList[index].discount?.percentage ?? 0}',
+                  reviews:  '${viewModel.flashProductList[index].totalReviews ?? 0}',
+                  discount: viewModel.flashProductList[index].discount?.percentage ?? 0,
+                  price: viewModel.flashProductList[index].price ?? 0,
                 );
               },
             )
@@ -683,18 +680,15 @@ class HomeView extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return ProductItem(
+                  return ProductItem2(
                     onTap: () {},
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',
-                    price: 'Rs ${viewModel.allProductList[index].price ?? 0}',
                     rating: '${viewModel.allProductList[index].rating ?? 0}',
-                    reviews:
-                        '${viewModel.allProductList[index].totalReviews ?? 0}',
-                    previousPrice: viewModel.calculatePercentage2(index),
-                    discount:
-                        '${viewModel.allProductList[index].discount?.percentage ?? 0}',
+                    reviews:  '${viewModel.allProductList[index].totalReviews ?? 0}',
+                    discount: viewModel.allProductList[index].discount?.percentage ?? 0,
+                    price: viewModel.allProductList[index].price ?? 0,
                   );
                 },
                 childCount: viewModel.allProductList.length,
