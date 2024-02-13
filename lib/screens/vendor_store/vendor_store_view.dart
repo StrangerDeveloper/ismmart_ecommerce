@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_all_products.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_homepage.dart';
@@ -31,65 +32,66 @@ class VendorStoreView extends StatelessWidget {
           color: AppColors.black
         )
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.grey2.withOpacity(0.1),
-                    blurRadius: 15,
-                    spreadRadius: 8,
-                    offset: const Offset(0, 8)
+      body: Obx(() => GlobalVariable.showLoader.value ? const LoaderView() : Padding(
+          padding: const EdgeInsets.only(top: 25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.grey2.withOpacity(0.1),
+                      blurRadius: 15,
+                      spreadRadius: 8,
+                      offset: const Offset(0, 8)
+                    )
+                  ]
+                ),
+                child: Obx(() => CircleAvatar(
+                    radius: 40,
+                    backgroundImage: viewModel.storeLogoUrl.value != '' ? null : const AssetImage('assets/images/no_image_found.jpg'),
+                    child: viewModel.storeLogoUrl.value != '' ? CustomNetworkImage(imageUrl: viewModel.storeLogoUrl.value) : const SizedBox()),
+                  ),
+                ),
+              const SizedBox(height: 20,),
+              Obx(() => Text(
+                  viewModel.storeName.value,
+                  style: ThemeHelper.textTheme.bodyLarge?.copyWith(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w700
                   )
-                ]
-              ),
-              child: Obx(() => CircleAvatar(
-                  radius: 40,
-                  backgroundImage: viewModel.storeLogoUrl.value != '' ? null : const AssetImage('assets/images/no_image_found.jpg'),
-                  child: viewModel.storeLogoUrl.value != '' ? CustomNetworkImage(imageUrl: viewModel.storeLogoUrl.value) : SizedBox()),
                 ),
               ),
-            const SizedBox(height: 20,),
-            Obx(() => Text(
-                viewModel.storeName.value,
-                style: ThemeHelper.textTheme.bodyLarge?.copyWith(
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w700
-                )
-              ),
-            ),
-            const SizedBox(height: 15,),
-            TabBar(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              controller: viewModel.tabController,
-              labelColor: AppColors.black,
-              labelStyle: ThemeHelper.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-              enableFeedback: false,
-              unselectedLabelColor: AppColors.grey5,
-              unselectedLabelStyle: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 14),
-              indicatorColor: Colors.black,
-                indicatorWeight: 1.5,
-                tabs: const [
-                  Tab(text: 'Homepage',),
-                  Tab(text: 'All Products')
-            ]
-            ),
-            Expanded(
-              child: TabBarView(
+              const SizedBox(height: 15,),
+              TabBar(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 controller: viewModel.tabController,
-                  children: [
-                    VendorStoreHomePage(),
-                    VendorStoreAllProducts(),
-              ]),
-            ),
-          ],
+                labelColor: AppColors.black,
+                labelStyle: ThemeHelper.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                enableFeedback: false,
+                unselectedLabelColor: AppColors.grey5,
+                unselectedLabelStyle: GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 14),
+                indicatorColor: Colors.black,
+                  indicatorWeight: 1.5,
+                  tabs: const [
+                    Tab(text: 'Homepage',),
+                    Tab(text: 'All Products')
+              ]
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: viewModel.tabController,
+                    children: [
+                      VendorStoreHomePage(),
+                      VendorStoreAllProducts(),
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
