@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/country_model.dart';
 
 class CustomBottomSheet1 {
   final List<dynamic> list;

@@ -27,8 +27,8 @@ class CategoryProductsView extends StatelessWidget {
         containsLeading: true,
       ),
       body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        physics: const ScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           children: [
             GridView.builder(

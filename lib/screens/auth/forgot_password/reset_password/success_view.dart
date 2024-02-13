@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/reset_password_viewmodel.dart';
-import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 
 import '../../../../helpers/app_colors.dart';
 import '../../../../helpers/theme_helper.dart';
-import '../../../../helpers/validator.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_network_image.dart';
 import '../../../../widgets/custom_text.dart';
-import '../../../../widgets/custom_text_field.dart';
-import '../../../../widgets/obscure_suffix_icon.dart';
 
 class SuccessView extends StatelessWidget {
   SuccessView({super.key});

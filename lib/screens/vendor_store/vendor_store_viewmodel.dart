@@ -89,11 +89,6 @@ class VendorStoreViewModel extends GetxController with GetTickerProviderStateMix
     super.onInit();
   }
 
-  @override
-  void onReady() {
-
-    super.onReady();
-  }
 
   void runSliderTimer() {
     isSliderLoading.value = false;

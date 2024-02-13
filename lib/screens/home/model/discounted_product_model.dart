@@ -25,34 +25,34 @@ class DiscountedProductModel {
   DiscountedProductModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     sId = json['_id'];
-    store = json['store'] != null ? new Store.fromJson(json['store']) : null;
+    store = json['store'] != null ? Store.fromJson(json['store']) : null;
     totalReviews = json['totalReviews'];
     rating = json['rating'];
     quantity = json['quantity'];
     inStock = json['inStock'];
     price = json['price'];
     discount = json['discount'] != null
-        ? new Discount.fromJson(json['discount'])
+        ? Discount.fromJson(json['discount'])
         : null;
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    if (this.store != null) {
-      data['store'] = this.store!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    if (store != null) {
+      data['store'] = store!.toJson();
     }
-    data['totalReviews'] = this.totalReviews;
-    data['rating'] = this.rating;
-    data['quantity'] = this.quantity;
-    data['inStock'] = this.inStock;
-    data['price'] = this.price;
-    if (this.discount != null) {
-      data['discount'] = this.discount!.toJson();
+    data['totalReviews'] = totalReviews;
+    data['rating'] = rating;
+    data['quantity'] = quantity;
+    data['inStock'] = inStock;
+    data['price'] = price;
+    if (discount != null) {
+      data['discount'] = discount!.toJson();
     }
-    data['image'] = this.image;
+    data['image'] = image;
     return data;
   }
 }
@@ -67,8 +67,8 @@ class Store {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
     return data;
   }
 }
@@ -83,8 +83,8 @@ class Discount {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['percentage'] = this.percentage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['percentage'] = percentage;
     return data;
   }
 }

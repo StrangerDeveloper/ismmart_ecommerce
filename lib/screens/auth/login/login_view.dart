@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
-import '../../../helpers/common_function.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
@@ -39,7 +37,7 @@ class LogInView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Gap(26),
+                        const Gap(26),
                         login(),
                         logo(),
                         wellcomeBackText(),
@@ -52,7 +50,7 @@ class LogInView extends StatelessWidget {
                         if (Platform.isAndroid) googlelogInBtn(),
                         // facebooklogInBtn(),
                         if (Platform.isIOS) applelogInBtn(),
-                        Gap(54),
+                        const Gap(54),
                         doNotHaveAnAccount(),
                       ],
                     ),
@@ -168,17 +166,17 @@ class LogInView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomText(
+              CustomText(
                 title: "Login",
                 size: 14,
                 color: AppColors.white,
                 weight: FontWeight.w500,
               ),
               SizedBox(width: 2),
-              const Icon(
+              Icon(
                 Icons.arrow_forward,
                 size: 20,
               ),
@@ -192,25 +190,25 @@ class LogInView extends StatelessWidget {
   }
 
   Widget orWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 24),
+    return const Padding(
+      padding: EdgeInsets.only(top: 24, bottom: 24),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Divider(
               //color: newColorLightGrey,
               thickness: 1,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               "Or",
               style: TextStyle(
                   color: AppColors.black, fontWeight: FontWeight.w500),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Divider(
               //color: newColorLightGrey,
               thickness: 1,
@@ -282,17 +280,13 @@ class LogInView extends StatelessWidget {
     return Padding(
       padding:
           const EdgeInsets.only(left: 128.0, right: 128, top: 41, bottom: 41),
-      child: Container(
-        // color: Colors.green,
-
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(1.0),
-            child: Image.asset(
-              //semanticsLabel: 'My SVG Picture',
-              'assets/images/logo1.png',
-              //fit: BoxFit.fill,
-            )),
-      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(1.0),
+          child: Image.asset(
+            //semanticsLabel: 'My SVG Picture',
+            'assets/images/logo1.png',
+            //fit: BoxFit.fill,
+          )),
     );
   }
 

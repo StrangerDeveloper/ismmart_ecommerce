@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewModel.dart';
+import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
 
 import '../../../helpers/global_variables.dart';
 import '../../../widgets/custom_appbar.dart';
