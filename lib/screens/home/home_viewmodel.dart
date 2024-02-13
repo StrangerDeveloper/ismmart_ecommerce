@@ -59,7 +59,7 @@ class HomeViewModel extends GetxController {
   @override
   void onReady() {
     super.onReady();
-     getCollections(0);
+    getCollections(0);
   }
 
   @override
@@ -104,9 +104,9 @@ class HomeViewModel extends GetxController {
     Map<String, String> params = {
       'fields[children]': '1',
       'fields[media]=1': '1',
-      'fields[name]':'1',
-      'level':'1',
-      'limit':'0',
+      'fields[name]': '1',
+      'level': '1',
+      'limit': '0',
     };
 
     await ApiBaseHelper()
@@ -126,20 +126,26 @@ class HomeViewModel extends GetxController {
         getData();
 
         //Carousel & Banner
-        int mediaLength = collectionList[collectionCurrentIndex.value].media?.length ?? 0;
+        int mediaLength =
+            collectionList[collectionCurrentIndex.value].media?.length ?? 0;
         if (mediaLength > 1) {
           for (int i = 0; i < mediaLength - 1; i++) {
-            carouselList.add(collectionList[collectionCurrentIndex.value].media?[i] ?? '');
+            carouselList.add(
+                collectionList[collectionCurrentIndex.value].media?[i] ?? '');
           }
-          bannerImage.value = collectionList[collectionCurrentIndex.value].media?.last ?? '';
+          bannerImage.value =
+              collectionList[collectionCurrentIndex.value].media?.last ?? '';
           animateCarousel();
         } else {
-          carouselList.add(collectionList[collectionCurrentIndex.value].media?[0] ?? '');
-          appBarImage.value = collectionList[collectionCurrentIndex.value].media?[0] ?? '';
+          carouselList.add(
+              collectionList[collectionCurrentIndex.value].media?[0] ?? '');
+          appBarImage.value =
+              collectionList[collectionCurrentIndex.value].media?[0] ?? '';
         }
 
         //Categories
-        categoriesList.addAll(collectionList[collectionCurrentIndex.value].children ?? []);
+        categoriesList.addAll(
+            collectionList[collectionCurrentIndex.value].children ?? []);
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -209,11 +215,11 @@ class HomeViewModel extends GetxController {
   }
 
   getAllProducts() async {
-        if (mainScrollController.offset > 50) {
-          isScrolled.value = true;
-        } else {
-          isScrolled.value = false;
-        }
+    if (mainScrollController.offset > 50) {
+      isScrolled.value = true;
+    } else {
+      isScrolled.value = false;
+    }
     if (pageNo == 0
         ? true
         : (mainScrollController.hasClients &&

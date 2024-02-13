@@ -12,15 +12,15 @@ class ResetPasswordViewModel extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   RxBool obscurePassword = true.obs;
-  //Map<String, dynamic> param = <String, dynamic>{};
-  //var param;
+
   @override
   void onReady() {
     ///param = Get.arguments;
     super.onReady();
   }
 
-  Future<void> resetPswordApi() async {
+  Map<String, dynamic> _parsedJson = {};
+  Future<void> resetPasswordApi() async {
     if (resetPasswordFormKey.currentState?.validate() ?? false) {
       try {
         if (Get.arguments != null) {
@@ -36,17 +36,20 @@ class ResetPasswordViewModel extends GetxController {
           await ApiBaseHelper()
               .putMethod(url: Urls.resetPassword, body: param)
               .then((parsedJson) {
+            _parsedJson = parsedJson;
+            print("=====jiouo==$_parsedJson");
+            print("=====rrr==$parsedJson");
             if (parsedJson['success'] == true) {
               gotoNextScreen();
             } else {
-              error(parsedJson['message']);
+              error();
             }
           });
         } else {
-          error('Arguments are null');
+          error();
         }
       } catch (e) {
-        error(e.toString());
+        error();
       }
     }
   }
@@ -60,11 +63,11 @@ class ResetPasswordViewModel extends GetxController {
     Get.toNamed(AppRoutes.successViewRoute);
   }
 
-  void error(String message) {
+  void error() {
     GlobalVariable.showLoader.value = false;
     CommonFunction.showSnackBar(
       title: "Error",
-      message: message,
+      message: "${_parsedJson['message']}",
     );
   }
 }

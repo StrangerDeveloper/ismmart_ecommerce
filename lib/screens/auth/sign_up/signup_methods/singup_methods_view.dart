@@ -37,7 +37,7 @@ class SignUpMethodsView extends StatelessWidget {
                   logo(),
                   getOnBaordHeading(),
                   signUpEmail(),
-                  signupNumber(),
+                  // signupNumber(),
                   orWidget(),
                   googleLogInBtn(),
                   // facebooklogInBtn(),

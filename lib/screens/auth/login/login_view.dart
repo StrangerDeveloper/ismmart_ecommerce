@@ -68,13 +68,13 @@ class LogInView extends StatelessWidget {
   Widget emailTextField() {
     return CustomTextField1(
       prefixIcon: Icons.person,
-      title: 'Email / Phone No',
-      hintText: 'Email / Phone No ',
+      title: 'Email',
+      hintText: 'Email  ',
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         return Validator.validateDefaultField(value,
-            errorMessage: "Required Email/Phone No");
+            errorMessage: "Required Email");
       },
       keyboardType: TextInputType.emailAddress,
     );
