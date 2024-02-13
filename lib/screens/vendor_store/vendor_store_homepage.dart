@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:ismmart_ecommerce/screens/vendor_store/models/popular_product_model.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/vendor_store/categorized_products_model.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_view.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_viewmodel.dart';
+import 'package:ismmart_ecommerce/widgets/circular_progress_bar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
@@ -17,19 +19,49 @@ class VendorStoreHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20),
-      width: Get.width,
-      height: Get.height,
-      color: Colors.white,
-      child: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Column(
-          children: [
-            sliderContainer(),
-            categoriesList(),
-            view.categoryAndProductsList(),
-          ],
+      child:
+      Obx(() => viewModel.fetchingProducts.isFalse && viewModel.homePageProductsList.isEmpty ? LayoutBuilder(
+        builder: (context, constraints) {
+          return SizedBox(
+            height: constraints.maxHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  sliderContainer(),
+                  categoriesList(),
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          view.categoryAndProductsList(limit: viewModel.homePageProductsList.length < 3 ? viewModel.homePageProductsList.length : 3, productList: viewModel.homePageProductsList),
+                    ],
+                  ),
+                  ),
+                ],
+              ),
+          );
+        }
+      ) :
+      SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              sliderContainer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: viewModel.fetchingProducts.isFalse && viewModel.fetchingCategories.isFalse ? [
+                  categoriesList(),
+                  Obx(() => view.categoryAndProductsList(limit: viewModel.homePageProductsList.length < 3 ? viewModel.homePageProductsList.length : 3, productList: viewModel.homePageProductsList)),
+                ] : [
+                  const CustomCircularLoader()
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -56,16 +88,7 @@ class VendorStoreHomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Obx(() => viewModel.noSliderImages.value ? Center(
-            child: Text(
-              'No Popular Products',
-              style: GoogleFonts.inter(
-                color: AppColors.black3,
-                fontWeight: FontWeight.w500,
-                fontSize: 14
-              ),
-            ),
-          ) : viewModel.isSliderLoading.isTrue
+          Obx(() => viewModel.isSliderLoading.isTrue
             ? const Center(
               child: SizedBox(
                 height: 40,
@@ -75,101 +98,115 @@ class VendorStoreHomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-            ) : SizedBox(
+            ) : viewModel.sliderImages.isEmpty ? Center(
+            child: Text(
+              'No Popular Products',
+              style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                color: AppColors.black3
+              )
+            ),
+          ) : SizedBox(
             height: 75,
               child: PageView.builder(
-                controller: viewModel.sliderImagesController,
-                onPageChanged: (value) {
-                  viewModel.sliderIndex(value);
-                },
-                itemCount: viewModel.sliderImages.length,
-                itemBuilder: (context, index) {
-                  PopularProductModel model = viewModel.sliderImages[index];
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 75,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CachedNetworkImage(
-                              height: 75,
-                              width: 140,
-                              imageUrl: model.media.toString(),
-                              imageBuilder: (context, imageProvider) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                              errorWidget: (context, url, error) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: const DecorationImage(
-                                      image: AssetImage('assets/images/no_image_found.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                              placeholder: (context, url) {
-                                return const Center(
-                                  child: CircularProgressIndicator(strokeWidth: 0.5),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 25,),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    controller: viewModel.sliderImagesController,
+                    onPageChanged: (value) {
+                      viewModel.sliderIndex(value);
+                    },
+                    itemCount: viewModel.sliderImages.length,
+                    itemBuilder: (context, index) {
+                      Products model = viewModel.sliderImages[index];
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 75,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                CachedNetworkImage(
+                                  height: 75,
+                                  width: 140,
+                                  imageUrl: model.image.toString(),
+                                  imageBuilder: (context, imageProvider) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        image: const DecorationImage(
+                                          image: AssetImage('assets/images/no_image_found.jpg'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  placeholder: (context, url) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(strokeWidth: 0.5),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(width: 25,),
                                 Column(
+                                  // mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Popular',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400
-                                      ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Popular',
+                                          style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                                            color: AppColors.black,
+                                            fontSize: 10
+                                          )
+                                          ),
+                                        const SizedBox(height: 2,),
+                                        SizedBox(
+                                          width: 140,
+                                          child: Text(
+                                                    model.name.toString(),
+                                                    style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: AppColors.black,
+                                                      overflow: TextOverflow.ellipsis
+                                                    ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(height: 2,),
-                                    Text(
-                                      model.name.toString(),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600
+                                    CustomTextBtn2(
+                                        onPressed: () {},
+                                      width: 70,
+                                      height: 30,
+                                      title: 'Buy Now',
+                                      textStyle: GoogleFonts.inter(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white
                                       ),
                                     )
                                   ],
                                 ),
-                                CustomTextBtn2(
-                                    onPressed: () {},
-                                  width: 70,
-                                  height: 30,
-                                  title: 'Buy Now',
-                                  textStyle: GoogleFonts.inter(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white
-                                  ),
-                                )
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                          ),
+                        ],
+                      );
+                }
               ),
             ),
               ),
@@ -204,25 +241,19 @@ class VendorStoreHomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: 15,
-          vertical: 10
+          // vertical: 10
       ),
-      child: Obx(() => viewModel.noCategoriesFound.value ? Center(
+      child: Obx(() => viewModel.categoriesList.isEmpty ? Center(
         child: Text(
           'No Categories Found',
-          style: GoogleFonts.inter(
-            color: AppColors.black3,
-            fontSize: 14,
-            fontWeight: FontWeight.w500
-          ),
-        ),
-      ): viewModel.fetchingCategories.value ? const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.black,
-          strokeWidth: 2.5,
+          style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+              color: AppColors.black3
+          )
         ),
       ) : Column(
+        mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            view.categoryNameAndBtn('Categories'),
+            view.categoryNameAndBtn('Categories', displaySeeAllBtn: false),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const ScrollPhysics(),
@@ -243,10 +274,9 @@ class VendorStoreHomePage extends StatelessWidget {
                               const SizedBox(height: 15,),
                               Text(
                                 viewModel.categoriesList[index].name.toString(),
-                                style: GoogleFonts.inter(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400
-                                ),
+                                style: ThemeHelper.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.black3
+                                )
                               )
                             ],
                           ),
