@@ -1,4 +1,4 @@
-class DiscountedProductModel {
+class HomeProductModel {
   String? name;
   String? sId;
   Store? store;
@@ -10,7 +10,7 @@ class DiscountedProductModel {
   Discount? discount;
   String? image;
 
-  DiscountedProductModel(
+  HomeProductModel(
       {this.sId,
         this.name,
         this.store,
@@ -22,7 +22,7 @@ class DiscountedProductModel {
         this.discount,
         this.image});
 
-  DiscountedProductModel.fromJson(Map<String, dynamic> json) {
+  HomeProductModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     sId = json['_id'];
     store = json['store'] != null ? Store.fromJson(json['store']) : null;
