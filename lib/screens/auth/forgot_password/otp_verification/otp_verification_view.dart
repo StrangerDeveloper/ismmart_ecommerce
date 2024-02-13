@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/auth/forgot_password/otp_verification/opt_verification_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/auth/forgot_password/otp_verification/otp_verification_viewmodel.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../helpers/app_colors.dart';
@@ -15,6 +15,8 @@ import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text.dart';
 import '../../../../widgets/loader_view.dart';
+import '../forget_password/forgot_password_viewmodel.dart';
+import '../reset_password/reset_password_view.dart';
 
 class OtpVerificationView extends StatefulWidget {
   OtpVerificationView({Key? key}) : super(key: key);
@@ -25,6 +27,8 @@ class OtpVerificationView extends StatefulWidget {
 
 class _OtpVerificationViewState extends State<OtpVerificationView> {
   OtpVerificationViwModel viewModel = Get.put(OtpVerificationViwModel());
+  final ForgotPasswordViewModel viewModel1 = Get.put(ForgotPasswordViewModel());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,31 +45,10 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                   Gap(50),
                   headings(),
                   pindValidationField(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        title: "Valid till",
-                        color: Colors.red,
-                        size: 12,
-                      ),
-                      Obx(
-                        () => Column(
-                          children: [
-                            CustomText(
-                              title: "${viewModel.counter.value}",
-                              color: Colors.red,
-                              size: 12,
-                              weight: FontWeight.w700,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // pinCodeTextField(context),
-                  verifyButton(),
+                  timerRow(),
+                  confirmBtn(),
+                  Gap(5),
+                  resendCode(),
                   const Spacer(),
                   // bottomText(),
                 ],
@@ -78,7 +61,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
     );
   }
 
-  Widget verifyButton() {
+  Widget confirmBtn() {
     return Padding(
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
@@ -92,15 +75,15 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                 color: AppColors.white,
                 weight: FontWeight.w500,
               ),
-              SizedBox(width: 2),
-              const Icon(
-                Icons.arrow_forward,
-                size: 20,
-              ),
+              // SizedBox(width: 2),
+              // const Icon(
+              //   Icons.arrow_forward,
+              //   size: 20,
+              // ),
             ],
           ),
           onPressed: () {
-            // viewModel.signIn();
+            viewModel.otpConfirmApi();
             //
           },
         ));
@@ -128,19 +111,28 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
             right: 20,
             bottom: 32,
           ),
-          child: RichText(
-              maxLines: 3,
-              textAlign: TextAlign.start,
-              text: TextSpan(children: [
-                TextSpan(
-                  text:
-                      'We have sent a verification code to asha****iq11@gmail.com ',
-                  style: ThemeHelper.textTheme.bodyMedium
-                      ?.copyWith(color: AppColors.grey2),
-                ),
-                TextSpan(
-                    text: 'Change?', style: TextStyle(color: Colors.black)),
-              ])),
+          child: Obx(
+            () => InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: RichText(
+                  maxLines: 3,
+                  textAlign: TextAlign.start,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text:
+                          'We have sent a verification code to ${viewModel.userEmail.value} ',
+                      style: ThemeHelper.textTheme.bodyMedium
+                          ?.copyWith(color: AppColors.grey2),
+                    ),
+                    TextSpan(
+                      text: 'Change?',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ])),
+            ),
+          ),
         ),
       ],
     );
@@ -157,7 +149,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
         ),
         Gap(10),
         PinCodeTextField(
-          // controller: _otpController,
+          controller: viewModel.otpController,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly
@@ -188,11 +180,55 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
             fieldWidth: Get.width * .1,
             fieldHeight: 50,
           ),
+
           animationDuration: const Duration(milliseconds: 300),
           // enableActiveFill: true,
           // errorAnimationController: errorController,
         ),
       ],
+    );
+  }
+
+  Widget timerRow() {
+    return Padding(
+      padding: EdgeInsets.only(top: 22),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomText(
+            title: "Valid till",
+            color: Colors.red,
+            size: 12,
+          ),
+          Obx(
+            () => Column(
+              children: [
+                CustomText(
+                  title:
+                      "${viewModel.minutes.value}  ${viewModel.seconds.value}",
+                  color: Colors.red,
+                  size: 12,
+                  weight: FontWeight.w700,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget resendCode() {
+    return TextButton(
+      onPressed: () {
+        viewModel1.forgotApi();
+      },
+      child: CustomText(
+        title: "Re-send Code",
+        color: AppColors.grey2,
+        size: 14,
+        weight: FontWeight.w500,
+      ),
     );
   }
 }

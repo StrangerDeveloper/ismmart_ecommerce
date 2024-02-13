@@ -152,9 +152,8 @@ class LogInView extends StatelessWidget {
       alignment: Alignment.bottomRight,
       child: TextButton(
           onPressed: () {
-            CommonFunction.debugPrint(
-                "forget --------${viewModel.emailController.text}");
-            Get.to(() => ForgotPasswordView1());
+            Get.to(() => ForgotPasswordView1(),
+                arguments: viewModel.emailController.text);
           },
           child: Text(
             'Forget Password?',

@@ -15,6 +15,8 @@ class CommonFunction {
   static final Debouncer debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
 
+
+
   // static DateTime convertStringToDate(String stringDate) {
   //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
   // }
@@ -134,7 +136,7 @@ class CommonFunction {
 
   static showSnackBar(
       {String? title, String? message, SnackPosition? position}) {
-    Color bgColor = AppColors.limeGreen;
+    Color bgColor = Colors.green;
     var icon = Icons.gpp_good_sharp;
     var titleNew = title;
 
@@ -145,7 +147,7 @@ class CommonFunction {
     }
 
     var messageNew = message;
-    
+
     Get.snackbar(titleNew!.capitalizeFirst!.toString(), messageNew.toString(),
         duration: const Duration(milliseconds: 1000),
         snackPosition: position ?? SnackPosition.TOP,
