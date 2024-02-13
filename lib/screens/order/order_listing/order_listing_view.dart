@@ -232,7 +232,7 @@ class OrderListingView extends StatelessWidget {
 
   Widget _customField1(text1) {
     return CustomText(
-      title: text1,
+      title: text1.toString(),
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
