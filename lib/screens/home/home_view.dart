@@ -94,15 +94,7 @@ class HomeView extends StatelessWidget {
                     flashSaleCountDown(),
                     flashSaleProductList(),
                     const Divider(),
-                    // allProductList(),
-                    // Obx(
-                    //   () => viewModel.paginationLoader.value
-                    //       ? const Padding(
-                    //           padding: EdgeInsets.all(8.0),
-                    //           child: CustomCircularLoader(),
-                    //         )
-                    //       : const SizedBox(),
-                    // ),
+                    allProductsTitle(),
                     const SizedBox(height: 80),
                   ],
                 ),
@@ -112,7 +104,7 @@ class HomeView extends StatelessWidget {
                 () => SliverToBoxAdapter(
                   child: viewModel.paginationLoader.value
                       ? const Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.only(bottom: 80),
                           child: CustomCircularLoader(),
                         )
                       : const SizedBox(),
@@ -627,12 +619,7 @@ class HomeView extends StatelessWidget {
                 );
               },
             )
-          : const SizedBox(
-              height: 150,
-              child: Center(
-                child: Text('Discount Products Not available'),
-              ),
-            ),
+          : const SizedBox(),
     );
   }
 
@@ -662,6 +649,25 @@ class HomeView extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget allProductsTitle() {
+    return Obx(
+      () => (viewModel.allProductList.isNotEmpty)
+          ? const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'All Products',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -695,12 +701,7 @@ class HomeView extends StatelessWidget {
               ),
             )
           : const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 150,
-                child: Center(
-                  child: Text('All Products Not available'),
-                ),
-              ),
+              child: SizedBox(),
             ),
     );
   }

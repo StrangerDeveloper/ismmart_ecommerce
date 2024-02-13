@@ -48,7 +48,7 @@ class HomeViewModel extends GetxController {
   //All Products
   List<HomeProductModel> allProductList = <HomeProductModel>[].obs;
   RxBool paginationLoader = false.obs;
-  int pageNo = 0;
+  int pageNo = 1;
 
   @override
   void onInit() {
@@ -70,7 +70,6 @@ class HomeViewModel extends GetxController {
     mainScrollController.dispose();
     super.onClose();
   }
-
 
   changeCollection(int index) {
     collectionCurrentIndex.value = index;
@@ -107,6 +106,7 @@ class HomeViewModel extends GetxController {
     //Call other apis...
     getNews();
     getFlashTimer();
+    getAllProducts();
   }
 
   getCollections() async {
@@ -187,9 +187,8 @@ class HomeViewModel extends GetxController {
           }
 
           //Get all Products at Bottom...
-          pageNo = 0;
+          pageNo = 1;
           allProductList.clear();
-          getAllProducts();
         }
       }
     }).catchError((e) {
@@ -246,12 +245,12 @@ class HomeViewModel extends GetxController {
       'fields[price]': '1',
       'fields[store][name]': '1',
       'fields[discount][percentage]': '1',
-      'collection': selectedCollectionId,
+      // 'collection': selectedCollectionId,
       'page': pageNo.toString(),
     };
 
     //Get Products Implementation
-    if (pageNo == 0
+    if (pageNo == 1
         ? true
         : (mainScrollController.hasClients &&
             mainScrollController.position.maxScrollExtent ==
@@ -262,6 +261,7 @@ class HomeViewModel extends GetxController {
       await ApiBaseHelper()
           .getMethodQueryParam(url: Urls.getHomeProducts, params: params)
           .then((parsedJson) {
+        paginationLoader.value = false;
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
@@ -269,8 +269,6 @@ class HomeViewModel extends GetxController {
           //   mainScrollController.removeListener(getAllProducts);
           // }
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
-
-          paginationLoader.value = false;
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
@@ -299,7 +297,8 @@ class HomeViewModel extends GetxController {
   startTimer(String endTime) {
     /// Calculate duration
 
-    DateTime dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(endTime).toLocal();
+    DateTime dateTime =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(endTime).toLocal();
     DateTime currentTime = DateTime.now();
     int diffInSeconds = dateTime.difference(currentTime).inSeconds;
 
