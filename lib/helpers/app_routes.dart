@@ -6,11 +6,8 @@ import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../screens/auth/sign_up/signup/signup_view.dart';
 
-abstract class AppRouter {
-  List<GetPage> getRoutes();
-}
 
-class AppRoutes extends AppRouter {
+class AppRoutes{
   static const initRoute = "/";
 
   static const singupMethodsViewRoute = "/singupMethodsViewRoute";
@@ -18,7 +15,6 @@ class AppRoutes extends AppRouter {
 
   static const successViewRoute = "/successView";
 
-  @override
   List<GetPage> getRoutes() {
     return [
       GetPage(name: initRoute, page: () => LogInView()),
