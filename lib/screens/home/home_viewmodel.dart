@@ -53,16 +53,6 @@ class HomeViewModel extends GetxController {
   @override
   void onInit() {
     mainScrollController.addListener(getAllProducts);
-    // mainScrollController = ScrollController()
-    //   ..addListener(() {
-    //     if (mainScrollController.offset > 50) {
-    //       isScrolled.value = true;
-    //     } else {
-    //       isScrolled.value = false;
-    //     }
-    //     // isScrolled.value =
-    //     //     mainScrollController.hasClients && mainScrollController.offset > 50;
-    //   });
     super.onInit();
   }
 
@@ -70,7 +60,6 @@ class HomeViewModel extends GetxController {
   void onReady() {
     super.onReady();
      getCollections(0);
-     // getAllProductsPagination();
   }
 
   @override
@@ -111,8 +100,17 @@ class HomeViewModel extends GetxController {
   getCollections(int index) async {
     collectionCurrentIndex.value = index;
     GlobalVariable.showLoader.value = true;
+
+    Map<String, String> params = {
+      'fields[children]': '1',
+      'fields[media]=1': '1',
+      'fields[name]':'1',
+      'level':'1',
+      'limit':'0',
+    };
+
     await ApiBaseHelper()
-        .getMethod(url: Urls.homeCollections)
+        .getMethodQueryParam(url: Urls.homeCollections, params: params)
         .then((parsedJson) {
       GlobalVariable.showLoader.value = false;
       clearValues();
@@ -128,24 +126,20 @@ class HomeViewModel extends GetxController {
         getData();
 
         //Carousel & Banner
-        int mediaLength =
-            collectionList[collectionCurrentIndex.value].media?.length ?? 0;
+        int mediaLength = collectionList[collectionCurrentIndex.value].media?.length ?? 0;
         if (mediaLength > 1) {
           for (int i = 0; i < mediaLength - 1; i++) {
-            carouselList.add(
-                collectionList[collectionCurrentIndex.value].media?[i] ?? '');
+            carouselList.add(collectionList[collectionCurrentIndex.value].media?[i] ?? '');
           }
-          bannerImage.value =
-              collectionList[collectionCurrentIndex.value].media?.last ?? '';
+          bannerImage.value = collectionList[collectionCurrentIndex.value].media?.last ?? '';
           animateCarousel();
         } else {
-          carouselList.add(
-              collectionList[collectionCurrentIndex.value].media?[0] ?? '');
+          carouselList.add(collectionList[collectionCurrentIndex.value].media?[0] ?? '');
+          appBarImage.value = collectionList[collectionCurrentIndex.value].media?[0] ?? '';
         }
 
         //Categories
-        categoriesList.addAll(
-            collectionList[collectionCurrentIndex.value].children ?? []);
+        categoriesList.addAll(collectionList[collectionCurrentIndex.value].children ?? []);
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);

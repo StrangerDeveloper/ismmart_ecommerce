@@ -60,6 +60,52 @@ class ApiBaseHelper {
     }
   }
 
+  Future<dynamic> getMethodQueryParam({required String url, Map<String, String>? params}) async {
+    try {
+
+      Uri urlValue = Uri.parse(_baseUrl + url).replace(queryParameters: params);
+
+      CommonFunction.debugPrint(
+          '*********************** Request ********************************');
+      CommonFunction.debugPrint(urlValue);
+
+      http.Response response = await http
+          .get(urlValue, headers: header)
+          .timeout(const Duration(seconds: 30));
+
+      CommonFunction.debugPrint(
+          '*********************** Response ********************************');
+      CommonFunction.debugPrint(urlValue);
+      CommonFunction.debugPrint(response.body);
+      CommonFunction.colorConsole(
+          '****************************************************************************************');
+
+      Map<String, dynamic> parsedJSON = jsonDecode(response.body);
+      return parsedJSON;
+    } on SocketException catch (e) {
+      debugPrint("$e");
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.noInternetError);
+      throw AppStrings.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.timeOutException);
+      throw AppStrings.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.formatException);
+      throw AppStrings.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(
+          title: 'Error', message: AppStrings.generalApiError);
+      throw e.toString();
+    }
+  }
+
 // Future<dynamic> deleteMethod({required String url}) async {
 //   try {
 //     Uri urlValue = Uri.parse(_baseUrl + url);
