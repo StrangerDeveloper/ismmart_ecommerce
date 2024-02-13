@@ -10,7 +10,6 @@ import '../otp_verification/otp_verification_view.dart';
 class ForgotPasswordViewModel extends GetxController {
   GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  Map<String, dynamic> parsedJson = {};
 
   @override
   void onReady() {
@@ -28,18 +27,22 @@ class ForgotPasswordViewModel extends GetxController {
     super.onClose();
   }
 
+  Map<String, dynamic> _parsedJson = {};
   void forgotApi() async {
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
       try {
         Map<String, dynamic> param = {"email": emailController.text};
         GlobalVariable.showLoader.value = true;
-        parsedJson = await ApiBaseHelper()
-            .postMethod(url: Urls.forgetPassword, body: param);
-        if (parsedJson['success'] == true) {
-          gotoNextScreen();
-        } else {
-          error();
-        }
+        await ApiBaseHelper()
+            .postMethod(url: Urls.forgetPassword, body: param)
+            .then((parsedJson) {
+          _parsedJson = _parsedJson;
+          if (parsedJson['success'] == true) {
+            gotoNextScreen();
+          } else {
+            error();
+          }
+        });
       } catch (e) {
         error();
       }
@@ -59,7 +62,7 @@ class ForgotPasswordViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     CommonFunction.showSnackBar(
       title: "Error",
-      message: "${parsedJson['message']}",
+      message: "${_parsedJson['message']}",
     );
   }
 }

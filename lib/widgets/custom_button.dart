@@ -8,7 +8,7 @@ import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 //FINAL VERSION...
 class CustomTextBtn extends StatelessWidget {
   final String title;
- 
+
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -48,7 +48,7 @@ class CustomTextBtn extends StatelessWidget {
         tapTargetSize: tapTargetSize,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
-        // minimumSize: Size(width, height),
+        minimumSize: Size(width, height),
         side: borderSide,
         shape: (shape != null)
             ? shape
@@ -122,7 +122,7 @@ class CustomTextBtn2 extends StatelessWidget {
 //FINAL VERSION...
 class CustomIconTextBtn extends StatelessWidget {
   final String title;
-   final Color? titleColor;
+  final Color? titleColor;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -148,7 +148,7 @@ class CustomIconTextBtn extends StatelessWidget {
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
-    required this.icon, 
+    required this.icon,
     this.titleColor,
   });
 

@@ -200,7 +200,7 @@ class HomeView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: InkWell(
                       onTap: () {
-                        viewModel.getCollections(index);
+                        viewModel.changeCollection(index);
                       },
                       child: Container(
                         decoration: BoxDecoration(

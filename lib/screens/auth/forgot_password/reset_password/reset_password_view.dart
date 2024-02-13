@@ -167,7 +167,7 @@ class ResetPasswordView extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            viewModel.resetPswordApi();
+            viewModel.resetPasswordApi();
           },
         ));
   }

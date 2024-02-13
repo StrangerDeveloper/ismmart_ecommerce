@@ -35,7 +35,6 @@ class SignUpViewModel extends GetxController {
     emailController.text = _socialviewModel.socialEmail.value;
     socialToken = _socialviewModel.socialToken.value;
     print("====== social name ===${nameController.text}");
-    print("====== social name ===${_socialviewModel.socialName.value}");
 
     super.onReady();
   }

@@ -11,21 +11,31 @@ class ThemeHelper {
   static ThemeData lightTheme = ThemeData.light(
     useMaterial3: false,
   ).copyWith(
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: AppColors.white,
     textTheme: TextThemes.textTheme(color: AppColors.black),
     // primarySwatch: AppColors.palette1,
     // useMaterial3: false,
+    iconTheme: const IconThemeData(color: AppColors.white38),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
-      titleTextStyle: GoogleFonts.dmSerifDisplay(
-        color: AppColors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.w400,
-      ),
+      // titleTextStyle: GoogleFonts.dmSerifDisplay(
+      //   color: AppColors.black,
+      //   fontSize: 20,
+      //   fontWeight: FontWeight.w400,
+      // ),
+      titleTextStyle: TextThemes.textTheme(color: AppColors.black).titleMedium,
       iconTheme: const IconThemeData(color: AppColors.black),
       centerTitle: true,
       elevation: 3,
       shadowColor: AppColors.black12,
+    ),
+    progressIndicatorTheme:
+        const ProgressIndicatorThemeData(color: AppColors.black),
+    dialogTheme: DialogTheme(
+      backgroundColor: AppColors.background,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
     ),
     tabBarTheme: const TabBarTheme(
         labelColor: AppColors.black, indicatorColor: AppColors.black),
@@ -34,12 +44,12 @@ class ThemeHelper {
   static ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
     //useMaterial3: false,
     //primarySwatch: ThemeHelper.platte1,
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: AppColors.white,
     textTheme: TextThemes.textTheme(color: AppColors.white),
     // fontFamily: 'Poppins',
     dividerColor: AppColors.white,
     //textTheme: TextThemes.textTheme(color: white),
-    iconTheme: IconThemeData(color: AppColors.white.withOpacity(0.4)),
+    iconTheme: const IconThemeData(color: AppColors.white38),
     inputDecorationTheme: InputDecorationTheme(
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
@@ -68,22 +78,18 @@ class ThemeHelper {
       backgroundColor: AppColors.background,
       elevation: 0,
       iconTheme: const IconThemeData(color: AppColors.white),
-      titleTextStyle: const TextStyle(
-        color: AppColors.white,
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
+      titleTextStyle: TextThemes.textTheme(color: AppColors.white).titleMedium,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: AppColors.background,
         statusBarIconBrightness: Brightness.light,
       ),
     ),
     progressIndicatorTheme:
-        const ProgressIndicatorThemeData(color: AppColors.primary),
+        const ProgressIndicatorThemeData(color: AppColors.white),
     dialogTheme: DialogTheme(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.white38,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(13),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
     tabBarTheme: const TabBarTheme(
@@ -147,8 +153,8 @@ class TextThemes {
           fontWeight: FontWeight.w600,
         ),
         bodyLarge: TextStyle(
-            color: color,
-          
+          color: color,
+
           fontSize: 16,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
@@ -167,7 +173,6 @@ class TextThemes {
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
-
         labelLarge: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
@@ -185,7 +190,7 @@ class TextThemes {
         labelSmall: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize:11,
+          fontSize: 11,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
