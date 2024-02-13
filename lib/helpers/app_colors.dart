@@ -16,6 +16,7 @@ class AppColors {
   static const blackShadow = Color(0x0C000000);
 
   static const limeGreen = Colors.greenAccent;
+  static const green = Colors.green;
 
   static const red = Color(0xFFFE3A30);
   static final red700 = Colors.red.shade700;

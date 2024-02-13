@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 
 import '../../../../helpers/app_colors.dart';
 import '../../../../helpers/theme_helper.dart';
@@ -19,11 +22,34 @@ class SuccessView extends StatelessWidget {
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    headings(),
-                  ],
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      headings(),
+                      Gap(82),
+                      Text(
+                        "Password Reset",
+                        style: ThemeHelper.textTheme.bodyLarge,
+                      ),
+                      Gap(10),
+                      Icon(
+                        Icons.check,
+                        size: 24,
+                        color: AppColors.limeGreen,
+                      ),
+                      Gap(10),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Your password has been reset. Please login with new password.",
+                        style: ThemeHelper.textTheme.bodySmall?.copyWith(
+                            color: AppColors.grey2,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Gap(82),
+                      logInBtn(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -37,22 +63,11 @@ class SuccessView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Gap(126),
         Text(
-          'Reset Password',
-          style: ThemeHelper.textTheme.titleSmall,
+          'Successful!',
+          style: ThemeHelper.textTheme.headlineLarge,
         ),
-        Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              right: 20,
-              bottom: 16,
-            ),
-            child: CustomText(
-              maxLines: 2,
-              title: 'Set your new password',
-              style: ThemeHelper.textTheme.bodyMedium
-                  ?.copyWith(color: AppColors.grey2),
-            )),
       ],
     );
   }
@@ -62,10 +77,10 @@ class SuccessView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 32),
         child: CustomTextBtn(
           radius: 30,
-          child:const  Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               CustomText(
+              CustomText(
                 title: "Reset",
                 size: 14,
                 color: AppColors.white,
@@ -75,6 +90,34 @@ class SuccessView extends StatelessWidget {
           ),
           onPressed: () {
             // viewModel.resetPswordApi();
+          },
+        ));
+  }
+
+  Widget logInBtn() {
+    return Padding(
+        padding: const EdgeInsets.only(top: 32),
+        child: CustomTextBtn(
+          radius: 30,
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.arrow_back,
+                size: 20,
+              ),
+              SizedBox(width: 2),
+              CustomText(
+                title: "Back to login",
+                size: 14,
+                color: AppColors.white,
+                weight: FontWeight.w500,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Get.toNamed(AppRoutes.loginViewRoute);
+            //
           },
         ));
   }

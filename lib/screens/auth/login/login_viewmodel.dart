@@ -25,7 +25,6 @@ class LogInViewModel extends GetxController {
     // NotificationsServices.tokenRefresh();
     // NotificationsServices.getToken();
 
-  
     super.onReady();
   }
 
@@ -37,7 +36,8 @@ class LogInViewModel extends GetxController {
     super.onClose();
   }
 
-  void signIn() {
+  Map<String, dynamic> _parsedJson = {};
+  Future<void> signIn() async {
     GlobalVariable.noInternet(false);
     if (signInFormKey.currentState?.validate() ?? false) {
       Map<String, dynamic> param = {
@@ -47,34 +47,17 @@ class LogInViewModel extends GetxController {
 
       GlobalVariable.showLoader.value = true;
 
-      ApiBaseHelper()
+      await ApiBaseHelper()
           .postMethod(url: Urls.login, body: param)
           .then((parsedJson) async {
+        _parsedJson = parsedJson;
         if (parsedJson['success'] == true) {
-          GlobalVariable.showLoader.value = false;
-          GlobalVariable.token = parsedJson['data']['token'];
-          Get.offAll(() => BottomNavigationView());
-        } else if (parsedJson['message'] == 'Invalid credentials') {
-          CommonFunction.showSnackBar(
-            title: "Error",
-            message: "Wrong Credential",
-          );
-
-          GlobalVariable.showLoader.value = false;
+          gotoNextPage();
         } else {
-          CommonFunction.showSnackBar(
-            title: "Error",
-            message: parsedJson['message'],
-          );
-
-          GlobalVariable.showLoader.value = false;
+          error();
         }
       }).catchError((e) {
-        CommonFunction.showSnackBar(
-          title: "Error",
-          message: e.toString(),
-        );
-        GlobalVariable.showLoader.value = false;
+        error();
       });
     }
   }
@@ -112,6 +95,7 @@ class LogInViewModel extends GetxController {
           if (parsedJson['success'] == true) {
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
+            Get.offAll(() => BottomNavigationView());
           } else {
             GlobalVariable.showLoader.value = false;
             // AppConstant.displaySnackBar(
@@ -178,5 +162,20 @@ class LogInViewModel extends GetxController {
   resetValues() {
     emailController.clear();
     passwordController.clear();
+  }
+
+  void gotoNextPage() {
+    GlobalVariable.showLoader.value = false;
+    GlobalVariable.token = _parsedJson['data']['token'];
+    Get.offAll(() => BottomNavigationView());
+  }
+
+  void error() {
+    CommonFunction.showSnackBar(
+      title: "Error",
+      message: _parsedJson['message'],
+    );
+
+    GlobalVariable.showLoader.value = false;
   }
 }

@@ -143,7 +143,7 @@ class CommonFunction {
 
   static showSnackBar(
       {String? title, String? message, SnackPosition? position}) {
-    Color bgColor = Colors.green;
+    Color bgColor = AppColors.green;
     var icon = Icons.gpp_good_sharp;
     var titleNew = title;
 
