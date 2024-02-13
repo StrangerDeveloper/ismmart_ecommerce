@@ -7,6 +7,7 @@ import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
+import '../../../helpers/app_routes.dart';
 import '../../../helpers/validator.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
@@ -240,12 +241,11 @@ class LogInView extends StatelessWidget {
   }
 
   Widget doNotHaveAnAccount() {
-    return Align(
-      alignment: Alignment.bottomCenter,
+    return Padding(
+      padding: EdgeInsets.only(top: Get.height * .05),
       child: TextButton(
         onPressed: () {
-          Get.to(() => SignUpMethodsView());
-          // Get.toNamed(AppRoutes.singupMethodsViewRoute);
+          Get.toNamed(AppRoutes.singupMethodsViewRoute);
         },
         child: Center(
           child: RichText(
@@ -257,7 +257,8 @@ class LogInView extends StatelessWidget {
                         ?.copyWith(color: AppColors.grey2)),
                 TextSpan(
                     text: " Create Account",
-                    style: ThemeHelper.textTheme.labelMedium),
+                    style: ThemeHelper.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w700)),
               ],
             ),
           ),

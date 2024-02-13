@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
 
+import '../../helpers/api_base_helper.dart';
+import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
+import '../../helpers/urls.dart';
 
 class UserProfileViewModel extends GetxController {
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
@@ -25,16 +28,18 @@ class UserProfileViewModel extends GetxController {
     super.onClose();
   }
 
-  getData() async {
-    // GlobalVariable.showLoader.value = true;
-    // await ApiBaseHelper().getMethod(url: Urls.getUserData).then((parsedJson) {
-    //   GlobalVariable.showLoader.value = false;
-    //   if (parsedJson['success'] == true &&
-    //       parsedJson['message'] == "Profile fetched successuflly") {
-    //     userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
-    //   }
-    // }).catchError((e) {
-    //   CommonFunction.debugPrint(e);
-    // });
+  Future<void> getData() async {
+    GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper().getMethod(url: Urls.getProfile).then((parsedJson) {
+      print("profile---------$parsedJson");
+      GlobalVariable.showLoader.value = false;
+      if (parsedJson['success'] == true &&
+          parsedJson['message'] == "Profile fetched successuflly") {
+        userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
+        print(userProfileModel.value);
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
   }
 }

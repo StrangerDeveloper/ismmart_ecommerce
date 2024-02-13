@@ -92,7 +92,7 @@ class CustomTextField1 extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                     text: title,
-                    style: ThemeHelper.textTheme.labelMedium,
+                    style: ThemeHelper.textTheme.bodyMedium,
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -261,13 +261,11 @@ class CustomTextField1 extends StatelessWidget {
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide:
-                        BorderSide(width: 1, color: AppColors.red700),
+                    borderSide: BorderSide(width: 1, color: AppColors.red700),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide:
-                        BorderSide(width: 1.3, color: AppColors.red700),
+                    borderSide: BorderSide(width: 1.3, color: AppColors.red700),
                   ),
                 ),
               ),
