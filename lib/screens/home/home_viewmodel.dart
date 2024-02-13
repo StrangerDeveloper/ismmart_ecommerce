@@ -143,7 +143,7 @@ class HomeViewModel extends GetxController {
     };
 
     await ApiBaseHelper()
-        .getMethodQueryParam(url: Urls.homeCollections, params: params)
+        .getMethodQueryParam(url: Urls.getCollection, params: params)
         .then((parsedJson) {
       GlobalVariable.showLoader.value = false;
       // clearValues();
