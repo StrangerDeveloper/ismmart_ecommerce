@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
 class CustomProfileNameAndRating extends StatelessWidget {
@@ -94,7 +95,7 @@ class CustomProfileNameAndRating extends StatelessWidget {
           color: AppColors.yellow,
         ),
         onRatingUpdate: (rating) {
-          print(rating);
+          CommonFunction.debugPrint(rating);
         },
       ),
     );

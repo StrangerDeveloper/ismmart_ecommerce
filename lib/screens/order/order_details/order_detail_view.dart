@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -8,8 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
 
-import '../../../helpers/app_colors.dart';
-import '../../../screens/order/order_details/order_detail_viewModel.dart';
+import 'order_detail_viewmodel.dart';
 import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';

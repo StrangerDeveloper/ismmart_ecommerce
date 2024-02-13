@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_view.dart';
 
-import '../../screens/wishlist/wishlist_viewModel.dart';
+import 'wishlist_viewmodel.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/product_item.dart';

@@ -21,7 +21,7 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      
       appBar: const CustomAppBar2(
         title: 'ISMMART',
         actions: [

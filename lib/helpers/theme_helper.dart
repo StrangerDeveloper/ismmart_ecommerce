@@ -11,21 +11,31 @@ class ThemeHelper {
   static ThemeData lightTheme = ThemeData.light(
     useMaterial3: false,
   ).copyWith(
-    scaffoldBackgroundColor: AppColors.background,
-    textTheme: TextThemes.textTheme(color: Colors.black),
+    scaffoldBackgroundColor: AppColors.white,
+    textTheme: TextThemes.textTheme(color: AppColors.black),
     // primarySwatch: AppColors.palette1,
     // useMaterial3: false,
+    iconTheme: const IconThemeData(color: AppColors.white38),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
-      titleTextStyle: GoogleFonts.dmSerifDisplay(
-        color: AppColors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.w400,
-      ),
+      // titleTextStyle: GoogleFonts.dmSerifDisplay(
+      //   color: AppColors.black,
+      //   fontSize: 20,
+      //   fontWeight: FontWeight.w400,
+      // ),
+      titleTextStyle: textTheme.titleMedium,
       iconTheme: const IconThemeData(color: AppColors.black),
       centerTitle: true,
       elevation: 3,
       shadowColor: AppColors.black12,
+    ),
+     progressIndicatorTheme:
+        const ProgressIndicatorThemeData(color: AppColors.black),
+    dialogTheme: DialogTheme(
+      backgroundColor: AppColors.background,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
     ),
     tabBarTheme: const TabBarTheme(
         labelColor: AppColors.black, indicatorColor: AppColors.black),
@@ -34,12 +44,12 @@ class ThemeHelper {
   static ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
     //useMaterial3: false,
     //primarySwatch: ThemeHelper.platte1,
-    scaffoldBackgroundColor: AppColors.background,
-    textTheme: TextThemes.textTheme(color: Colors.black),
+    scaffoldBackgroundColor: AppColors.white,
+    textTheme: TextThemes.textTheme(color: AppColors.white),
     // fontFamily: 'Poppins',
     dividerColor: AppColors.white,
     //textTheme: TextThemes.textTheme(color: white),
-    iconTheme: IconThemeData(color: AppColors.white.withOpacity(0.4)),
+    iconTheme: const IconThemeData(color: AppColors.white38),
     inputDecorationTheme: InputDecorationTheme(
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
@@ -57,8 +67,8 @@ class ThemeHelper {
         borderRadius: BorderRadius.circular(30),
         borderSide: BorderSide.none,
       ),
-      prefixIconColor: Colors.white,
-      fillColor: Colors.white.withOpacity(0.1),
+      prefixIconColor: AppColors.white,
+      fillColor: AppColors.white.withOpacity(0.1),
       hintStyle:
           TextThemes.textTheme(color: AppColors.white).bodyMedium!.copyWith(
                 color: AppColors.white.withOpacity(0.4),
@@ -68,22 +78,18 @@ class ThemeHelper {
       backgroundColor: AppColors.background,
       elevation: 0,
       iconTheme: const IconThemeData(color: AppColors.white),
-      titleTextStyle: const TextStyle(
-        color: AppColors.white,
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
+      titleTextStyle: textTheme.titleMedium,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: AppColors.background,
         statusBarIconBrightness: Brightness.light,
       ),
     ),
     progressIndicatorTheme:
-        const ProgressIndicatorThemeData(color: AppColors.primary),
+        const ProgressIndicatorThemeData(color: AppColors.white),
     dialogTheme: DialogTheme(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.white38,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(13),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
     tabBarTheme: const TabBarTheme(
@@ -112,7 +118,7 @@ class TextThemes {
           color: color,
           //color: appTheme.gray90001,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 30,
+          fontSize: 26,
           //fontFamily: 'DM Serif Display',
           fontWeight: FontWeight.bold,
         ),
@@ -128,56 +134,64 @@ class TextThemes {
           color: color,
           //color: appTheme.blueGray90001,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 28,
+          fontSize: 22,
           //fontFamily: 'DM Serif Text',
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w600,
         ),
         titleMedium: TextStyle(
           color: color,
-          fontSize: 24,
+          fontSize: 20,
           //fontFamily: 'Inter',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
         ),
         titleSmall: TextStyle(
           color: color,
           //color: appTheme.gray90001,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 20,
+          fontSize: 18,
           // fontFamily: 'Inter',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: TextStyle(
+            color: color,
+          
+          fontSize: 16,
+          //fontFamily: 'Inter',
+          fontWeight: FontWeight.w600,
         ),
         bodyMedium: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
           fontSize: 14,
           //fontFamily: 'Inter',
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         bodySmall: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 14,
+          fontSize: 12,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
+
         labelLarge: TextStyle(
-          color: AppColors.black,
+          color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 16,
+          fontSize: 15,
           //fontFamily: 'Inter',
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
         ),
         labelMedium: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 14,
+          fontSize: 13,
           //fontFamily: 'Inter',
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w400,
         ),
         labelSmall: TextStyle(
           color: color,
           //color: isDark ? Colors.black : Colors.white,
-          fontSize: 14,
+          fontSize:11,
           //fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),

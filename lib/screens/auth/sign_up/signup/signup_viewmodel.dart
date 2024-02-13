@@ -1,15 +1,12 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 
 import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/global_variables.dart';
 import '../../../../helpers/urls.dart';
-import '../../../../widgets/pick_image.dart';
 import '../signup_methods/signup_mehods_viewmodel.dart';
 
 class SignUpViewModel extends GetxController {
