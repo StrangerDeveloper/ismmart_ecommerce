@@ -14,7 +14,7 @@ class Urls {
       '/public/collection?limit=0&fields[name]=1&store=65b0dc2d9d21c52c7d22f1bf&fields[media]=1';
 
   //HomeViewModel
-  static String homeCollections = "/public/collection?limit=0&level=1&fields[name]=1&fields[media]=1&fields[children]=1";
+  static String homeCollections = "/public/collection";
   static String getNews = "/public/news?limit=0&fields[name]=1&fields[description]=1";
   static String getDiscount = "/public/discount?limit=6&fields[name]=1&fields[start]=1&fields[end]=1";
   static String getDiscountedProducts = "/public/product?limit=6&fields[image]=1&fields[quantity]=1&fields[inStock]=1&fields[store][name]=1&fields[discount][percentage]=1&fields[totalReviews]=1&fields[rating]=1&fields[price]=1&discount=";
