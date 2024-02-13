@@ -1,9 +1,9 @@
 class ProductResponse {
     List<Product>? product;
-    int? page;
-    int? limit;
-    int? pages;
-    int? total;
+    num? page;
+    num? limit;
+    num? pages;
+    num? total;
 
     ProductResponse({
         this.product,
@@ -52,15 +52,15 @@ class Product {
     DateTime? createdAt;
     DateTime? updatedAt;
     Discount? discount;
-    int? totalSum;
-    int? totalReviews;
+    num? totalSum;
+    num? totalReviews;
     double? rating;
     String? inventory;
-    int? quantity;
+    num? quantity;
     bool? inStock;
-    int? price;
+    num? price;
     String? image;
-    int? likes;
+    num? likes;
     bool? liked;
     List<Variant>? variants;
 
@@ -217,7 +217,7 @@ class Collection {
 class Discount {
     String? id;
     String? name;
-    int? percentage;
+    num? percentage;
 
     Discount({
         this.id,
@@ -312,7 +312,7 @@ class Store {
     String? logo;
     String? slug;
     List<Product>? products;
-    int? totalReviews;
+    num? totalReviews;
     double? rating;
 
     Store({
@@ -350,7 +350,7 @@ class Variant {
     String? id;
     String? name;
     String? slug;
-    int? weight;
+    num? weight;
     Dimensions? dimensions;
     List<String>? options;
     String? vendor;
@@ -361,9 +361,9 @@ class Variant {
     DateTime? createdAt;
     DateTime? updatedAt;
     String? inventory;
-    int? quantity;
+    num? quantity;
     bool? inStock;
-    int? price;
+    num? price;
     Discount? discount;
 
     Variant({
@@ -431,9 +431,9 @@ class Variant {
 }
 
 class Dimensions {
-    int? width;
-    int? length;
-    int? height;
+    num? width;
+    num? length;
+    num? height;
 
     Dimensions({
         this.width,

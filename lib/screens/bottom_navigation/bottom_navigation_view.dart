@@ -90,7 +90,7 @@ class BottomNavigationView extends StatelessWidget {
                 ),
                 bottomNavigationItem(
                   context,
-                  icon: CupertinoIcons.list_dash,
+                  icon: CupertinoIcons.profile_circled,
                   selected:
                       GlobalVariable.selectedIndex.value == 4 ? true : false,
                   onTap: () {

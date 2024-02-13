@@ -45,7 +45,7 @@ class SignUpView extends StatelessWidget {
                         nameField(),
                         emailTextField(),
                         const Gap(15),
-                        // phoneNumberTextField(),
+                        phoneNumberTextField(),
                         genderTextField(),
                         cnicNumberField(),
                         passwordTextField(),

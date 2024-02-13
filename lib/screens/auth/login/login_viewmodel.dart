@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -32,6 +34,7 @@ class LogInViewModel extends GetxController {
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
+
     // GlobalVariable.showLoader.value = false;
     super.onClose();
   }
@@ -92,23 +95,16 @@ class LogInViewModel extends GetxController {
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
+          _parsedJson = parsedJson;
           if (parsedJson['success'] == true) {
-            GlobalVariable.token = parsedJson['data']['token'];
-            GlobalVariable.showLoader.value = false;
-            Get.offAll(() => BottomNavigationView());
+            gotoNextPage();
           } else {
-            GlobalVariable.showLoader.value = false;
-            // AppConstant.displaySnackBar(
-            //   "Error",
-            //   '${parsedJson['message']}',
-            // );
+            error();
           }
         });
       });
-    } catch (error) {
-      CommonFunction.debugPrint(error);
-      GlobalVariable.showLoader.value = false;
-      //  debugPrint("$error");
+    } catch (e) {
+      error();
     }
     update();
     // debugPrint("google signin Credential ===> ${credential}");
@@ -166,8 +162,11 @@ class LogInViewModel extends GetxController {
 
   void gotoNextPage() {
     GlobalVariable.showLoader.value = false;
+    GetStorage().write('token', _parsedJson['data']['token']);
+    var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
-    Get.offAll(() => BottomNavigationView());
+    print("save log--------$a");
+    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
   }
 
   void error() {

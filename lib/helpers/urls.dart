@@ -8,6 +8,13 @@ class Urls {
   static String forgetPassword = "/auth/forgot";
   static String resetPassword = "/auth/reset";
   static String getOrders = "/vendor/order";
+  static String getProfile = "/auth/profile";
+  static String editProfile = "/customer/auth/update";
+  static String getSliderProducts =
+      "/public/product?limit=3&popular=true&store=65b0dc2d9d21c52c7d22f1bf&fields[name]=1&fields[image]=1&fields[id]=1";
+  static String getVendorProductsCategories =
+      '/public/collection?limit=0&fields[name]=1&store=65b0dc2d9d21c52c7d22f1bf&fields[media]=1';
+
   static String getVendorStoreDetails = '/public/store?';
   static String getCollection = '/public/collection?';
   static String getCollectionProducts = '/public/product?';
@@ -15,5 +22,9 @@ class Urls {
   static String homeCollections = "/public/collection";
   static String getNews = "/public/news";
   static String getFlashDiscountTimer = "/public/discount";
+  //Products
   static String getProducts = "/public/product";
+
+  //reviews
+  static String getProductReviews = "public/review";
 }
