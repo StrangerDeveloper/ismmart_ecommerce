@@ -19,7 +19,7 @@ class CategoryViewModel extends GetxController{
   }
 
   changeCollection(int index){
-    // collectionCurrentIndex.value = index;
+    collectionCurrentIndex.value = index;
     categoriesList.clear();
     categoriesList.addAll(GlobalVariable.collectionList[collectionCurrentIndex.value].children ?? []);
   }
