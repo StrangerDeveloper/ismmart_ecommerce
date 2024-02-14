@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../../helpers/global_variables.dart';
+import '../category/category_view.dart';
 import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
+
   Widget selectView(int index) {
     switch (index) {
       case 0:
@@ -15,10 +17,8 @@ class BottomNavigationViewModel extends GetxController {
       case 1:
         return SizedBox();
       case 2:
-        return SizedBox();
+        return CategoryView();
       case 3:
-        return SizedBox();
-      case 4:
         return UserProfileView();
       default:
         return Container(

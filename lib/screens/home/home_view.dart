@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
-import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
@@ -606,6 +605,7 @@ class HomeView extends StatelessWidget {
               itemCount: viewModel.flashProductList.length,
               itemBuilder: (context, index) {
                 return ProductItem2(
+                  product: viewModel.productList[index],
                   onTap: () {},
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
@@ -684,6 +684,7 @@ class HomeView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   return ProductItem2(
+                    product: viewModel.productList[index],
                     onTap: () {},
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',

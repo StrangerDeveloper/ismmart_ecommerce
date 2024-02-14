@@ -82,9 +82,9 @@ class BottomNavigationView extends StatelessWidget {
                   context,
                   icon: Icons.local_offer_rounded,
                   selected:
-                      GlobalVariable.selectedIndex.value == 3 ? true : false,
+                      GlobalVariable.selectedIndex.value == 2 ? true : false,
                   onTap: () {
-                    GlobalVariable.selectedIndex.value = 3;
+                    GlobalVariable.selectedIndex.value = 2;
                   },
                   toolTip: 'Tag',
                 ),
@@ -92,9 +92,9 @@ class BottomNavigationView extends StatelessWidget {
                   context,
                   icon: CupertinoIcons.profile_circled,
                   selected:
-                      GlobalVariable.selectedIndex.value == 4 ? true : false,
+                      GlobalVariable.selectedIndex.value == 3 ? true : false,
                   onTap: () {
-                    GlobalVariable.selectedIndex.value = 4;
+                    GlobalVariable.selectedIndex.value = 3;
                   },
                   toolTip: 'Profile',
                   padding: 14,
