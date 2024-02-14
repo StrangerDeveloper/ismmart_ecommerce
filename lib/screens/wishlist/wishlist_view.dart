@@ -30,13 +30,6 @@ class WishlistView extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: const Icon(
-              Icons.favorite_border_sharp,
-              color: Colors.black,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
               Icons.shopping_cart_outlined,
               color: Colors.black,
             ),
@@ -89,11 +82,11 @@ class WishlistView extends StatelessWidget {
                   onTap: () {},
                   image: viewModel.wishlist[index].image ?? '',
                   name: viewModel.wishlist[index].name ?? '',
-                  category: "Electronics",
+                  category: viewModel.wishlist[index].store?.name ?? '',
                   price: viewModel.wishlist[index].price ?? 0,
-                  rating: 4.5,
-                  reviews: 10,
-                  discount: 10,
+                  rating: viewModel.wishlist[index].rating ?? 0,
+                  reviews: viewModel.wishlist[index].totalReviews ?? 0,
+                  discount: viewModel.wishlist[index].discount?.percentage ?? 0,
                 );
               },
             )
