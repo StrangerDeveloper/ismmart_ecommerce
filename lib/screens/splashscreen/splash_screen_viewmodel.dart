@@ -16,13 +16,14 @@ class SplashScreenViewModel extends GetxController {
   }
 
   navigateToNextScreen() {
-    String token = getStorage.read('token') ?? "";
-    GlobalVariable.token = token;
-    print("------already login ${GlobalVariable.token}");
-    if (token != '') {
-      Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
-    } else {
-      Get.offAllNamed(AppRoutes.loginViewRoute);
-    }
+    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+
+    // String token = getStorage.read('token') ?? "";
+    // GlobalVariable.token = token;
+    // if (token != '') {
+    //   Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    // } else {
+    //   Get.offAllNamed(AppRoutes.loginViewRoute);
+    // }
   }
 }
