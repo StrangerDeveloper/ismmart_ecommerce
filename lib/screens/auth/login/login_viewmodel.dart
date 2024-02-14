@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,18 +91,13 @@ class LogInViewModel extends GetxController {
 
       credential?.authentication.then((value) async {
         Map<dynamic, dynamic> param = {
-          "social": {
-            "name": "Google",
-            "token": '${value.accessToken}',
-            'fcm': GlobalVariable.notificationsToken,
-            'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
-            'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
-          }
+          'provider': 'Google',
+          "token": '${value.accessToken}',
         };
         CommonFunction.debugPrint(credential);
 
         await ApiBaseHelper()
-            .postMethod(url: Urls.login, body: param)
+            .postMethod(url: Urls.socialLogin, body: param)
             .then((parsedJson) {
           _parsedJson = parsedJson;
           if (parsedJson['success'] == true) {
@@ -120,6 +116,8 @@ class LogInViewModel extends GetxController {
 
   appleSignin() async {
     if (Platform.isIOS) {
+      GlobalVariable.showLoader.value = true;
+
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -129,36 +127,25 @@ class LogInViewModel extends GetxController {
       );
       appleCredential.state;
 
+      print(appleCredential.email);
       try {
-        // Map<dynamic, dynamic> param = {
-        //   "social": {
-        //     "name": "Apple",
-        //     "token": '${appleCredential.identityToken}',
-        // 'fcm': GlobalVariable.notificationsToken,
-        // 'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
-        // 'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
-        //   }
-        // };
+        Map<dynamic, dynamic> param = {
+          'provider': 'Apple',
+          "token": '${appleCredential.identityToken}',
+        };
 
-        // await ApiBaseHelper()
-        //     .postMethod(url: " Urls.login", body: param)
-        //     .then((parsedJson) {
-        //   if (parsedJson['success'] == true) {
-        //     String status = parsedJson['data']['status'] ?? "";
-        //     accountStatusCheck(status, emailController.text);
-        //     GlobalVariable.showLoader.value = false;
-        //     GlobalVariable.token = parsedJson['data']['token'];
-        //     GlobalVariable.showLoader.value = false;
-        //   } else {
-        //     GlobalVariable.showLoader.value = false;
-        //     // AppConstant.displaySnackBar(
-        //     //   "Error",
-        //     //   'Account not found',
-        //     // );
-        //   }
-        // });
-      } catch (error) {
-        GlobalVariable.showLoader.value = false;
+        await ApiBaseHelper()
+            .postMethod(url: Urls.socialLogin, body: param)
+            .then((parsedJson) {
+          _parsedJson = parsedJson;
+          if (parsedJson['success'] == true) {
+            gotoNextPage();
+          } else {
+            error();
+          }
+        });
+      } catch (e) {
+        error();
       }
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
@@ -175,7 +162,7 @@ class LogInViewModel extends GetxController {
     GetStorage().write('token', _parsedJson['data']['token']);
     GlobalVariable.token = _parsedJson['data']['token'];
     await getUserProfile();
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
   }
 
   getUserProfile() {

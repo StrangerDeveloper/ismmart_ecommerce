@@ -219,7 +219,7 @@ class CustomTextField1 extends StatelessWidget {
                 validator: validator,
                 onTap: onTap,
                 style: const TextStyle(
-                  color: AppColors.grey4,
+                  color: AppColors.black,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
@@ -976,6 +976,11 @@ class CountryCodePickerTextField2 extends StatelessWidget {
             ),
           ),
         TextFormField(
+          style: const TextStyle(
+            color: AppColors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+          ),
           inputFormatters: inputFormatters,
           showCursor: showCursor,
           readOnly: readOnly,
@@ -984,9 +989,11 @@ class CountryCodePickerTextField2 extends StatelessWidget {
           onChanged: onPhoneFieldChange,
           decoration: InputDecoration(
             hintText: hintText,
-            // hintStyle: newFontStyleSize14.copyWith(
-            //   color: AppColors.fadedBlue,
-            // ),
+            hintStyle: const TextStyle(
+              color: AppColors.grey2,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
             errorText: errorText,
             prefixIconConstraints: BoxConstraints.tight(const Size(120, 50)),
             prefixIcon: Row(
@@ -1015,8 +1022,10 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  // textStyle: newFontStyleSize14.copyWith(
-                  //   color: Colors.black,
+                  // textStyle: const TextStyle(
+                  //   color: AppColors.grey2,
+                  //   fontWeight: FontWeight.w400,
+                  //   fontSize: 14,
                   // ),
                   enabled: enabled,
                   onChanged: onChanged,
@@ -1030,7 +1039,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                 ),
               ],
             ),
-            contentPadding: const EdgeInsets.only(top: 12),
+            contentPadding: const EdgeInsets.only(top: 15),
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xffEEEEEE)),
             ),

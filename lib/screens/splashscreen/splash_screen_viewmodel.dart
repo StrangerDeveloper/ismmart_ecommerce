@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../helpers/app_routes.dart';
-import '../../helpers/global_variables.dart';
 
 class SplashScreenViewModel extends GetxController {
   var getStorage;
@@ -16,7 +15,7 @@ class SplashScreenViewModel extends GetxController {
   }
 
   navigateToNextScreen() {
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
 
     // String token = getStorage.read('token') ?? "";
     // GlobalVariable.token = token;

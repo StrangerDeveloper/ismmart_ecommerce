@@ -39,7 +39,7 @@ class SignUpMethodsView extends StatelessWidget {
                   signUpEmail(),
                   // signupNumber(),
                   orWidget(),
-                  googleLogInBtn(),
+                  if (Platform.isAndroid) googleLogInBtn(),
                   // facebooklogInBtn(),
                   if (Platform.isIOS) appleLogInBtn(),
                   const Spacer(),
@@ -148,35 +148,12 @@ class SignUpMethodsView extends StatelessWidget {
   }
 
   Widget appleLogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          color: Colors.black, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icons/apple_logo.png',
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Signin with Apple ID",
-            ),
-          ],
-        ),
+    return customImageBtn(
+        title: 'Sign Up with Apple',
+        imagePath: 'assets/icons/apple_logo.png',
         onPressed: () {
           viewModel.appleSignin();
-        },
-      ),
-    );
+        });
   }
 
   Widget doNotHaveAnAccount() {
