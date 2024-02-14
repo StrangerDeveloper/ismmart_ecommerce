@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
 
 import '../../../helpers/app_colors.dart';
+import '../../../widgets/custom_popup.dart';
 import 'order_detail_viewmodel.dart';
 import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
@@ -521,7 +522,19 @@ class OrderDetailView extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: CustomTextBtn2(
-        onPressed: () {},
+        onPressed: () {
+          Get.back();
+          showDialog(
+            context: Get.context!,
+            builder: (BuildContext context) {
+              return CustomPopup(
+                title: "Done!",
+                text: AppStrings.review,
+                icon: Icons.check_circle,
+              );
+            },
+          );
+        },
         width: 300,
         title: "Leave Review",
         textStyle: GoogleFonts.inter(
@@ -532,6 +545,17 @@ class OrderDetailView extends StatelessWidget {
       ),
     );
   }
+
+  // Widget customPopupDialog(BuildContext context) {
+  //   return Dialog(
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(12),
+  //     ),
+  //     elevation: 0,
+  //     backgroundColor: Colors.white,
+  //     child: contentBox(context),
+  //   );
+  // }
 
   Widget _customField1(String text1) {
     return CustomText(
