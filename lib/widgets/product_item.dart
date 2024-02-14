@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
+import '../helpers/app_colors.dart';
 import '../helpers/common_function.dart';
+import '../helpers/theme_helper.dart';
+import '../screens/product_details/product_model.dart';
 
 class ProductItem extends StatelessWidget {
   final WishlistViewModel viewModel = Get.put(WishlistViewModel());
@@ -19,18 +24,21 @@ class ProductItem extends StatelessWidget {
   final String reviews;
   final bool displayFavIcon;
 
-  const ProductItem(
-      {super.key,
-      required this.image,
-      this.discount,
-      required this.name,
-      required this.category,
-      required this.price,
-      this.previousPrice,
-      required this.rating,
-      required this.reviews,
-      this.onTap,
-      this.displayFavIcon = true});
+  ProductItem({
+    super.key,
+    required this.image,
+    this.discount,
+    required this.name,
+    required this.category,
+    required this.price,
+    this.previousPrice,
+    required this.rating,
+    required this.reviews,
+    this.onTap,
+    this.displayFavIcon = true,
+    this.product,
+    this.onLike,
+  });
 
   @override
   Widget build(BuildContext context) {
