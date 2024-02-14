@@ -6,7 +6,7 @@ import '../product_details/product_model.dart';
 class WishlistViewModel extends GetxController {
   static final localStorage = GetStorage();
   RxList<Product> wishlist = <Product>[].obs;
-  RxInt total = 0.obs;
+  RxInt totalItems = 0.obs;
 
   // Retrieve wishlist from local storage during initialization
   @override
@@ -21,7 +21,7 @@ class WishlistViewModel extends GetxController {
     print('object: ${product.name}');
     wishlist.add(product);
     wishlist.refresh();
-    total.value = wishlist.length;
+    totalItems.value = wishlist.length;
     localStorage.write('wishlist', wishlist.toList());
     print('wishlist nameeeeee: ${wishlist[0].name}');
   }
@@ -29,7 +29,7 @@ class WishlistViewModel extends GetxController {
   void removeFromWishlist(Product product) {
     wishlist.remove(product);
     wishlist.refresh();
-    total.value = wishlist.length;
+    totalItems.value = wishlist.length;
     localStorage.write('wishlist', wishlist.toList());
   }
 }
