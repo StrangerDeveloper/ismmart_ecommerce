@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../../helpers/global_variables.dart';
-import '../user_profile/user_profile_view.dart';
+import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
   Widget selectView(int index) {

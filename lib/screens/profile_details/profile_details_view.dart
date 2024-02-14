@@ -3,11 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/profile_details/profile_details_viewmodel.dart';
 
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_network_image.dart';
 import '../../widgets/loader_view.dart';
 import '../../widgets/widget_models/custom_cached_network_image.dart';
 import '../edit_user_profile/edit_user_profile_view.dart';
