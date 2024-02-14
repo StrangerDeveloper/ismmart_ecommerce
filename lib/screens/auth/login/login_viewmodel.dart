@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
 import '../../../helpers/urls.dart';
+import '../../profile_details/profile_details_model.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -19,13 +21,7 @@ class LogInViewModel extends GetxController {
 
   @override
   void onReady() async {
-    // NotificationsServices.permissonRequest();
-    // NotificationsServices.firebaseInit(Get.context!);
-    // NotificationsServices.setupInteractMessage(Get.context!);
-    // NotificationsServices.forgroundMessage();
-    // NotificationsServices.tokenRefresh();
-    // NotificationsServices.getToken();
-
+    await GetStorage.init();
     super.onReady();
   }
 
@@ -33,8 +29,6 @@ class LogInViewModel extends GetxController {
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
-
-    // GlobalVariable.showLoader.value = false;
     super.onClose();
   }
 
@@ -42,10 +36,22 @@ class LogInViewModel extends GetxController {
   Future<void> signIn() async {
     GlobalVariable.noInternet(false);
     if (signInFormKey.currentState?.validate() ?? false) {
+
+      final idNo = Random().nextInt(100000);
+      final splittedEmail = emailController.text.split('@');
+
       Map<String, dynamic> param = {
-        "email": emailController.text,
-        "password": passwordController.text,
+        'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+        'fcm': GlobalVariable.notificationsToken,
+        'device[device]': "${splittedEmail[0]}$idNo"
       };
+
+      await GetStorage().write('deviceInfo', param);
+
+      param.addAll({
+        'email': emailController.text,
+        'password': passwordController.text
+      });
 
       GlobalVariable.showLoader.value = true;
 
@@ -87,6 +93,9 @@ class LogInViewModel extends GetxController {
           "social": {
             "name": "Google",
             "token": '${value.accessToken}',
+            'fcm': GlobalVariable.notificationsToken,
+            'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+            'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
           }
         };
         CommonFunction.debugPrint(credential);
@@ -125,6 +134,9 @@ class LogInViewModel extends GetxController {
         //   "social": {
         //     "name": "Apple",
         //     "token": '${appleCredential.identityToken}',
+        // 'fcm': GlobalVariable.notificationsToken,
+        // 'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+        // 'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
         //   }
         // };
 
@@ -159,13 +171,24 @@ class LogInViewModel extends GetxController {
     passwordController.clear();
   }
 
-  void gotoNextPage() {
-    GlobalVariable.showLoader.value = false;
+  void gotoNextPage() async {
     GetStorage().write('token', _parsedJson['data']['token']);
-    var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
-    print("save log--------$a");
+    await getUserProfile();
     Get.offAllNamed(AppRoutes.bottomNavViewRoute);
+  }
+
+  getUserProfile() {
+    ApiBaseHelper().getMethod(url: Urls.getProfile).then((parsedJson) async {
+      if(parsedJson['success'] == true) {
+        GlobalVariable.userModel.value = UserProfileModel.fromJson(parsedJson['data']);
+        await GetStorage().write('userData', parsedJson['data']);
+        GlobalVariable.showLoader.value = false;
+      }
+    }).catchError((e) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(title: 'Error', message: e);
+    });
   }
 
   void error() {
