@@ -31,7 +31,7 @@ class CustomPopup extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 30),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
@@ -72,8 +72,8 @@ class CustomPopup extends StatelessWidget {
             ),
           ),
           Container(
-            width: 50,
-            height: 50,
+            width: 65,
+            height: 65,
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
