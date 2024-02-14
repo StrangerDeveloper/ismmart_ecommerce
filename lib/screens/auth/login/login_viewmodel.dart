@@ -37,7 +37,6 @@ class LogInViewModel extends GetxController {
   Future<void> signIn() async {
     GlobalVariable.noInternet(false);
     if (signInFormKey.currentState?.validate() ?? false) {
-
       final idNo = Random().nextInt(100000);
       final splittedEmail = emailController.text.split('@');
 
@@ -49,10 +48,8 @@ class LogInViewModel extends GetxController {
 
       await GetStorage().write('deviceInfo', param);
 
-      param.addAll({
-        'email': emailController.text,
-        'password': passwordController.text
-      });
+      param.addAll(
+          {'email': emailController.text, 'password': passwordController.text});
 
       GlobalVariable.showLoader.value = true;
 
@@ -167,8 +164,9 @@ class LogInViewModel extends GetxController {
 
   getUserProfile() {
     ApiBaseHelper().getMethod(url: Urls.getProfile).then((parsedJson) async {
-      if(parsedJson['success'] == true) {
-        GlobalVariable.userModel.value = UserProfileModel.fromJson(parsedJson['data']);
+      if (parsedJson['success'] == true) {
+        GlobalVariable.userModel.value =
+            UserProfileModel.fromJson(parsedJson['data']);
         await GetStorage().write('userData', parsedJson['data']);
         GlobalVariable.showLoader.value = false;
       }
