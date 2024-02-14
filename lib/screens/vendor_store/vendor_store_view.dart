@@ -2,139 +2,197 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:ismmart_ecommerce/screens/vendor_store/category_products_view/category_products_view.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_all_products.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_homepage.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
+import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
+import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 
-import 'models/categorized_products_model.dart';
+import 'categorized_products_model.dart';
 import '../../widgets/product_item.dart';
+import 'category_products/category_products_view.dart';
 
 class VendorStoreView extends StatelessWidget {
   VendorStoreView({super.key});
 
   final VendorStoreViewModel viewModel = Get.put(VendorStoreViewModel());
+  final HomeViewModel viewModel2 = Get.put(HomeViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar2(
-        title: 'Vendor Store',
-        centerTitle: true,
-        containsLeading: true,
-        titleTextStyle: GoogleFonts.inter(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.black
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.grey2.withOpacity(0.1),
-                    blurRadius: 15,
-                    spreadRadius: 8,
-                    offset: const Offset(0, 8)
-                  )
-                ]
-              ),
-              child: const CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage('assets/images/no_image_found.jpg'),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Text(
-              'A2Z Store',
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black
-              ),
-            ),
-            const SizedBox(height: 15,),
-            TabBar(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              controller: viewModel.tabController,
-              labelStyle: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14, color: Colors.black),
-              enableFeedback: false,
-              unselectedLabelColor: AppColors.grey5,
-              unselectedLabelStyle: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),
-              indicatorColor: Colors.black,
-                indicatorWeight: 1.5,
-                tabs: [
-                  Tab(child: Text('Homepage', style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),),),
-                  Tab(child: Text('All Products', style: GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 14),),)
-            ]
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: viewModel.tabController,
+          title: 'Vendor Store',
+          centerTitle: true,
+          containsLeading: true,
+          titleTextStyle: ThemeHelper.textTheme.bodyLarge!
+              .copyWith(color: AppColors.black)),
+      body: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const LoaderView()
+            : Padding(
+                padding: const EdgeInsets.only(top: 25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    VendorStoreHomePage(),
-                    VendorStoreAllProducts(),
-              ]),
-            ),
-          ],
-        ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                                color: AppColors.grey2.withOpacity(0.1),
+                                blurRadius: 15,
+                                spreadRadius: 8,
+                                offset: const Offset(0, 8))
+                          ]),
+                      child: Obx(
+                        () => CircleAvatar(
+                            radius: 40,
+                            backgroundImage: viewModel.storeLogoUrl.value != ''
+                                ? null
+                                : const AssetImage(
+                                    'assets/images/no_image_found.jpg'),
+                            child: viewModel.storeLogoUrl.value != ''
+                                ? CustomNetworkImage(
+                                    imageUrl: viewModel.storeLogoUrl.value)
+                                : const SizedBox()),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => Text(viewModel.storeName.value,
+                          style: ThemeHelper.textTheme.bodyLarge?.copyWith(
+                              color: AppColors.black,
+                              fontWeight: FontWeight.w700)),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TabBar(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        controller: viewModel.tabController,
+                        labelColor: AppColors.black,
+                        labelStyle: ThemeHelper.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                        enableFeedback: false,
+                        unselectedLabelColor: AppColors.grey5,
+                        unselectedLabelStyle: GoogleFonts.inter(
+                            fontWeight: FontWeight.w400, fontSize: 14),
+                        indicatorColor: Colors.black,
+                        indicatorWeight: 1.5,
+                        tabs: const [
+                          Tab(
+                            text: 'Homepage',
+                          ),
+                          Tab(text: 'All Products')
+                        ]),
+                    Expanded(
+                      child: TabBarView(
+                          controller: viewModel.tabController,
+                          children: [
+                            VendorStoreHomePage(),
+                            VendorStoreAllProducts(),
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
 
-  Widget categoryAndProductsList() {
+  Widget categoryAndProductsList(
+      {int? limit, required List<CategorizedProductsModel> productList}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: List.generate(viewModel.lists.length, (index) {
-          CategorizedProductsModel model = viewModel.lists[index];
-          return Column(
-            children: [
-              categoryNameAndBtn(model.categoryName.toString()),
-              GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 0.64,
-                ),
-                itemCount: 2,
-                itemBuilder: (context, idx) {
-                  Product productModel = model.productList![idx];
-                  return ProductItem(
-                    displayFavIcon: false,
-                    image: productModel.imageURL.toString(),
-                    name: productModel.name.toString(),
-                    category: model.categoryName.toString(),
-                    price: productModel.actualPrice.toString(),
-                    rating: productModel.reviewStar.toString(),
-                    reviews: productModel.reviewsNumber.toString(),
-                    previousPrice: productModel.discountedPrice.toString(),
-                  );
-                },
-              ),
-            ],
-          );
-        }),
+      child: Obx(
+        () => Column(
+          children: viewModel.productsRetryCheck.value
+              ? [
+                  IconButton(
+                    onPressed: () {
+                      viewModel.productsRetryCheck.value = false;
+                      viewModel.getVendorProducts();
+                    },
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                      size: 22,
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Text('Error fetching products. Retry',
+                      style: ThemeHelper.textTheme.bodyMedium
+                          ?.copyWith(color: AppColors.black, fontSize: 15))
+                ]
+              : productList.isEmpty
+                  ? [
+                      Center(
+                        child: Text('No Products Found',
+                            style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                                color: AppColors.black, fontSize: 15)),
+                      )
+                    ]
+                  : List.generate(limit ?? productList.length, (index) {
+                      CategorizedProductsModel model = productList[index];
+                      return model.products != null &&
+                              model.products!.isNotEmpty
+                          ? Column(
+                              children: [
+                                categoryNameAndBtn(
+                                    model.name == null && model.name == ''
+                                        ? 'Others'
+                                        : model.name.toString(),
+                                    categoryId: model.sId ?? ''),
+                                GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 12,
+                                    crossAxisSpacing: 15,
+                                    childAspectRatio: 0.64,
+                                  ),
+                                  itemCount: model.products!.length,
+                                  itemBuilder: (context, idx) {
+                                    Products productModel =
+                                        model.products![idx];
+                                    return ProductItem2(
+                                      product: viewModel2.productList[index],
+                                      displayFavIcon: false,
+                                      image: productModel.image.toString(),
+                                      name: productModel.name.toString(),
+                                      price: productModel.price ?? 0,
+                                      rating: productModel.rating ?? 0,
+                                      reviews: productModel.reviews ?? 0,
+                                      discount: productModel.discount != null
+                                          ? productModel.discount!.percentage!
+                                          : 0,
+                                    );
+                                  },
+                                ),
+                              ],
+                            )
+                          : const SizedBox();
+                    }),
+        ),
       ),
     );
   }
 
-  Widget categoryNameAndBtn(String categoryName) {
+  Widget categoryNameAndBtn(String categoryName,
+      {String? categoryId, bool displaySeeAllBtn = true}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 15),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -143,22 +201,19 @@ class VendorStoreView extends StatelessWidget {
             style: GoogleFonts.inter(
                 color: AppColors.black3,
                 fontSize: 14,
-                fontWeight: FontWeight.w700
-            ),
+                fontWeight: FontWeight.w700),
           ),
-          TextButton(
-              onPressed: () {
-                Get.to(() => CategoryProductsView());
-              },
-              child: Text(
-                'See all',
-                style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.black3
-                ),
-              )
-          )
+          displaySeeAllBtn
+              ? TextButton(
+                  onPressed: () {
+                    Get.to(() => CategoryProductsView(),
+                        arguments: {'id': categoryId, 'name': categoryName});
+                  },
+                  child: Text('See all',
+                      style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.black3,
+                          fontWeight: FontWeight.w400)))
+              : const SizedBox()
         ],
       ),
     );

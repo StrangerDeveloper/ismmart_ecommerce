@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/profile_details/profile_details_viewmodel.dart';
 
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_network_image.dart';
 import '../../widgets/loader_view.dart';
+import '../../widgets/widget_models/custom_cached_network_image.dart';
 import '../edit_user_profile/edit_user_profile_view.dart';
 
 class UserProfileView extends StatelessWidget {
@@ -18,10 +19,7 @@ class UserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar2(
-        title: 'User Profile',
-        titleTextStyle: ThemeHelper.textTheme.labelLarge,
-      ),
+      appBar: appbar(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -30,6 +28,7 @@ class UserProfileView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Gap(24),
                   profileImage(),
                   headingItem('Personal Info'),
                   containerDecoration(
@@ -67,17 +66,17 @@ class UserProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  headingItem('Contact Info'),
-                  containerDecoration(
-                    children: [
-                      Obx(
-                        () => item1(
-                          title: "CNIC Number",
-                          value: viewModel.userProfileModel.value.cnic ?? 'N/A',
-                        ),
-                      ),
-                    ],
-                  ),
+                  // headingItem('Contact Info'),
+                  // containerDecoration(
+                  //   children: [
+                  //     Obx(
+                  //       () => item1(
+                  //         title: "CNIC Number",
+                  //         value: viewModel.userProfileModel.value.cnic ?? 'N/A',
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 25),
                   editBtn(),
                   const SizedBox(height: 80),
@@ -94,20 +93,20 @@ class UserProfileView extends StatelessWidget {
   Widget profileImage() {
     return Align(
       alignment: Alignment.center,
-      child: Obx(() => CustomNetworkImage(
+      child: Obx(() => CustomCachedNetworkImage(
             imageUrl: viewModel.userProfileModel.value.image != null
                 ? viewModel.userProfileModel.value.image!
-                : '',
+                : "",
           )),
     );
   }
 
   Widget headingItem(String value) {
     return Padding(
-      padding: const EdgeInsets.only(top: 35, bottom: 15, left: 24, right: 24),
+      padding: const EdgeInsets.only(top: 35, bottom: 16, left: 24, right: 24),
       child: Text(
         value,
-        style: ThemeHelper.textTheme.labelLarge
+        style: ThemeHelper.textTheme.bodyLarge
             ?.copyWith(color: AppColors.grey5, fontWeight: FontWeight.w700),
       ),
     );
@@ -115,21 +114,19 @@ class UserProfileView extends StatelessWidget {
 
   Widget item1({required String title, required String value}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: Row(
         children: [
           Text(title,
-              style: ThemeHelper.textTheme.labelMedium
-                  ?.copyWith(color: AppColors.grey5, fontSize: 14)),
+              style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.grey5, fontWeight: FontWeight.w600)),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: ThemeHelper.textTheme.labelMedium
-                  ?.copyWith(color: Colors.black),
+              style: ThemeHelper.textTheme.bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -150,16 +147,47 @@ class UserProfileView extends StatelessWidget {
     );
   }
 
+  // Widget editBtn() {
+  //   return CustomTextBtn(
+  //     title: 'Edit',
+  //     backgroundColor: Colors.transparent,
+  //     foregroundColor: AppColors.black,
+  //     onPressed: () {
+  //       Get.to(() => EditUserProfileView(),
+  //           arguments: {'model': viewModel.userProfileModel});
+  //     },
+  //     child: Text('Edit', style: ThemeHelper.textTheme.labelMedium),
+  //   );
+  // }
+
+  PreferredSizeWidget appbar() {
+    return CustomAppBar2(
+      title: 'Profile Details',
+      titleTextStyle: ThemeHelper.textTheme.bodyLarge,
+      centerTitle: true,
+    );
+  }
+
   Widget editBtn() {
-    return CustomTextBtn(
-      title: 'Edit',
-      backgroundColor: Colors.transparent,
-      foregroundColor: AppColors.black,
-      onPressed: () {
-        Get.to(() => EditUserProfileView(),
-            arguments: {'model': viewModel.userProfileModel});
-      },
-      child: Text('Edit', style: ThemeHelper.textTheme.labelMedium),
+    return Padding(
+      padding: const EdgeInsets.only(top: 32, bottom: 15),
+      child: CustomTextBtn(
+        radius: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Edit",
+              style: ThemeHelper.textTheme.bodyLarge
+                  ?.copyWith(color: AppColors.white),
+            ),
+          ],
+        ),
+        onPressed: () {
+          Get.to(() => EditUserProfileView(),
+              arguments: {'model': viewModel.userProfileModel});
+        },
+      ),
     );
   }
 }

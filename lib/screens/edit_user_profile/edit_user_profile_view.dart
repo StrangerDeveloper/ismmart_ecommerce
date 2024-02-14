@@ -16,7 +16,9 @@ import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/image_layout_container.dart';
 import '../../widgets/loader_view.dart';
+import '../../widgets/obscure_suffix_icon.dart';
 import '../../widgets/pick_image.dart';
+import '../../widgets/widget_models/custom_cached_network_image.dart';
 import 'edit_user_profile_viewmodel.dart';
 
 class EditUserProfileView extends StatelessWidget {
@@ -28,10 +30,7 @@ class EditUserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar2(
-        title: 'Edit Profile',
-        titleTextStyle: ThemeHelper.textTheme.labelLarge,
-      ),
+      appBar: appbar(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -49,17 +48,6 @@ class EditUserProfileView extends StatelessWidget {
                         emailTextField(),
                         phoneNumberTextField(),
                         genderTextField(),
-                        // (viewModel.userProfileModel.value.status != null &&
-                        //         viewModel.userProfileModel.value.status !=
-                        //             'Approved')
-                        Column(
-                          children: [
-                            cNICNumberField(),
-                            cNICFrontImage(),
-                            cNICBackImage(),
-                          ],
-                        ),
-
                         updateBtn(),
                         discardBtn(),
                       ],
@@ -110,7 +98,7 @@ class EditUserProfileView extends StatelessWidget {
                           ),
                         ),
                       )
-                    : CustomNetworkImage(
+                    : CustomCachedNetworkImage(
                         height: 80,
                         width: 80,
                         imageUrl: viewModel.userProfileModel.value.image != null
@@ -249,59 +237,19 @@ class EditUserProfileView extends StatelessWidget {
     );
   }
 
-  Widget cNICNumberField() {
-    return CustomTextField1(
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      title: 'CNIC Number',
-      hintText: '42101153225204',
-      controller: viewModel.cNICNumberController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) {
-        return Validator.validateDefaultField(value,
-            errorMessage: 'CNIC is required');
-      },
-    );
-  }
-
-  Widget cNICFrontImage() {
-    return Obx(() => Padding(
-          padding: const EdgeInsets.only(top: 18, bottom: 2),
-          child: ImageLayoutContainer(
-            title: 'CNIC Front Image',
-            filePath: basename(viewModel.cNICFrontImage.value.path),
-            onTap: () async {
-              viewModel.cNICFrontImage.value =
-                  await PickImage().pickSingleImage() ?? File('');
-            },
-            errorVisibility: viewModel.showCNICFrontImageError.value,
-            errorPrompt: 'CNIC Front Image is required',
-          ),
-        ));
-  }
-
-  Widget cNICBackImage() {
-    return Obx(
-      () => ImageLayoutContainer(
-        title: 'CNIC Back Image',
-        filePath: basename(viewModel.cNICBackImage.value.path),
-        onTap: () async {
-          viewModel.cNICBackImage.value =
-              await PickImage().pickSingleImage() ?? File('');
-        },
-        errorVisibility: viewModel.showCNICBackImageError.value,
-        errorPrompt: 'CNIC Back Image is required',
-      ),
-    );
-  }
-
   Widget updateBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 25, bottom: 5),
       child: CustomTextBtn(
+        borderSide: const BorderSide(
+          color: AppColors.black, // your color here
+          width: 1.5,
+        ),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: 'Save & Update',
+        textStyle: ThemeHelper.textTheme.bodySmall
+            ?.copyWith(fontWeight: FontWeight.w600, color: AppColors.white),
         onPressed: () {
           viewModel.saveAndCreateBtn();
         },
@@ -311,11 +259,26 @@ class EditUserProfileView extends StatelessWidget {
 
   Widget discardBtn() {
     return CustomTextBtn(
+      borderSide: const BorderSide(
+        color: AppColors.black, // your color here
+        width: 1.5,
+      ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
       title: 'Discard',
+      textStyle: ThemeHelper.textTheme.bodySmall
+          ?.copyWith(fontWeight: FontWeight.w600),
       onPressed: () {
         Get.back();
       },
-      backgroundColor: Colors.black,
+    );
+  }
+
+  PreferredSizeWidget appbar() {
+    return CustomAppBar2(
+      title: 'Profile Details',
+      titleTextStyle: ThemeHelper.textTheme.bodyLarge,
+      centerTitle: true,
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../../helpers/global_variables.dart';
 import '../category/category_view.dart';
+import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
 
@@ -18,7 +19,7 @@ class BottomNavigationViewModel extends GetxController {
       case 2:
         return CategoryView();
       case 3:
-        return SizedBox();
+        return UserProfileView();
       default:
         return Container(
           height: 300.0,
