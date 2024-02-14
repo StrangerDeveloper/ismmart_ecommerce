@@ -56,7 +56,7 @@ class WishlistView extends StatelessWidget {
               ),
             ),
             Container(
-              child: flashSaleProductList(),
+              child: wishListProducts(),
             ),
           ],
         ),
@@ -64,7 +64,7 @@ class WishlistView extends StatelessWidget {
     );
   }
 
-  Widget flashSaleProductList() {
+  Widget wishListProducts() {
     return Obx(
       () => viewModel.wishlist.isNotEmpty
           ? GridView.builder(
