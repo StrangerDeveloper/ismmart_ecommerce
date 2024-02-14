@@ -18,21 +18,23 @@ class AppRoutes {
   static const editUserProfileViewRoute = "/EditUserProfileView";
   static const successViewRoute = "/successView";
 
-   static const bottomNavigationViewRoute = "/BottomNavigationView";
-    static const homeRoute = "/BottomNavigationView";
+  static const bottomNavigationViewRoute = "/BottomNavigationView";
+  static const homeRoute = "/BottomNavigationView";
 
   List<GetPage> getRoutes() {
     return [
       GetPage(name: initRoute, page: () => SplashScreenView()),
       GetPage(name: loginViewRoute, page: () => LogInView()),
       GetPage(name: singupMethodsViewRoute, page: () => SignUpMethodsView()),
-    GetPage(name: homeRoute, page: () => HomeView()),
+      GetPage(name: homeRoute, page: () => HomeView()),
       GetPage(name: signUpViewRoute, page: () => SignUpView()),
       GetPage(name: successViewRoute, page: () => const SuccessView()),
       GetPage(
           name: editUserProfileViewRoute, page: () => EditUserProfileView()),
       GetPage(
           name: bottomNavigationViewRoute, page: () => BottomNavigationView()),
+
+          
     ];
   }
 }
