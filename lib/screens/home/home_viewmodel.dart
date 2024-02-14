@@ -153,6 +153,7 @@ class HomeViewModel extends GetxController {
         var data = parsedJson['data']['items'] as List;
 
         collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+        GlobalVariable.collectionList.addAll(collectionList);
         changeCollection(0);
         getNews();
       }
