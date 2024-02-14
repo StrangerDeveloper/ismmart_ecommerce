@@ -4,6 +4,7 @@ class Urls {
   static String getLocation = "/vendor/location?limit=5&page=";
 
   static String login = "/customer/auth/login";
+  static String socialLogin = "/customer/auth/login/social";
   static String register = "/customer/auth/register";
   static String forgetPassword = "/auth/forgot";
   static String resetPassword = "/auth/reset";
