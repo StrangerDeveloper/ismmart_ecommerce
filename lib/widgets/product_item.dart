@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/product_details/product_model.dart';
+import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
 class ProductItem extends StatelessWidget {
+  final WishlistViewModel viewModel = Get.put(WishlistViewModel());
+
+  final Product? product;
+  final VoidCallback? onLike;
   final GestureTapCallback? onTap;
   final String image;
   final String? discount;
@@ -13,7 +20,7 @@ class ProductItem extends StatelessWidget {
   final String reviews;
   final bool displayFavIcon;
 
-  const ProductItem({
+  ProductItem({
     super.key,
     required this.image,
     this.discount,
@@ -24,11 +31,14 @@ class ProductItem extends StatelessWidget {
     required this.rating,
     required this.reviews,
     this.onTap,
-    this.displayFavIcon = true
+    this.displayFavIcon = true,
+    this.product,
+    this.onLike,
   });
 
   @override
   Widget build(BuildContext context) {
+    print('ProductItem id ${product?.name}');
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
@@ -74,17 +84,31 @@ class ProductItem extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-                displayFavIcon ? Positioned(
-                  top: 1,
-                  left: 1,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_border,
-                      color: Colors.black,
-                    ),
-                  ),
-                ) : const SizedBox()
+                displayFavIcon
+                    ? Positioned(
+                        top: 1,
+                        left: 1,
+                        child: Obx(
+                          () => IconButton(
+                            icon: Icon(
+                              viewModel.wishlist.contains(product)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: viewModel.wishlist.contains(product)
+                                  ? Colors.red
+                                  : Colors.black,
+                            ),
+                            onPressed: () {
+                              if (viewModel.wishlist.contains(product)) {
+                                viewModel.removeFromWishlist(product!);
+                              } else {
+                                viewModel.addToWishlist(product!);
+                              }
+                            },
+                          ),
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
             Padding(
