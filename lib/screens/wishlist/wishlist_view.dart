@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'wishlist_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/product_item.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
+import '../../helpers/notifications_function.dart';
 import '../../helpers/urls.dart';
 import 'categorized_products_model.dart';
 
@@ -55,8 +56,14 @@ class VendorStoreViewModel extends GetxController with GetTickerProviderStateMix
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     GlobalVariable.showLoader.value = true;
+    NotificationsServices notificationServices = NotificationsServices();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(Get.context!);
+    notificationServices.setupInteractMessage(Get.context!);
+    GlobalVariable.notificationsToken = await notificationServices.getDeviceToken();
     super.onReady();
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/screens/category/category_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/sub_category/sub_category_view.dart';
 
 import '../../widgets/custom_network_image.dart';
 import '../wishlist/wishlist_view.dart';
@@ -15,72 +16,66 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
-      body: Obx(
-        () => GlobalVariable.collectionList.isNotEmpty
-            ? Column(
-                children: [
-                  collectionsList(),
-                  Obx(
-                    () => (viewModel.categoriesList.isNotEmpty)
-                        ? Expanded(
-                            child: GridView.builder(
-                              padding: const EdgeInsets.all(20),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                mainAxisSpacing: 20,
-                                crossAxisSpacing: 13,
-                                childAspectRatio: 0.72,
-                              ),
-                              itemCount: viewModel.categoriesList.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  borderRadius: BorderRadius.circular(4),
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 4),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: CustomNetworkImage(
-                                            imageUrl: viewModel
-                                                    .categoriesList[index]
-                                                    .media?[1] ??
-                                                '',
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          viewModel
-                                                  .categoriesList[index].name ??
-                                              '',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 11.5,
-                                            color: Colors.black,
-                                          ),
-                                        )
-                                      ],
+        appBar: appBar(),
+        body: Column(
+          children: [
+            collectionsList(),
+            Obx(
+              () => (viewModel.categoriesList.isNotEmpty)
+                  ? Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(20),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 13,
+                          childAspectRatio: 0.72,
+                        ),
+                        itemCount: viewModel.categoriesList.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            borderRadius: BorderRadius.circular(4),
+                            onTap: () {
+                              Get.to(() => SubCategoryView(), arguments: {
+                                'id': viewModel.categoriesList[index].sId ?? ''
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 4),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: CustomNetworkImage(
+                                      imageUrl: viewModel.categoriesList[index]
+                                              .media?[1] ??
+                                          '',
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                );
-                              },
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    viewModel.categoriesList[index].name ?? '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 11.5,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              )
-            : const Center(
-                child: Text('No Data Found'),
-              ),
-      ),
-    );
+                          );
+                        },
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ],
+        ));
   }
 
   AppBar appBar() {
@@ -141,7 +136,6 @@ class CategoryView extends StatelessWidget {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          viewModel.collectionCurrentIndex.value = index;
                           viewModel.changeCollection(index);
                         },
                         child: Container(
@@ -168,6 +162,7 @@ class CategoryView extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.black,
+                              fontWeight: FontWeight.w500,
                               // color: viewModel.isScrolled.value
                               //     ? Colors.black
                               //     : Colors.white,
