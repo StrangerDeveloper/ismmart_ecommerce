@@ -8,8 +8,8 @@ import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
-import '../user_profile/user_profile_model.dart';
-import '../user_profile/user_profile_viewmodel.dart';
+import '../profile_details/profile_details_model.dart';
+import '../profile_details/profile_details_viewmodel.dart';
 
 class EditUserProfileViewModel extends GetxController {
   Rx<File> userProfileImage = File('').obs;

@@ -27,23 +27,22 @@ class ProductDetailsViewModel extends GetxController
 
   List<Review> reviewsList = <Review>[].obs;
 
-  final Rx<Product> _product = Product().obs;
-  Product get productModel => _product.value;
-
+  final Rx<Product> productModel = Product().obs;
+  //Product get productModel => _product.value;
+  int qtyCount = 1;
   @override
   void onReady() {
     super.onReady();
-    if (Get.arguments != null) {
-      productID = Get.arguments['productId'];
-    }
-
+    // if (Get.arguments != null) {
+    //   productID = Get.arguments['productId'];
+    // }
     getProductById();
     getProductReviews();
   }
 
   Future<void> getProductById() async {
     Map<String, String> params = {
-      'id': productID,
+      'id': '65bab32422427132d3c17a35',
       'fields[name]': '1',
       'fields[price]': '1',
       'fields[options]': '1',
@@ -63,7 +62,7 @@ class ProductDetailsViewModel extends GetxController
         var data = parsedJson['data'];
 
         ProductResponse productResponse = ProductResponse.fromJson(data);
-        _product.value = productResponse.product![0];
+        productModel.value = productResponse.product![0];
       } else {
         CommonFunction.debugPrint(parsedJson['message']);
       }
@@ -98,6 +97,17 @@ class ProductDetailsViewModel extends GetxController
       duration: const Duration(milliseconds: 900),
       curve: Curves.easeInOut,
     );
+  }
+
+  void onQtyIncrement() {
+    qtyCount++;
+    productQtyController.text = "$qtyCount";
+  }
+
+  void onQtyDecrement() {
+    if (qtyCount <= 1) return;
+    qtyCount--;
+    productQtyController.text = "$qtyCount";
   }
 
   @override

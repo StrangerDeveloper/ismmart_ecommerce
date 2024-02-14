@@ -12,6 +12,7 @@ import 'package:ismmart_ecommerce/screens/home/model/news_model.dart';
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/urls.dart';
+import '../product_details/product_model.dart';
 
 class HomeViewModel extends GetxController {
   //Screen
@@ -46,7 +47,8 @@ class HomeViewModel extends GetxController {
   List<HomeProductModel> flashProductList = <HomeProductModel>[].obs;
 
   //All Products
-  List<HomeProductModel> allProductList = <HomeProductModel>[].obs;
+  RxList<HomeProductModel> allProductList = <HomeProductModel>[].obs;
+  RxList<Product> productList = <Product>[].obs;
   RxBool paginationLoader = false.obs;
   int pageNo = 1;
 
@@ -123,12 +125,11 @@ class HomeViewModel extends GetxController {
         .addAll(collectionList[collectionCurrentIndex.value].children ?? []);
 
     //Call other apis...
-    getFlashTimer().then((value){
+    getFlashTimer().then((value) {
       mainScrollController.removeListener(getAllProducts);
       mainScrollController.addListener(getAllProducts);
       getAllProducts();
     });
-
   }
 
   getCollections() async {
@@ -152,6 +153,7 @@ class HomeViewModel extends GetxController {
         var data = parsedJson['data']['items'] as List;
 
         collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+        GlobalVariable.collectionList.addAll(collectionList);
         changeCollection(0);
         getNews();
       }
@@ -208,8 +210,6 @@ class HomeViewModel extends GetxController {
           if (discountModel?.value.end != null) {
             startTimer(discountModel!.value.end!);
           }
-
-
         }
       }
     }).catchError((e) {
@@ -240,6 +240,7 @@ class HomeViewModel extends GetxController {
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         flashProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
+        productList.addAll(data.map((e) => Product.fromJson(e)));
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -282,6 +283,9 @@ class HomeViewModel extends GetxController {
             mainScrollController.removeListener(getAllProducts);
           }
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
+          productList.addAll(data.map((e) => Product.fromJson(e)));
+
+          print("ProductList.length ${productList.length}");
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
@@ -330,8 +334,4 @@ class HomeViewModel extends GetxController {
       });
     }
   }
-
-
-
-
 }

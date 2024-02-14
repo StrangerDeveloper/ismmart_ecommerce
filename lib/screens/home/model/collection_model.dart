@@ -33,21 +33,24 @@ class CollectionModel {
 class Children {
   String? sId;
   String? name;
+  List<String>? media;
   String? parent;
 
-  Children({this.sId, this.name, this.parent});
+  Children({this.sId, this.name, this.media, this.parent});
 
   Children.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+    media = json['media'].cast<String>();
     parent = json['parent'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['name'] = name;
-    data['parent'] = parent;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['media'] = this.media;
+    data['parent'] = this.parent;
     return data;
   }
 }

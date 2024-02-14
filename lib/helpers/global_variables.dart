@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
 
+import '../screens/home/model/collection_model.dart';
+
 class GlobalVariable {
   static String token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTc3ZWY3ZmI2NGUxY2UwOWY5ZDAwYWIiLCJuYW1lIjoiVGVzdCBDdXN0b21lciIsImlhdCI6MTcwMjM1ODk4MCwiZXhwIjoxNzA0OTUwOTgwfQ.gEtHoNIqEpOhNuzaIgFkd40_zkFajELhM900I3mbcC0';
@@ -10,4 +12,6 @@ class GlobalVariable {
   static RxInt selectedIndex = 0.obs;
   static String notificationsToken = '';
   static Rx<UserProfileModel> userModel = UserProfileModel().obs;
+
+  static List<CollectionModel> collectionList = <CollectionModel>[].obs;
 }

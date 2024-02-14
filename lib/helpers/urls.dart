@@ -19,6 +19,6 @@ class Urls {
   static String getProducts = "/public/product";
 
   //reviews
-  static String getProductReviews = "public/review";
+  static String getProductReviews = "/public/review";
   static String updateFcmToken = "/device/update/:";
 }

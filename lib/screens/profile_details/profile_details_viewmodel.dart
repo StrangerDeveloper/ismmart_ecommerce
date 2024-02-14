@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
+import 'package:ismmart_ecommerce/screens/profile_details/profile_details_model.dart';
 
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
