@@ -47,7 +47,7 @@ class HomeViewModel extends GetxController {
   List<HomeProductModel> flashProductList = <HomeProductModel>[].obs;
 
   //All Products
-  List<HomeProductModel> allProductList = <HomeProductModel>[].obs;
+  RxList<HomeProductModel> allProductList = <HomeProductModel>[].obs;
   RxList<Product> productList = <Product>[].obs;
   RxBool paginationLoader = false.obs;
   int pageNo = 1;
@@ -125,12 +125,11 @@ class HomeViewModel extends GetxController {
         .addAll(collectionList[collectionCurrentIndex.value].children ?? []);
 
     //Call other apis...
-    getFlashTimer().then((value){
+    getFlashTimer().then((value) {
       mainScrollController.removeListener(getAllProducts);
       mainScrollController.addListener(getAllProducts);
       getAllProducts();
     });
-
   }
 
   getCollections() async {
@@ -210,8 +209,6 @@ class HomeViewModel extends GetxController {
           if (discountModel?.value.end != null) {
             startTimer(discountModel!.value.end!);
           }
-
-
         }
       }
     }).catchError((e) {
@@ -242,6 +239,7 @@ class HomeViewModel extends GetxController {
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         flashProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
+        productList.addAll(data.map((e) => Product.fromJson(e)));
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -286,7 +284,7 @@ class HomeViewModel extends GetxController {
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
           productList.addAll(data.map((e) => Product.fromJson(e)));
 
-          print("allProductList.length ${productList.length}");
+          print("ProductList.length ${productList.length}");
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
@@ -335,8 +333,4 @@ class HomeViewModel extends GetxController {
       });
     }
   }
-
-
-
-
 }
