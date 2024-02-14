@@ -52,13 +52,13 @@ class LogInView extends StatelessWidget {
                         // facebooklogInBtn(),
                         if (Platform.isIOS) applelogInBtn(),
                         const Gap(54),
-                        doNotHaveAnAccount(),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            doNotHaveAnAccount(),
             const LoaderView()
           ],
         ),
@@ -242,7 +242,7 @@ class LogInView extends StatelessWidget {
 
   Widget doNotHaveAnAccount() {
     return Padding(
-      padding: EdgeInsets.only(top: Get.height * .05),
+      padding: EdgeInsets.only(top: Get.height * .9),
       child: TextButton(
         onPressed: () {
           Get.toNamed(AppRoutes.singupMethodsViewRoute);
