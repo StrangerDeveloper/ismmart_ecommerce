@@ -80,18 +80,6 @@ class BottomNavigationView extends StatelessWidget {
                 ),
                 bottomNavigationItem(
                   context,
-                  fontSize: 40,
-                  padding: 1,
-                  icon: Icons.add_circle_rounded,
-                  selected:
-                      GlobalVariable.selectedIndex.value == 2 ? true : false,
-                  onTap: () {
-                    GlobalVariable.selectedIndex.value = 2;
-                  },
-                  toolTip: 'Add',
-                ),
-                bottomNavigationItem(
-                  context,
                   icon: Icons.local_offer_rounded,
                   selected:
                       GlobalVariable.selectedIndex.value == 3 ? true : false,
@@ -102,7 +90,7 @@ class BottomNavigationView extends StatelessWidget {
                 ),
                 bottomNavigationItem(
                   context,
-                  icon: CupertinoIcons.list_dash,
+                  icon: CupertinoIcons.profile_circled,
                   selected:
                       GlobalVariable.selectedIndex.value == 4 ? true : false,
                   onTap: () {

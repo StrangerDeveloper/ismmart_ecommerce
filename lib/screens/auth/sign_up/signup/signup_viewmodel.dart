@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 
@@ -51,13 +52,12 @@ class SignUpViewModel extends GetxController {
   }
 
   List<http.MultipartFile> fileList = [];
-  void signUp() async {
+  Future<void> signUp() async {
     fileList.clear();
     if (signUpFormKey.currentState?.validate() ?? false) {
       if (isChecked.value == true) {
         String regex =
             r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
-
         final String cnicNo =
             cnicController.text.replaceAll(RegExp(regex, unicode: true), '');
 
@@ -69,6 +69,7 @@ class SignUpViewModel extends GetxController {
             "email": emailController.text,
             "gender": genderList[genderSelectedIndex.value],
             "cnic": cnicNo,
+            "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
             "social":
@@ -80,7 +81,7 @@ class SignUpViewModel extends GetxController {
             "email": emailController.text,
             "gender": genderList[genderSelectedIndex.value],
             "cnic": cnicNo,
-            // "phone": countryCode.value + phoneNumberController.text,
+            "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
           };
@@ -92,8 +93,7 @@ class SignUpViewModel extends GetxController {
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
             GlobalVariable.showLoader.value = false;
-            Get.to(LogInView());
-            // Get.to(() => SignUp2View(), arguments: param);
+            Get.toNamed(AppRoutes.loginViewRoute);
           } else {
             GlobalVariable.showLoader(false);
             CommonFunction.showSnackBar(
