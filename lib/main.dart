@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/helpers/notifications_function.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 import 'firebase_options.dart';
