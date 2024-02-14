@@ -12,6 +12,7 @@ import 'package:ismmart_ecommerce/screens/home/model/news_model.dart';
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/urls.dart';
+import '../product_details/product_model.dart';
 
 class HomeViewModel extends GetxController {
   //Screen
@@ -47,6 +48,7 @@ class HomeViewModel extends GetxController {
 
   //All Products
   List<HomeProductModel> allProductList = <HomeProductModel>[].obs;
+  RxList<Product> productList = <Product>[].obs;
   RxBool paginationLoader = false.obs;
   int pageNo = 1;
 
@@ -269,6 +271,9 @@ class HomeViewModel extends GetxController {
           //   mainScrollController.removeListener(getAllProducts);
           // }
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
+          productList.addAll(data.map((e) => Product.fromJson(e)));
+
+          print("allProductList.length ${productList.length}");
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
