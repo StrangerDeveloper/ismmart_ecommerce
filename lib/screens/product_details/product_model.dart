@@ -1,126 +1,152 @@
 class ProductResponse {
-    List<Product>? product;
-    int? page;
-    int? limit;
-    int? pages;
-    int? total;
+  List<Product>? product;
+  int? page;
+  int? limit;
+  int? pages;
+  int? total;
 
-    ProductResponse({
-        this.product,
-        this.page,
-        this.limit,
-        this.pages,
-        this.total,
-    });
+  ProductResponse({
+    this.product,
+    this.page,
+    this.limit,
+    this.pages,
+    this.total,
+  });
 
-    factory ProductResponse.fromJson(Map<String, dynamic> json) => ProductResponse(
-        product: json["Product"] == null ? [] : List<Product>.from(json["Product"]!.map((x) => Product.fromJson(x))),
+  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
+      ProductResponse(
+        product: json["Product"] == null
+            ? []
+            : List<Product>.from(
+                json["Product"]!.map((x) => Product.fromJson(x))),
         page: json["page"],
         limit: json["limit"],
         pages: json["pages"],
         total: json["total"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "Product": product == null ? [] : List<dynamic>.from(product!.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => {
+        "Product": product == null
+            ? []
+            : List<dynamic>.from(product!.map((x) => x.toJson())),
         "page": page,
         "limit": limit,
         "pages": pages,
         "total": total,
-    };
+      };
 }
 
 class Product {
-    String? id;
-    String? name;
-    bool? physical;
-    String? description;
-    String? slug;
-    String? status;
-    List<dynamic>? channels;
-    List<String>? tags;
-    String? vendor;
-    Store? store;
-    List<Media>? media;
-    List<Option>? options;
-    Seo? seo;
-    Type? type;
-    List<Type>? categories;
-    List<Collection>? collections;
-    bool? active;
-    bool? deleted;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    Discount? discount;
-    int? totalSum;
-    int? totalReviews;
-    double? rating;
-    String? inventory;
-    int? quantity;
-    bool? inStock;
-    int? price;
-    String? image;
-    int? likes;
-    bool? liked;
-    List<Variant>? variants;
+  String? id;
+  String? name;
+  bool? physical;
+  String? description;
+  String? slug;
+  String? status;
+  List<dynamic>? channels;
+  List<String>? tags;
+  String? vendor;
+  Store? store;
+  List<Media>? media;
+  List<Option>? options;
+  Seo? seo;
+  Type? type;
+  List<Type>? categories;
+  List<Collection>? collections;
+  bool? active;
+  bool? deleted;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  Discount? discount;
+  int? totalSum;
+  int? totalReviews;
+  double? rating;
+  String? inventory;
+  int? quantity;
+  bool? inStock;
+  int? price;
+  String? image;
+  int? likes;
+  bool? liked;
+  List<Variant>? variants;
 
-    Product({
-        this.id,
-        this.name,
-        this.physical,
-        this.description,
-        this.slug,
-        this.status,
-        this.channels,
-        this.tags,
-        this.vendor,
-        this.store,
-        this.media,
-        this.options,
-        this.seo,
-        this.type,
-        this.categories,
-        this.collections,
-        this.active,
-        this.deleted,
-        this.createdAt,
-        this.updatedAt,
-        this.discount,
-        this.totalSum,
-        this.totalReviews,
-        this.rating,
-        this.inventory,
-        this.quantity,
-        this.inStock,
-        this.price,
-        this.image,
-        this.likes,
-        this.liked,
-        this.variants,
-    });
+  Product({
+    this.id,
+    this.name,
+    this.physical,
+    this.description,
+    this.slug,
+    this.status,
+    this.channels,
+    this.tags,
+    this.vendor,
+    this.store,
+    this.media,
+    this.options,
+    this.seo,
+    this.type,
+    this.categories,
+    this.collections,
+    this.active,
+    this.deleted,
+    this.createdAt,
+    this.updatedAt,
+    this.discount,
+    this.totalSum,
+    this.totalReviews,
+    this.rating,
+    this.inventory,
+    this.quantity,
+    this.inStock,
+    this.price,
+    this.image,
+    this.likes,
+    this.liked,
+    this.variants,
+  });
 
-    factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
         name: json["name"],
         physical: json["physical"],
         description: json["description"],
         slug: json["slug"],
         status: json["status"],
-        channels: json["channels"] == null ? [] : List<dynamic>.from(json["channels"]!.map((x) => x)),
-        tags: json["tags"] == null ? [] : List<String>.from(json["tags"]!.map((x) => x)),
+        channels: json["channels"] == null
+            ? []
+            : List<dynamic>.from(json["channels"]!.map((x) => x)),
+        tags: json["tags"] == null
+            ? []
+            : List<String>.from(json["tags"]!.map((x) => x)),
         vendor: json["vendor"],
         store: json["store"] == null ? null : Store.fromJson(json["store"]),
-        media: json["media"] == null ? [] : List<Media>.from(json["media"]!.map((x) => Media.fromJson(x))),
-        options: json["options"] == null ? [] : List<Option>.from(json["options"]!.map((x) => Option.fromJson(x))),
+        media: json["media"] == null
+            ? []
+            : List<Media>.from(json["media"]!.map((x) => Media.fromJson(x))),
+        options: json["options"] == null
+            ? []
+            : List<Option>.from(
+                json["options"]!.map((x) => Option.fromJson(x))),
         seo: json["seo"] == null ? null : Seo.fromJson(json["seo"]),
         type: json["type"] == null ? null : Type.fromJson(json["type"]),
-        categories: json["categories"] == null ? [] : List<Type>.from(json["categories"]!.map((x) => Type.fromJson(x))),
-        collections: json["collections"] == null ? [] : List<Collection>.from(json["collections"]!.map((x) => Collection.fromJson(x))),
+        categories: json["categories"] == null
+            ? []
+            : List<Type>.from(json["categories"]!.map((x) => Type.fromJson(x))),
+        collections: json["collections"] == null
+            ? []
+            : List<Collection>.from(
+                json["collections"]!.map((x) => Collection.fromJson(x))),
         active: json["active"],
         deleted: json["deleted"],
-        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-        discount: json["discount"] == null ? null : Discount.fromJson(json["discount"]),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        discount: json["discount"] == null
+            ? null
+            : Discount.fromJson(json["discount"]),
         totalSum: json["totalSum"],
         totalReviews: json["totalReviews"],
         rating: json["rating"]?.toDouble(),
@@ -130,27 +156,39 @@ class Product {
         price: json["price"],
         image: json["image"],
         likes: json["likes"],
-        liked: json["liked"],
-        variants: json["variants"] == null ? [] : List<Variant>.from(json["variants"]!.map((x) => Variant.fromJson(x))),
-    );
+        liked: json["liked"] ?? false,
+        variants: json["variants"] == null
+            ? []
+            : List<Variant>.from(
+                json["variants"]!.map((x) => Variant.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "physical": physical,
         "description": description,
         "slug": slug,
         "status": status,
-        "channels": channels == null ? [] : List<dynamic>.from(channels!.map((x) => x)),
+        "channels":
+            channels == null ? [] : List<dynamic>.from(channels!.map((x) => x)),
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "vendor": vendor,
         "store": store?.toJson(),
-        "media": media == null ? [] : List<dynamic>.from(media!.map((x) => x.toJson())),
-        "options": options == null ? [] : List<dynamic>.from(options!.map((x) => x.toJson())),
+        "media": media == null
+            ? []
+            : List<dynamic>.from(media!.map((x) => x.toJson())),
+        "options": options == null
+            ? []
+            : List<dynamic>.from(options!.map((x) => x.toJson())),
         "seo": seo?.toJson(),
         "type": type?.toJson(),
-        "categories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
-        "collections": collections == null ? [] : List<dynamic>.from(collections!.map((x) => x.toJson())),
+        "categories": categories == null
+            ? []
+            : List<dynamic>.from(categories!.map((x) => x.toJson())),
+        "collections": collections == null
+            ? []
+            : List<dynamic>.from(collections!.map((x) => x.toJson())),
         "active": active,
         "deleted": deleted,
         "createdAt": createdAt?.toIso8601String(),
@@ -166,255 +204,283 @@ class Product {
         "image": image,
         "likes": likes,
         "liked": liked,
-        "variants": variants == null ? [] : List<dynamic>.from(variants!.map((x) => x.toJson())),
-    };
+        "variants": variants == null
+            ? []
+            : List<dynamic>.from(variants!.map((x) => x.toJson())),
+      };
 }
 
 class Type {
-    String? id;
-    String? name;
+  String? id;
+  String? name;
 
-    Type({
-        this.id,
-        this.name,
-    });
+  Type({
+    this.id,
+    this.name,
+  });
 
-    factory Type.fromJson(Map<String, dynamic> json) => Type(
+  factory Type.fromJson(Map<String, dynamic> json) => Type(
         id: json["_id"],
         name: json["name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
-    };
+      };
 }
 
 class Collection {
-    String? id;
-    String? name;
-    List<dynamic>? media;
+  String? id;
+  String? name;
+  List<dynamic>? media;
 
-    Collection({
-        this.id,
-        this.name,
-        this.media,
-    });
+  Collection({
+    this.id,
+    this.name,
+    this.media,
+  });
 
-    factory Collection.fromJson(Map<String, dynamic> json) => Collection(
+  factory Collection.fromJson(Map<String, dynamic> json) => Collection(
         id: json["_id"],
         name: json["name"],
-        media: json["media"] == null ? [] : List<dynamic>.from(json["media"]!.map((x) => x)),
-    );
+        media: json["media"] == null
+            ? []
+            : List<dynamic>.from(json["media"]!.map((x) => x)),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "media": media == null ? [] : List<dynamic>.from(media!.map((x) => x)),
-    };
+      };
 }
 
 class Discount {
-    String? id;
-    String? name;
-    int? percentage;
+  String? id;
+  String? name;
+  int? percentage;
 
-    Discount({
-        this.id,
-        this.name,
-        this.percentage,
-    });
+  Discount({
+    this.id,
+    this.name,
+    this.percentage,
+  });
 
-    factory Discount.fromJson(Map<String, dynamic> json) => Discount(
+  factory Discount.fromJson(Map<String, dynamic> json) => Discount(
         id: json["_id"],
         name: json["name"],
         percentage: json["percentage"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "percentage": percentage,
-    };
+      };
 }
 
 class Media {
-    String? url;
-    bool? thumbnail;
-    String? type;
-    String? id;
+  String? url;
+  bool? thumbnail;
+  String? type;
+  String? id;
 
-    Media({
-        this.url,
-        this.thumbnail,
-        this.type,
-        this.id,
-    });
+  Media({
+    this.url,
+    this.thumbnail,
+    this.type,
+    this.id,
+  });
 
-    factory Media.fromJson(Map<String, dynamic> json) => Media(
+  factory Media.fromJson(Map<String, dynamic> json) => Media(
         url: json["url"],
         thumbnail: json["thumbnail"],
         type: json["type"],
         id: json["_id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "url": url,
         "thumbnail": thumbnail,
         "type": type,
         "_id": id,
-    };
+      };
 }
 
 class Option {
-    String? name;
-    List<String>? values;
-    String? id;
+  String? name;
+  List<String>? values;
+  String? id;
 
-    Option({
-        this.name,
-        this.values,
-        this.id,
-    });
+  Option({
+    this.name,
+    this.values,
+    this.id,
+  });
 
-    factory Option.fromJson(Map<String, dynamic> json) => Option(
+  factory Option.fromJson(Map<String, dynamic> json) => Option(
         name: json["name"],
-        values: json["values"] == null ? [] : List<String>.from(json["values"]!.map((x) => x)),
+        values: json["values"] == null
+            ? []
+            : List<String>.from(json["values"]!.map((x) => x)),
         id: json["_id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
-        "values": values == null ? [] : List<dynamic>.from(values!.map((x) => x)),
+        "values":
+            values == null ? [] : List<dynamic>.from(values!.map((x) => x)),
         "_id": id,
-    };
+      };
 }
 
 class Seo {
-    List<dynamic>? keywords;
+  List<dynamic>? keywords;
 
-    Seo({
-        this.keywords,
-    });
+  Seo({
+    this.keywords,
+  });
 
-    factory Seo.fromJson(Map<String, dynamic> json) => Seo(
-        keywords: json["keywords"] == null ? [] : List<dynamic>.from(json["keywords"]!.map((x) => x)),
-    );
+  factory Seo.fromJson(Map<String, dynamic> json) => Seo(
+        keywords: json["keywords"] == null
+            ? []
+            : List<dynamic>.from(json["keywords"]!.map((x) => x)),
+      );
 
-    Map<String, dynamic> toJson() => {
-        "keywords": keywords == null ? [] : List<dynamic>.from(keywords!.map((x) => x)),
-    };
+  Map<String, dynamic> toJson() => {
+        "keywords":
+            keywords == null ? [] : List<dynamic>.from(keywords!.map((x) => x)),
+      };
 }
 
 class Store {
-    String? id;
-    String? name;
-    String? logo;
-    String? slug;
-    List<Product>? products;
-    int? totalReviews;
-    double? rating;
+  String? id;
+  String? name;
+  String? logo;
+  String? slug;
+  List<Product>? products;
+  int? totalReviews;
+  double? rating;
 
-    Store({
-        this.id,
-        this.name,
-        this.logo,
-        this.slug,
-        this.products,
-        this.totalReviews,
-        this.rating,
-    });
+  Store({
+    this.id,
+    this.name,
+    this.logo,
+    this.slug,
+    this.products,
+    this.totalReviews,
+    this.rating,
+  });
 
-    factory Store.fromJson(Map<String, dynamic> json) => Store(
+  factory Store.fromJson(Map<String, dynamic> json) => Store(
         id: json["_id"],
         name: json["name"],
         logo: json["logo"],
         slug: json["slug"],
-        products: json["products"] == null ? [] : List<Product>.from(json["products"]!.map((x) => Product.fromJson(x))),
+        products: json["products"] == null
+            ? []
+            : List<Product>.from(
+                json["products"]!.map((x) => Product.fromJson(x))),
         totalReviews: json["totalReviews"],
         rating: json["rating"]?.toDouble(),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "logo": logo,
         "slug": slug,
-        "products": products == null ? [] : List<dynamic>.from(products!.map((x) => x.toJson())),
+        "products": products == null
+            ? []
+            : List<dynamic>.from(products!.map((x) => x.toJson())),
         "totalReviews": totalReviews,
         "rating": rating,
-    };
+      };
 }
 
 class Variant {
-    String? id;
-    String? name;
-    String? slug;
-    int? weight;
-    Dimensions? dimensions;
-    List<String>? options;
-    String? vendor;
-    String? store;
-    String? product;
-    bool? deleted;
-    List<dynamic>? media;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    String? inventory;
-    int? quantity;
-    bool? inStock;
-    int? price;
-    Discount? discount;
+  String? id;
+  String? name;
+  String? slug;
+  int? weight;
+  Dimensions? dimensions;
+  List<String>? options;
+  String? vendor;
+  String? store;
+  String? product;
+  bool? deleted;
+  List<dynamic>? media;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? inventory;
+  int? quantity;
+  bool? inStock;
+  int? price;
+  Discount? discount;
 
-    Variant({
-        this.id,
-        this.name,
-        this.slug,
-        this.weight,
-        this.dimensions,
-        this.options,
-        this.vendor,
-        this.store,
-        this.product,
-        this.deleted,
-        this.media,
-        this.createdAt,
-        this.updatedAt,
-        this.inventory,
-        this.quantity,
-        this.inStock,
-        this.price,
-        this.discount,
-    });
+  Variant({
+    this.id,
+    this.name,
+    this.slug,
+    this.weight,
+    this.dimensions,
+    this.options,
+    this.vendor,
+    this.store,
+    this.product,
+    this.deleted,
+    this.media,
+    this.createdAt,
+    this.updatedAt,
+    this.inventory,
+    this.quantity,
+    this.inStock,
+    this.price,
+    this.discount,
+  });
 
-    factory Variant.fromJson(Map<String, dynamic> json) => Variant(
+  factory Variant.fromJson(Map<String, dynamic> json) => Variant(
         id: json["_id"],
         name: json["name"],
         slug: json["slug"],
         weight: json["weight"],
-        dimensions: json["dimensions"] == null ? null : Dimensions.fromJson(json["dimensions"]),
-        options: json["options"] == null ? [] : List<String>.from(json["options"]!.map((x) => x)),
+        dimensions: json["dimensions"] == null
+            ? null
+            : Dimensions.fromJson(json["dimensions"]),
+        options: json["options"] == null
+            ? []
+            : List<String>.from(json["options"]!.map((x) => x)),
         vendor: json["vendor"],
         store: json["store"],
         product: json["product"],
         deleted: json["deleted"],
-        media: json["media"] == null ? [] : List<dynamic>.from(json["media"]!.map((x) => x)),
-        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+        media: json["media"] == null
+            ? []
+            : List<dynamic>.from(json["media"]!.map((x) => x)),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
         inventory: json["inventory"],
         quantity: json["quantity"],
         inStock: json["inStock"],
         price: json["price"],
-        discount: json["discount"] == null ? null : Discount.fromJson(json["discount"]),
-    );
+        discount: json["discount"] == null
+            ? null
+            : Discount.fromJson(json["discount"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "slug": slug,
         "weight": weight,
         "dimensions": dimensions?.toJson(),
-        "options": options == null ? [] : List<dynamic>.from(options!.map((x) => x)),
+        "options":
+            options == null ? [] : List<dynamic>.from(options!.map((x) => x)),
         "vendor": vendor,
         "store": store,
         "product": product,
@@ -427,29 +493,29 @@ class Variant {
         "inStock": inStock,
         "price": price,
         "discount": discount?.toJson(),
-    };
+      };
 }
 
 class Dimensions {
-    int? width;
-    int? length;
-    int? height;
+  int? width;
+  int? length;
+  int? height;
 
-    Dimensions({
-        this.width,
-        this.length,
-        this.height,
-    });
+  Dimensions({
+    this.width,
+    this.length,
+    this.height,
+  });
 
-    factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
+  factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
         width: json["width"],
         length: json["length"],
         height: json["height"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "width": width,
         "length": length,
         "height": height,
-    };
+      };
 }
