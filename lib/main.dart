@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 
 import 'firebase_options.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'ISMMART eCommerce',
       theme: ThemeHelper.lightTheme,
       darkTheme: ThemeHelper.darkTheme,
-      // home: LogInView(),
+      //home: BottomNavigationView(),
       getPages: AppRoutes().getRoutes(),
     );
   }

@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
+import 'package:ismmart_ecommerce/screens/settings/settings_view.dart';
 
 import '../../helpers/global_variables.dart';
 import '../category/category_view.dart';
-import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
 
@@ -15,11 +16,11 @@ class BottomNavigationViewModel extends GetxController {
       case 0:
         return HomeView();
       case 1:
-        return SizedBox();
+        return CartView();
       case 2:
         return CategoryView();
       case 3:
-        return UserProfileView();
+        return SettingsView();
       default:
         return Container(
           height: 300.0,

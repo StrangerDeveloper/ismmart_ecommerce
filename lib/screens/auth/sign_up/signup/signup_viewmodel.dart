@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
-import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 
 import '../../../../helpers/api_base_helper.dart';
 import '../../../../helpers/global_variables.dart';

@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 import '../../../helpers/app_routes.dart';
 import '../../../helpers/validator.dart';

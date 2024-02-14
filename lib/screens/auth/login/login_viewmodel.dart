@@ -6,7 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
-import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
@@ -166,7 +165,7 @@ class LogInViewModel extends GetxController {
     var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
     print("save log--------$a");
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
   }
 
   void error() {
