@@ -38,7 +38,6 @@ class ProductItem2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('ProductItem nameee ${product?.name}');
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
