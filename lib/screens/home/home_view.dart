@@ -219,6 +219,7 @@ class HomeView extends StatelessWidget {
                             color: viewModel.isScrolled.value
                                 ? Colors.black
                                 : Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),

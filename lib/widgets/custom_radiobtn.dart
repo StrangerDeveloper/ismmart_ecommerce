@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 
-
-
 class CustomRadioButton1 extends StatelessWidget {
   final String title;
   final String groupValue;
@@ -59,4 +57,51 @@ class CustomRadioButton1 extends StatelessWidget {
   }
 }
 
+class CustomCheckRadioButton extends StatelessWidget {
+  final String title;
+  final String groupValue;
+  final String value;
+  final void Function(String) onChanged;
 
+  const CustomCheckRadioButton({
+    super.key,
+    required this.groupValue,
+    required this.value,
+    required this.onChanged,
+    this.title = '',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          onChanged(value);
+          Navigator.of(context).pop();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              value == groupValue
+                  ? const Icon(
+                      Icons.check,
+                      color: Colors.black,
+                      size: 16,
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
