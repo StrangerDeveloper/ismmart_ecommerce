@@ -21,54 +21,59 @@ class CustomPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          contentPadding: EdgeInsets.zero,
-          content: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 8.0),
-                  child: CustomText(
-                    title: title.toString(),
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      contentPadding: EdgeInsets.zero,
+      content: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0, bottom: 8.0),
+                    child: CustomText(
+                      title: title.toString(),
+                      style: style ??
+                          Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                      textAlign: textAlign ?? TextAlign.center,
+                    ),
+                  ),
+                  CustomText(
+                    title: text.toString(),
                     style: style ??
-                        Theme.of(context).textTheme.titleMedium!.copyWith(
+                        Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                             ),
                     textAlign: textAlign ?? TextAlign.center,
                   ),
-                ),
-                CustomText(
-                  title: text.toString(),
-                  style: style ??
-                      Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                  textAlign: textAlign ?? TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: buttons ?? [],
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: buttons ?? [],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: 270,
-          left: 0,
-          right: 0,
-          child: Container(
+          Container(
+            width: 50,
+            height: 50,
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -80,16 +85,16 @@ class CustomPopup extends StatelessWidget {
                 ),
               ],
             ),
-            padding: const EdgeInsets.all(18),
-            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.all(0.0),
+            alignment: Alignment.center,
             child: Icon(
               icon,
               size: 32,
               color: Colors.black,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

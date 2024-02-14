@@ -546,17 +546,6 @@ class OrderDetailView extends StatelessWidget {
     );
   }
 
-  // Widget customPopupDialog(BuildContext context) {
-  //   return Dialog(
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(12),
-  //     ),
-  //     elevation: 0,
-  //     backgroundColor: Colors.white,
-  //     child: contentBox(context),
-  //   );
-  // }
-
   Widget _customField1(String text1) {
     return CustomText(
       title: text1.toString(),
