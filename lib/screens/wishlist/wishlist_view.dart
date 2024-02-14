@@ -80,16 +80,16 @@ class WishlistView extends StatelessWidget {
               ),
               itemCount: viewModel.wishlist.length,
               itemBuilder: (context, index) {
-                return ProductItem(
+                return ProductItem2(
                   product: viewModel.wishlist[index],
                   onTap: () {},
                   image: viewModel.wishlist[index].image ?? '',
                   name: viewModel.wishlist[index].name ?? '',
                   category: "Electronics",
-                  price: "45",
-                  rating: '4.5',
-                  reviews: '46',
-                  previousPrice: 'Rs 1500',
+                  price: viewModel.wishlist[index].price ?? 0,
+                  rating: 4.5,
+                  reviews: 10,
+                  discount: 10,
                 );
               },
             )
