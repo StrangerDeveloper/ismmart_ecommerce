@@ -53,6 +53,7 @@ class VendorStoreView extends StatelessWidget {
                 ),
                 child: Obx(() => CircleAvatar(
                     radius: 40,
+                    backgroundColor: Colors.transparent,
                     backgroundImage: viewModel.storeLogoUrl.value != '' ? null : const AssetImage('assets/images/no_image_found.jpg'),
                     child: viewModel.storeLogoUrl.value != '' ? CustomNetworkImage(imageUrl: viewModel.storeLogoUrl.value) : const SizedBox()),
                   ),

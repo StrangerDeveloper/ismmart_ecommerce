@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
 
 class GlobalVariable {
   static String token =
@@ -7,4 +8,6 @@ class GlobalVariable {
   static RxBool showLoader = false.obs;
   static RxBool noInternet = false.obs;
   static RxInt selectedIndex = 0.obs;
+  static String notificationsToken = '';
+  static Rx<UserProfileModel> userModel = UserProfileModel().obs;
 }
