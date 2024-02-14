@@ -7,12 +7,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
-import 'package:ismmart_ecommerce/helpers/notifications_function.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
 import '../../../helpers/urls.dart';
+import '../../profile_details/profile_details_model.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -94,6 +93,9 @@ class LogInViewModel extends GetxController {
           "social": {
             "name": "Google",
             "token": '${value.accessToken}',
+            'fcm': GlobalVariable.notificationsToken,
+            'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+            'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
           }
         };
         CommonFunction.debugPrint(credential);
@@ -132,6 +134,9 @@ class LogInViewModel extends GetxController {
         //   "social": {
         //     "name": "Apple",
         //     "token": '${appleCredential.identityToken}',
+        // 'fcm': GlobalVariable.notificationsToken,
+        // 'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+        // 'device[device]': "${credential?.email.split('@').first}${Random().nextInt(100000)}"
         //   }
         // };
 

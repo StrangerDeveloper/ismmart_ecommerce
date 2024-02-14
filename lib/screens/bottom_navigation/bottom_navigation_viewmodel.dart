@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
-
 import '../../helpers/global_variables.dart';
 import '../../helpers/notifications_function.dart';
-import '../user_profile/user_profile_view.dart';
 import '../category/category_view.dart';
+import '../profile_details/profile_details_model.dart';
 import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {

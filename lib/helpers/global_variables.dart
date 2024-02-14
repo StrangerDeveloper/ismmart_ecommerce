@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/user_profile/user_profile_model.dart';
-
 import '../screens/home/model/collection_model.dart';
+import '../screens/profile_details/profile_details_model.dart';
 
 class GlobalVariable {
   static String token =
