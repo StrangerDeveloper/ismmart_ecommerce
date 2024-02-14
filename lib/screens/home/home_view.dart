@@ -606,6 +606,7 @@ class HomeView extends StatelessWidget {
               itemCount: viewModel.flashProductList.length,
               itemBuilder: (context, index) {
                 return ProductItem2(
+                  product: viewModel.productList[index],
                   onTap: () {},
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
@@ -684,6 +685,7 @@ class HomeView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   return ProductItem2(
+                    product: viewModel.productList[index],
                     onTap: () {},
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
