@@ -159,7 +159,7 @@ class LogInViewModel extends GetxController {
     GetStorage().write('token', _parsedJson['data']['token']);
     GlobalVariable.token = _parsedJson['data']['token'];
     await getUserProfile();
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
   }
 
   getUserProfile() {
