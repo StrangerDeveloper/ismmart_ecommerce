@@ -87,7 +87,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    promoCode(),
+                    // promoCode(),
                     bannerImage(),
                     categoriesTitle(),
                     categoriesList(),
@@ -610,8 +610,11 @@ class HomeView extends StatelessWidget {
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
                   rating: '${viewModel.flashProductList[index].rating ?? 0}',
-                  reviews:  '${viewModel.flashProductList[index].totalReviews ?? 0}',
-                  discount: viewModel.flashProductList[index].discount?.percentage ?? 0,
+                  reviews:
+                      '${viewModel.flashProductList[index].totalReviews ?? 0}',
+                  discount:
+                      viewModel.flashProductList[index].discount?.percentage ??
+                          0,
                   price: viewModel.flashProductList[index].price ?? 0,
                 );
               },
@@ -686,8 +689,11 @@ class HomeView extends StatelessWidget {
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',
                     rating: '${viewModel.allProductList[index].rating ?? 0}',
-                    reviews:  '${viewModel.allProductList[index].totalReviews ?? 0}',
-                    discount: viewModel.allProductList[index].discount?.percentage ?? 0,
+                    reviews:
+                        '${viewModel.allProductList[index].totalReviews ?? 0}',
+                    discount:
+                        viewModel.allProductList[index].discount?.percentage ??
+                            0,
                     price: viewModel.allProductList[index].price ?? 0,
                   );
                 },

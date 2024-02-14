@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 
 import '../../helpers/global_variables.dart';
+import '../category/category_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
 
@@ -15,7 +16,7 @@ class BottomNavigationViewModel extends GetxController {
       case 1:
         return SizedBox();
       case 2:
-        return SizedBox();
+        return CategoryView();
       case 3:
         return SizedBox();
       default:
