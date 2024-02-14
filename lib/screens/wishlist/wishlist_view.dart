@@ -66,31 +66,40 @@ class WishlistView extends StatelessWidget {
   }
 
   Widget flashSaleProductList() {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 25,
-        childAspectRatio: 0.6,
-      ),
-      itemCount: viewModel.categoriesList.length,
-      itemBuilder: (context, index) {
-        return ProductItem(
-          onTap: () {
-            Get.to(() => OrderListingView());
-          },
-          image: viewModel.categoriesList[index],
-          name: 'Product Name',
-          category: 'Category',
-          price: 'Rs 1000',
-          rating: '4.6',
-          reviews: '46',
-          previousPrice: 'Rs 1500',
-        );
-      },
+    return Obx(
+      () => viewModel.wishlist.isNotEmpty
+          ? GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 25,
+                childAspectRatio: 0.6,
+              ),
+              itemCount: viewModel.wishlist.length,
+              itemBuilder: (context, index) {
+                return ProductItem(
+                  product: viewModel.wishlist[index],
+                  onTap: () {},
+                  image: viewModel.wishlist[index].image ?? '',
+                  name: viewModel.wishlist[index].name ?? '',
+                  category: "Electronics",
+                  price: "45",
+                  rating: '4.5',
+                  reviews: '46',
+                  previousPrice: 'Rs 1500',
+                );
+              },
+            )
+          : const Center(
+              child: CustomText(
+                title: 'No items in wishlist',
+                size: 16,
+                weight: FontWeight.bold,
+              ),
+            ),
     );
   }
 }
