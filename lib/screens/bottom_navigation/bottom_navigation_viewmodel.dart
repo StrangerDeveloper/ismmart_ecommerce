@@ -2,12 +2,42 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
-
 import '../../helpers/global_variables.dart';
-import '../user_profile/user_profile_view.dart';
+import '../../helpers/notifications_function.dart';
+import '../category/category_view.dart';
+import '../profile_details/profile_details_model.dart';
+import '../profile_details/profile_details_view.dart';
 
 class BottomNavigationViewModel extends GetxController {
+
+  @override
+  void onReady() async {
+    await GetStorage.init();
+    NotificationsServices notificationServices = NotificationsServices();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(Get.context!);
+    notificationServices.setupInteractMessage(Get.context!);
+    GlobalVariable.notificationsToken = await notificationServices.getDeviceToken();
+    getUserData();
+    super.onReady();
+  }
+
+  getUserData() async {
+    if(await GetStorage().read('userData') != null){
+      GlobalVariable.userModel.value = UserProfileModel.fromJson(await GetStorage().read('userData'));
+    }
+
+    if(await GetStorage().read('deviceInfo') != null) {
+      final deviceInfo = await GetStorage().read('deviceInfo');
+      if(GlobalVariable.notificationsToken != deviceInfo['fcm']){
+        NotificationsServices().updateDeviceToken(GlobalVariable.notificationsToken, data: deviceInfo);
+      }
+    }
+  }
+
   Widget selectView(int index) {
     switch (index) {
       case 0:
@@ -15,10 +45,8 @@ class BottomNavigationViewModel extends GetxController {
       case 1:
         return SizedBox();
       case 2:
-        return SizedBox();
+        return CategoryView();
       case 3:
-        return SizedBox();
-      case 4:
         return UserProfileView();
       default:
         return Container(

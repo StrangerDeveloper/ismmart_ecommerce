@@ -26,10 +26,11 @@ class AppColors {
   static const grey3 = Color(0xffF9FAFB);
   static const grey4 = Color.fromARGB(255, 191, 190, 190);
   static const grey5 = Color(0xFF6B7280);
-  static const grey6 = Color(0xFFE5E7EB);
+  static const grey6 = Color(0xFFD9D9D9);
   static const grey7 = Color(0xFF6F6F6F);
   static const grey8 = Color(0xFF6B7280);
   static const grey9 = Color(0xff3E4958);
+  
   static const lightGrey = Color(0xff929AAB);
   static const fadedBlue = Color(0xff5D738A);
   static const darkblue = Color(0xFF0E1216);

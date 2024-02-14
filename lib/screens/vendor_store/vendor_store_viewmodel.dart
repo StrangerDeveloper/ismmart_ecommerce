@@ -2,93 +2,70 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
-import 'package:ismmart_ecommerce/screens/vendor_store/models/categories_model.dart';
-import 'package:ismmart_ecommerce/screens/vendor_store/models/popular_product_model.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
+import '../../helpers/notifications_function.dart';
 import '../../helpers/urls.dart';
-import 'models/categorized_products_model.dart';
+import 'categorized_products_model.dart';
 
 class VendorStoreViewModel extends GetxController with GetTickerProviderStateMixin{
 
+  /// Controllers
   ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
   PageController sliderImagesController = PageController();
   late TabController tabController = TabController(length: 2, vsync: this);
 
-  RxInt sliderIndex = 0.obs;
-  late Timer? timer;
+  /// Loading and Retry boolean variables
   RxBool isSliderLoading = true.obs;
   RxBool fetchingCategories = true.obs;
-  RxBool noSliderImages = false.obs;
   RxBool isCategoriesLoading = false.obs;
-  RxBool noCategoriesFound = false.obs;
-  RxList<Product> categoryProducts = <Product>[
-    Product(id: "0", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1000, discountedPrice: 900, reviewsNumber: 85, reviewStar: 4.5),
-    Product(id: "1", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1200, discountedPrice: 800, reviewsNumber: 20, reviewStar: 4.1),
-    Product(id: "0", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1000, discountedPrice: 900, reviewsNumber: 85, reviewStar: 4.5),
-    Product(id: "1", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1200, discountedPrice: 800, reviewsNumber: 20, reviewStar: 4.1),
-    Product(id: "0", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1000, discountedPrice: 900, reviewsNumber: 85, reviewStar: 4.5),
-    Product(id: "1", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1200, discountedPrice: 800, reviewsNumber: 20, reviewStar: 4.1),
-    Product(id: "0", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1000, discountedPrice: 900, reviewsNumber: 85, reviewStar: 4.5),
-    Product(id: "1", name: 'TMA-2 HD Wireless', imageURL: '', actualPrice: 1200, discountedPrice: 800, reviewsNumber: 20, reviewStar: 4.1),
-  ].obs;
-  RxList<VendorProductCategories> categoriesList = <VendorProductCategories>[].obs;
-  RxList<PopularProductModel> sliderImages = <PopularProductModel>[].obs;
-  RxList<CategorizedProductsModel> lists = <CategorizedProductsModel>[
-    CategorizedProductsModel(
-      categoryName: 'Tech and Gears',
-      productList: [
-        Product(
-          id: "0",
-          name: 'TMA-2 HD Wireless',
-          imageURL: '',
-          actualPrice: 1000,
-          discountedPrice: 900,
-          reviewsNumber: 85,
-          reviewStar: 4.5
-        ),
-        Product(
-            id: "1",
-            name: 'TMA-2 HD Wireless',
-            imageURL: '',
-            actualPrice: 1200,
-            discountedPrice: 800,
-            reviewsNumber: 20,
-            reviewStar: 4.1
-        ),
-      ]
-    ),
-    CategorizedProductsModel(
-        categoryName: 'Shoes',
-        productList: [
-          Product(
-              id: "0",
-              name: 'Air Jordan',
-              imageURL: '',
-              actualPrice: 1000,
-              discountedPrice: 900,
-              reviewsNumber: 10,
-              reviewStar: 5
-          ),
-          Product(
-              id: "1",
-              name: 'Air Max',
-              imageURL: '',
-              actualPrice: 1200,
-              discountedPrice: 800,
-              reviewsNumber: 45,
-              reviewStar: 3.5
-          ),
-        ]
-    ),
-  ].obs;
+  RxBool fetchingProducts = true.obs;
+  RxBool noMoreRecords = false.obs;
+  RxBool productsRetryCheck = false.obs;
+  RxBool loadMore = false.obs;
+
+  /// Variables for Slider
+  RxInt sliderIndex = 0.obs;
+  late Timer? timer;
+
+  /// Store Name and Logo
+  RxString storeLogoUrl = ''.obs;
+  RxString storeName = ''.obs;
+
+  /// Lists for Products and Categories
+  RxList<Products> categoryProducts = <Products>[].obs;
+  RxList<CategorizedProductsModel> categoriesList = <CategorizedProductsModel>[].obs;
+  RxList<Products> sliderImages = <Products>[].obs;
+  RxList<CategorizedProductsModel> homePageProductsList = <CategorizedProductsModel>[].obs;
+  RxList<CategorizedProductsModel> allProductsPageProductList = <CategorizedProductsModel>[].obs;
+
+  /// API Parameters
+  int limit = 10;
+  int page = 0;
 
   @override
   void onInit() {
+    getVendorStoreDetails();
     getSliderProducts();
     getVendorProductsCategories();
+    scrollController.addListener(() {
+      getVendorProducts();
+    });
+    getVendorProducts();
     super.onInit();
   }
 
+  @override
+  void onReady() async {
+    GlobalVariable.showLoader.value = true;
+    NotificationsServices notificationServices = NotificationsServices();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(Get.context!);
+    notificationServices.setupInteractMessage(Get.context!);
+    GlobalVariable.notificationsToken = await notificationServices.getDeviceToken();
+    super.onReady();
+  }
 
   void runSliderTimer() {
     isSliderLoading.value = false;
@@ -108,39 +85,152 @@ class VendorStoreViewModel extends GetxController with GetTickerProviderStateMix
     });
   }
   
+  getVendorStoreDetails() {
+
+    Map<String, String> params = {
+      'fields[name]': '1',
+      'fields[logo]': '1',
+      'id': '65b0dc2d9d21c52c7d22f1bf'
+    };
+
+    ApiBaseHelper().getMethodQueryParam(url: Urls.getVendorStoreDetails, params: params).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
+      if(parsedJson['success'] == true){
+        storeLogoUrl.value = parsedJson['data']['items'][0]['logo'];
+        storeName.value = parsedJson['data']['items'][0]['name'];
+      }
+    });
+  }
+  
   getSliderProducts() {
-    ApiBaseHelper().getMethod(url: Urls.getSliderProducts).then((parsedJson) {
+
+    Map<String, String> params = {
+      'limit': '3',
+      'popular': 'true',
+      'store': '65b0dc2d9d21c52c7d22f1bf',
+      'fields[name]': '1',
+      'fields[image]': '1',
+      'fields[id]': '1'
+    };
+
+    ApiBaseHelper().getMethodQueryParam(url: Urls.getProducts, params: params).then((parsedJson) {
       if(parsedJson['success'] == true) {
         final data = parsedJson['data']['items'] as List;
         if(data.isNotEmpty) {
-          sliderImages.addAll(data.map((e) => PopularProductModel.fromJson(e)));
+          sliderImages.addAll(data.map((e) => Products.fromJson(e)));
           sliderImages.refresh();
           runSliderTimer();
-        } else {
-          noSliderImages.value = true;
         }
       }
     }).catchError((e) {
 
     });
   }
+  
+  getPopularDeals() {
 
-  getVendorProductsCategories() {
-    ApiBaseHelper().getMethod(url: Urls.getVendorProductsCategories).then((parsedJson) {
+    Map<String, String> params = {
+      'onDiscount':'true',
+      'popular': 'true',
+      'fields[rating]': '1',
+      'fields[reviews]': '1',
+      'fields[price]': '1',
+      'fields[discount]': '1',
+      'fields[name]': '1',
+      'fields[image]': '1',
+      'store': '65b0dc2d9d21c52c7d22f1bf',
+      'limit': '2'
+    };
+
+    ApiBaseHelper().getMethodQueryParam(url: Urls.getProducts, params: params).then((parsedJson) {
       if(parsedJson['success'] == true) {
         final data = parsedJson['data']['items'] as List;
+        fetchingProducts.value = false;
         if(data.isNotEmpty) {
-          categoriesList.addAll(data.map((e) => VendorProductCategories.fromJson(e)));
+          homePageProductsList.insert(0, CategorizedProductsModel(
+            name: 'Most Popular Deals',
+            products: [],
+          ));
+          homePageProductsList[0].products?.addAll(data.map((e) => Products.fromJson(e)));
+          homePageProductsList.refresh();
+        } else if(homePageProductsList.isEmpty){
+          noMoreRecords.value = true;
+        }
+      }
+    });
+  }
+
+  getVendorProductsCategories() {
+
+    Map<String, String> params = {
+      'limit':'0',
+      'fields[name]':'1',
+      'store':'65b0dc2d9d21c52c7d22f1bf',
+      'fields[media]':'1'
+    };
+
+    ApiBaseHelper().getMethodQueryParam(url: Urls.getCollection, params: params).then((parsedJson) {
+      if(parsedJson['success'] == true) {
+        final data = parsedJson['data']['items'] as List;
+        fetchingCategories.value = false;
+        if(data.isNotEmpty) {
+          categoriesList.addAll(data.map((e) => CategorizedProductsModel.fromJson(e)));
           categoriesList.refresh();
-          fetchingCategories.value = false;
-        } else {
-          noCategoriesFound.value = true;
         }
       }
     }).catchError((e) {});
   }
 
   getVendorProducts() {
+    if(noMoreRecords.isFalse){
+      if (page == 0
+          ? true
+          : (scrollController.hasClients &&
+          scrollController.position.maxScrollExtent ==
+              scrollController.offset)) {
 
+        if (page != 0) {
+          loadMore.value = true;
+        }
+
+        page++;
+
+        Map<String, String> params = {
+          'page': page.toString(),
+          'limit': limit.toString(),
+          'fields[name]': '1',
+          'group': 'true',
+          'fields[products][name]': '1',
+          'fields[products][rating]': '1',
+          'fields[products][totalReviews]': '1',
+          'fields[products][image]': '1',
+          'fields[products][discount]': '1',
+          'fields[products][_id]': '1',
+          'fields[products][price]': '1',
+          'store': '65b0dc2d9d21c52c7d22f1bf'
+        };
+
+        ApiBaseHelper()
+            .getMethodQueryParam(
+            url: Urls.getCollection, params: params)
+            .then((parsedJson) {
+          if (parsedJson['success'] == true) {
+            final data = parsedJson['data']['items'] as List;
+            if(page == 1) {
+              getPopularDeals();
+            }
+            if (data.isNotEmpty) {
+              homePageProductsList.addAll(data.map((e) => CategorizedProductsModel.fromJson(e)));
+              allProductsPageProductList.addAll(data.map((e) => CategorizedProductsModel.fromJson(e)));
+              homePageProductsList.refresh();
+              allProductsPageProductList.refresh();
+              loadMore.value = false;
+            }
+          }
+        }).catchError((e) {
+          productsRetryCheck.value = true;
+        });
+      }
+    }
   }
 }

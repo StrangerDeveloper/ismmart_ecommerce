@@ -10,11 +10,20 @@ import 'package:ismmart_ecommerce/screens/product_details/product_details_view.d
 
 import 'firebase_options.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+   await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+  NotificationsServices().showNotification(message);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 

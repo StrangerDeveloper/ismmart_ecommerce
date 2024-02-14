@@ -21,92 +21,47 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(
-        title: 'ISMMART',
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.favorite_border_rounded,
-              size: 20,
+        appBar: const CustomAppBar2(
+          title: 'ISMMART',
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.favorite_border_rounded,
+                size: 20,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              size: 20,
+            Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                size: 20,
+              ),
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        controller: viewModel.scrollController,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              carousel(),
-              titlePrice(),
-              variants(),
-              kSmallDivider,
-              description(),
-              tabs(),
-              reviewsAndRatings(),
-              kSmallDivider,
-              vendorStore(),
-              kSmallDivider,
-              peopleAlsoViewed(),
-            ],
-          ),
+          ],
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          ///height: 60,
-          color: AppColors.white38,
-          child: Container(
-            // alignment: Alignment.bottomCenter,
-            width: 200,
-            decoration: BoxDecoration(
-              //color: AppColors.yellow,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: AppColors.blackShadow,
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            //color: AppColors.white,
-            child: Row(
+        body: SingleChildScrollView(
+          controller: viewModel.scrollController,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
-                CustomIconTextBtn(
-                    radius: 20,
-                    title: 'Add to Cart',
-                    onPressed: () {},
-                    icon: Icons.shopping_cart_outlined),
-                Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: AppColors.red700.withOpacity(0.22),
-                      shape: BoxShape.circle),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_border,
-                      color: AppColors.red700,
-                    ),
-                  ),
-                ),
+                carousel(),
+                titlePrice(),
+                variants(),
+                kSmallDivider,
+                description(),
+                tabs(),
+                reviewsAndRatings(),
+                kSmallDivider,
+                vendorStore(),
+                kSmallDivider,
+                peopleAlsoViewed(),
               ],
             ),
           ),
         ),
-      ),
-    );
+        bottomNavigationBar: bottomBar());
   }
 
   Widget carousel() {
@@ -125,9 +80,9 @@ class ProductDetailsView extends StatelessWidget {
                   viewModel.carouselIndex(value);
                 },
                 children: List.generate(
-                  viewModel.productModel.media!.length,
+                  viewModel.productModel.value.media!.length,
                   (index) => CustomNetworkImage(
-                    imageUrl: viewModel.productModel.media![index].url,
+                    imageUrl: viewModel.productModel.value.media![index].url,
                     //boxFit: BoxFit.contain,
                   ),
                 ),
@@ -143,7 +98,7 @@ class ProductDetailsView extends StatelessWidget {
               Positioned(
                   right: 10,
                   child: viewModel.carouselIndex.value >=
-                          (viewModel.productModel.media!.length - 1)
+                          (viewModel.productModel.value.media!.length - 1)
                       ? Container()
                       : nextImage()),
               //Photo number indicator
@@ -156,7 +111,7 @@ class ProductDetailsView extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       color: AppColors.grey4),
                   child: Text(
-                    '${(viewModel.carouselIndex.value) + 1}/${viewModel.productModel.media!.length} Photos',
+                    '${(viewModel.carouselIndex.value) + 1}/${viewModel.productModel.value.media!.length} Photos',
                     style: ThemeHelper.textTheme.labelSmall!
                         .copyWith(color: AppColors.white),
                   ),
@@ -173,7 +128,7 @@ class ProductDetailsView extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (viewModel.carouselIndex.value ==
-            viewModel.productModel.media!.length - 1) {
+            viewModel.productModel.value.media!.length - 1) {
           return;
         }
 
@@ -224,7 +179,7 @@ class ProductDetailsView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    viewModel.productModel.name!,
+                    viewModel.productModel.value.name ?? '',
                     style: ThemeHelper.textTheme.titleLarge,
                   ),
                 ),
@@ -238,7 +193,7 @@ class ProductDetailsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Text(
-                        '${viewModel.productModel.totalReviews ?? 0} Reviews',
+                        '${viewModel.productModel.value.totalReviews ?? 0} Reviews',
                         style: ThemeHelper.textTheme.bodySmall,
                       ),
                     ),
@@ -253,8 +208,9 @@ class ProductDetailsView extends StatelessWidget {
             right: 5,
             child: CustomProductQuantityCounter(
               textEditingController: viewModel.productQtyController,
-              onDecrementPress: () {},
-              onIncrementPress: () {},
+              quantity: viewModel.qtyCount.toString(),
+              onDecrementPress: () => viewModel.onQtyDecrement(),
+              onIncrementPress: () => viewModel.onQtyIncrement(),
             ),
           ),
         ],
@@ -281,7 +237,7 @@ class ProductDetailsView extends StatelessWidget {
           size: 16,
         ),
         Text(
-          '${viewModel.productModel.rating ?? 0.0}',
+          '${viewModel.productModel.value.rating ?? 0.0}',
           style: ThemeHelper.textTheme.bodySmall,
         ),
       ],
@@ -289,12 +245,14 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget variants() {
-    return Column(
-      children: viewModel.productModel.options!
-          .map((Option element) => variantsListItems(
-              title: element.name, variantsList: element.values))
-          .toList(),
-    );
+    return viewModel.productModel.value.options == null
+        ? Container()
+        : Column(
+            children: viewModel.productModel.value.options!
+                .map((Option element) => variantsListItems(
+                    title: element.name, variantsList: element.values))
+                .toList(),
+          );
   }
 
   Widget variantsListItems({String? title, List<String>? variantsList}) {
@@ -339,7 +297,7 @@ class ProductDetailsView extends StatelessWidget {
           Text(
             AppStrings.productDetails,
             style: ThemeHelper.textTheme.bodyMedium,
-            textAlign: TextAlign.justify,
+            //textAlign: TextAlign.,
             maxLines: AppStrings.productDetails.length,
           ),
         ],
@@ -432,13 +390,13 @@ class ProductDetailsView extends StatelessWidget {
           children: [
             textTitle('Vendor'),
             CustomProfileNameAndRating(
-              imageUrl: viewModel.productModel.store?.logo ?? '',
-              name: viewModel.productModel.store?.name ?? '',
-              rating: viewModel.productModel.store?.rating ?? 0,
+              imageUrl: viewModel.productModel.value.store?.logo ?? '',
+              name: viewModel.productModel.value.store?.name ?? '',
+              rating: viewModel.productModel.value.store?.rating ?? 0,
             ),
             Text(
               'More Products from Techstore',
-              style: ThemeHelper.textTheme.titleMedium,
+              style: ThemeHelper.textTheme.bodySmall,
             ),
             Padding(
               padding:
@@ -450,9 +408,11 @@ class ProductDetailsView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount:
-                        viewModel.productModel.store?.products?.length ?? 0,
+                        viewModel.productModel.value.store?.products?.length ??
+                            0,
                     itemBuilder: (_, index) {
-                      Product? storeProducts = viewModel.productModel.store?.products![index];
+                      Product? storeProducts =
+                          viewModel.productModel.value.store?.products![index];
                       return Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -493,6 +453,63 @@ class ProductDetailsView extends StatelessWidget {
             child: Text('People also Viewed'),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget bottomBar() {
+    return BottomAppBar(
+      color: AppColors.white,
+      elevation: 10,
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: Get.width * 0.22, vertical: 3),
+        child: Container(
+          // width: 100,
+          // height: 50,
+          //alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.black12,
+                blurRadius: 3,
+                offset: Offset(0, 0),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+          //color: AppColors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomIconTextBtn(
+                  width: 100,
+                  radius: 30,
+                  title: 'Add to Cart',
+                  onPressed: () {},
+                  icon: Icons.shopping_cart_outlined),
+              Container(
+                alignment: Alignment.center,
+                height: 35,
+                decoration: BoxDecoration(
+                    color: AppColors.red700.withOpacity(0.22),
+                    shape: BoxShape.circle),
+                child: IconButton(
+                  alignment: Alignment.center,
+                  onPressed: () {},
+                  icon: Icon(
+                    size: 20,
+                    Icons.favorite_border,
+                    color: AppColors.red700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
