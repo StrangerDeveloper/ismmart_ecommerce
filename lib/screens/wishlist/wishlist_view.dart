@@ -8,6 +8,8 @@ import '../../widgets/product_item.dart';
 
 class WishlistView extends StatelessWidget {
   final WishlistViewModel viewModel = Get.put(WishlistViewModel());
+
+  static int count = 0;
   WishlistView({super.key});
 
   @override
@@ -44,14 +46,16 @@ class WishlistView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: CustomText(
-                  title: '6 items',
-                  size: 16,
-                  weight: FontWeight.bold,
+                child: Obx(
+                  () => CustomText(
+                    title: '${viewModel.total} items',
+                    size: 16,
+                    weight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -79,6 +83,7 @@ class WishlistView extends StatelessWidget {
               ),
               itemCount: viewModel.wishlist.length,
               itemBuilder: (context, index) {
+                count = viewModel.wishlist.length;
                 return ProductItem2(
                   product: viewModel.wishlist[index],
                   onTap: () {},
