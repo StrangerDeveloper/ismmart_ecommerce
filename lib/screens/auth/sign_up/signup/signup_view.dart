@@ -47,7 +47,7 @@ class SignUpView extends StatelessWidget {
                         phoneNumberTextField(),
                         genderTextField(),
                         // cnicNumberField(),
-                        Gap(22),
+                        const Gap(22),
                         passwordTextField(),
                         // confirmPasswordTextField(),
                         checkedStatement(),

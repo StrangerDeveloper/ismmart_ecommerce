@@ -95,7 +95,6 @@ class EditUserProfileViewModel extends GetxController {
           "phone": phoneNumberController.text,
           "gender": genderList[genderSelectedIndex.value],
         };
-        print(param);
 
         GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
