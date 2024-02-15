@@ -73,7 +73,8 @@ class SubCategoryViewModel extends GetxController {
       // clearValues();
       if (parsedJson['success'] == true && parsedJson['data'] != null) {
         filterModel = FilterModel.fromJson(parsedJson['data']);
-        priceSliderMaxLimit.value = double.tryParse(filterModel.price!.max.toString()) ?? 0.0;
+        priceSliderMaxLimit.value =
+            double.tryParse(filterModel.price!.max.toString()) ?? 0.0;
         filterEndPrice.value = priceSliderMaxLimit.value;
       }
     }).catchError((e) {
@@ -100,9 +101,11 @@ class SubCategoryViewModel extends GetxController {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
-        subCategoriesList.addAll(data.map((e) => SubCategoryModel.fromJson(e)));
-        getProductsFromStart();
-        getFilterSetting();
+        if (data.isNotEmpty) {
+          subCategoriesList
+              .addAll(data.map((e) => SubCategoryModel.fromJson(e)));
+          getProductsFromStart();
+        }
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -115,6 +118,8 @@ class SubCategoryViewModel extends GetxController {
   }
 
   getProductsFromStart() async {
+    getFilterSetting();
+
     getProductsParams['collection'] =
         subCategoriesList[selectedSubCategoryIndex.value].sId ?? '';
 
@@ -140,8 +145,9 @@ class SubCategoryViewModel extends GetxController {
       pageNo++;
       paginationLoader.value = true;
 
-      getProductsParams['page'] = pageNo.toString();
+      getProductsParams['page'] = '$pageNo';
 
+      print(getProductsParams);
       await ApiBaseHelper()
           .getMethodQueryParam(url: Urls.getProducts, params: getProductsParams)
           .then((parsedJson) {

@@ -54,7 +54,7 @@ class CategoryView extends StatelessWidget {
                                       child: CustomNetworkImage(
                                         imageUrl: viewModel
                                                 .categoriesList[index]
-                                                .media?[1] ??
+                                                .media?.first ??
                                             '',
                                         shape: BoxShape.circle,
                                       ),
@@ -165,9 +165,6 @@ class CategoryView extends StatelessWidget {
                 bottom: BorderSide(
                   width: 2,
                   color: Colors.black,
-                  // color: viewModel.isScrolled.value
-                  //     ? Colors.black
-                  //     : Colors.white,
                 ),
               )
                   : null,
@@ -182,9 +179,6 @@ class CategoryView extends StatelessWidget {
                 fontSize: 12,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
-                // color: viewModel.isScrolled.value
-                //     ? Colors.black
-                //     : Colors.white,
               ),
             ),
           ),
