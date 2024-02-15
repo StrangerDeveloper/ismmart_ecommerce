@@ -91,58 +91,17 @@ class OrderListingView extends StatelessWidget {
         viewModel.fieldSelection("Cancelled");
       }
     });
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 300,
-          child: CustomTextField1(
-            controller: viewModel.searchController,
-            filled: false,
-            hintText: callingFor!,
-            isDropDown: true,
-            onTap: () {
-              statusBottomSheet();
-            },
-          ),
-        ),
-        const SizedBox(width: 10),
-        // Container(
-        //   width: 62.h,
-        //   padding: EdgeInsets.symmetric(vertical: 9.v),
-        //   decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     borderRadius: BorderRadius.circular(10),
-        //     border: Border.all(
-        //       color: Colors.grey.shade300,
-        //     ),
-        //   ),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Expanded(
-        //         child: CustomNetworkImage(
-        //           imageUrl: ImageConstant.imgIconsFilterList,
-        //           height: 16,
-        //           width: 16,
-
-        //       ),
-        //       ),
-        //       Expanded(
-        //         child: CustomImageView(
-        //           imagePath: ImageConstant.imgIconsFilterList,
-        //           height: 16.adaptSize,
-        //           width: 16.adaptSize,
-        //           margin: EdgeInsets.only(left: 5.h),
-        //           onTap: () {
-        //             filterBottomSheet();
-        //           },
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
-      ],
+    return SizedBox(
+      width: 300,
+      child: CustomTextField1(
+        controller: viewModel.searchController,
+        filled: false,
+        hintText: callingFor!,
+        isDropDown: true,
+        onTap: () {
+          statusBottomSheet();
+        },
+      ),
     );
   }
 
@@ -150,19 +109,14 @@ class OrderListingView extends StatelessWidget {
     return Obx(
       () => Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0),
-        elevation: 5,
+        elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         color: const Color(0xFFF9FAFB),
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 10.0,
-            left: 10.0,
-            right: 10.0,
-          ),
+          padding: const EdgeInsets.all(10),
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,126 +137,98 @@ class OrderListingView extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () => RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Tracking number: ",
-                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.grey2,
-                              ),
-                            ),
-                            TextSpan(
-                              text: viewModel.orderItemModel.value
-                                      .lineitems?[index].sId ??
-                                  "Customer",
-                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        ),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => _customRichText(
+                      text1: "Tracking number: ",
+                      text2: viewModel
+                              .orderItemModel.value.lineitems?[index].sId ??
+                          "IW3475453455",
+                    ),
+
+                    // _customField2(
+                    //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
+                    child: Obx(
+                      () => _customRichText(
+                        text1: "Quantity: ",
+                        text2: viewModel
+                                .orderItemModel.value.lineitems?[index].qty
+                                .toString() ??
+                            "qty",
                       ),
+
                       // _customField2(
-                      //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
+                      //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-                      child: Obx(() => RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Quantity: ",
-                                      style: ThemeHelper.textTheme.bodyMedium!
-                                          .copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.grey2,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: viewModel.orderItemModel.value
-                                              .lineitems?[index].qty
-                                              .toString() ??
-                                          "qty",
-                                      style: ThemeHelper.textTheme.bodyMedium!
-                                          .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                          // _customField2(
-                          //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
-                          ),
+                  ),
+                  Obx(
+                    () => _customRichText(
+                      text1: "Total Amount: ",
+                      text2: viewModel.orderItemModel.value.totals.toString() ??
+                          "price",
                     ),
-                    Obx(() => RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Total Amount: ",
-                                    style: ThemeHelper.textTheme.bodyMedium!
-                                        .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.grey2,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: viewModel.orderItemModel.value.totals
-                                            .toString() ??
-                                        "price",
-                                    style: ThemeHelper.textTheme.bodyMedium!
-                                        .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                        // _customField2(
-                        //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
+
+                    // _customField2(
+                    //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomTextBtn(
+                        title: "Details",
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        borderSide: const BorderSide(
+                          color: Colors.black,
                         ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomTextBtn(
-                          title: "Details",
-                          onPressed: () {},
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          width: 70,
-                          height: 30,
-                          radius: 20,
-                          padding: const EdgeInsets.all(5),
-                        ),
-                        Obx(
-                          () => _customField2(
-                              viewModel.orderItemModel.value.fulfilmentStatus ??
-                                  "status"),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                        width: 70,
+                        height: 30,
+                        radius: 20,
+                        padding: const EdgeInsets.all(5),
+                      ),
+                      Obx(
+                        () => _customField2(
+                            viewModel.orderItemModel.value.fulfilmentStatus ??
+                                "status"),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              const Divider(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _customRichText({required String text1, required String text2}) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: text1,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: AppColors.grey2,
+            ),
+          ),
+          TextSpan(
+            text: text2,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
+        ],
       ),
     );
   }

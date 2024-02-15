@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/sub_category/sub_category_viewmodel.dart';
+import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 
 import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_radiobtn.dart';
+import '../../widgets/custom_range_shape.dart';
 import '../../widgets/product_item.dart';
 import '../wishlist/wishlist_view.dart';
 
@@ -153,20 +156,23 @@ class SubCategoryView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       child: Row(
         children: [
-          filterOptionItem2(
+          Obx(
+            () => filterOptionItem2(
               title: 'Sort by',
-              isSelected: false,
+              isSelected: viewModel.sortValue.value == 'ascending' ||
+                  viewModel.sortValue.value == 'descending',
               icon: Icons.keyboard_arrow_down_rounded,
               onTap: () {
-                filterBottomSheet();
-              }),
+                sortBottomSheet();
+              },
+            ),
+          ),
           Obx(
             () => filterOptionItem2(
               title: 'New Arrivals',
               isSelected: viewModel.newArrivalValue.value,
               onTap: () {
-                viewModel.newArrivalValue.value =
-                    !viewModel.newArrivalValue.value;
+                viewModel.newArrivalSelection();
               },
             ),
           ),
@@ -179,7 +185,7 @@ class SubCategoryView extends StatelessWidget {
               title: 'Top-rated',
               isSelected: viewModel.topRatedValue.value,
               onTap: () {
-                viewModel.topRatedValue.value = !viewModel.topRatedValue.value;
+                viewModel.topRatedSelection();
               },
             ),
           ),
@@ -187,7 +193,9 @@ class SubCategoryView extends StatelessWidget {
             title: 'Filter',
             isSelected: false,
             icon: Icons.filter_alt_rounded,
-            onTap: () {},
+            onTap: () {
+              filterBottomSheet();
+            },
           )
         ],
       ),
@@ -286,6 +294,74 @@ class SubCategoryView extends StatelessWidget {
     );
   }
 
+  sortBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Sort',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      // color: ThemeHelper.blue1,
+                      fontSize: 15,
+                    ),
+                  ),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Obx(
+              () => CustomCheckRadioButton(
+                title: 'Top to Bottom',
+                groupValue: viewModel.sortValue.value,
+                value: 'ascending',
+                onChanged: (value) {
+                  viewModel.sortSelection(value);
+                },
+              ),
+            ),
+            Obx(
+              () => CustomCheckRadioButton(
+                title: 'Bottom to Top',
+                groupValue: viewModel.sortValue.value,
+                value: 'descending',
+                onChanged: (value) {
+                  viewModel.sortSelection(value);
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   filterBottomSheet() {
     showModalBottomSheet(
       context: Get.context!,
@@ -310,9 +386,8 @@ class SubCategoryView extends StatelessWidget {
                   const Text(
                     'Sort',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      // color: ThemeHelper.blue1,
-                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 28,
                     ),
                   ),
                   IconButton(
@@ -328,29 +403,122 @@ class SubCategoryView extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(
-              () => CustomCheckRadioButton(
-                title: 'Top to Bottom',
-                groupValue: viewModel.sortValue.value,
-                value: 'top-to-bottom',
-                onChanged: (value) {
-                  viewModel.sortSelection(value);
-                },
-              ),
-            ),
-            Obx(
-              () => CustomCheckRadioButton(
-                title: 'Bottom to Top',
-                groupValue: viewModel.sortValue.value,
-                value: 'bottom-to-top',
-                onChanged: (value) {
-                  viewModel.sortSelection(value);
-                },
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  viewModel.filterEndPrice.value != 0.0
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            filterTitleItem1('Price'),
+                            priceSlider(),
+                          ],
+                        )
+                      : const SizedBox(),
+                  filterTitleItem1('Rating'),
+                  ratingBar(),
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 6),
+                    child: CustomTextBtn(
+                      radius: 30,
+                      onPressed: () {
+                        viewModel.applyFilterBtn();
+                      },
+                      title: 'Apply Filter',
+                    ),
+                  ),
+                  CustomTextBtn(
+                    radius: 30,
+                    onPressed: () {
+                      viewModel.clearBtn();
+                    },
+                    title: 'Clear',
+                  ),
+                ],
               ),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget filterTitleItem1(String value) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 35, bottom: 13),
+      child: Text(
+        value,
+        style: const TextStyle(
+          fontWeight: FontWeight.w900,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget priceSlider() {
+    return Obx(
+      () => SliderTheme(
+        data: SliderThemeData(
+          showValueIndicator: ShowValueIndicator.always,
+          trackHeight: 1.5,
+          rangeThumbShape: const CustomThumbShape(),
+          rangeTrackShape: const RectangularRangeSliderTrackShape(),
+          rangeValueIndicatorShape:
+              const RectangularRangeSliderValueIndicatorShape(),
+          rangeTickMarkShape: const RoundRangeSliderTickMarkShape(),
+          // activeTrackColor: Colors.red,
+          // overlayColor: const Color(0x99EB1555),
+          overlayShape: SliderComponentShape.noThumb,
+          valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+          valueIndicatorColor: Colors.black,
+          valueIndicatorTextStyle: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        child: RangeSlider(
+          labels: RangeLabels(
+            viewModel.priceSliderMinLimit.value.toString(),
+            viewModel.priceSliderMaxLimit.value.toString(),
+          ),
+          min: viewModel.priceSliderMinLimit.value,
+          max: viewModel.priceSliderMaxLimit.value,
+          activeColor: Colors.black,
+          inactiveColor: Colors.black,
+          values: RangeValues(
+            viewModel.filterStartPrice.value,
+            viewModel.filterEndPrice.value,
+          ),
+          onChanged: (values) {
+            viewModel.filterStartPrice.value = values.start;
+            viewModel.filterEndPrice.value = values.end;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget ratingBar() {
+    return Obx(
+      () => RatingBar.builder(
+        wrapAlignment: WrapAlignment.spaceEvenly,
+        onRatingUpdate: (rating) {
+          viewModel.ratingValue.value = rating;
+        },
+        glowColor: const Color(0xFFFFCC80),
+        initialRating: viewModel.ratingValue.value,
+        direction: Axis.horizontal,
+        unratedColor: const Color(0xffC4C4C4),
+        itemCount: 5,
+        itemSize: 40,
+        itemBuilder: (context, _) => const Icon(
+          Icons.star,
+          color: Color(0xFFFFA726),
+        ),
+      ),
     );
   }
 }
