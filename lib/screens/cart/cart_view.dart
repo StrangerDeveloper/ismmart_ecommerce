@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/screens/cart/cart_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
@@ -49,7 +50,7 @@ class CartView extends StatelessWidget {
                 height: 45,
                 title: 'Check OUt',
                 onPressed: () {
-                  // viewModel.saveAndCreateBtn();
+                  Get.to(AppRoutes.checkoutViewRoute);
                 },
               ),
             ),
@@ -211,7 +212,7 @@ class CartView extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: (){},
+                        onTap: () {},
                         child: Container(
                           padding: const EdgeInsets.all(4),
                           decoration: const BoxDecoration(
