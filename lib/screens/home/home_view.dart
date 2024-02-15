@@ -100,7 +100,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    promoCode(),
+
                     bannerImage(),
                     categoriesTitle(),
                     categoriesList(),
@@ -515,7 +515,7 @@ class HomeView extends StatelessWidget {
 
   Widget flashSaleCountDown() {
     return Obx(
-      () => viewModel.discountModel?.value.name != null
+      () => viewModel.discountModel.value.name != null
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -525,7 +525,7 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.discountModel?.value.name ?? '',
+                          viewModel.discountModel.value.name ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
