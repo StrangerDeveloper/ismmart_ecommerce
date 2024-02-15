@@ -22,4 +22,6 @@ class Urls {
   //reviews
   static String getProductReviews = "/public/review";
   static String updateFcmToken = "/device/update/:";
+
+  static String getFAQs = "/public/faq";
 }

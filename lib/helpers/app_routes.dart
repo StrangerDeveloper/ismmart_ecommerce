@@ -3,6 +3,7 @@ import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/su
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/screens/bank_list/bank_list_view.dart';
+import 'package:ismmart_ecommerce/screens/faq/faq_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_view.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_view.dart';
@@ -37,6 +38,8 @@ class AppRoutes {
   static const shippingAdressRoute = "/shippingAdress";
   static const bankListRoute = "/banklisting";
 
+  static const faqsRoutes = "/faqs";
+
   List<GetPage> getRoutes() {
     return [
       GetPage(name: initRoute, page: () => SplashScreenView()),
@@ -55,6 +58,8 @@ class AppRoutes {
       GetPage(name: shippingAdressRoute, page: () => ShippingAddressListView()),
 
       GetPage(name: bankListRoute, page: () => BankListView()),
+
+      GetPage(name: faqsRoutes, page: ()=> FaqView()),
     ];
   }
 }
