@@ -338,42 +338,14 @@ class OrderDetailView extends StatelessWidget {
                     .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
                 "Home, Chino Hills, CA 91709, USA",
           ),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Expanded(
-          //       child: _customField1(viewModel.orderItemModel.value
-          //               .lineitems?[0].assignedRider?.name ??
-          //           "Shipping Method:"),
-          //     ),
-          //     Expanded(
-          //       child: _customField2(viewModel.orderItemModel.value
-          //               .lineitems?[0].assignedRider?.cnic ??
-          //           "Home, Chino Hills, CA 91709, USA"),
-          //     ),
-          //   ],
-          // ),
+
           _customOrderInfo(
             text1: "Payment Method:",
             text2: viewModel
                     .orderItemModel.value.lineitems?[0].assignedRider?.name ??
                 "COD",
           ),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Expanded(
-          //       child: _customField1(viewModel.orderItemModel.value
-          //               .lineitems?[0].assignedRider?.name ??
-          //           "Payment Method:"),
-          //     ),
-          //     Expanded(
-          //       child: _customField2(viewModel.orderItemModel.value
-          //               .lineitems?[0].assignedRider?.cnic ??
-          //           "COD"),
-          //     ),
-          //   ],
-          // ),
+
           _customOrderInfo(
             text1: "Delivery Method:",
             text2: viewModel
