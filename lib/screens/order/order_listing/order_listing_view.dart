@@ -189,86 +189,105 @@ class OrderListingView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(
-                      () => RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Tracking number: ",
-                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.grey2,
-                              ),
-                            ),
-                            TextSpan(
-                              text: viewModel.orderItemModel.value
-                                      .lineitems?[index].sId ??
-                                  "Customer",
-                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ],
-                        ),
+                      () => _customRichText(
+                        text1: "Tracking number: ",
+                        text2: viewModel
+                                .orderItemModel.value.lineitems?[index].sId ??
+                            "IW3475453455",
                       ),
+                      // RichText(
+                      //   text: TextSpan(
+                      //     children: [
+                      //       TextSpan(
+                      //         text: "Tracking number: ",
+                      //         style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+                      //           fontWeight: FontWeight.w400,
+                      //           color: AppColors.grey2,
+                      //         ),
+                      //       ),
+                      //       TextSpan(
+                      //         text: viewModel.orderItemModel.value
+                      //                 .lineitems?[index].sId ??
+                      //             "Customer",
+                      //         style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+                      //           fontWeight: FontWeight.w600,
+                      //           color: AppColors.black,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       // _customField2(
                       //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-                      child: Obx(() => RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Quantity: ",
-                                      style: ThemeHelper.textTheme.bodyMedium!
-                                          .copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.grey2,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: viewModel.orderItemModel.value
-                                              .lineitems?[index].qty
-                                              .toString() ??
-                                          "qty",
-                                      style: ThemeHelper.textTheme.bodyMedium!
-                                          .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      child: Obx(() => _customRichText(
+                                text1: "Quantity: ",
+                                text2: viewModel.orderItemModel.value
+                                        .lineitems?[index].qty
+                                        .toString() ??
+                                    "qty",
                               )
+                          // RichText(
+                          //           text: TextSpan(
+                          //             children: [
+                          //               TextSpan(
+                          //                 text: "Quantity: ",
+                          //                 style: ThemeHelper.textTheme.bodyMedium!
+                          //                     .copyWith(
+                          //                   fontWeight: FontWeight.w400,
+                          //                   color: AppColors.grey2,
+                          //                 ),
+                          //               ),
+                          //               TextSpan(
+                          //                 text: viewModel.orderItemModel.value
+                          //                         .lineitems?[index].qty
+                          //                         .toString() ??
+                          //                     "qty",
+                          //                 style: ThemeHelper.textTheme.bodyMedium!
+                          //                     .copyWith(
+                          //                   fontWeight: FontWeight.w600,
+                          //                   color: AppColors.black,
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
                           // _customField2(
                           //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
                           ),
                     ),
-                    Obx(() => RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Total Amount: ",
-                                    style: ThemeHelper.textTheme.bodyMedium!
-                                        .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.grey2,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: viewModel.orderItemModel.value.totals
-                                            .toString() ??
-                                        "price",
-                                    style: ThemeHelper.textTheme.bodyMedium!
-                                        .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    Obx(() => _customRichText(
+                              text1: "Total Amount: ",
+                              text2: viewModel.orderItemModel.value.totals
+                                      .toString() ??
+                                  "price",
                             )
+                        // RichText(
+                        //           text: TextSpan(
+                        //             children: [
+                        //               TextSpan(
+                        //                 text: "Total Amount: ",
+                        //                 style: ThemeHelper.textTheme.bodyMedium!
+                        //                     .copyWith(
+                        //                   fontWeight: FontWeight.w400,
+                        //                   color: AppColors.grey2,
+                        //                 ),
+                        //               ),
+                        //               TextSpan(
+                        //                 text: viewModel.orderItemModel.value.totals
+                        //                         .toString() ??
+                        //                     "price",
+                        //                 style: ThemeHelper.textTheme.bodyMedium!
+                        //                     .copyWith(
+                        //                   fontWeight: FontWeight.w600,
+                        //                   color: AppColors.black,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         )
                         // _customField2(
                         //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
                         ),
@@ -303,6 +322,29 @@ class OrderListingView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _customRichText({required String text1, required String text2}) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: text1,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: AppColors.grey2,
+            ),
+          ),
+          TextSpan(
+            text: text2,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
+        ],
       ),
     );
   }
