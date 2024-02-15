@@ -9,6 +9,7 @@ import '../../../helpers/urls.dart';
 
 class OrderListingViewModel extends GetxController {
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
+  Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
   RxString filterRadioBtn = 'all'.obs;
@@ -35,7 +36,7 @@ class OrderListingViewModel extends GetxController {
     super.onReady();
 
     GlobalVariable.showLoader.value = true;
-    getOrderListing();
+    //getOrderListing();
   }
 
   @override

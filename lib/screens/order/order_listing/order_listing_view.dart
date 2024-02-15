@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
 
 import '../../../helpers/global_variables.dart';
@@ -36,38 +40,43 @@ class OrderListingView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20.0, bottom: 2.0),
                   child: _buildSearchRow(),
                 ),
-                Obx(
-                  () => viewModel.orderItemList.isNotEmpty
-                      ? Padding(
+                Obx(() =>
+                        // viewModel.orderItemList.isNotEmpty
+                        //     ?
+                        Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ListView.builder(
                             controller: viewModel.scrollController,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: viewModel.orderItemList.length,
+                            //itemCount: viewModel.orderItemList.length,
+                            itemCount: viewModel
+                                    .orderItemModel.value.lineitems?.length ??
+                                2,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(
-                                    () => OrderDetailView(),
-                                    arguments: {
-                                      'model': viewModel.orderItemList[index],
-                                    },
-                                  );
+                                  Get.toNamed('/orderDetailView');
+                                  // Get.to(
+                                  //   () => OrderDetailView(),
+                                  //   arguments: {
+                                  //     'model': viewModel.orderItemList[index],
+                                  //   },
+                                  // );
                                 },
                                 child: _buildOrderCard(index),
                               );
                             },
                           ),
                         )
-                      : const Center(
-                          child: Text('No Data Found'),
-                        ),
-                ),
+                    // : const Center(
+                    //     child: Text('No Data Found'),
+                    //   ),
+                    ),
               ],
             ),
           ),
-          const LoaderView(),
+          //const LoaderView(),
         ],
       ),
     );
@@ -161,17 +170,17 @@ class OrderListingView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _customField1(
-                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
+                        //"Order No ${viewModel.orderItemList[index].orderId ?? "id"}"
+                        "Order No ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "123456"}"),
                   ),
-                  // _customField2(viewModel
-                  //             .orderItemList[index].orderDetails?.market !=
-                  //         null
-                  //     ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
-                  //     : 'market'),
-                  _customField2(DateFormat("d MMM y").format(
-                    DateTime.parse(
-                        viewModel.orderItemList[index].createdAt ?? "now"),
-                  )),
+                  _customField2(
+                    viewModel.orderItemModel.value.createdAt ?? "date",
+                    // DateFormat("d MMM y").format(
+                    //   DateTime.parse(
+                    //       // viewModel.orderItemList[index].createdAt ?? "now"
+                    //       viewModel.orderItemModel.value.createdAt ?? "now"),
+                    // ),
+                  ),
                 ],
               ),
               Container(
@@ -179,23 +188,90 @@ class OrderListingView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _customField2(
-                        "Tracking number: ${viewModel.orderItemList[index].orderId ?? "id"}"),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    //   child: Row(children: [
-                    //     _status(viewModel.orderItemList[index].paymentStatus ??
-                    //         "status"),
-                    //     const SizedBox(width: 8),
-                    //     _status(
-                    //         viewModel.orderItemList[index].fulfilmentStatus ??
-                    //             "status")
-                    //   ]),
-                    // ),
-                    Obx(() => _customField2(
-                        "Quantity: ${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"}")),
-                    Obx(() => _customField2(
-                        "Total Amount: ${(viewModel.orderItemList[index].totals?.total) ?? "zero"}")),
+                    Obx(
+                      () => RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Tracking number: ",
+                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.grey2,
+                              ),
+                            ),
+                            TextSpan(
+                              text: viewModel.orderItemModel.value
+                                      .lineitems?[index].sId ??
+                                  "Customer",
+                              style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // _customField2(
+                      //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
+                      child: Obx(() => RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Quantity: ",
+                                      style: ThemeHelper.textTheme.bodyMedium!
+                                          .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.grey2,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: viewModel.orderItemModel.value
+                                              .lineitems?[index].qty
+                                              .toString() ??
+                                          "qty",
+                                      style: ThemeHelper.textTheme.bodyMedium!
+                                          .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                          // _customField2(
+                          //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
+                          ),
+                    ),
+                    Obx(() => RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Total Amount: ",
+                                    style: ThemeHelper.textTheme.bodyMedium!
+                                        .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.grey2,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: viewModel.orderItemModel.value.totals
+                                            .toString() ??
+                                        "price",
+                                    style: ThemeHelper.textTheme.bodyMedium!
+                                        .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                        // _customField2(
+                        //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
+                        ),
                     const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,13 +284,14 @@ class OrderListingView extends StatelessWidget {
                           borderSide: const BorderSide(
                             color: Colors.black,
                           ),
-                          width: 80,
+                          width: 70,
+                          height: 30,
                           radius: 20,
                           padding: const EdgeInsets.all(5),
                         ),
                         Obx(
                           () => _customField2(
-                              viewModel.orderItemList[index].fulfilmentStatus ??
+                              viewModel.orderItemModel.value.fulfilmentStatus ??
                                   "status"),
                         ),
                       ],
@@ -232,20 +309,20 @@ class OrderListingView extends StatelessWidget {
 
   Widget _customField1(text1) {
     return CustomText(
-      title: text1.toString(),
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-    );
+        title: text1.toString(),
+        style: Theme.of(Get.context!)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontWeight: FontWeight.w600, color: AppColors.black));
   }
 
   Widget _customField2(text) {
     return CustomText(
       title: text.toString(),
-      style: const TextStyle(
-        fontSize: 12,
-      ),
+      style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w400,
+            color: AppColors.black,
+          ),
     );
   }
 

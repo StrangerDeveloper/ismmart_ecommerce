@@ -30,6 +30,7 @@ class AppRoutes {
 
   static const bottomNavViewRoute = "/bottomNav";
   static const homeRoute = "/homeView";
+  static const orderDetailViewRoute = "/orderDetailView";
 
   static const notificationRoute = "/notification";
 
