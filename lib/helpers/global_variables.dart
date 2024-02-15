@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../screens/home/model/collection_model.dart';
-import '../screens/profile_details/profile_details_model.dart';
+import '../screens/profile_details/profile_model.dart';
 
 class GlobalVariable {
   static String token =

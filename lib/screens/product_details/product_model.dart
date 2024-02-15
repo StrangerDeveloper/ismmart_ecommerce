@@ -1,12 +1,12 @@
 class ProductResponse {
-  List<Product>? product;
+  List<Product>? products;
   num? page;
   num? limit;
   num? pages;
   num? total;
 
   ProductResponse({
-    this.product,
+    this.products,
     this.page,
     this.limit,
     this.pages,
@@ -15,10 +15,10 @@ class ProductResponse {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
-        product: json["Product"] == null
+        products: json["items"] == null
             ? []
             : List<Product>.from(
-                json["Product"]!.map((x) => Product.fromJson(x))),
+                json["items"]!.map((x) => Product.fromJson(x))),
         page: json["page"],
         limit: json["limit"],
         pages: json["pages"],
@@ -26,9 +26,9 @@ class ProductResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "Product": product == null
+        "Product": products == null
             ? []
-            : List<dynamic>.from(product!.map((x) => x.toJson())),
+            : List<dynamic>.from(products!.map((x) => x.toJson())),
         "page": page,
         "limit": limit,
         "pages": pages,

@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ismmart_ecommerce/screens/profile_details/profile_viewmodel.dart';
 
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
-import '../profile_details/profile_details_model.dart';
-import '../profile_details/profile_details_viewmodel.dart';
+import '../profile_details/profile_model.dart';
 
 class EditUserProfileViewModel extends GetxController {
   Rx<File> userProfileImage = File('').obs;
@@ -105,7 +105,7 @@ class EditUserProfileViewModel extends GetxController {
           GlobalVariable.showLoader.value = false;
           if (parsedJson['success'] == true &&
               parsedJson['message'] == 'Profile updated successuflly') {
-            UserProfileViewModel viewModel = Get.find();
+            ProfileViewModel viewModel = Get.find();
             viewModel.getData();
             Get.back();
             CommonFunction.showSnackBar(

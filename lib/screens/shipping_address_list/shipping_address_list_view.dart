@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_viewmodel.dart';
 
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_checkbox.dart';
 
 class ShippingAddressListView extends StatelessWidget {
-  const ShippingAddressListView({super.key});
-
+  ShippingAddressListView({super.key});
+  final ShippingAddressListViewModel viewModel =
+      Get.put(ShippingAddressListViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: const CustomAppBar2(
         title: 'Shipping Addresses',
       ),
@@ -50,17 +52,16 @@ class ShippingAddressListView extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 25,
-            offset: Offset(0, 1),
-            spreadRadius: 0,
-          ),
-        ]
-      ),
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              blurRadius: 25,
+              offset: Offset(0, 1),
+              spreadRadius: 0,
+            ),
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

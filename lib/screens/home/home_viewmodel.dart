@@ -166,6 +166,7 @@ class HomeViewModel extends GetxController {
     Map<String, String> params = {
       'fields[name]': '1',
       'fields[description]': '1',
+       'fields[type]': '1',
       'limit': '0',
     };
 
