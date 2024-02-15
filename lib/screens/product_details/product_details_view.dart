@@ -70,55 +70,58 @@ class ProductDetailsView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Obx(
-          () => Stack(
-            alignment: Alignment.center,
-            children: [
-              PageView(
-                controller: viewModel.pageViewController,
-                physics: const BouncingScrollPhysics(),
-                onPageChanged: (value) {
-                  viewModel.carouselIndex(value);
-                },
-                children: List.generate(
-                  viewModel.productModel.value.media!.length,
-                  (index) => CustomNetworkImage(
-                    imageUrl: viewModel.productModel.value.media![index].url,
-                    //boxFit: BoxFit.contain,
-                  ),
+          () => viewModel.productModel.value.media == null
+              ? const CustomNetworkImage(imageUrl: '')
+              : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    PageView(
+                      controller: viewModel.pageViewController,
+                      physics: const BouncingScrollPhysics(),
+                      onPageChanged: (value) {
+                        viewModel.carouselIndex(value);
+                      },
+                      children: List.generate(
+                        viewModel.productModel.value.media!.length,
+                        (index) => CustomNetworkImage(
+                          imageUrl:
+                              viewModel.productModel.value.media![index].url,
+                          //boxFit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    //Previous Button
+                    Positioned(
+                      left: 10,
+                      child: viewModel.carouselIndex.value <= 0
+                          ? Container()
+                          : previousImage(),
+                    ),
+                    //Next Button
+                    Positioned(
+                        right: 10,
+                        child: viewModel.carouselIndex.value >=
+                                (viewModel.productModel.value.media!.length - 1)
+                            ? Container()
+                            : nextImage()),
+                    //Photo number indicator
+                    Positioned(
+                      bottom: 5,
+                      left: 10,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            color: AppColors.grey4),
+                        child: Text(
+                          '${(viewModel.carouselIndex.value) + 1}/${viewModel.productModel.value.media!.length} Photos',
+                          style: ThemeHelper.textTheme.labelSmall!
+                              .copyWith(color: AppColors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              //Previous Button
-              Positioned(
-                left: 10,
-                child: viewModel.carouselIndex.value <= 0
-                    ? Container()
-                    : previousImage(),
-              ),
-              //Next Button
-              Positioned(
-                  right: 10,
-                  child: viewModel.carouselIndex.value >=
-                          (viewModel.productModel.value.media!.length - 1)
-                      ? Container()
-                      : nextImage()),
-              //Photo number indicator
-              Positioned(
-                bottom: 5,
-                left: 10,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: AppColors.grey4),
-                  child: Text(
-                    '${(viewModel.carouselIndex.value) + 1}/${viewModel.productModel.value.media!.length} Photos',
-                    style: ThemeHelper.textTheme.labelSmall!
-                        .copyWith(color: AppColors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -179,7 +182,7 @@ class ProductDetailsView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    viewModel.productModel.value.name ?? '',
+                    viewModel.productModel.value.name ?? 'N/A',
                     style: ThemeHelper.textTheme.titleLarge,
                   ),
                 ),

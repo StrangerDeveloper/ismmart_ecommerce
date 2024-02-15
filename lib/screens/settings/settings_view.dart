@@ -35,7 +35,7 @@ class SettingsView extends StatelessWidget {
 
   Widget accountSetup() {
     return Obx(
-      () => viewModel.token.isEmpty
+      () => viewModel.token.isEmpty && GlobalVariable.userModel.value.email!.isEmpty
           ? accountWidget(Icons.person, '', "Login / Sing Up",
               'Login or Sign Up to continue...')
           : accountWidget(
