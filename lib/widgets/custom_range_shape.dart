@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-import '../helpers/theme_helper.dart';
-
 class CustomThumbShape implements RangeSliderThumbShape {
 
   final double radius;

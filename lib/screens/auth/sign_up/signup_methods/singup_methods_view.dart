@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/signup_mehods_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_heading_and_subheading_text.dart';
@@ -12,7 +11,6 @@ import '../../../../helpers/theme_helper.dart';
 import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/loader_view.dart';
-import '../../login/login_view.dart';
 import '../signup/signup_view.dart';
 
 class SignUpMethodsView extends StatelessWidget {
@@ -26,7 +24,7 @@ class SignUpMethodsView extends StatelessWidget {
       top: false,
       child: Scaffold(
         appBar: appbar(),
-        backgroundColor: AppColors.white,
+        // backgroundColor: AppColors.white,
         body: Stack(
           children: [
             Padding(
@@ -160,19 +158,20 @@ class SignUpMethodsView extends StatelessWidget {
     return Center(
       child: TextButton(
         onPressed: () {
-          Get.to(() => LogInView());
+          //Get.to(() => LogInView());
+          Get.offNamed(AppRoutes.loginViewRoute);
         },
         child: RichText(
           text: TextSpan(
             children: [
               TextSpan(
                   text: 'Already have an account?',
-                  style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w400, color: AppColors.grey2)),
+                  style: ThemeHelper.textTheme.labelMedium!
+                      .copyWith(color: AppColors.grey2)),
               TextSpan(
-                  text: " Login",
-                  style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w700, color: AppColors.black))
+                  text: "\t\tLogin",
+                  style: ThemeHelper.textTheme.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w700))
             ],
           ),
         ),
@@ -199,6 +198,7 @@ class SignUpMethodsView extends StatelessWidget {
       title: 'Sign Up',
       titleTextStyle: ThemeHelper.textTheme.titleMedium,
       centerTitle: true,
+      containsLeading: true,
     );
   }
 

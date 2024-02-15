@@ -35,7 +35,6 @@ class ProductDetailsViewModel extends GetxController {
     if (Get.arguments != null) {
       productID = Get.arguments['productId'];
     }
-    print("ProductIDddd: $productID");
     getProductById();
     getProductReviews();
   }
