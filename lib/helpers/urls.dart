@@ -25,4 +25,5 @@ class Urls {
   static String updateFcmToken = "/device/update/:";
 
   static String getFAQs = "/public/faq";
+  static String getShippingAdress = "/customer/location";
 }
