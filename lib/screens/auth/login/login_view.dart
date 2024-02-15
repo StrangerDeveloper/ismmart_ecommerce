@@ -24,7 +24,6 @@ class LogInView extends StatelessWidget {
       top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -47,7 +46,7 @@ class LogInView extends StatelessWidget {
                         logInBtn(),
 
                         orWidget(),
-                        if (Platform.isAndroid) googlelogInBtn(),
+                        googlelogInBtn(),
                         // facebooklogInBtn(),
                         if (Platform.isIOS) applelogInBtn(),
                         const Gap(54),
@@ -244,7 +243,7 @@ class LogInView extends StatelessWidget {
       padding: EdgeInsets.only(top: Get.height * .9),
       child: TextButton(
         onPressed: () {
-          Get.toNamed(AppRoutes.singupMethodsViewRoute);
+          Get.offNamed(AppRoutes.singupMethodsViewRoute);
         },
         child: Center(
           child: RichText(
@@ -267,12 +266,26 @@ class LogInView extends StatelessWidget {
   }
 
   Widget login() {
-    return Align(
-      alignment: Alignment.center,
-      child: Text(
-        "Login",
-        style: ThemeHelper.textTheme.titleMedium,
-      ),
+    return Row(
+      //mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () => Get.back(),
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+          ),
+        ),
+        Expanded(
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Login",
+              style: ThemeHelper.textTheme.titleMedium,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -15,7 +15,8 @@ class ThemeHelper {
     textTheme: TextThemes.textTheme(color: AppColors.black),
     // primarySwatch: AppColors.palette1,
     // useMaterial3: false,
-    iconTheme: const IconThemeData(color: AppColors.white38),
+    iconTheme: const IconThemeData( color: AppColors.black,
+            size: 20,),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
       // titleTextStyle: GoogleFonts.dmSerifDisplay(
@@ -24,7 +25,8 @@ class ThemeHelper {
       //   fontWeight: FontWeight.w400,
       // ),
       titleTextStyle: TextThemes.textTheme(color: AppColors.black).titleMedium,
-      iconTheme: const IconThemeData(color: AppColors.black),
+      iconTheme: const IconThemeData( color: AppColors.white,
+            size: 20,),
       centerTitle: true,
       elevation: 3,
       shadowColor: AppColors.black12,
