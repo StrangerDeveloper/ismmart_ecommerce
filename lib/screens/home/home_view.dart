@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
 import 'package:marquee/marquee.dart';
@@ -21,6 +22,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final HomeViewModel viewModel = Get.put(HomeViewModel());
+  final WishlistViewModel wishlistViewModel = Get.put(WishlistViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -68,30 +70,33 @@ class HomeView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: SizedBox(
                           height: 20,
-                          child: viewModel.newsList.isEmpty ? Container():
-                          
-                          Marquee(
-                            text: viewModel.newsList
-                                .map((e) =>
-                                    "(${e.type}) -> ${e.name}: ${e.description}   ")
-                                .join(),
-                            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                              color: AppColors.red700,
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            scrollAxis: Axis.horizontal,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            blankSpace: 20.0,
-                            velocity: 50.0,
-                            pauseAfterRound: const Duration(milliseconds: 500),
-                            startPadding: 10.0,
-                            accelerationDuration: const Duration(seconds: 1),
-                            accelerationCurve: Curves.linear,
-                            decelerationDuration:
-                                const Duration(milliseconds: 500),
-                            decelerationCurve: Curves.easeOut,
-                          ),
+                          child: viewModel.newsList.isEmpty
+                              ? Container()
+                              : Marquee(
+                                  text: viewModel.newsList
+                                      .map((e) =>
+                                          "(${e.type}) -> ${e.name}: ${e.description}   ")
+                                      .join(),
+                                  style: ThemeHelper.textTheme.bodyMedium!
+                                      .copyWith(
+                                    color: AppColors.red700,
+                                    fontWeight: FontWeight.w600,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  scrollAxis: Axis.horizontal,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  blankSpace: 20.0,
+                                  velocity: 50.0,
+                                  pauseAfterRound:
+                                      const Duration(milliseconds: 500),
+                                  startPadding: 10.0,
+                                  accelerationDuration:
+                                      const Duration(seconds: 1),
+                                  accelerationCurve: Curves.linear,
+                                  decelerationDuration:
+                                      const Duration(milliseconds: 500),
+                                  decelerationCurve: Curves.easeOut,
+                                ),
                         ),
                       ),
                     ),
@@ -164,8 +169,34 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Get.to(() => WishlistView());
             },
-            icon: const Icon(
-              Icons.favorite_border_sharp,
+            icon: Stack(
+              //alignment: Alignment.topRight,
+              children: [
+                Container(
+                  height: 60,
+                  width: 60,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: const Icon(
+                    Icons.favorite_border,
+                  ),
+                ),
+                if (wishlistViewModel.wishlistCounter > 0)
+                  Positioned(
+                    top: 8,
+                    right: 2,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 8,
+                      child: Text(
+                        wishlistViewModel.wishlistCounter.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           IconButton(
@@ -174,6 +205,38 @@ class HomeView extends StatelessWidget {
               Icons.shopping_cart_outlined,
             ),
           ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Stack(
+          //     //alignment: Alignment.topRight,
+          //     children: [
+          //       Container(
+          //         height: 60,
+          //         width: 60,
+          //         padding: const EdgeInsets.only(top: 8),
+          //         child: const Icon(
+          //           Icons.shopping_cart_outlined,
+          //         ),
+          //       ),
+          //       if (wishlistViewModel.wishlistCounter > 0)
+          //         Positioned(
+          //           top: 8,
+          //           right: 2,
+          //           child: CircleAvatar(
+          //             backgroundColor: Colors.red,
+          //             radius: 8,
+          //             child: Text(
+          //               wishlistViewModel.wishlistCounter.toString(),
+          //               style: const TextStyle(
+          //                 color: Colors.white,
+          //                 fontSize: 8,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //     ],
+          //   ),
+          // ),
         ],
         flexibleSpace:
             (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)
