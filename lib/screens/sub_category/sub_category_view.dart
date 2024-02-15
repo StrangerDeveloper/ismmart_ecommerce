@@ -255,7 +255,7 @@ class SubCategoryView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ProductItem2(
                           product: viewModel.productList[index],
-                          onTap: () {},
+                          //onTap: () {},
                           image: viewModel.productList[index].image ?? '',
                           name: viewModel.productList[index].name ?? '',
                           category:

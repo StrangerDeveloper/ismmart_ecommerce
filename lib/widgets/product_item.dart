@@ -41,7 +41,7 @@ class ProductItem2 extends StatelessWidget {
     return InkWell(
       onTap: onTap ??
           () {
-            Get.toNamed(AppRoutes.productDetailsRoute);
+            Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': product?.id ?? ''});
           },
       borderRadius: BorderRadius.circular(10),
       child: Container(

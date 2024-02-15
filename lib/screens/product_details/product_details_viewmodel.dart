@@ -33,9 +33,10 @@ class ProductDetailsViewModel extends GetxController
   @override
   void onReady() {
     super.onReady();
-    // if (Get.arguments != null) {
-    //   productID = Get.arguments['productId'];
-    // }
+    if (Get.arguments != null) {
+      productID = Get.arguments['productId'];
+    }
+    print("ProductIDddd: $productID");
     getProductById();
     getProductReviews();
   }

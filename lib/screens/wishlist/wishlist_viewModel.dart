@@ -10,20 +10,21 @@ class WishlistViewModel extends GetxController {
 
   // Retrieve wishlist from local storage during initialization
   @override
-  void onInit() {
-    super.onInit();
-    List<Product> savedWishlist =
-        localStorage.read<List<Product>>('wishlist') ?? [];
-    wishlist.assignAll(savedWishlist);
+  void onReady() {
+    super.onReady();
+
+    List<dynamic> savedWishlist = localStorage.read('wishlist') ?? [];
+
+    wishlist.addAll(savedWishlist as List<Product>);
   }
 
   void addToWishlist(Product product) {
-    print('object: ${product.name}');
+  
     wishlist.add(product);
     wishlist.refresh();
     totalItems.value = wishlist.length;
     localStorage.write('wishlist', wishlist.toList());
-    print('wishlist nameeeeee: ${wishlist[0].name}');
+    
   }
 
   void removeFromWishlist(Product product) {
