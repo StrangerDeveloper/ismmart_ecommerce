@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
 
 import '../../../helpers/global_variables.dart';
@@ -9,8 +10,6 @@ import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/loader_view.dart';
-import '../order_details/order_detail_view.dart';
 
 class OrderListingView extends StatelessWidget {
   OrderListingView({super.key, this.callingFor = 'All'});
@@ -22,10 +21,15 @@ class OrderListingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar2(
         title: "My Orders",
         centerTitle: true,
-        backBtn: true,
+        containsLeading: true,
+        titleTextStyle: ThemeHelper.textTheme.titleSmall!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: AppColors.black,
+        ),
       ),
       body: Stack(
         children: [
@@ -36,38 +40,43 @@ class OrderListingView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20.0, bottom: 2.0),
                   child: _buildSearchRow(),
                 ),
-                Obx(
-                  () => viewModel.orderItemList.isNotEmpty
-                      ? Padding(
+                Obx(() =>
+                        // viewModel.orderItemList.isNotEmpty
+                        //     ?
+                        Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ListView.builder(
                             controller: viewModel.scrollController,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: viewModel.orderItemList.length,
+                            //itemCount: viewModel.orderItemList.length,
+                            itemCount: viewModel
+                                    .orderItemModel.value.lineitems?.length ??
+                                2,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(
-                                    () => OrderDetailView(),
-                                    arguments: {
-                                      'model': viewModel.orderItemList[index],
-                                    },
-                                  );
+                                  Get.toNamed('/orderDetailView');
+                                  // Get.to(
+                                  //   () => OrderDetailView(),
+                                  //   arguments: {
+                                  //     'model': viewModel.orderItemList[index],
+                                  //   },
+                                  // );
                                 },
                                 child: _buildOrderCard(index),
                               );
                             },
                           ),
                         )
-                      : const Center(
-                          child: Text('No Data Found'),
-                        ),
-                ),
+                    // : const Center(
+                    //     child: Text('No Data Found'),
+                    //   ),
+                    ),
               ],
             ),
           ),
-          const LoaderView(),
+          //const LoaderView(),
         ],
       ),
     );
@@ -82,58 +91,17 @@ class OrderListingView extends StatelessWidget {
         viewModel.fieldSelection("Cancelled");
       }
     });
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 300,
-          child: CustomTextField1(
-            controller: viewModel.searchController,
-            filled: false,
-            hintText: callingFor!,
-            isDropDown: true,
-            onTap: () {
-              statusBottomSheet();
-            },
-          ),
-        ),
-        const SizedBox(width: 10),
-        // Container(
-        //   width: 62.h,
-        //   padding: EdgeInsets.symmetric(vertical: 9.v),
-        //   decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     borderRadius: BorderRadius.circular(10),
-        //     border: Border.all(
-        //       color: Colors.grey.shade300,
-        //     ),
-        //   ),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Expanded(
-        //         child: CustomNetworkImage(
-        //           imageUrl: ImageConstant.imgIconsFilterList,
-        //           height: 16,
-        //           width: 16,
-
-        //       ),
-        //       ),
-        //       Expanded(
-        //         child: CustomImageView(
-        //           imagePath: ImageConstant.imgIconsFilterList,
-        //           height: 16.adaptSize,
-        //           width: 16.adaptSize,
-        //           margin: EdgeInsets.only(left: 5.h),
-        //           onTap: () {
-        //             filterBottomSheet();
-        //           },
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
-      ],
+    return SizedBox(
+      width: 300,
+      child: CustomTextField1(
+        controller: viewModel.searchController,
+        filled: false,
+        hintText: callingFor!,
+        isDropDown: true,
+        onTap: () {
+          statusBottomSheet();
+        },
+      ),
     );
   }
 
@@ -141,19 +109,14 @@ class OrderListingView extends StatelessWidget {
     return Obx(
       () => Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0),
-        elevation: 5,
+        elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         color: const Color(0xFFF9FAFB),
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 10.0,
-            left: 10.0,
-            right: 10.0,
-          ),
+          padding: const EdgeInsets.all(10),
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,68 +124,85 @@ class OrderListingView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _customField1(
-                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
+                        //"Order No ${viewModel.orderItemList[index].orderId ?? "id"}"
+                        "Order No ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "123456"}"),
                   ),
-                  // _customField2(viewModel
-                  //             .orderItemList[index].orderDetails?.market !=
-                  //         null
-                  //     ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
-                  //     : 'market'),
-                  _customField2(DateFormat("d MMM y").format(
-                    DateTime.parse(
-                        viewModel.orderItemList[index].createdAt ?? "now"),
-                  )),
+                  _customField2(
+                    viewModel.orderItemModel.value.createdAt ?? "date",
+                    // DateFormat("d MMM y").format(
+                    //   DateTime.parse(
+                    //       // viewModel.orderItemList[index].createdAt ?? "now"
+                    //       viewModel.orderItemModel.value.createdAt ?? "now"),
+                    // ),
+                  ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _customField2(
-                        "Tracking number: ${viewModel.orderItemList[index].orderId ?? "id"}"),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    //   child: Row(children: [
-                    //     _status(viewModel.orderItemList[index].paymentStatus ??
-                    //         "status"),
-                    //     const SizedBox(width: 8),
-                    //     _status(
-                    //         viewModel.orderItemList[index].fulfilmentStatus ??
-                    //             "status")
-                    //   ]),
-                    // ),
-                    Obx(() => _customField2(
-                        "Quantity: ${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"}")),
-                    Obx(() => _customField2(
-                        "Total Amount: ${(viewModel.orderItemList[index].totals?.total) ?? "zero"}")),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomTextBtn(
-                          title: "Details",
-                          onPressed: () {},
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          width: 80,
-                          radius: 20,
-                          padding: const EdgeInsets.all(5),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => _customRichText(
+                      text1: "Tracking number: ",
+                      text2: viewModel
+                              .orderItemModel.value.lineitems?[index].sId ??
+                          "IW3475453455",
+                    ),
+
+                    // _customField2(
+                    //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
+                    child: Obx(
+                      () => _customRichText(
+                        text1: "Quantity: ",
+                        text2: viewModel
+                                .orderItemModel.value.lineitems?[index].qty
+                                .toString() ??
+                            "qty",
+                      ),
+
+                      // _customField2(
+                      //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
+                    ),
+                  ),
+                  Obx(
+                    () => _customRichText(
+                      text1: "Total Amount: ",
+                      text2: viewModel.orderItemModel.value.totals.toString() ??
+                          "price",
+                    ),
+
+                    // _customField2(
+                    //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomTextBtn(
+                        title: "Details",
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        borderSide: const BorderSide(
+                          color: Colors.black,
                         ),
-                        Obx(
-                          () => _customField2(
-                              viewModel.orderItemList[index].fulfilmentStatus ??
-                                  "status"),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                        width: 70,
+                        height: 30,
+                        radius: 20,
+                        padding: const EdgeInsets.all(5),
+                      ),
+                      Obx(
+                        () => _customField2(
+                            viewModel.orderItemModel.value.fulfilmentStatus ??
+                                "status"),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              const Divider(),
             ],
           ),
         ),
@@ -230,22 +210,45 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  Widget _customField1(text1) {
-    return CustomText(
-      title: text1.toString(),
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
+  Widget _customRichText({required String text1, required String text2}) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: text1,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: AppColors.grey2,
+            ),
+          ),
+          TextSpan(
+            text: text2,
+            style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _customField1(text1) {
+    return CustomText(
+        title: text1.toString(),
+        style: Theme.of(Get.context!)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontWeight: FontWeight.w600, color: AppColors.black));
   }
 
   Widget _customField2(text) {
     return CustomText(
       title: text.toString(),
-      style: const TextStyle(
-        fontSize: 12,
-      ),
+      style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w400,
+            color: AppColors.black,
+          ),
     );
   }
 

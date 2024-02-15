@@ -47,9 +47,10 @@ class SignUpView extends StatelessWidget {
                         const Gap(15),
                         phoneNumberTextField(),
                         genderTextField(),
-                        cnicNumberField(),
+                        // cnicNumberField(),
+                        Gap(22),
                         passwordTextField(),
-                        confirmPasswordTextField(),
+                        // confirmPasswordTextField(),
                         checkedStatement(),
                         signUpInBtn(),
                         alreadyHaveAnAccount()
@@ -147,7 +148,7 @@ class SignUpView extends StatelessWidget {
           controller: viewModel.phoneNumberController,
           initialValue: viewModel.countryCode.value,
           textStyle:
-              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
+              const TextStyle(color: Colors.red, fontWeight: FontWeight.w400),
           autoValidateMode: AutovalidateMode.onUserInteraction,
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d+?\d*')),

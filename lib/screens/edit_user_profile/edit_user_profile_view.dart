@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:path/path.dart';
 
 import '../../helpers/theme_helper.dart';
 import '../../helpers/validator.dart';
@@ -12,11 +10,8 @@ import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_bottom_sheet.dart';
 import '../../widgets/custom_button.dart';
 
-import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_text_field.dart';
-import '../../widgets/image_layout_container.dart';
 import '../../widgets/loader_view.dart';
-import '../../widgets/obscure_suffix_icon.dart';
 import '../../widgets/pick_image.dart';
 import '../../widgets/widget_models/custom_cached_network_image.dart';
 import 'edit_user_profile_viewmodel.dart';

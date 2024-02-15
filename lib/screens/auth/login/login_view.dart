@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
 import 'package:ismmart_ecommerce/widgets/custom_text.dart';
 import '../../../helpers/app_routes.dart';
 import '../../../helpers/validator.dart';
@@ -52,13 +51,13 @@ class LogInView extends StatelessWidget {
                         // facebooklogInBtn(),
                         if (Platform.isIOS) applelogInBtn(),
                         const Gap(54),
-                        doNotHaveAnAccount(),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            doNotHaveAnAccount(),
             const LoaderView()
           ],
         ),
@@ -242,7 +241,7 @@ class LogInView extends StatelessWidget {
 
   Widget doNotHaveAnAccount() {
     return Padding(
-      padding: EdgeInsets.only(top: Get.height * .05),
+      padding: EdgeInsets.only(top: Get.height * .9),
       child: TextButton(
         onPressed: () {
           Get.toNamed(AppRoutes.singupMethodsViewRoute);

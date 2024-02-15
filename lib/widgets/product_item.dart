@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../screens/wishlist/wishlist_viewmodel.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import '../screens/wishlist/wishlist_viewModel.dart';
 import '../widgets/custom_network_image.dart';
 import '../helpers/app_colors.dart';
 import '../helpers/common_function.dart';
@@ -39,7 +39,10 @@ class ProductItem2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap ??
+          () {
+            Get.toNamed(AppRoutes.productDetailsRoute);
+          },
       borderRadius: BorderRadius.circular(10),
       child: Container(
         decoration: BoxDecoration(

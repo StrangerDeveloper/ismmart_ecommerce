@@ -18,21 +18,21 @@ class UserProfileModel {
 
   UserProfileModel(
       {this.sId,
-        this.email,
-        this.name,
-        this.phone,
-        this.gender,
-        this.cnic,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.deleted,
-        this.role,
-        this.reason,
-        this.social,
-        this.store,
-        this.image});
+      this.email,
+      this.name,
+      this.phone,
+      this.gender,
+      this.cnic,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.deleted,
+      this.role,
+      this.reason,
+      this.social,
+      this.store,
+      this.image});
 
   UserProfileModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -112,15 +112,15 @@ class Store {
 
   Store(
       {this.sId,
-        this.vendor,
-        this.slug,
-        this.deleted,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.logo,
-        this.types,
-        this.name});
+      this.vendor,
+      this.slug,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.logo,
+      this.types,
+      this.name});
 
   Store.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

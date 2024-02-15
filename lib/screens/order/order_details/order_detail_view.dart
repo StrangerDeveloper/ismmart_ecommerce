@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
 
 import '../../../helpers/app_colors.dart';
+import '../../../widgets/custom_popup.dart';
 import 'order_detail_viewmodel.dart';
 import '../../../helpers/theme_helper.dart';
 import '../../../widgets/custom_appbar.dart';
@@ -56,7 +57,7 @@ class OrderDetailView extends StatelessWidget {
               ),
             ),
           ),
-          const LoaderView(),
+          //const LoaderView(),
         ],
       ),
     );
@@ -310,7 +311,7 @@ class OrderDetailView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 70.0,
+                    top: 60.0,
                   ),
                   child: _customField2(
                       "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total?.toStringAsFixed(2) ?? "total"}"),
@@ -331,59 +332,53 @@ class OrderDetailView extends StatelessWidget {
         children: [
           _customField2("Order Information"),
           const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Shipping Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
-            ],
+          _customOrderInfo(
+            text1: "Shipping Address:",
+            text2: viewModel
+                    .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                "Home, Chino Hills, CA 91709, USA",
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Payment Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
-            ],
+          _customOrderInfo(
+            text1: "Payment Method:",
+            text2: viewModel
+                    .orderItemModel.value.lineitems?[0].assignedRider?.name ??
+                "COD",
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Delivery Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
-            ],
+          _customOrderInfo(
+            text1: "Delivery Method:",
+            text2: viewModel
+                    .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                "Leopards, 3 days, 15",
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Discount:"),
-              _customField2(
-                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
-            ],
+          _customOrderInfo(
+            text1: "Discount:",
+            text2: viewModel
+                    .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                "10%, Personal promo code",
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Total Amount:"),
-              _customField2(
-                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
-            ],
-          )
+          _customOrderInfo(
+            text1: "Total Amount:",
+            text2: viewModel
+                    .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
+                "133",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _customOrderInfo({required String text1, required String text2}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: _customField1(text1),
+          ),
+          Expanded(
+            child: _customField2(text2),
+          ),
         ],
       ),
     );
@@ -521,7 +516,19 @@ class OrderDetailView extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: CustomTextBtn2(
-        onPressed: () {},
+        onPressed: () {
+          Get.back();
+          showDialog(
+            context: Get.context!,
+            builder: (BuildContext context) {
+              return CustomPopup(
+                title: "Done!",
+                text: AppStrings.review,
+                icon: Icons.check_circle,
+              );
+            },
+          );
+        },
         width: 300,
         title: "Leave Review",
         textStyle: GoogleFonts.inter(

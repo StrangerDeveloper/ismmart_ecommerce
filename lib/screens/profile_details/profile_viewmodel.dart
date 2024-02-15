@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/profile_details/profile_details_model.dart';
+import 'package:ismmart_ecommerce/screens/profile_details/profile_model.dart';
 
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
 
-class UserProfileViewModel extends GetxController {
+class ProfileViewModel extends GetxController {
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
 
   bool showAppBar = false;

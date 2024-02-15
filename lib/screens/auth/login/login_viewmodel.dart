@@ -1,16 +1,16 @@
 import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
-import 'package:ismmart_ecommerce/screens/bottom_navigation/bottom_navigation_view.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/global_variables.dart';
 import '../../../helpers/urls.dart';
+import '../../profile_details/profile_model.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -20,13 +20,7 @@ class LogInViewModel extends GetxController {
 
   @override
   void onReady() async {
-    // NotificationsServices.permissonRequest();
-    // NotificationsServices.firebaseInit(Get.context!);
-    // NotificationsServices.setupInteractMessage(Get.context!);
-    // NotificationsServices.forgroundMessage();
-    // NotificationsServices.tokenRefresh();
-    // NotificationsServices.getToken();
-
+    await GetStorage.init();
     super.onReady();
   }
 
@@ -34,8 +28,6 @@ class LogInViewModel extends GetxController {
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
-
-    // GlobalVariable.showLoader.value = false;
     super.onClose();
   }
 
@@ -43,10 +35,19 @@ class LogInViewModel extends GetxController {
   Future<void> signIn() async {
     GlobalVariable.noInternet(false);
     if (signInFormKey.currentState?.validate() ?? false) {
+      final idNo = Random().nextInt(100000);
+      final splittedEmail = emailController.text.split('@');
+
       Map<String, dynamic> param = {
-        "email": emailController.text,
-        "password": passwordController.text,
+        'device[os]': Platform.isAndroid ? 'Android' : 'iOS',
+        'fcm': GlobalVariable.notificationsToken,
+        'device[device]': "${splittedEmail[0]}$idNo"
       };
+
+      await GetStorage().write('deviceInfo', param);
+
+      param.addAll(
+          {'email': emailController.text, 'password': passwordController.text});
 
       GlobalVariable.showLoader.value = true;
 
@@ -85,15 +86,13 @@ class LogInViewModel extends GetxController {
 
       credential?.authentication.then((value) async {
         Map<dynamic, dynamic> param = {
-          "social": {
-            "name": "Google",
-            "token": '${value.accessToken}',
-          }
+          'provider': 'Google',
+          "token": '${value.accessToken}',
         };
         CommonFunction.debugPrint(credential);
 
         await ApiBaseHelper()
-            .postMethod(url: Urls.login, body: param)
+            .postMethod(url: Urls.socialLogin, body: param)
             .then((parsedJson) {
           _parsedJson = parsedJson;
           if (parsedJson['success'] == true) {
@@ -112,6 +111,8 @@ class LogInViewModel extends GetxController {
 
   appleSignin() async {
     if (Platform.isIOS) {
+      GlobalVariable.showLoader.value = true;
+
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -121,33 +122,25 @@ class LogInViewModel extends GetxController {
       );
       appleCredential.state;
 
+      print(appleCredential.email);
       try {
-        // Map<dynamic, dynamic> param = {
-        //   "social": {
-        //     "name": "Apple",
-        //     "token": '${appleCredential.identityToken}',
-        //   }
-        // };
+        Map<dynamic, dynamic> param = {
+          'provider': 'Apple',
+          "token": '${appleCredential.identityToken}',
+        };
 
-        // await ApiBaseHelper()
-        //     .postMethod(url: " Urls.login", body: param)
-        //     .then((parsedJson) {
-        //   if (parsedJson['success'] == true) {
-        //     String status = parsedJson['data']['status'] ?? "";
-        //     accountStatusCheck(status, emailController.text);
-        //     GlobalVariable.showLoader.value = false;
-        //     GlobalVariable.token = parsedJson['data']['token'];
-        //     GlobalVariable.showLoader.value = false;
-        //   } else {
-        //     GlobalVariable.showLoader.value = false;
-        //     // AppConstant.displaySnackBar(
-        //     //   "Error",
-        //     //   'Account not found',
-        //     // );
-        //   }
-        // });
-      } catch (error) {
-        GlobalVariable.showLoader.value = false;
+        await ApiBaseHelper()
+            .postMethod(url: Urls.socialLogin, body: param)
+            .then((parsedJson) {
+          _parsedJson = parsedJson;
+          if (parsedJson['success'] == true) {
+            gotoNextPage();
+          } else {
+            error();
+          }
+        });
+      } catch (e) {
+        error();
       }
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
@@ -160,13 +153,25 @@ class LogInViewModel extends GetxController {
     passwordController.clear();
   }
 
-  void gotoNextPage() {
-    GlobalVariable.showLoader.value = false;
+  void gotoNextPage() async {
     GetStorage().write('token', _parsedJson['data']['token']);
-    var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
-    print("save log--------$a");
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    await getUserProfile();
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
+  }
+
+  getUserProfile() {
+    ApiBaseHelper().getMethod(url: Urls.getProfile).then((parsedJson) async {
+      if (parsedJson['success'] == true) {
+        GlobalVariable.userModel.value =
+            UserProfileModel.fromJson(parsedJson['data']);
+        await GetStorage().write('userData', parsedJson['data']);
+        GlobalVariable.showLoader.value = false;
+      }
+    }).catchError((e) {
+      GlobalVariable.showLoader.value = false;
+      CommonFunction.showSnackBar(title: 'Error', message: e);
+    });
   }
 
   void error() {

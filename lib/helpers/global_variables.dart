@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-
 import '../screens/home/model/collection_model.dart';
+import '../screens/profile_details/profile_model.dart';
 
 class GlobalVariable {
   static String token =
@@ -9,6 +9,8 @@ class GlobalVariable {
   static RxBool showLoader = false.obs;
   static RxBool noInternet = false.obs;
   static RxInt selectedIndex = 0.obs;
+  static String notificationsToken = '';
+  static Rx<UserProfileModel> userModel = UserProfileModel().obs;
 
   static List<CollectionModel> collectionList = <CollectionModel>[].obs;
 }
