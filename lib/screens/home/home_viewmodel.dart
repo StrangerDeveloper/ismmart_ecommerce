@@ -12,7 +12,7 @@ import 'package:ismmart_ecommerce/screens/home/model/news_model.dart';
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/urls.dart';
-import '../product_details/product_model.dart';
+import '../product_details/model/product_model.dart';
 
 class HomeViewModel extends GetxController {
   //Screen

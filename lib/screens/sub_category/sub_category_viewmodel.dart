@@ -7,7 +7,7 @@ import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
-import '../product_details/product_model.dart';
+import '../product_details/model/product_model.dart';
 
 class SubCategoryViewModel extends GetxController {
   String parentId = '';
@@ -122,6 +122,7 @@ class SubCategoryViewModel extends GetxController {
     productList.clear();
     scrollController.removeListener(getProducts);
     showListLoader.value = true;
+    // ignore: invalid_use_of_protected_member
     if (!scrollController.hasListeners) {
       scrollController = ScrollController();
       scrollController.addListener(getProducts);

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../product_details/product_model.dart';
+import '../product_details/model/product_model.dart';
 
 class WishlistViewModel extends GetxController {
   static final localStorage = GetStorage();

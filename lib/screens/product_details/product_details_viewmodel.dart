@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/urls.dart';
-import 'package:ismmart_ecommerce/screens/product_details/product_model.dart';
-import 'package:ismmart_ecommerce/screens/product_details/review_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/product_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/review_model.dart';
 
 class ProductDetailsViewModel extends GetxController {
   // These keys are used for scrolling to specific container
