@@ -89,25 +89,25 @@ class SettingsView extends StatelessWidget {
               generalSettingsItem(
                 'bell_outline.svg',
                 'Notifications',
-                onTap: () {},
+                onTap: () => Get.toNamed(AppRoutes.notificationRoute),
               ),
             if (viewModel.token.isNotEmpty)
               generalSettingsItem(
                 'inbox_full_outline.svg',
                 'Orders',
-                onTap: () {},
+                onTap: () => Get.toNamed(AppRoutes.orderViewRoute),
               ),
             if (viewModel.token.isNotEmpty)
               generalSettingsItem(
                 'home_outline.svg',
                 'Shipping Addresses',
-                onTap: () {},
+                onTap: () => Get.toNamed(AppRoutes.shippingAdressRoute),
               ),
             if (viewModel.token.isNotEmpty)
               generalSettingsItem(
                 'wallet_outline.svg',
                 'Wallet',
-                onTap: () {},
+                onTap: () => Get.toNamed(AppRoutes.bankListRoute),
               ),
 
             //Help Center and its childern
@@ -123,14 +123,22 @@ class SettingsView extends StatelessWidget {
                 if (viewModel.onHelpPress.isTrue)
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: generalSettingsItem('', 'FAQs',
-                        onTap: () {}, isSubMenu: true),
+                    child: generalSettingsItem(
+                      '',
+                      'FAQs',
+                      isSubMenu: true,
+                      onTap: () {},
+                    ),
                   ),
                 if (viewModel.onHelpPress.isTrue)
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: generalSettingsItem('', 'Contact us',
-                        onTap: () {}, isSubMenu: true),
+                    child: generalSettingsItem(
+                      '',
+                      'Contact us',
+                      isSubMenu: true,
+                      onTap: () {},
+                    ),
                   ),
               ],
             ),
@@ -159,8 +167,12 @@ class SettingsView extends StatelessWidget {
                   if (viewModel.onSettingPress.isTrue)
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child: generalSettingsItem('', 'Change Password',
-                          onTap: () {}, isSubMenu: true),
+                      child: generalSettingsItem(
+                        '',
+                        'Change Password',
+                        isSubMenu: true,
+                        onTap: () {},
+                      ),
                     ),
                 ],
               ),

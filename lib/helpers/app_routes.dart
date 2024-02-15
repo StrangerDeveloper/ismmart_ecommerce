@@ -2,8 +2,12 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/success_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
+import 'package:ismmart_ecommerce/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
+import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_view.dart';
+import 'package:ismmart_ecommerce/screens/product_details/product_details_view.dart';
 import 'package:ismmart_ecommerce/screens/profile_details/profile_view.dart';
+import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_view.dart';
 import 'package:ismmart_ecommerce/screens/splashscreen/splasch_screen_view.dart';
 
 import '../screens/auth/sign_up/signup/signup_view.dart';
@@ -18,11 +22,20 @@ class AppRoutes {
   static const loginViewRoute = "/loginView";
   static const successViewRoute = "/successView";
 
- static const profileViewRoute = "/profileView";
+  static const profileViewRoute = "/profileView";
   static const editProfileViewRoute = "/editProfileView";
+
+  static const productDetailsRoute = "/productDetails";
 
   static const bottomNavViewRoute = "/bottomNav";
   static const homeRoute = "/homeView";
+
+  static const notificationRoute = "/notification";
+
+  static const orderViewRoute = "/ordersview";
+
+  static const shippingAdressRoute = "/shippingAdress";
+  static const bankListRoute = "/banklisting";
 
   List<GetPage> getRoutes() {
     return [
@@ -35,7 +48,13 @@ class AppRoutes {
       GetPage(name: successViewRoute, page: () => const SuccessView()),
       GetPage(name: profileViewRoute, page: () => ProfileView()),
       GetPage(name: editProfileViewRoute, page: () => EditUserProfileView()),
-      
+      GetPage(name: productDetailsRoute, page: () => ProductDetailsView()),
+
+      //GetPage(name: notificationRoute, page: ()=> Notification)
+      GetPage(name: orderViewRoute, page: () => OrderDetailView()),
+      GetPage(name: shippingAdressRoute, page: () => ShippingAddressListView()),
+
+      GetPage(name: bankListRoute, page: () => BankListView()),
     ];
   }
 }
