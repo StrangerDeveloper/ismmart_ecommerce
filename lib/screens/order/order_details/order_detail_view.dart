@@ -57,7 +57,7 @@ class OrderDetailView extends StatelessWidget {
               ),
             ),
           ),
-          const LoaderView(),
+          //const LoaderView(),
         ],
       ),
     );
