@@ -5,6 +5,7 @@ import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/faq/faq_view.dart';
 import 'package:ismmart_ecommerce/screens/settings/settings_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
@@ -127,7 +128,7 @@ class SettingsView extends StatelessWidget {
                       '',
                       'FAQs',
                       isSubMenu: true,
-                      onTap: () {},
+                      onTap: () => FaqView(),
                     ),
                   ),
                 if (viewModel.onHelpPress.isTrue)
