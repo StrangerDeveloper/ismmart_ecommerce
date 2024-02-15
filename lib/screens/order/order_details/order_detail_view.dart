@@ -311,7 +311,7 @@ class OrderDetailView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 70.0,
+                    top: 60.0,
                   ),
                   child: _customField2(
                       "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total?.toStringAsFixed(2) ?? "total"}"),
@@ -333,56 +333,77 @@ class OrderDetailView extends StatelessWidget {
           _customField2("Order Information"),
           const SizedBox(height: 15),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Shipping Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
+              Expanded(
+                child: _customField1(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.name ??
+                    "Shipping Method:"),
+              ),
+              Expanded(
+                child: _customField2(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.cnic ??
+                    "Home, Chino Hills, CA 91709, USA"),
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Payment Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
+              Expanded(
+                child: _customField1(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.name ??
+                    "Payment Method:"),
+              ),
+              Expanded(
+                child: _customField2(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.cnic ??
+                    "COD"),
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Delivery Method:"),
-              _customField2(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.cnic ??
-                  "id"),
+              Expanded(
+                child: _customField1(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.name ??
+                    "Delivery Method:"),
+              ),
+              Expanded(
+                child: _customField2(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.cnic ??
+                    "Leopards, 3 days, 15"),
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Discount:"),
-              _customField2(
-                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
+              Expanded(
+                child: _customField1(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.name ??
+                    "Discount:"),
+              ),
+              Expanded(
+                child: _customField2(
+                    viewModel.orderItemModel.value.deliveryStatus ??
+                        "10%, Personal promo code"),
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField1(viewModel
-                      .orderItemModel.value.lineitems?[0].assignedRider?.name ??
-                  "Total Amount:"),
-              _customField2(
-                  viewModel.orderItemModel.value.deliveryStatus ?? "id"),
+              Expanded(
+                child: _customField1(viewModel.orderItemModel.value
+                        .lineitems?[0].assignedRider?.name ??
+                    "Total Amount:"),
+              ),
+              Expanded(
+                child: _customField2(
+                    viewModel.orderItemModel.value.deliveryStatus ?? "133"),
+              ),
             ],
           )
         ],
