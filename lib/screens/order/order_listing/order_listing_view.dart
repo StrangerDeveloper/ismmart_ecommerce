@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
@@ -13,8 +10,6 @@ import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/loader_view.dart';
-import '../order_details/order_detail_view.dart';
 
 class OrderListingView extends StatelessWidget {
   OrderListingView({super.key, this.callingFor = 'All'});
