@@ -25,7 +25,6 @@ class SignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar(),
-      backgroundColor: AppColors.white,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -324,6 +323,7 @@ class SignUpView extends StatelessWidget {
       title: 'Sign Up',
       titleTextStyle: ThemeHelper.textTheme.titleMedium,
       centerTitle: true,
+      containsLeading: true,
     );
   }
 

@@ -44,20 +44,22 @@ class ProductDetailsView extends StatelessWidget {
           controller: viewModel.scrollController,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                carousel(),
-                titlePrice(),
-                variants(),
-                kSmallDivider,
-                description(),
-                tabs(),
-                reviewsAndRatings(),
-                kSmallDivider,
-                vendorStore(),
-                kSmallDivider,
-                peopleAlsoViewed(),
-              ],
+            child: Obx(
+              () => Column(
+                children: [
+                  carousel(),
+                  titlePrice(),
+                  variants(),
+                  kSmallDivider,
+                  description(),
+                  tabs(),
+                  reviewsAndRatings(),
+                  kSmallDivider,
+                  vendorStore(),
+                  kSmallDivider,
+                  peopleAlsoViewed(),
+                ],
+              ),
             ),
           ),
         ),
@@ -248,14 +250,16 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget variants() {
-    return viewModel.productModel.value.options == null
-        ? Container()
-        : Column(
-            children: viewModel.productModel.value.options!
-                .map((Option element) => variantsListItems(
-                    title: element.name, variantsList: element.values))
-                .toList(),
-          );
+    return Obx(
+      () => viewModel.productModel.value.options == null
+          ? Container()
+          : Column(
+              children: viewModel.productModel.value.options!
+                  .map((Option element) => variantsListItems(
+                      title: element.name, variantsList: element.values))
+                  .toList(),
+            ),
+    );
   }
 
   Widget variantsListItems({String? title, List<String>? variantsList}) {
@@ -294,11 +298,10 @@ class ProductDetailsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           textTitle('Description'),
           Text(
-            AppStrings.productDetails,
+            viewModel.productModel.value.description ?? 'N/A',
             style: ThemeHelper.textTheme.bodyMedium,
             //textAlign: TextAlign.,
             maxLines: AppStrings.productDetails.length,
@@ -312,31 +315,19 @@ class ProductDetailsView extends StatelessWidget {
     return DefaultTabController(
         length: 3,
         child: TabBar(
-          tabs: [
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.reviewsKey);
-              },
-              child: const Tab(
-                text: 'Reviews',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.vendorKey);
-              },
-              child: const Tab(
-                text: 'Vendor',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.similarProductKey);
-              },
-              child: const Tab(
-                text: 'Similar Products',
-              ),
-            )
+          onTap: (index) {
+            if (index == 0) {
+              viewModel.scrollTo(viewModel.reviewsKey);
+            } else if (index == 1) {
+              viewModel.scrollTo(viewModel.vendorKey);
+            } else {
+              viewModel.scrollTo(viewModel.similarProductKey);
+            }
+          },
+          tabs: const [
+            Tab(text: 'Reviews'),
+            Tab(text: 'Vendor'),
+            Tab(text: 'Similar Products')
           ],
         ));
   }
@@ -344,40 +335,42 @@ class ProductDetailsView extends StatelessWidget {
   Widget reviewsAndRatings() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Reviews (${viewModel.reviewsList.length})',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
+      child: Container(
+        key: viewModel.reviewsKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Reviews (${viewModel.reviewsList.length})',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                starWithRatings(),
-              ],
+                  starWithRatings(),
+                ],
+              ),
             ),
-          ),
-          ListView.builder(
-              key: viewModel.reviewsKey,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: viewModel.reviewsList.length,
-              itemBuilder: (_, index) {
-                Review review = viewModel.reviewsList[index];
-                return CustomProfileNameAndRating(
-                  imageUrl: review.user?.image ?? '',
-                  rating: review.rating?.toDouble() ?? 0,
-                  name: review.user?.name,
-                  description: review.description,
-                );
-              }),
-        ],
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: viewModel.reviewsList.length,
+                itemBuilder: (_, index) {
+                  Review review = viewModel.reviewsList[index];
+                  return CustomProfileNameAndRating(
+                    imageUrl: review.user?.image ?? '',
+                    rating: review.rating?.toDouble() ?? 0,
+                    name: review.user?.name,
+                    description: review.description,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
