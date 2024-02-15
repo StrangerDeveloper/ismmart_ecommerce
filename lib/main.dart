@@ -3,9 +3,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
+import 'package:ismmart_ecommerce/screens/search/search_view.dart';
 
 import 'firebase_options.dart';
 import 'helpers/notifications_function.dart';
@@ -20,6 +22,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -37,8 +40,8 @@ class MyApp extends StatelessWidget {
       title: 'ISMMART eCommerce',
       theme: ThemeHelper.lightTheme,
       darkTheme: ThemeHelper.darkTheme,
-      //home: LogInView(),
-      getPages: AppRoutes().getRoutes(),
+      home: SearchView(),
+      // getPages: AppRoutes().getRoutes(),
     );
   }
 }
