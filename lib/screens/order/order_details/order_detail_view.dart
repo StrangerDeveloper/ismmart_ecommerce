@@ -333,7 +333,6 @@ class OrderDetailView extends StatelessWidget {
           _customField2("Order Information"),
           const SizedBox(height: 15),
           Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -348,7 +347,6 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -363,7 +361,6 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
