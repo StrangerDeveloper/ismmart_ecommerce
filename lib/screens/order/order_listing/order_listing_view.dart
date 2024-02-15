@@ -91,58 +91,17 @@ class OrderListingView extends StatelessWidget {
         viewModel.fieldSelection("Cancelled");
       }
     });
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 300,
-          child: CustomTextField1(
-            controller: viewModel.searchController,
-            filled: false,
-            hintText: callingFor!,
-            isDropDown: true,
-            onTap: () {
-              statusBottomSheet();
-            },
-          ),
-        ),
-        const SizedBox(width: 10),
-        // Container(
-        //   width: 62.h,
-        //   padding: EdgeInsets.symmetric(vertical: 9.v),
-        //   decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     borderRadius: BorderRadius.circular(10),
-        //     border: Border.all(
-        //       color: Colors.grey.shade300,
-        //     ),
-        //   ),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Expanded(
-        //         child: CustomNetworkImage(
-        //           imageUrl: ImageConstant.imgIconsFilterList,
-        //           height: 16,
-        //           width: 16,
-
-        //       ),
-        //       ),
-        //       Expanded(
-        //         child: CustomImageView(
-        //           imagePath: ImageConstant.imgIconsFilterList,
-        //           height: 16.adaptSize,
-        //           width: 16.adaptSize,
-        //           margin: EdgeInsets.only(left: 5.h),
-        //           onTap: () {
-        //             filterBottomSheet();
-        //           },
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
-      ],
+    return SizedBox(
+      width: 300,
+      child: CustomTextField1(
+        controller: viewModel.searchController,
+        filled: false,
+        hintText: callingFor!,
+        isDropDown: true,
+        onTap: () {
+          statusBottomSheet();
+        },
+      ),
     );
   }
 
