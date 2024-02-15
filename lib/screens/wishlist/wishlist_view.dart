@@ -78,7 +78,7 @@ class WishlistView extends StatelessWidget {
                 count = viewModel.wishlist.length;
                 return ProductItem2(
                   product: viewModel.wishlist[index],
-                  onTap: () {},
+                  //onTap: () {},
                   image: viewModel.wishlist[index].image ?? '',
                   name: viewModel.wishlist[index].name ?? '',
                   category: viewModel.wishlist[index].store?.name ?? '',

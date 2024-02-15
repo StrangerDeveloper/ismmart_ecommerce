@@ -121,8 +121,6 @@ class LogInViewModel extends GetxController {
         ],
       );
       appleCredential.state;
-
-      print(appleCredential.email);
       try {
         Map<dynamic, dynamic> param = {
           'provider': 'Apple',

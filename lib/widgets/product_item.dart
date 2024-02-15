@@ -6,7 +6,7 @@ import '../widgets/custom_network_image.dart';
 import '../helpers/app_colors.dart';
 import '../helpers/common_function.dart';
 import '../helpers/theme_helper.dart';
-import '../screens/product_details/product_model.dart';
+import '../screens/product_details/model/product_model.dart';
 
 class ProductItem2 extends StatelessWidget {
   final WishlistViewModel viewModel = Get.put(WishlistViewModel());
@@ -41,7 +41,7 @@ class ProductItem2 extends StatelessWidget {
     return InkWell(
       onTap: onTap ??
           () {
-            Get.toNamed(AppRoutes.productDetailsRoute);
+            Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': product?.id ?? ''});
           },
       borderRadius: BorderRadius.circular(10),
       child: Container(

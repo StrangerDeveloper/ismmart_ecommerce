@@ -262,15 +262,11 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: appBarColor ?? AppColors.white,
       leading: containsLeading
           ? leading ??
-              IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(
+              InkWell(
+                onTap: () => Get.back(),
+                child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color:
-                      appBarColor == null ? AppColors.black : AppColors.white,
-                  size: 20,
+                  color: AppColors.black,
                 ),
               )
           : null,

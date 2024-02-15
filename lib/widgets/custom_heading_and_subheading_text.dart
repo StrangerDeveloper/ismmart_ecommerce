@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import '../helpers/app_colors.dart';
-import 'custom_text.dart';
 
 class CustomHeadingAndSubHeadingText extends StatelessWidget {
-
   final String? headingText;
   final String? subHeadingText;
 
@@ -16,28 +14,22 @@ class CustomHeadingAndSubHeadingText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: CustomText(
-              title: headingText!,
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Text(headingText!, style: ThemeHelper.textTheme.titleLarge
+
+            // GoogleFonts.inter(
+            //   fontWeight: FontWeight.w700,
+            //   fontSize: 20,
+            // ),
             ),
-          ),
-          CustomText(
-            title: subHeadingText!,
-            style: GoogleFonts.inter(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.grey2
-            ),
-          )
-        ]
-    );
+      ),
+      Text(
+        subHeadingText!,
+        style:
+            ThemeHelper.textTheme.bodyMedium!.copyWith(color: AppColors.grey2),
+      )
+    ]);
   }
 }

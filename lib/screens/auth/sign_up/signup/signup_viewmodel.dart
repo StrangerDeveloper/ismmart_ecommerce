@@ -34,7 +34,6 @@ class SignUpViewModel extends GetxController {
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;
     socialToken = _socialviewModel.socialToken.value;
-    print("====== social name ===${nameController.text}");
 
     super.onReady();
   }
@@ -85,7 +84,6 @@ class SignUpViewModel extends GetxController {
             "confirmPassword": confirmPasswordController.text,
           };
         }
-        print(param);
         GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
             .postMethod(url: Urls.register, body: param)

@@ -16,7 +16,6 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_network_image.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/loader_view.dart';
 import '../../../widgets/pick_image.dart';
 
 class OrderDetailView extends StatelessWidget {

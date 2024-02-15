@@ -7,7 +7,7 @@ import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
-import '../product_details/product_model.dart';
+import '../product_details/model/product_model.dart';
 
 class SubCategoryViewModel extends GetxController {
   String parentId = '';
@@ -40,8 +40,8 @@ class SubCategoryViewModel extends GetxController {
   RxBool newArrivalValue = false.obs;
   RxString sortValue = ''.obs;
   RxBool topRatedValue = false.obs;
-  RxDouble ratingValue = 0.0.obs;
-  RxDouble priceSliderMinLimit = 0.0.obs;
+  RxDouble ratingTempValue = 0.0.obs;
+  double ratingFilterValue = 0.0;
   RxDouble priceSliderMaxLimit = 0.0.obs;
   RxDouble filterStartPrice = 0.0.obs;
   RxDouble filterEndPrice = 0.0.obs;
@@ -73,11 +73,7 @@ class SubCategoryViewModel extends GetxController {
       // clearValues();
       if (parsedJson['success'] == true && parsedJson['data'] != null) {
         filterModel = FilterModel.fromJson(parsedJson['data']);
-        priceSliderMinLimit.value =
-            double.tryParse(filterModel.price!.min.toString()) ?? 0.0;
-        priceSliderMaxLimit.value =
-            double.tryParse(filterModel.price!.max.toString()) ?? 0.0;
-        filterStartPrice.value = priceSliderMinLimit.value;
+        priceSliderMaxLimit.value = double.tryParse(filterModel.price!.max.toString()) ?? 0.0;
         filterEndPrice.value = priceSliderMaxLimit.value;
       }
     }).catchError((e) {
@@ -126,6 +122,7 @@ class SubCategoryViewModel extends GetxController {
     productList.clear();
     scrollController.removeListener(getProducts);
     showListLoader.value = true;
+    // ignore: invalid_use_of_protected_member
     if (!scrollController.hasListeners) {
       scrollController = ScrollController();
       scrollController.addListener(getProducts);
@@ -199,8 +196,9 @@ class SubCategoryViewModel extends GetxController {
   applyFilterBtn() {
     Get.back();
     //Rating
-    if (ratingValue.value != 0.0) {
-      getProductsParams['rating'] = ratingValue.value.toString();
+    ratingFilterValue = ratingTempValue.value;
+    if (ratingFilterValue != 0.0) {
+      getProductsParams['rating'] = ratingFilterValue.toString();
     } else {
       getProductsParams.remove('rating');
     }
@@ -216,10 +214,11 @@ class SubCategoryViewModel extends GetxController {
 
   clearBtn() {
     Get.back();
-    ratingValue.value = 0.0;
+    ratingFilterValue = 0.0;
+    ratingTempValue.value = 0.0;
 
     if (filterEndPrice.value != 0.0) {
-      filterStartPrice.value = priceSliderMinLimit.value;
+      filterStartPrice.value = 0.0;
       filterEndPrice.value = priceSliderMaxLimit.value;
       getProductsParams['price[min]'] = filterStartPrice.value.toString();
       getProductsParams['price[max]'] = filterEndPrice.value.toString();

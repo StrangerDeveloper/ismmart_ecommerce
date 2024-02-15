@@ -6,9 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
+import 'package:marquee/marquee.dart';
 
 import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_network_image.dart';
@@ -18,6 +22,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final HomeViewModel viewModel = Get.put(HomeViewModel());
+  final WishlistViewModel wishlistViewModel = Get.put(WishlistViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -33,59 +38,67 @@ class HomeView extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     carousel(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: Row(
-                        children: [
-                          Obx(
-                            () => viewModel.newsList.isNotEmpty
-                                ? discountContainers(
-                                    title: viewModel.newsList[0].name ?? '',
-                                    description:
-                                        viewModel.newsList[0].description ?? '',
-                                    icon: Icons.discount,
-                                  )
-                                : const SizedBox(),
-                          ),
-                          const SizedBox(width: 16),
-                          discountContainers(
-                            title: 'FLASH SALE',
-                            description: 'Dont miss out!',
-                            icon: 'assets/images/sale_percent.svg',
-                          ),
-                        ],
+
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 25),
+                    //   child: Row(
+                    //     children: [
+                    //       Obx(
+                    //         () => viewModel.newsList.isNotEmpty
+                    //             ? discountContainers(
+                    //                 title: viewModel.newsList[0].name ?? '',
+                    //                 description:
+                    //                     viewModel.newsList[0].description ?? '',
+                    //                 icon: Icons.discount,
+                    //               )
+                    //             : const SizedBox(),
+                    //       ),
+                    //       const SizedBox(width: 16),
+                    //       discountContainers(
+                    //         title: 'FLASH SALE',
+                    //         description: 'Dont miss out!',
+                    //         icon: 'assets/images/sale_percent.svg',
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    //marqueeText(),
+
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: SizedBox(
+                          height: 20,
+                          child: viewModel.newsList.isEmpty
+                              ? Container()
+                              : Marquee(
+                                  text: viewModel.newsList
+                                      .map((e) =>
+                                          "(${e.type}) -> ${e.name}: ${e.description}   ")
+                                      .join(),
+                                  style: ThemeHelper.textTheme.bodyMedium!
+                                      .copyWith(
+                                    color: AppColors.red700,
+                                    fontWeight: FontWeight.w600,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  scrollAxis: Axis.horizontal,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  blankSpace: 20.0,
+                                  velocity: 50.0,
+                                  pauseAfterRound:
+                                      const Duration(milliseconds: 500),
+                                  startPadding: 10.0,
+                                  accelerationDuration:
+                                      const Duration(seconds: 1),
+                                  accelerationCurve: Curves.linear,
+                                  decelerationDuration:
+                                      const Duration(milliseconds: 500),
+                                  decelerationCurve: Curves.easeOut,
+                                ),
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Obx(
-                          () => viewModel.newsList.length > 1
-                              ? offOnOrders(
-                                  title: viewModel.newsList[1].name ?? '',
-                                  description:
-                                      viewModel.newsList[1].description ?? '',
-                                )
-                              : const SizedBox(),
-                        ),
-                        Obx(
-                          () => viewModel.newsList.length > 2
-                              ? offOnOrders(
-                                  title: viewModel.newsList[2].name ?? '',
-                                  description:
-                                      viewModel.newsList[2].description ?? '',
-                                )
-                              : const SizedBox(),
-                        ),
-                        Obx(
-                          () => viewModel.newsList.length > 3
-                              ? offOnOrders(
-                                  title: viewModel.newsList[3].name ?? '',
-                                  description:
-                                      viewModel.newsList[3].description ?? '',
-                                )
-                              : const SizedBox(),
-                        ),
-                      ],
                     ),
                     promoCode(),
                     bannerImage(),
@@ -156,8 +169,34 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Get.to(() => WishlistView());
             },
-            icon: const Icon(
-              Icons.favorite_border_sharp,
+            icon: Stack(
+              //alignment: Alignment.topRight,
+              children: [
+                Container(
+                  height: 60,
+                  width: 60,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: const Icon(
+                    Icons.favorite_border,
+                  ),
+                ),
+                if (wishlistViewModel.wishlistCounter > 0)
+                  Positioned(
+                    top: 8,
+                    right: 2,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 8,
+                      child: Text(
+                        wishlistViewModel.wishlistCounter.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           IconButton(
@@ -166,6 +205,38 @@ class HomeView extends StatelessWidget {
               Icons.shopping_cart_outlined,
             ),
           ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Stack(
+          //     //alignment: Alignment.topRight,
+          //     children: [
+          //       Container(
+          //         height: 60,
+          //         width: 60,
+          //         padding: const EdgeInsets.only(top: 8),
+          //         child: const Icon(
+          //           Icons.shopping_cart_outlined,
+          //         ),
+          //       ),
+          //       if (wishlistViewModel.wishlistCounter > 0)
+          //         Positioned(
+          //           top: 8,
+          //           right: 2,
+          //           child: CircleAvatar(
+          //             backgroundColor: Colors.red,
+          //             radius: 8,
+          //             child: Text(
+          //               wishlistViewModel.wishlistCounter.toString(),
+          //               style: const TextStyle(
+          //                 color: Colors.white,
+          //                 fontSize: 8,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //     ],
+          //   ),
+          // ),
         ],
         flexibleSpace:
             (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)
@@ -607,7 +678,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ProductItem2(
                   product: viewModel.productList[index],
-                  onTap: () {},
+                  //onTap: () {},
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
@@ -686,7 +757,7 @@ class HomeView extends StatelessWidget {
                 (context, index) {
                   return ProductItem2(
                     product: viewModel.productList[index],
-                    onTap: () {},
+                    //onTap: () {},
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',

@@ -27,18 +27,18 @@ class SuccessView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       headings(),
-                      Gap(82),
+                      const Gap(82),
                       Text(
                         "Password Reset",
                         style: ThemeHelper.textTheme.bodyLarge,
                       ),
-                      Gap(10),
-                      Icon(
+                      const Gap(10),
+                      const Icon(
                         Icons.check,
                         size: 24,
                         color: AppColors.limeGreen,
                       ),
-                      Gap(10),
+                      const Gap(10),
                       Text(
                         textAlign: TextAlign.center,
                         "Your password has been reset. Please login with new password.",
@@ -46,7 +46,7 @@ class SuccessView extends StatelessWidget {
                             color: AppColors.grey2,
                             fontWeight: FontWeight.w500),
                       ),
-                      Gap(82),
+                      const Gap(82),
                       logInBtn(),
                     ],
                   ),
@@ -63,7 +63,7 @@ class SuccessView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Gap(126),
+        const Gap(126),
         Text(
           'Successful!',
           style: ThemeHelper.textTheme.headlineLarge,

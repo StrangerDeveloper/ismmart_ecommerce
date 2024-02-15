@@ -3,11 +3,10 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/urls.dart';
-import 'package:ismmart_ecommerce/screens/product_details/product_model.dart';
-import 'package:ismmart_ecommerce/screens/product_details/review_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/product_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/review_model.dart';
 
-class ProductDetailsViewModel extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class ProductDetailsViewModel extends GetxController {
   // These keys are used for scrolling to specific container
   GlobalKey reviewsKey = GlobalKey();
   GlobalKey vendorKey = GlobalKey();
@@ -27,15 +26,15 @@ class ProductDetailsViewModel extends GetxController
 
   List<Review> reviewsList = <Review>[].obs;
 
-  final Rx<Product> productModel = Product().obs;
+  Rx<Product> productModel = Product().obs;
   //Product get productModel => _product.value;
   int qtyCount = 1;
   @override
   void onReady() {
     super.onReady();
-    // if (Get.arguments != null) {
-    //   productID = Get.arguments['productId'];
-    // }
+    if (Get.arguments != null) {
+      productID = Get.arguments['productId'];
+    }
     getProductById();
     getProductReviews();
   }
@@ -62,7 +61,9 @@ class ProductDetailsViewModel extends GetxController
         var data = parsedJson['data'];
 
         ProductResponse productResponse = ProductResponse.fromJson(data);
-        productModel.value = productResponse.product![0];
+
+       
+        productModel.value = productResponse.products!.first;
       } else {
         CommonFunction.debugPrint(parsedJson['message']);
       }

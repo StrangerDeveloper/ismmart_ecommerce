@@ -35,7 +35,8 @@ class SettingsView extends StatelessWidget {
 
   Widget accountSetup() {
     return Obx(
-      () => viewModel.token.isEmpty
+      () => viewModel.token.isEmpty &&
+              GlobalVariable.userModel.value.email == null
           ? accountWidget(Icons.person, '', "Login / Sing Up",
               'Login or Sign Up to continue...')
           : accountWidget(
@@ -49,7 +50,7 @@ class SettingsView extends StatelessWidget {
   Widget accountWidget(icon, imageUrl, title, subTitle) {
     return ListTile(
       onTap: () {
-        GlobalVariable.userModel.value.email!.isEmpty
+        GlobalVariable.userModel.value.email == null
             ? Get.toNamed(AppRoutes.loginViewRoute)
             : Get.toNamed(AppRoutes.profileViewRoute);
       },
