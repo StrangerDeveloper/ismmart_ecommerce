@@ -92,7 +92,10 @@ class CustomTextField1 extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                     text: title,
-                    style: ThemeHelper.textTheme.bodyMedium,
+                    style: ThemeHelper.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.black3,
+                      fontWeight: FontWeight.w600
+                    ),
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -131,7 +134,7 @@ class CustomTextField1 extends StatelessWidget {
                       validator: validator,
                       onTap: onTap,
                       style: const TextStyle(
-                        color: AppColors.grey4,
+                        color: AppColors.black3,
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),
@@ -215,7 +218,7 @@ class CustomTextField1 extends StatelessWidget {
                 validator: validator,
                 onTap: onTap,
                 style: const TextStyle(
-                  color: AppColors.grey4,
+                  color: AppColors.black3,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
