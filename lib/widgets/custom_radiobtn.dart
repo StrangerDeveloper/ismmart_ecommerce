@@ -77,7 +77,11 @@ class CustomCheckRadioButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          onChanged(value);
+          if(value == groupValue){
+            onChanged('');
+          }else{
+            onChanged(value);
+          }
           Navigator.of(context).pop();
         },
         child: Padding(

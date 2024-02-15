@@ -15,6 +15,7 @@ class Urls {
   static String getCollection = "/public/collection";
   static String getNews = "/public/news";
   static String getFlashDiscountTimer = "/public/discount";
+  static String getFilterSetting = "/public/product/filters";
   //Products
   static String getProducts = "/public/product";
 
