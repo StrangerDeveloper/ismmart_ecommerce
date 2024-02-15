@@ -384,10 +384,10 @@ class SubCategoryView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Sort',
+                    'Filter',
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 28,
+                      fontSize: 25,
                     ),
                   ),
                   IconButton(
@@ -481,10 +481,10 @@ class SubCategoryView extends StatelessWidget {
         ),
         child: RangeSlider(
           labels: RangeLabels(
-            viewModel.priceSliderMinLimit.value.toString(),
-            viewModel.priceSliderMaxLimit.value.toString(),
+            viewModel.filterStartPrice.value.toString(),
+            viewModel.filterEndPrice.value.toString(),
           ),
-          min: viewModel.priceSliderMinLimit.value,
+          min: 0,
           max: viewModel.priceSliderMaxLimit.value,
           activeColor: Colors.black,
           inactiveColor: Colors.black,
@@ -492,9 +492,10 @@ class SubCategoryView extends StatelessWidget {
             viewModel.filterStartPrice.value,
             viewModel.filterEndPrice.value,
           ),
+
           onChanged: (values) {
-            viewModel.filterStartPrice.value = values.start;
-            viewModel.filterEndPrice.value = values.end;
+            viewModel.filterStartPrice.value = values.start.toInt().toDouble();
+            viewModel.filterEndPrice.value = values.end.toInt().toDouble();
           },
         ),
       ),
@@ -506,10 +507,10 @@ class SubCategoryView extends StatelessWidget {
       () => RatingBar.builder(
         wrapAlignment: WrapAlignment.spaceEvenly,
         onRatingUpdate: (rating) {
-          viewModel.ratingValue.value = rating;
+          viewModel.ratingTempValue.value = rating;
         },
         glowColor: const Color(0xFFFFCC80),
-        initialRating: viewModel.ratingValue.value,
+        initialRating: viewModel.ratingTempValue.value,
         direction: Axis.horizontal,
         unratedColor: const Color(0xffC4C4C4),
         itemCount: 5,
