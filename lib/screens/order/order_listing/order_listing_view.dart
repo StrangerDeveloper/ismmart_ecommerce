@@ -26,10 +26,15 @@ class OrderListingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar2(
         title: "My Orders",
         centerTitle: true,
-        backBtn: true,
+        containsLeading: true,
+        titleTextStyle: ThemeHelper.textTheme.titleSmall!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: AppColors.black,
+        ),
       ),
       body: Stack(
         children: [
