@@ -5,6 +5,7 @@ import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_met
 import 'package:ismmart_ecommerce/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
 import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_view.dart';
+import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_view.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_view.dart';
 import 'package:ismmart_ecommerce/screens/profile_details/profile_view.dart';
 import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_view.dart';
@@ -52,7 +53,8 @@ class AppRoutes {
       GetPage(name: productDetailsRoute, page: () => ProductDetailsView()),
 
       //GetPage(name: notificationRoute, page: ()=> Notification)
-      GetPage(name: orderViewRoute, page: () => OrderDetailView()),
+      GetPage(name: orderViewRoute, page: () => OrderListingView()),
+      GetPage(name: orderDetailViewRoute, page: () => OrderDetailView()),
       GetPage(name: shippingAdressRoute, page: () => ShippingAddressListView()),
 
       GetPage(name: bankListRoute, page: () => BankListView()),
