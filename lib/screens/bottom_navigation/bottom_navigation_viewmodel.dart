@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_view.dart';
-import 'package:ismmart_ecommerce/screens/profile_details/profile_details_model.dart';
+import 'package:ismmart_ecommerce/screens/profile_details/profile_model.dart';
 import 'package:ismmart_ecommerce/screens/settings/settings_view.dart';
 
 import '../../helpers/global_variables.dart';

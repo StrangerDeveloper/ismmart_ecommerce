@@ -106,7 +106,7 @@ class SignupMehtodViewModel extends GetxController {
     var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
     print("save log--------$a");
-    Get.offAllNamed(AppRoutes.bottomNavigationViewRoute);
+    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
   }
 
   void error() {
