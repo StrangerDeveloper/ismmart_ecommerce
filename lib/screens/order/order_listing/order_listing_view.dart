@@ -195,28 +195,7 @@ class OrderListingView extends StatelessWidget {
                                 .orderItemModel.value.lineitems?[index].sId ??
                             "IW3475453455",
                       ),
-                      // RichText(
-                      //   text: TextSpan(
-                      //     children: [
-                      //       TextSpan(
-                      //         text: "Tracking number: ",
-                      //         style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                      //           fontWeight: FontWeight.w400,
-                      //           color: AppColors.grey2,
-                      //         ),
-                      //       ),
-                      //       TextSpan(
-                      //         text: viewModel.orderItemModel.value
-                      //                 .lineitems?[index].sId ??
-                      //             "Customer",
-                      //         style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                      //           fontWeight: FontWeight.w600,
-                      //           color: AppColors.black,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+
                       // _customField2(
                       //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
                     ),
@@ -229,31 +208,7 @@ class OrderListingView extends StatelessWidget {
                                         .toString() ??
                                     "qty",
                               )
-                          // RichText(
-                          //           text: TextSpan(
-                          //             children: [
-                          //               TextSpan(
-                          //                 text: "Quantity: ",
-                          //                 style: ThemeHelper.textTheme.bodyMedium!
-                          //                     .copyWith(
-                          //                   fontWeight: FontWeight.w400,
-                          //                   color: AppColors.grey2,
-                          //                 ),
-                          //               ),
-                          //               TextSpan(
-                          //                 text: viewModel.orderItemModel.value
-                          //                         .lineitems?[index].qty
-                          //                         .toString() ??
-                          //                     "qty",
-                          //                 style: ThemeHelper.textTheme.bodyMedium!
-                          //                     .copyWith(
-                          //                   fontWeight: FontWeight.w600,
-                          //                   color: AppColors.black,
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
+
                           // _customField2(
                           //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
                           ),
