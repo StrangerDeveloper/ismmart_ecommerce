@@ -333,6 +333,7 @@ class OrderDetailView extends StatelessWidget {
           _customField2("Order Information"),
           const SizedBox(height: 15),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -347,6 +348,7 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -361,6 +363,7 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -375,6 +378,7 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
@@ -389,6 +393,7 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _customField1(viewModel.orderItemModel.value
