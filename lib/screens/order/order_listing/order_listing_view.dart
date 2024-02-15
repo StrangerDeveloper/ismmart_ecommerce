@@ -219,30 +219,7 @@ class OrderListingView extends StatelessWidget {
                                       .toString() ??
                                   "price",
                             )
-                        // RichText(
-                        //           text: TextSpan(
-                        //             children: [
-                        //               TextSpan(
-                        //                 text: "Total Amount: ",
-                        //                 style: ThemeHelper.textTheme.bodyMedium!
-                        //                     .copyWith(
-                        //                   fontWeight: FontWeight.w400,
-                        //                   color: AppColors.grey2,
-                        //                 ),
-                        //               ),
-                        //               TextSpan(
-                        //                 text: viewModel.orderItemModel.value.totals
-                        //                         .toString() ??
-                        //                     "price",
-                        //                 style: ThemeHelper.textTheme.bodyMedium!
-                        //                     .copyWith(
-                        //                   fontWeight: FontWeight.w600,
-                        //                   color: AppColors.black,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         )
+
                         // _customField2(
                         //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
                         ),
