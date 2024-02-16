@@ -52,6 +52,7 @@ class ProductDetailsView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(
                   () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       carousel(),
                       titlePrice(),

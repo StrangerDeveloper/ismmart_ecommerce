@@ -11,7 +11,7 @@ class ThemeHelper {
   static ThemeData lightTheme = ThemeData.light(
     useMaterial3: false,
   ).copyWith(
-    scaffoldBackgroundColor: AppColors.white,
+    //scaffoldBackgroundColor: AppColors.white,
     textTheme: TextThemes.textTheme(color: AppColors.black),
     // primarySwatch: AppColors.palette1,
     // useMaterial3: false,
@@ -46,8 +46,8 @@ class ThemeHelper {
   static ThemeData darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
     //useMaterial3: false,
     //primarySwatch: ThemeHelper.platte1,
-    scaffoldBackgroundColor: AppColors.white,
-    textTheme: TextThemes.textTheme(color: AppColors.white),
+    //scaffoldBackgroundColor: AppColors.white,
+    textTheme: TextThemes.textTheme(color: AppColors.black),
     // fontFamily: 'Poppins',
     dividerColor: AppColors.white,
     //textTheme: TextThemes.textTheme(color: white),

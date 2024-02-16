@@ -1,8 +1,6 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
@@ -36,9 +34,9 @@ class ProductDetailsViewModel extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    if (Get.arguments != null) {
-      productID = Get.arguments['productId'];
-    }
+    // if (Get.arguments != null) {
+    //   productID = Get.arguments['productId'];
+    // }
     getProductById();
     getProductReviews();
   }
