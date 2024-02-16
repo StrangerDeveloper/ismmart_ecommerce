@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
@@ -49,14 +50,16 @@ class ProductDetailsView extends StatelessWidget {
           ],
         ),
         body: Stack(
+          alignment: Alignment.center,
           children: [
             SingleChildScrollView(
               controller: viewModel.scrollController,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(
-                  () => GlobalVariable.showLoader.isTrue
-                      ? Container()
+                  () => GlobalVariable.showLoader.isTrue ||
+                          viewModel.productModel.value.id == null
+                      ? noDataFound()
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -80,6 +83,30 @@ class ProductDetailsView extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: bottomBar());
+  }
+
+  Widget noDataFound() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.red700,
+            ),
+            child: const Icon(
+              Icons.close,
+              size: 15,
+              color: AppColors.white,
+            )),
+        Text(
+          'No product found',
+          style: ThemeHelper.textTheme.titleSmall,
+        ),
+      ],
+    );
   }
 
   Widget carousel() {
@@ -328,47 +355,76 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget variants() {
+    // return Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    //   child: Column(
+    //     children: viewModel.optionsList.entries.map((element) {
+    //       //viewModel.selectedOption.value = element.value!.first;
+    //       viewModel.selectedOptionList.putIfAbsent(element.key, ()=> element.value.first);
+
+    //       return variantsListItems(
+    //           title: element.key, variantList: element.value);
+    //     }).toList(),
+    //   ),
+    // );
+
     return Obx(
       () => viewModel.productModel.value.options == null
           ? Container()
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
-                children: viewModel.productModel.value.options!
-                    .map((Option element) => variantsListItems(
-                        title: element.name, variantsList: element.values))
-                    .toList(),
+                children:
+                    viewModel.productModel.value.options!.map((Option element) {
+                  viewModel.selectedOptionList
+                      .putIfAbsent(element.name!, () => element.values!.first);
+
+                  return variantsListItems(
+                      title: element.name, variantList: element.values);
+                }).toList(),
               ),
             ),
     );
   }
 
-  Widget variantsListItems({String? title, List<String>? variantsList}) {
+  Widget variantsListItems({String? title, List<String>? variantList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textTitle(
-          title!,
-        ),
-        Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: variantsList!.map((e) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  //shape: BoxShape.rectangle,
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: AppColors.black),
+        textTitle(title!),
+        Obx(
+          () => Row(
+            children: variantList!.map((e) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    //viewModel.selectedOption.value = e.toString();
+                    viewModel.selectedOptionList.remove(title);
+                    viewModel.selectedOptionList.putIfAbsent(title, () => e);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      //shape: BoxShape.rectangle,
+                      color: viewModel.selectedOptionList.values.contains(e)
+                          ? AppColors.black
+                          : AppColors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: AppColors.black),
+                    ),
+                    child: Text(
+                      e,
+                      style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                          color: viewModel.selectedOptionList.values.contains(e)
+                              ? AppColors.white
+                              : AppColors.black),
+                    ),
+                  ),
                 ),
-                child: Text(
-                  e,
-                  style: ThemeHelper.textTheme.bodySmall,
-                ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -461,7 +517,7 @@ class ProductDetailsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         //height: Get.height * 0.15,
-        key: viewModel.vendorKey,
+ key: viewModel.vendorKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -512,6 +568,7 @@ class ProductDetailsView extends StatelessWidget {
               ),
             ),
             CustomIconTextBtn(
+             
               onPressed: () => Get.toNamed(AppRoutes.vendorStoreRoute),
               backgroundColor: AppColors.white,
               titleColor: AppColors.black,
@@ -553,22 +610,26 @@ class ProductDetailsView extends StatelessWidget {
                     discount = product.discount?.percentage;
                   }
                   print("ProductImage: ${product.image}");
-                  return ProductItem2(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.productDetailsRoute,
-                            arguments: {"productId": "${product.id}"});
-                      },
-                      image: product.image!,
-                      discount: discount!,
-                      name: product.name!,
-                      reviews: product.totalReviews!,
-                      rating: product.rating!,
-                      price: 0);
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: ProductItem2(
+                        onTap: () {
+                          Get.offNamed(AppRoutes.productDetailsRoute,
+                              preventDuplicates: false,
+                              arguments: {"productId": "${product.id}"});
+                        },
+                        image: product.image!,
+                        discount: discount!,
+                        name: product.name!,
+                        reviews: product.totalReviews!,
+                        rating: product.rating!,
+                        price: 0),
+                  );
                 },
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
         ],
       ),
     );

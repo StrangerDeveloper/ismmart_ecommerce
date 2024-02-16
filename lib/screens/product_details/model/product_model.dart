@@ -321,6 +321,9 @@ class Option {
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         name: json["name"],
+        // values: json["values"] == null
+        //     ? []
+        //     : List<VariantOption>.from(json["values"]!.map((x) => VariantOption(selected: false, name))),
         values: json["values"] == null
             ? []
             : List<String>.from(json["values"]!.map((x) => x)),
@@ -518,4 +521,11 @@ class Dimensions {
         "length": length,
         "height": height,
       };
+}
+
+class VariantOption {
+  String? name;
+  bool? selected;
+
+  VariantOption({this.name, this.selected});
 }

@@ -25,9 +25,46 @@ class ProductDetailsViewModel extends GetxController {
 
   RxString productID = ''.obs;
 
-  List<Review> reviewsList = <Review>[].obs;
+  RxString selectedOption = ''.obs;
+  Map<String, String> selectedOptionList = <String, String>{}.obs;
+
+  // RxList<Review> reviewsList = <Review>[].obs;
 
   Rx<Product> productModel = Product().obs;
+
+  // Map<String, dynamic> optionsList = {
+  //   'Colors': ['Green', 'Blue', 'Red'],
+  //   'Size': ['S', 'M', 'L', 'XL'],
+  //   'Model': ['2019', '2018', '2020', '2021'],
+  //   'Colors1': ['Green', 'Blue', 'Red'],
+  //   'Size2': ['S', 'M', 'L', 'XL'],
+  //   'Model3': ['2029', '2038', '2010', '2221'],
+  // };
+
+  List<Review> reviewsList = [
+    Review(
+        rating: 3.0,
+        description: 'this is description of review1',
+        images: [
+          ' https://firebasestorage.googleapis.com/v0/b/ismmart-vms.appspot.com/o/Product%2FoZtVHPX.jpeg-1706766530340?alt=media&token=e7808de5-9d2f-4c16-be53-a68f46bc0be4'
+        ],
+        user: User(
+            email: 'gMirranig@gmailg.comg',
+            name: 'NameABC1',
+            image:
+                'https://firebasestorage.googleapis.com/v0/b/ismmart-vms.appspot.com/o/Product%2Ffedex.png-1706741123313?alt=media&token=8379187c-162f-4c1e-9f34-7b06cbf4053c')),
+    Review(
+        rating: 4.5,
+        description: 'this is description of review2',
+        images: [
+          ' https://firebasestorage.googleapis.com/v0/b/ismmart-vms.appspot.com/o/Product%2FoZtVHPX.jpeg-1706766530340?alt=media&token=e7808de5-9d2f-4c16-be53-a68f46bc0be4'
+        ],
+        user: User(
+            email: 'example1@gmail.com',
+            name: 'NameABC2',
+            image:
+                'https://firebasestorage.googleapis.com/v0/b/ismmart-vms.appspot.com/o/Product%2Ffedex.png-1706741123313?alt=media&token=8379187c-162f-4c1e-9f34-7b06cbf4053c'))
+  ];
   //Product get productModel => _product.value;
   int qtyCount = 1;
   @override
@@ -101,9 +138,10 @@ class ProductDetailsViewModel extends GetxController {
   void scrollTo(GlobalKey key) {
     final RenderObject renderObject = key.currentContext!.findRenderObject()!;
     final position = renderObject.semanticBounds.bottom;
+    print('Position: $position');
     scrollController.animateTo(
-      position,
-      duration: const Duration(milliseconds: 900),
+      position * 1.5,
+      duration: const Duration(milliseconds: 100),
       curve: Curves.easeInOut,
     );
   }
