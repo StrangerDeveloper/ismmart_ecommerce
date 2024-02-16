@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/screens/auth/forgot_password/forget_password/forgot_password_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/forgot_password/reset_password/success_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/login/login_view.dart';
 import 'package:ismmart_ecommerce/screens/auth/sign_up/signup_methods/singup_methods_view.dart';
@@ -24,7 +25,7 @@ class AppRoutes {
   static const signUpViewRoute = "/SignUpView";
   static const loginViewRoute = "/loginView";
   static const successViewRoute = "/successView";
-
+  static const forgotPasswordRoute = "/forgorPasswordView";
   static const profileViewRoute = "/profileView";
   static const editProfileViewRoute = "/editProfileView";
 
@@ -50,6 +51,7 @@ class AppRoutes {
       GetPage(name: bottomNavViewRoute, page: () => BottomNavigationView()),
       GetPage(name: homeRoute, page: () => HomeView()),
       GetPage(name: loginViewRoute, page: () => LogInView()),
+      GetPage(name: forgotPasswordRoute, page: () => ForgotPasswordView1()),
       GetPage(name: singupMethodsViewRoute, page: () => SignUpMethodsView()),
       GetPage(name: signUpViewRoute, page: () => SignUpView()),
       GetPage(name: successViewRoute, page: () => const SuccessView()),

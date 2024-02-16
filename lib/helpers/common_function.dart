@@ -49,27 +49,6 @@ class CommonFunction {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
   }
 
-  static colorConsole(String value, {int color = 10, bool newLine = false}) {
-    String line = newLine ? '\n\n' : '';
-    switch (color) {
-      case 1:
-        debugPrint('$line \x1B[36m$value\x1B[0m');
-      case 2:
-        debugPrint('$line \x1B[35m$value\x1B[0m');
-      default:
-        debugPrint('$line \x1B[32m$value\x1B[0m');
-    }
-    // debugPrint('\x1B[32m$value\x1B[0m');
-    // Black:   \x1B[30m
-    // Red:     \x1B[31m
-    // Green:   \x1B[32m
-    // Yellow:  \x1B[33m
-    // Blue:    \x1B[34m
-    // Magenta: \x1B[35m
-    // Cyan:    \x1B[36m
-    // White:   \x1B[37m
-    // Reset:   \x1B[0m
-  }
 
   static debugPrint(Object? object) {
     if (kDebugMode) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/sub_category/filter_model.dart';
-import 'package:ismmart_ecommerce/screens/sub_category/sub_category_model.dart';
 
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
@@ -9,12 +8,8 @@ import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
 import '../product_details/model/product_model.dart';
 
-class SubCategoryViewModel extends GetxController {
-  String parentId = '';
-
-  //subCategory
-  RxInt selectedSubCategoryIndex = 0.obs;
-  List<SubCategoryModel> subCategoriesList = <SubCategoryModel>[].obs;
+class SearchDetailViewModel extends GetxController {
+  String searchTxt = '';
 
   //products
   ScrollController scrollController = ScrollController();
@@ -48,26 +43,22 @@ class SubCategoryViewModel extends GetxController {
 
   @override
   void onInit() {
-    parentId = Get.arguments['id'];
+    searchTxt = Get.arguments['search_text'];
     super.onInit();
   }
 
   @override
   void onReady() {
-    getSubCategories();
-
+    getFilterSetting();
+    getProductsFromStart();
     super.onReady();
   }
 
   getFilterSetting() async {
     GlobalVariable.showLoader.value = true;
 
-    Map<String, String> params = {
-      'collection': subCategoriesList[selectedSubCategoryIndex.value].sId ?? '',
-    };
-
     await ApiBaseHelper()
-        .getMethodQueryParam(url: Urls.getFilterSetting, params: params)
+        .getMethodQueryParam(url: Urls.getFilterSetting)
         .then((parsedJson) {
       GlobalVariable.showLoader.value = false;
       // clearValues();
@@ -82,46 +73,8 @@ class SubCategoryViewModel extends GetxController {
     });
   }
 
-  getSubCategories() async {
-    GlobalVariable.showLoader.value = true;
-
-    Map<String, String> params = {
-      'fields[children]': '1',
-      'fields[media]=1': '1',
-      'fields[name]': '1',
-      'limit': '0',
-      'parent': parentId
-    };
-
-    await ApiBaseHelper()
-        .getMethodQueryParam(url: Urls.getCollection, params: params)
-        .then((parsedJson) {
-      GlobalVariable.showLoader.value = false;
-      // clearValues();
-      if (parsedJson['success'] == true &&
-          parsedJson['data']['items'] != null) {
-        var data = parsedJson['data']['items'] as List;
-        if (data.isNotEmpty) {
-          subCategoriesList
-              .addAll(data.map((e) => SubCategoryModel.fromJson(e)));
-          getProductsFromStart();
-        }
-      }
-    }).catchError((e) {
-      CommonFunction.debugPrint(e);
-    });
-  }
-
-  changeSubCategory(int index) {
-    selectedSubCategoryIndex.value = index;
-    getProductsFromStart();
-  }
-
   getProductsFromStart() async {
-    getFilterSetting();
-
-    getProductsParams['collection'] =
-        subCategoriesList[selectedSubCategoryIndex.value].sId ?? '';
+    getProductsParams['text'] = searchTxt;
 
     pageNo = 0;
     productList.clear();
@@ -145,9 +98,8 @@ class SubCategoryViewModel extends GetxController {
       pageNo++;
       paginationLoader.value = true;
 
-      getProductsParams['page'] = '$pageNo';
+      getProductsParams['page'] = pageNo.toString();
 
-      print(getProductsParams);
       await ApiBaseHelper()
           .getMethodQueryParam(url: Urls.getProducts, params: getProductsParams)
           .then((parsedJson) {

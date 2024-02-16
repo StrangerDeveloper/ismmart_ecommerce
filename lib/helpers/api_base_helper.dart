@@ -31,7 +31,7 @@ class ApiBaseHelper {
           '*********************** Response ********************************');
       CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(response.body);
-      CommonFunction.colorConsole(
+      CommonFunction.debugPrint(
           '****************************************************************************************');
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
@@ -65,21 +65,18 @@ class ApiBaseHelper {
     try {
       Uri urlValue = Uri.parse(_baseUrl + url).replace(queryParameters: params);
 
-      CommonFunction.colorConsole(
-        '*********************** Request ********************************',
-        color: 1,
-        newLine: true,
-      );
-      CommonFunction.colorConsole(urlValue.toString(), color: 1);
+      CommonFunction.debugPrint(
+          '*********************** Request ********************************');
+      CommonFunction.debugPrint(urlValue.toString());
 
       http.Response response = await http
           .get(urlValue, headers: header)
           .timeout(const Duration(seconds: 30));
 
-      CommonFunction.colorConsole(
-          '*********************** Response ********************************', newLine: true);
-      CommonFunction.colorConsole(urlValue.toString());
-      CommonFunction.colorConsole(response.body);
+      CommonFunction.debugPrint(
+          '*********************** Response ********************************');
+      CommonFunction.debugPrint(urlValue.toString());
+      CommonFunction.debugPrint(response.body);
       // CommonFunction.colorConsole(
       //     '****************************************************************************************');
 
@@ -175,7 +172,7 @@ class ApiBaseHelper {
           '*********************** Response ********************************');
       CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(response.body);
-      CommonFunction.colorConsole(
+      CommonFunction.debugPrint(
           '****************************************************************************************');
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
@@ -225,7 +222,7 @@ class ApiBaseHelper {
           '*********************** Response ********************************');
       CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(response.body);
-      CommonFunction.colorConsole(
+      CommonFunction.debugPrint(
           '****************************************************************************************');
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
@@ -281,7 +278,7 @@ class ApiBaseHelper {
           '*********************** Response ********************************');
       debugPrint("$urlValue");
       debugPrint(parsedJson.toString());
-      CommonFunction.colorConsole(
+      CommonFunction.debugPrint(
           '****************************************************************************************');
       return parsedJson;
     } on SocketException catch (_) {
@@ -330,7 +327,7 @@ class ApiBaseHelper {
           '*********************** Response ********************************');
       debugPrint("$urlValue");
       debugPrint(parsedJson.toString());
-      CommonFunction.colorConsole(
+      CommonFunction.debugPrint(
           '****************************************************************************************');
       return parsedJson;
     } on SocketException catch (_) {

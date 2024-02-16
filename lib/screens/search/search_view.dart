@@ -14,16 +14,16 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: const CustomAppBar2(title: 'Search '),
         body: Column(
           children: [
             Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.back();
+                  },
                   child: const Padding(
-                    padding: EdgeInsets.only(
-                        left: 12, top: 12, bottom: 12, right: 12),
+                    padding: EdgeInsets.all(12),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
@@ -49,11 +49,9 @@ class SearchView extends StatelessWidget {
                         child: Wrap(
                           spacing: 10,
                           runSpacing: 10,
-                          children: viewModel.recentSearchesList.map(
-                            (e) {
-                              return recentSearchItem(e);
-                            },
-                          ).toList(),
+                          children: viewModel.recentSearchesList.map((e) {
+                            return recentSearchItem(e);
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -74,21 +72,15 @@ class SearchView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
         child: CustomTextField1(
-          // controller: viewModel.searchController,
+          controller: viewModel.searchTxtFieldController,
           filled: false,
           prefixIcon: CupertinoIcons.search,
           hintText: 'Search ...',
-          onChanged: (value) {
-            // CommonFunction.debouncer.call(() {
-            //   viewModel.onChangeSearching(value);
-            // });
-          },
           suffixIconButton: IconButton(
             visualDensity: VisualDensity.compact,
             onPressed: () {
-              // if (viewModel.searchController.text.isEmpty) return;
-              // viewModel.searchController.clear();
-              // viewModel.onChangeSearching('');
+              if (viewModel.searchTxtFieldController.text.isEmpty) return;
+              viewModel.searchTxtFieldController.clear();
             },
             icon: const Icon(
               Icons.close,
@@ -96,7 +88,7 @@ class SearchView extends StatelessWidget {
             ),
           ),
           onFieldSubmitted: (value) {
-            viewModel.onFieldSubmitted(value);
+            viewModel.searchTheText(value);
           },
         ),
       ),
@@ -136,7 +128,9 @@ class SearchView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              viewModel.searchTheText(value);
+            },
             child: Text(
               value,
               style: const TextStyle(
@@ -145,9 +139,11 @@ class SearchView extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 3),
+          const SizedBox(width: 5),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              viewModel.removeRecentSearch(value);
+            },
             child: const Icon(
               Icons.close,
               color: Color(0xff6B7280),
@@ -172,7 +168,9 @@ class SearchView extends StatelessWidget {
 
   Widget listViewItem(int index) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        // viewModel.searchTheText(value);
+      },
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
