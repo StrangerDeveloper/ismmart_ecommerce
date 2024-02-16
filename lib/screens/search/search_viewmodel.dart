@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_ecommerce/screens/search_detail/search_detail_view.dart';
+import '../../helpers/app_routes.dart';
 
 class SearchViewModel extends GetxController {
   RxBool showSuffix = false.obs;
@@ -20,9 +20,15 @@ class SearchViewModel extends GetxController {
     super.onClose();
   }
 
-  searchTheText(String value) {
-    saveRecentSearch(value);
-    Get.to(() => SearchDetailView(), arguments: {'search_text': value});
+  searchTheText(String value, {bool saveRecentSearch = false}) {
+    if (saveRecentSearch) {
+      storeRecentSearch(value);
+    }
+    Get.toNamed(
+      AppRoutes.searchDetail,
+      arguments: {'search_text': value},
+      preventDuplicates: false,
+    );
   }
 
   getRecentSearch() {
@@ -30,7 +36,7 @@ class SearchViewModel extends GetxController {
     recentSearchesList.addAll(tempList.map((e) => e));
   }
 
-  saveRecentSearch(String value) {
+  storeRecentSearch(String value) {
     List<dynamic> tempList = GetStorage().read('recent_search') ?? [];
     if (tempList.length > 9) {
       tempList.removeLast();

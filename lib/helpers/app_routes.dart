@@ -11,6 +11,8 @@ import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_view.
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_view.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_view.dart';
 import 'package:ismmart_ecommerce/screens/profile_details/profile_view.dart';
+import 'package:ismmart_ecommerce/screens/search/search_view.dart';
+import 'package:ismmart_ecommerce/screens/search_detail/search_detail_view.dart';
 import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_view.dart';
 import 'package:ismmart_ecommerce/screens/splashscreen/splasch_screen_view.dart';
 import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_view.dart';
@@ -45,6 +47,8 @@ class AppRoutes {
   static const checkoutViewRoute = "/CheckoutView";
 
   static const faqsRoutes = "/faqs";
+  static const search = "/Search";
+  static const searchDetail = "/searchDetail";
 
   static const vendorStoreRoute = "/vendorStore";
 
@@ -61,6 +65,8 @@ class AppRoutes {
       GetPage(name: profileViewRoute, page: () => ProfileView()),
       GetPage(name: editProfileViewRoute, page: () => EditUserProfileView()),
       GetPage(name: productDetailsRoute, page: () => ProductDetailsView()),
+      GetPage(name: search, page: () => SearchView()),
+      GetPage(name: searchDetail, page: () => SearchDetailView()),
 
       //GetPage(name: notificationRoute, page: ()=> Notification)
       GetPage(name: orderViewRoute, page: () => OrderListingView()),

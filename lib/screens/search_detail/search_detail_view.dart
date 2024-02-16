@@ -50,7 +50,7 @@ class SearchDetailView extends StatelessWidget {
       child: SearchTextField(
         controller: viewModel.searchTxtFieldController,
         onTap: () {
-          Get.to(() => SearchView());
+          Get.toNamed(AppRoutes.search, preventDuplicates: false);
         },
         readOnly: true,
       ),
