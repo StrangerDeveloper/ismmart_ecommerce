@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
@@ -137,74 +138,18 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Get.to(() => WishlistView());
             },
-            icon: Stack(
-              //alignment: Alignment.topRight,
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  padding: const EdgeInsets.only(top: 8),
-                  child: const Icon(
-                    Icons.favorite_border,
-                  ),
-                ),
-                if (wishlistViewModel.wishlistCounter > 0)
-                  Positioned(
-                    top: 8,
-                    right: 2,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      radius: 8,
-                      child: Text(
-                        wishlistViewModel.wishlistCounter.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            icon: const Icon(
+              Icons.favorite_border,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => CartView());
+            },
             icon: const Icon(
               Icons.shopping_cart_outlined,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: Stack(
-          //     //alignment: Alignment.topRight,
-          //     children: [
-          //       Container(
-          //         height: 60,
-          //         width: 60,
-          //         padding: const EdgeInsets.only(top: 8),
-          //         child: const Icon(
-          //           Icons.shopping_cart_outlined,
-          //         ),
-          //       ),
-          //       if (wishlistViewModel.wishlistCounter > 0)
-          //         Positioned(
-          //           top: 8,
-          //           right: 2,
-          //           child: CircleAvatar(
-          //             backgroundColor: Colors.red,
-          //             radius: 8,
-          //             child: Text(
-          //               wishlistViewModel.wishlistCounter.toString(),
-          //               style: const TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 8,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
         ],
         flexibleSpace:
             (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)

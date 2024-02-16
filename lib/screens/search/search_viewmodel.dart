@@ -9,13 +9,21 @@ class SearchViewModel extends GetxController {
   List<String> recentSearchesList = <String>[].obs;
 
   @override
+  void onInit() {
+    print('onInit');
+    super.onInit();
+  }
+
+  @override
   void onReady() {
+    print('onReady');
     getRecentSearch();
     super.onReady();
   }
 
   @override
   void onClose() {
+    print('onClose');
     searchTxtFieldController.dispose();
     super.onClose();
   }

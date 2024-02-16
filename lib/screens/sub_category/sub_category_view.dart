@@ -10,6 +10,7 @@ import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_range_shape.dart';
 import '../../widgets/product_item.dart';
+import '../cart/cart_view.dart';
 import '../wishlist/wishlist_view.dart';
 
 class SubCategoryView extends StatelessWidget {
@@ -61,7 +62,9 @@ class SubCategoryView extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => CartView());
+          },
           icon: const Icon(
             Icons.shopping_cart_outlined,
           ),

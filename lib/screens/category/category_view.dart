@@ -7,6 +7,7 @@ import 'package:ismmart_ecommerce/screens/category/category_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 
 import '../../widgets/custom_network_image.dart';
+import '../cart/cart_view.dart';
 import '../wishlist/wishlist_view.dart';
 
 class CategoryView extends StatelessWidget {
@@ -121,7 +122,9 @@ class CategoryView extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => CartView());
+          },
           icon: const Icon(
             Icons.shopping_cart_outlined,
           ),
