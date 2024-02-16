@@ -20,6 +20,7 @@ import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_view.dart';
 import '../screens/auth/sign_up/signup/signup_view.dart';
 import '../screens/bottom_navigation/bottom_navigation_view.dart';
 import '../screens/edit_user_profile/edit_user_profile_view.dart';
+import '../screens/sub_category/sub_category_view.dart';
 
 class AppRoutes {
   static const initRoute = "/";
@@ -51,6 +52,7 @@ class AppRoutes {
   static const searchDetail = "/searchDetail";
 
   static const vendorStoreRoute = "/vendorStore";
+  static const subCategory = "/subCategory";
 
   List<GetPage> getRoutes() {
     return [
@@ -79,6 +81,7 @@ class AppRoutes {
       GetPage(name: checkoutViewRoute, page: () => CheckoutView()),
 
       GetPage(name: vendorStoreRoute, page: ()=> VendorStoreView()),
+      GetPage(name: subCategory, page: ()=> SubCategoryView()),
     ];
   }
 }

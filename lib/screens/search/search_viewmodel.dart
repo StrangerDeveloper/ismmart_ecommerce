@@ -8,8 +8,10 @@ class SearchViewModel extends GetxController {
   TextEditingController searchTxtFieldController = TextEditingController();
   List<String> recentSearchesList = <String>[].obs;
 
+
   @override
   void onReady() {
+    print('onReady');
     getRecentSearch();
     super.onReady();
   }

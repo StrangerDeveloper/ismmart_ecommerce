@@ -6,6 +6,7 @@ import 'package:ismmart_ecommerce/screens/search_detail/search_detail_viewmodel.
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 
+import '../../helpers/app_routes.dart';
 import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_range_shape.dart';
@@ -16,7 +17,7 @@ import '../search/search_view.dart';
 class SearchDetailView extends StatelessWidget {
   SearchDetailView({super.key});
 
-  final SearchDetailViewModel viewModel = Get.put(SearchDetailViewModel());
+  final SearchDetailViewModel viewModel = Get.put(SearchDetailViewModel(), tag: UniqueKey().toString());
 
   @override
   Widget build(BuildContext context) {

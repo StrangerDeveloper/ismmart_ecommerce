@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/search/search_view.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
@@ -152,7 +153,7 @@ class HomeView extends StatelessWidget {
         pinned: true,
         leading: IconButton(
           onPressed: () {
-            Get.to(() => SearchView());
+            Get.toNamed(AppRoutes.search, preventDuplicates: false,);
           },
           icon: const Icon(
             CupertinoIcons.search,
@@ -172,74 +173,18 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Get.to(() => WishlistView());
             },
-            icon: Stack(
-              //alignment: Alignment.topRight,
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  padding: const EdgeInsets.only(top: 8),
-                  child: const Icon(
-                    Icons.favorite_border,
-                  ),
-                ),
-                if (wishlistViewModel.wishlistCounter > 0)
-                  Positioned(
-                    top: 8,
-                    right: 2,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      radius: 8,
-                      child: Text(
-                        wishlistViewModel.wishlistCounter.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            icon: const Icon(
+              Icons.favorite_border,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => CartView());
+            },
             icon: const Icon(
               Icons.shopping_cart_outlined,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: Stack(
-          //     //alignment: Alignment.topRight,
-          //     children: [
-          //       Container(
-          //         height: 60,
-          //         width: 60,
-          //         padding: const EdgeInsets.only(top: 8),
-          //         child: const Icon(
-          //           Icons.shopping_cart_outlined,
-          //         ),
-          //       ),
-          //       if (wishlistViewModel.wishlistCounter > 0)
-          //         Positioned(
-          //           top: 8,
-          //           right: 2,
-          //           child: CircleAvatar(
-          //             backgroundColor: Colors.red,
-          //             radius: 8,
-          //             child: Text(
-          //               wishlistViewModel.wishlistCounter.toString(),
-          //               style: const TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 8,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
         ],
         flexibleSpace:
             (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)
@@ -359,7 +304,6 @@ class HomeView extends StatelessWidget {
           : const SizedBox(),
     );
   }
-
 
   Widget appBarBackgroundImage() {
     return Obx(
@@ -517,7 +461,7 @@ class HomeView extends StatelessWidget {
 
   Widget flashSaleCountDown() {
     return Obx(
-      () => viewModel.discountModel?.value.name != null
+      () => viewModel.discountModel.value.name != null
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -527,7 +471,7 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.discountModel?.value.name ?? '',
+                          viewModel.discountModel.value.name ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -635,26 +579,35 @@ class HomeView extends StatelessWidget {
                 ),
                 itemCount: viewModel.categoriesList.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      const Expanded(
-                        child: CustomNetworkImage(
-                          imageUrl: '',
-                          shape: BoxShape.circle,
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.subCategory, arguments: {
+                        'id': viewModel.categoriesList[index].sId ?? ''
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: CustomNetworkImage(
+                            imageUrl:
+                                viewModel.categoriesList[index].media?.first ??
+                                    '',
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        viewModel.categoriesList[index].name ?? '',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.black,
-                        ),
-                      )
-                    ],
+                        const SizedBox(height: 8),
+                        Text(
+                          viewModel.categoriesList[index].name ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 },
               ),

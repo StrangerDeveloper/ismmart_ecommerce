@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,7 @@ import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_range_shape.dart';
 import '../../widgets/product_item.dart';
+import '../cart/cart_view.dart';
 import '../wishlist/wishlist_view.dart';
 
 class SubCategoryView extends StatelessWidget {
@@ -37,18 +37,11 @@ class SubCategoryView extends StatelessWidget {
     );
   }
 
-  AppBar appBar() {
+  appBar() {
     return AppBar(
       elevation: 0,
       iconTheme: const IconThemeData(
         color: Colors.black,
-      ),
-      // pinned: true,
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          CupertinoIcons.search,
-        ),
       ),
       title: const Text(
         'ISMMART',
@@ -69,7 +62,9 @@ class SubCategoryView extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => CartView());
+          },
           icon: const Icon(
             Icons.shopping_cart_outlined,
           ),
@@ -152,53 +147,57 @@ class SubCategoryView extends StatelessWidget {
   }
 
   Widget topFiltration() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-      child: Row(
-        children: [
-          Obx(
-            () => filterOptionItem2(
-              title: 'Sort by',
-              isSelected: viewModel.sortValue.value == 'ascending' ||
-                  viewModel.sortValue.value == 'descending',
-              icon: Icons.keyboard_arrow_down_rounded,
-              onTap: () {
-                sortBottomSheet();
-              },
-            ),
-          ),
-          Obx(
-            () => filterOptionItem2(
-              title: 'New Arrivals',
-              isSelected: viewModel.newArrivalValue.value,
-              onTap: () {
-                viewModel.newArrivalSelection();
-              },
-            ),
-          ),
-          // filterOptionItem2(
-          //   title: 'Popular',
-          //   isSelected: false,
-          // ),
-          Obx(
-            () => filterOptionItem2(
-              title: 'Top-rated',
-              isSelected: viewModel.topRatedValue.value,
-              onTap: () {
-                viewModel.topRatedSelection();
-              },
-            ),
-          ),
-          filterOptionItem2(
-            title: 'Filter',
-            isSelected: false,
-            icon: Icons.filter_alt_rounded,
-            onTap: () {
-              filterBottomSheet();
-            },
-          )
-        ],
-      ),
+    return Obx(
+      () => viewModel.subCategoriesList.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              child: Row(
+                children: [
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'Sort by',
+                      isSelected: viewModel.sortValue.value == 'ascending' ||
+                          viewModel.sortValue.value == 'descending',
+                      icon: Icons.keyboard_arrow_down_rounded,
+                      onTap: () {
+                        sortBottomSheet();
+                      },
+                    ),
+                  ),
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'New Arrivals',
+                      isSelected: viewModel.newArrivalValue.value,
+                      onTap: () {
+                        viewModel.newArrivalSelection();
+                      },
+                    ),
+                  ),
+                  // filterOptionItem2(
+                  //   title: 'Popular',
+                  //   isSelected: false,
+                  // ),
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'Top-rated',
+                      isSelected: viewModel.topRatedValue.value,
+                      onTap: () {
+                        viewModel.topRatedSelection();
+                      },
+                    ),
+                  ),
+                  filterOptionItem2(
+                    title: 'Filter',
+                    isSelected: false,
+                    icon: Icons.filter_alt_rounded,
+                    onTap: () {
+                      filterBottomSheet();
+                    },
+                  )
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
@@ -492,7 +491,6 @@ class SubCategoryView extends StatelessWidget {
             viewModel.filterStartPrice.value,
             viewModel.filterEndPrice.value,
           ),
-
           onChanged: (values) {
             viewModel.filterStartPrice.value = values.start.toInt().toDouble();
             viewModel.filterEndPrice.value = values.end.toInt().toDouble();
