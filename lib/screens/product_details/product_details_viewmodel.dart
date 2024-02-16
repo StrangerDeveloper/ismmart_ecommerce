@@ -140,7 +140,7 @@ class ProductDetailsViewModel extends GetxController {
     final position = renderObject.semanticBounds.bottom;
     print('Position: $position');
     scrollController.animateTo(
-      position * 1.5,
+      position,
       duration: const Duration(milliseconds: 100),
       curve: Curves.easeInOut,
     );
