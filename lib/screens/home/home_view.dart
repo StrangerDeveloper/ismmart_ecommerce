@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
@@ -69,7 +70,7 @@ class HomeView extends StatelessWidget {
                       () => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: SizedBox(
-                          height: 20,
+                          height: 25,
                           child: viewModel.newsList.isEmpty
                               ? Container()
                               : Marquee(
@@ -77,8 +78,8 @@ class HomeView extends StatelessWidget {
                                       .map((e) =>
                                           "(${e.type}) -> ${e.name}: ${e.description}   ")
                                       .join(),
-                                  style: ThemeHelper.textTheme.bodyMedium!
-                                      .copyWith(
+                                  style:
+                                      ThemeHelper.textTheme.bodyLarge!.copyWith(
                                     color: AppColors.red700,
                                     fontWeight: FontWeight.w600,
                                     overflow: TextOverflow.ellipsis,
@@ -678,7 +679,9 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ProductItem2(
                   product: viewModel.productList[index],
-                  //onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.flashProductList[index].sId ?? ''});
+                  },
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
@@ -757,7 +760,9 @@ class HomeView extends StatelessWidget {
                 (context, index) {
                   return ProductItem2(
                     product: viewModel.productList[index],
-                    //onTap: () {},
+                    onTap: () {
+                          Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.allProductList[index].sId ?? ''});
+                    },
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',

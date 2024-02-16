@@ -189,7 +189,7 @@ class HomeViewModel extends GetxController {
       'fields[name]': '1',
       'fields[start]': '1',
       'fields[end]': '1',
-      'collection': selectedCollectionId,
+      //'collection': selectedCollectionId,
     };
 
     await ApiBaseHelper()
@@ -230,7 +230,7 @@ class HomeViewModel extends GetxController {
       'fields[price]': '1',
       'fields[store][name]': '1',
       'fields[discount][percentage]': '1',
-      'collection': selectedCollectionId,
+      // 'collection': selectedCollectionId,
       'discount': discountId,
     };
 

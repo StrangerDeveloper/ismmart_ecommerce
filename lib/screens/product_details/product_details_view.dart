@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/constants.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/product_details/model/product_model.dart';
@@ -13,6 +16,7 @@ import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 import 'package:ismmart_ecommerce/widgets/custom_product_qty_counter.dart';
 import 'package:ismmart_ecommerce/widgets/custom_profile_name_rating.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
+import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
 class ProductDetailsView extends StatelessWidget {
   ProductDetailsView({super.key});
@@ -51,22 +55,24 @@ class ProductDetailsView extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      carousel(),
-                      titlePrice(),
-                      variants(),
-                      kSmallDivider,
-                      description(),
-                      tabs(),
-                      reviewsAndRatings(),
-                      kSmallDivider,
-                      vendorStore(),
-                      kSmallDivider,
-                      peopleAlsoViewed(),
-                    ],
-                  ),
+                  () => GlobalVariable.showLoader.isTrue
+                      ? Container()
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            carousel(),
+                            titlePrice(),
+                            variants(),
+                            kSmallDivider,
+                            description(),
+                            tabs(),
+                            reviewsAndRatings(),
+                            kSmallDivider,
+                            vendorStore(),
+                            kSmallDivider,
+                            peopleAlsoViewed(),
+                          ],
+                        ),
                 ),
               ),
             ),
@@ -182,44 +188,55 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget titlePrice() {
+    print("Discount: ${viewModel.productModel.value.discount?.toJson()}");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    viewModel.productModel.value.name ?? 'N/A',
-                    style: ThemeHelper.textTheme.titleLarge,
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                child: Text(
+                  viewModel.productModel.value.name ?? 'N/A',
+                  style: ThemeHelper.textTheme.titleLarge,
                 ),
+              ),
 
-                //discount
-
-                discountWidget(),
-                //Review section
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      starWithRatings(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Text(
-                          '${viewModel.productModel.value.totalReviews ?? 0} Reviews',
-                          style: ThemeHelper.textTheme.labelMedium,
+              //discount
+              viewModel.productModel.value.discount == null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2.0, horizontal: 5.0),
+                      child: Text(
+                        'Rs ${viewModel.productModel.value.price ?? 0.0}',
+                        style: ThemeHelper.textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    )
+                  : discountWidget(),
+
+              //Review section
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                child: Row(
+                  children: [
+                    starWithRatings(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        '${viewModel.productModel.value.totalReviews ?? 0} Reviews',
+                        style: ThemeHelper.textTheme.labelMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
           Positioned(
             //width: 100,
@@ -264,46 +281,49 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget discountWidget() {
-    return Row(
-      children: [
-        Column(
-          children: [
-            Text(
-              'Rs 15000',
-              style: ThemeHelper.textTheme.labelLarge!.copyWith(
-                fontWeight: FontWeight.w700,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(
+                'Rs ${CommonFunction.calculatePercentage2(viewModel.productModel.value.price!, viewModel.productModel.value.discount!.percentage!)}',
+                style: ThemeHelper.textTheme.labelLarge!.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Text(
-                'Rs 17000',
-                style: ThemeHelper.textTheme.bodyLarge!.copyWith(
-                    decoration: TextDecoration.lineThrough,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.red),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  'Rs ${viewModel.productModel.value.price ?? 0.0}',
+                  style: ThemeHelper.textTheme.bodyLarge!.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.red),
+                ),
               ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Container(
-            padding: const EdgeInsets.all(7),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: AppColors.red,
-            ),
-            child: Text(
-              '10% OFF',
-              style: ThemeHelper.textTheme.bodySmall!.copyWith(
-                color: AppColors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            ],
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: AppColors.red,
+              ),
+              child: Text(
+                '10% OFF',
+                style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -453,7 +473,8 @@ class ProductDetailsView extends StatelessWidget {
             ),
             Text(
               'More Products from Techstore',
-              style: ThemeHelper.textTheme.bodySmall,
+              style: ThemeHelper.textTheme.bodySmall!
+                  .copyWith(fontWeight: FontWeight.w600),
             ),
             Padding(
               padding:
@@ -470,21 +491,28 @@ class ProductDetailsView extends StatelessWidget {
                     itemBuilder: (_, index) {
                       Product? storeProducts =
                           viewModel.productModel.value.store?.products![index];
-                      return Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: CustomNetworkImage(
-                          height: 35,
-                          width: 35,
-                          imageUrl: storeProducts!.image ?? '',
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              border: Border.all(color: AppColors.grey2)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: CustomNetworkImage(
+                              height: 35,
+                              width: 35,
+                              imageUrl: storeProducts!.image ?? '',
+                            ),
+                          ),
                         ),
                       );
                     }),
               ),
             ),
             CustomIconTextBtn(
-              onPressed: () {},
+              onPressed: () => Get.toNamed(AppRoutes.vendorStoreRoute),
               backgroundColor: AppColors.white,
               titleColor: AppColors.black,
               radius: 20,
@@ -501,14 +529,46 @@ class ProductDetailsView extends StatelessWidget {
 
   Widget peopleAlsoViewed() {
     return SizedBox(
-      height: Get.height * 0.15,
+      height: Get.height * 0.35,
       key: viewModel.similarProductKey,
-      child: const Column(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('People also Viewed'),
+          textTitle(' People also Viewed'),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount:
+                    viewModel.productModel.value.store!.products?.length ?? 0,
+                itemBuilder: (_, index) {
+                  Product? product =
+                      viewModel.productModel.value.store!.products![index];
+                  num? discount = 0.0;
+                  if (product.discount != null) {
+                    discount = product.discount?.percentage;
+                  }
+                  print("ProductImage: ${product.image}");
+                  return ProductItem2(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.productDetailsRoute,
+                            arguments: {"productId": "${product.id}"});
+                      },
+                      image: product.image!,
+                      discount: discount!,
+                      name: product.name!,
+                      reviews: product.totalReviews!,
+                      rating: product.rating!,
+                      price: 0);
+                },
+              ),
+            ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

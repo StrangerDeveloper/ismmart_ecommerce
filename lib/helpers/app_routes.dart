@@ -13,6 +13,7 @@ import 'package:ismmart_ecommerce/screens/product_details/product_details_view.d
 import 'package:ismmart_ecommerce/screens/profile_details/profile_view.dart';
 import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_view.dart';
 import 'package:ismmart_ecommerce/screens/splashscreen/splasch_screen_view.dart';
+import 'package:ismmart_ecommerce/screens/vendor_store/vendor_store_view.dart';
 
 import '../screens/auth/sign_up/signup/signup_view.dart';
 import '../screens/bottom_navigation/bottom_navigation_view.dart';
@@ -45,6 +46,8 @@ class AppRoutes {
 
   static const faqsRoutes = "/faqs";
 
+  static const vendorStoreRoute = "/vendorStore";
+
   List<GetPage> getRoutes() {
     return [
       GetPage(name: initRoute, page: () => SplashScreenView()),
@@ -68,6 +71,8 @@ class AppRoutes {
 
       GetPage(name: faqsRoutes, page: () => FaqView()),
       GetPage(name: checkoutViewRoute, page: () => CheckoutView()),
+
+      GetPage(name: vendorStoreRoute, page: ()=> VendorStoreView()),
     ];
   }
 }

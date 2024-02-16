@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
@@ -24,7 +23,7 @@ class ProductDetailsViewModel extends GetxController {
 
   TextEditingController productQtyController = TextEditingController();
 
-  String productID = '65bab32422427132d3c17a35';
+  RxString productID = ''.obs;
 
   List<Review> reviewsList = <Review>[].obs;
 
@@ -34,9 +33,9 @@ class ProductDetailsViewModel extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // if (Get.arguments != null) {
-    //   productID = Get.arguments['productId'];
-    // }
+    if (Get.arguments != null) {
+      productID.value = Get.arguments['productId'];
+    }
     getProductById();
     getProductReviews();
   }
@@ -44,8 +43,9 @@ class ProductDetailsViewModel extends GetxController {
   Future<void> getProductById() async {
     GlobalVariable.showLoader.value = true;
 
+    print("PRoductIDDD : ${productID.value}");
     Map<String, String> params = {
-      'id': productID,
+      'id': productID.value,
       'fields[name]': '1',
       'fields[price]': '1',
       'fields[options]': '1',
@@ -56,6 +56,7 @@ class ProductDetailsViewModel extends GetxController {
       'fields[totalReviews]': '1',
       'fields[rating]': '1',
       'fields[quantity]': '1',
+      'fields[discount]': '1'
     };
 
     await ApiBaseHelper()
@@ -66,7 +67,6 @@ class ProductDetailsViewModel extends GetxController {
         var data = parsedJson['data'];
 
         ProductResponse productResponse = ProductResponse.fromJson(data);
-
         productModel.value = productResponse.products!.first;
       } else {
         CommonFunction.debugPrint(parsedJson['message']);
@@ -79,7 +79,7 @@ class ProductDetailsViewModel extends GetxController {
   Future getProductReviews() async {
     Map<String, String> params = {
       'limit': '2',
-      'product': productID,
+      'product': productID.value,
     };
     await ApiBaseHelper()
         .getMethodQueryParam(url: Urls.getProductReviews, params: params)

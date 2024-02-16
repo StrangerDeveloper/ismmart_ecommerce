@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/screens/search_detail/search_detail_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
@@ -188,7 +189,10 @@ class SearchDetailView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ProductItem2(
                           product: viewModel.productList[index],
-                          //onTap: () {},
+                          // onTap: () {
+                          //       Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.productList[index].id ?? ''});
+                
+                          // },
                           image: viewModel.productList[index].image ?? '',
                           name: viewModel.productList[index].name ?? '',
                           category:
