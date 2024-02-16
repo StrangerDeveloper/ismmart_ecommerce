@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_model.dart';
@@ -6,14 +8,15 @@ import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/common_function.dart';
 import '../../../helpers/global_variables.dart';
 import '../../../helpers/urls.dart';
+import '../order_details/order_detail_model.dart';
 
 class OrderListingViewModel extends GetxController {
-  RxList<OrderItem> orderItemList = <OrderItem>[].obs;
-  Rx<OrderItem> orderItemModel = OrderItem().obs;
+  RxList<OrderItemIdModel> orderItemList = <OrderItemIdModel>[].obs;
+  Rx<OrderItemIdModel> orderItemModel = OrderItemIdModel().obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
   RxString filterRadioBtn = 'all'.obs;
-  String radioBtnUrlValue = '';
+  Rx<File> userProfileImage = File('').obs;
 
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -36,7 +39,7 @@ class OrderListingViewModel extends GetxController {
     super.onReady();
 
     GlobalVariable.showLoader.value = true;
-    //getOrderListing();
+    getOrderListing();
   }
 
   @override
@@ -51,23 +54,29 @@ class OrderListingViewModel extends GetxController {
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
+      print("Responseeeee: $response");
       var data = response['data']['items'] as List;
+      print("Dataaaaa: $data");
       if (response['success'] == true) {
+        print("Api called");
         GlobalVariable.showLoader.value = false;
         orderItemList.clear();
-        orderItemList.addAll(data.map((e) => OrderItem.fromJson(e)));
+        orderItemList.addAll(data.map((e) => OrderItemIdModel.fromJson(e)));
+        print("OrderItemList: ${orderItemList.length}");
       } else {
         CommonFunction.showSnackBar(
-          title: "Error",
+          title: "Error1111111",
           message: response['message'],
         );
+        print("Errorrrr11: ${response['message']}");
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
       CommonFunction.showSnackBar(
-        title: "Error",
+        title: "Error2222222222",
         message: error.toString(),
       );
+      print("Errorrrr22: $error");
       GlobalVariable.showLoader.value = false;
     });
   }
@@ -81,12 +90,12 @@ class OrderListingViewModel extends GetxController {
     getOrderListing();
   }
 
-  radioBtnSelection(String value) {
-    filterRadioBtn.value = value;
-    if (value == 'all') {
-      radioBtnUrlValue = '';
-    } else {
-      radioBtnUrlValue = '&status=$value';
-    }
-  }
+  // orderIdSelection(String value) {
+  //   if (value.isNotEmpty) {
+  //     searchUrlValue = '?id=$value';
+  //   } else {
+  //     searchUrlValue = '';
+  //   }
+  //   getOrderListing();
+  // }
 }
