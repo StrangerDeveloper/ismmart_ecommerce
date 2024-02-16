@@ -73,7 +73,6 @@ class SignupMehtodViewModel extends GetxController {
       );
       appleCredential.state;
 
-      print(appleCredential.email);
       try {
         Map<dynamic, dynamic> param = {
           'provider': 'Apple',
@@ -103,9 +102,8 @@ class SignupMehtodViewModel extends GetxController {
   void gotoNextPage() {
     GlobalVariable.showLoader.value = false;
     GetStorage().write('token', _parsedJson['data']['token']);
-    var a = GetStorage().read('token');
+   // var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
-    print("save log--------$a");
     Get.offAllNamed(AppRoutes.bottomNavViewRoute);
   }
 

@@ -12,7 +12,7 @@ import 'package:ismmart_ecommerce/screens/home/model/news_model.dart';
 import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/urls.dart';
-import '../product_details/product_model.dart';
+import '../product_details/model/product_model.dart';
 
 class HomeViewModel extends GetxController {
   //Screen
@@ -39,7 +39,7 @@ class HomeViewModel extends GetxController {
   List<NewsModel> newsList = <NewsModel>[].obs;
 
   //Discount
-  Rx<DiscountModel>? discountModel = DiscountModel().obs;
+  Rx<DiscountModel> discountModel = DiscountModel().obs;
   RxString hours = '00'.obs;
   RxString minutes = '00'.obs;
   RxString seconds = '00'.obs;
@@ -166,7 +166,7 @@ class HomeViewModel extends GetxController {
     Map<String, String> params = {
       'fields[name]': '1',
       'fields[description]': '1',
-       'fields[type]': '1',
+      'fields[type]': '1',
       'limit': '0',
     };
 
@@ -189,27 +189,27 @@ class HomeViewModel extends GetxController {
       'fields[name]': '1',
       'fields[start]': '1',
       'fields[end]': '1',
-      // 'collection': selectedCollectionId,
+      'collection': selectedCollectionId,
     };
 
     await ApiBaseHelper()
         .getMethodQueryParam(url: Urls.getFlashDiscountTimer, params: params)
         .then((parsedJson) {
-      discountModel = DiscountModel().obs;
+      discountModel.value = DiscountModel();
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         if (data.isNotEmpty) {
-          discountModel?.value = DiscountModel.fromJson(data[0]);
+          discountModel.value = DiscountModel.fromJson(data[0]);
 
           //FlashDiscount Products
-          if (discountModel?.value.sId != null) {
-            getFlashProducts(discountModel!.value.sId!);
+          if (discountModel.value.sId != null) {
+            getFlashProducts(discountModel.value.sId!);
           }
 
           //Start Flash Timer
-          if (discountModel?.value.end != null) {
-            startTimer(discountModel!.value.end!);
+          if (discountModel.value.end != null) {
+            startTimer(discountModel.value.end!);
           }
         }
       }
@@ -230,7 +230,7 @@ class HomeViewModel extends GetxController {
       'fields[price]': '1',
       'fields[store][name]': '1',
       'fields[discount][percentage]': '1',
-      // 'collection': selectedCollectionId,
+      'collection': selectedCollectionId,
       'discount': discountId,
     };
 
@@ -260,7 +260,7 @@ class HomeViewModel extends GetxController {
       'fields[price]': '1',
       'fields[store][name]': '1',
       'fields[discount][percentage]': '1',
-      // 'collection': selectedCollectionId,
+      'collection': selectedCollectionId,
       'page': pageNo.toString(),
     };
 
@@ -286,7 +286,6 @@ class HomeViewModel extends GetxController {
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
           productList.addAll(data.map((e) => Product.fromJson(e)));
 
-          print("ProductList.length ${productList.length}");
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);

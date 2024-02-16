@@ -29,7 +29,7 @@ class VendorStoreView extends StatelessWidget {
         centerTitle: true,
         containsLeading: true,
         titleTextStyle: ThemeHelper.textTheme.bodyLarge!.copyWith(
-          color: AppColors.black
+          color: AppColors.black3
         )
       ),
       body: Obx(() => GlobalVariable.showLoader.value ? const LoaderView() : Padding(

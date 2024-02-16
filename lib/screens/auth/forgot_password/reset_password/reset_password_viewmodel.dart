@@ -37,8 +37,6 @@ class ResetPasswordViewModel extends GetxController {
               .putMethod(url: Urls.resetPassword, body: param)
               .then((parsedJson) {
             _parsedJson = parsedJson;
-            print("=====jiouo==$_parsedJson");
-            print("=====rrr==$parsedJson");
             if (parsedJson['success'] == true) {
               gotoNextScreen();
             } else {

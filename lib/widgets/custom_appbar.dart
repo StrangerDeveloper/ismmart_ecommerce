@@ -230,6 +230,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   final TextStyle? titleTextStyle;
   final bool? centerTitle;
   final bool containsLeading;
+  final VoidCallback? leadingOnPressed;
 
   const CustomAppBar2({
     super.key,
@@ -241,6 +242,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     this.titleTextStyle,
     this.containsLeading = false,
+    this.leadingOnPressed
   });
 
   @override
@@ -263,14 +265,12 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
       leading: containsLeading
           ? leading ??
               IconButton(
-                onPressed: () {
+                onPressed: leadingOnPressed ?? () {
                   Get.back();
                 },
                 icon: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color:
-                      appBarColor == null ? AppColors.black : AppColors.white,
-                  size: 20,
+                  color: AppColors.black,
                 ),
               )
           : null,

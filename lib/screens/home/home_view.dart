@@ -7,7 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
+import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
@@ -27,7 +29,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: Stack(
         children: [
           CustomScrollView(
@@ -38,7 +40,6 @@ class HomeView extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     carousel(),
-
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(vertical: 25),
                     //   child: Row(
@@ -69,7 +70,7 @@ class HomeView extends StatelessWidget {
                       () => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: SizedBox(
-                          height: 20,
+                          height: 25,
                           child: viewModel.newsList.isEmpty
                               ? Container()
                               : Marquee(
@@ -77,8 +78,8 @@ class HomeView extends StatelessWidget {
                                       .map((e) =>
                                           "(${e.type}) -> ${e.name}: ${e.description}   ")
                                       .join(),
-                                  style: ThemeHelper.textTheme.bodyMedium!
-                                      .copyWith(
+                                  style:
+                                      ThemeHelper.textTheme.bodyLarge!.copyWith(
                                     color: AppColors.red700,
                                     fontWeight: FontWeight.w600,
                                     overflow: TextOverflow.ellipsis,
@@ -100,7 +101,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    promoCode(),
+
                     bannerImage(),
                     categoriesTitle(),
                     categoriesList(),
@@ -150,7 +151,9 @@ class HomeView extends StatelessWidget {
         ),
         pinned: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(AppRoutes.search, preventDuplicates: false,);
+          },
           icon: const Icon(
             CupertinoIcons.search,
           ),
@@ -169,74 +172,18 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Get.to(() => WishlistView());
             },
-            icon: Stack(
-              //alignment: Alignment.topRight,
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  padding: const EdgeInsets.only(top: 8),
-                  child: const Icon(
-                    Icons.favorite_border,
-                  ),
-                ),
-                if (wishlistViewModel.wishlistCounter > 0)
-                  Positioned(
-                    top: 8,
-                    right: 2,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      radius: 8,
-                      child: Text(
-                        wishlistViewModel.wishlistCounter.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            icon: const Icon(
+              Icons.favorite_border,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => CartView());
+            },
             icon: const Icon(
               Icons.shopping_cart_outlined,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: Stack(
-          //     //alignment: Alignment.topRight,
-          //     children: [
-          //       Container(
-          //         height: 60,
-          //         width: 60,
-          //         padding: const EdgeInsets.only(top: 8),
-          //         child: const Icon(
-          //           Icons.shopping_cart_outlined,
-          //         ),
-          //       ),
-          //       if (wishlistViewModel.wishlistCounter > 0)
-          //         Positioned(
-          //           top: 8,
-          //           right: 2,
-          //           child: CircleAvatar(
-          //             backgroundColor: Colors.red,
-          //             radius: 8,
-          //             child: Text(
-          //               wishlistViewModel.wishlistCounter.toString(),
-          //               style: const TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 8,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
         ],
         flexibleSpace:
             (viewModel.isScrolled.value && viewModel.carouselList.isNotEmpty)
@@ -383,55 +330,53 @@ class HomeView extends StatelessWidget {
     required String description,
     required dynamic icon, // image or icon
   }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6, right: 8),
-        decoration: const BoxDecoration(
-          color: Color(0xff262626),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6, right: 8),
+      decoration: const BoxDecoration(
+        color: Color(0xff262626),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(height: 2),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Color(0xFFD9D9D9),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                    ),
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFFD9D9D9),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                icon.runtimeType == IconData
-                    ? Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 12,
-                      )
-                    : SvgPicture.asset(
-                        'assets/images/sale_percent.svg',
-                        height: 12,
-                        width: 12,
-                      )
-              ],
-            )
-          ],
-        ),
+              ),
+              icon.runtimeType == IconData
+                  ? Icon(
+                      icon,
+                      color: Colors.white,
+                      size: 12,
+                    )
+                  : SvgPicture.asset(
+                      'assets/images/sale_percent.svg',
+                      height: 12,
+                      width: 12,
+                    )
+            ],
+          )
+        ],
       ),
     );
   }
@@ -515,7 +460,7 @@ class HomeView extends StatelessWidget {
 
   Widget flashSaleCountDown() {
     return Obx(
-      () => viewModel.discountModel?.value.name != null
+      () => viewModel.discountModel.value.name != null
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -525,7 +470,7 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.discountModel?.value.name ?? '',
+                          viewModel.discountModel.value.name ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -633,26 +578,35 @@ class HomeView extends StatelessWidget {
                 ),
                 itemCount: viewModel.categoriesList.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      const Expanded(
-                        child: CustomNetworkImage(
-                          imageUrl: '',
-                          shape: BoxShape.circle,
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.subCategory, arguments: {
+                        'id': viewModel.categoriesList[index].sId ?? ''
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: CustomNetworkImage(
+                            imageUrl:
+                                viewModel.categoriesList[index].media?.first ??
+                                    '',
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        viewModel.categoriesList[index].name ?? '',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.black,
-                        ),
-                      )
-                    ],
+                        const SizedBox(height: 8),
+                        Text(
+                          viewModel.categoriesList[index].name ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 },
               ),
@@ -678,7 +632,9 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ProductItem2(
                   product: viewModel.productList[index],
-                  //onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.flashProductList[index].sId ?? ''});
+                  },
                   image: viewModel.flashProductList[index].image ?? '',
                   name: viewModel.flashProductList[index].name ?? '',
                   category: viewModel.flashProductList[index].store?.name ?? '',
@@ -757,7 +713,9 @@ class HomeView extends StatelessWidget {
                 (context, index) {
                   return ProductItem2(
                     product: viewModel.productList[index],
-                    //onTap: () {},
+                    onTap: () {
+                          Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.allProductList[index].sId ?? ''});
+                    },
                     image: viewModel.allProductList[index].image ?? '',
                     name: viewModel.allProductList[index].name ?? '',
                     category: viewModel.allProductList[index].store?.name ?? '',

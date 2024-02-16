@@ -130,7 +130,6 @@ class NotificationsServices {
   //function to get device token on which we will send the notifications
   getDeviceToken() async {
     final token = await messaging.getToken();
-    print(token);
     return token;
   }
 

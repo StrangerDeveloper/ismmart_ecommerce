@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -135,7 +134,7 @@ class BottomNavigationView extends StatelessWidget {
                 child: child ??
                     SvgPicture.asset(
                       'assets/icons/$icon',
-                      color: selected ? AppColors.black : Color(0xFF929AAB),
+                      color: selected ? AppColors.black : const Color(0xFF929AAB),
                     )
 
                 // Container(

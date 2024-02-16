@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/app_strings.dart';
+import 'package:ismmart_ecommerce/helpers/common_function.dart';
 import 'package:ismmart_ecommerce/helpers/constants.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/product_details/product_details_viewmodel.dart';
-import 'package:ismmart_ecommerce/screens/product_details/product_model.dart';
-import 'package:ismmart_ecommerce/screens/product_details/review_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/product_model.dart';
+import 'package:ismmart_ecommerce/screens/product_details/model/review_model.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 import 'package:ismmart_ecommerce/widgets/custom_product_qty_counter.dart';
 import 'package:ismmart_ecommerce/widgets/custom_profile_name_rating.dart';
+import 'package:ismmart_ecommerce/widgets/loader_view.dart';
+import 'package:ismmart_ecommerce/widgets/product_item.dart';
 
 class ProductDetailsView extends StatelessWidget {
   ProductDetailsView({super.key});
@@ -23,45 +29,84 @@ class ProductDetailsView extends StatelessWidget {
     return Scaffold(
         appBar: const CustomAppBar2(
           title: 'ISMMART',
+          containsLeading: true,
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 8.0),
+              padding: EdgeInsets.only(right: 12.0),
               child: Icon(
                 Icons.favorite_border_rounded,
                 size: 20,
+                color: AppColors.black,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: 15.0),
               child: Icon(
                 Icons.shopping_cart_outlined,
                 size: 20,
+                color: AppColors.black,
               ),
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          controller: viewModel.scrollController,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                carousel(),
-                titlePrice(),
-                variants(),
-                kSmallDivider,
-                description(),
-                tabs(),
-                reviewsAndRatings(),
-                kSmallDivider,
-                vendorStore(),
-                kSmallDivider,
-                peopleAlsoViewed(),
-              ],
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            SingleChildScrollView(
+              controller: viewModel.scrollController,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Obx(
+                  () => GlobalVariable.showLoader.isTrue ||
+                          viewModel.productModel.value.id == null
+                      ? noDataFound()
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            carousel(),
+                            titlePrice(),
+                            variants(),
+                            kSmallDivider,
+                            description(),
+                            tabs(),
+                            reviewsAndRatings(),
+                            kSmallDivider,
+                            vendorStore(),
+                            kSmallDivider,
+                            peopleAlsoViewed(),
+                          ],
+                        ),
+                ),
+              ),
             ),
-          ),
+            const LoaderView(),
+          ],
         ),
         bottomNavigationBar: bottomBar());
+  }
+
+  Widget noDataFound() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.red700,
+            ),
+            child: const Icon(
+              Icons.close,
+              size: 15,
+              color: AppColors.white,
+            )),
+        Text(
+          'No product found',
+          style: ThemeHelper.textTheme.titleSmall,
+        ),
+      ],
+    );
   }
 
   Widget carousel() {
@@ -114,7 +159,7 @@ class ProductDetailsView extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             color: AppColors.grey4),
                         child: Text(
-                          '${(viewModel.carouselIndex.value) + 1}/${viewModel.productModel.value.media!.length} Photos',
+                          '${viewModel.getCurrentMediaIndex()}/${viewModel.productModel.value.media!.length} Photos',
                           style: ThemeHelper.textTheme.labelSmall!
                               .copyWith(color: AppColors.white),
                         ),
@@ -170,40 +215,55 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   Widget titlePrice() {
+    print("Discount: ${viewModel.productModel.value.discount?.toJson()}");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    viewModel.productModel.value.name ?? 'N/A',
-                    style: ThemeHelper.textTheme.titleLarge,
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                child: Text(
+                  viewModel.productModel.value.name ?? 'N/A',
+                  style: ThemeHelper.textTheme.titleLarge,
                 ),
+              ),
 
-                //discount
+              //discount
+              viewModel.productModel.value.discount == null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2.0, horizontal: 5.0),
+                      child: Text(
+                        'Rs ${viewModel.productModel.value.price ?? 0.0}',
+                        style: ThemeHelper.textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    )
+                  : discountWidget(),
 
-                //Review section
-                Row(
+              //Review section
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                child: Row(
                   children: [
                     starWithRatings(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Text(
                         '${viewModel.productModel.value.totalReviews ?? 0} Reviews',
-                        style: ThemeHelper.textTheme.bodySmall,
+                        style: ThemeHelper.textTheme.labelMedium,
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           Positioned(
             //width: 100,
@@ -247,43 +307,124 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 
-  Widget variants() {
-    return viewModel.productModel.value.options == null
-        ? Container()
-        : Column(
-            children: viewModel.productModel.value.options!
-                .map((Option element) => variantsListItems(
-                    title: element.name, variantsList: element.values))
-                .toList(),
-          );
+  Widget discountWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(
+                'Rs ${CommonFunction.calculatePercentage2(viewModel.productModel.value.price!, viewModel.productModel.value.discount!.percentage!)}',
+                style: ThemeHelper.textTheme.labelLarge!.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  'Rs ${viewModel.productModel.value.price ?? 0.0}',
+                  style: ThemeHelper.textTheme.bodyLarge!.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.red),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: AppColors.red,
+              ),
+              child: Text(
+                '10% OFF',
+                style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
-  Widget variantsListItems({String? title, List<String>? variantsList}) {
+  Widget variants() {
+    // return Padding(
+    //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    //   child: Column(
+    //     children: viewModel.optionsList.entries.map((element) {
+    //       //viewModel.selectedOption.value = element.value!.first;
+    //       viewModel.selectedOptionList.putIfAbsent(element.key, ()=> element.value.first);
+
+    //       return variantsListItems(
+    //           title: element.key, variantList: element.value);
+    //     }).toList(),
+    //   ),
+    // );
+
+    return Obx(
+      () => viewModel.productModel.value.options == null
+          ? Container()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                children:
+                    viewModel.productModel.value.options!.map((Option element) {
+                  viewModel.selectedOptionList
+                      .putIfAbsent(element.name!, () => element.values!.first);
+
+                  return variantsListItems(
+                      title: element.name, variantList: element.values);
+                }).toList(),
+              ),
+            ),
+    );
+  }
+
+  Widget variantsListItems({String? title, List<String>? variantList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textTitle(
-          title!,
-        ),
-        Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: variantsList!.map((e) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  //shape: BoxShape.rectangle,
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: AppColors.black),
+        textTitle(title!),
+        Obx(
+          () => Row(
+            children: variantList!.map((e) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    //viewModel.selectedOption.value = e.toString();
+                    viewModel.selectedOptionList.remove(title);
+                    viewModel.selectedOptionList.putIfAbsent(title, () => e);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      //shape: BoxShape.rectangle,
+                      color: viewModel.selectedOptionList.values.contains(e)
+                          ? AppColors.black
+                          : AppColors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: AppColors.black),
+                    ),
+                    child: Text(
+                      e,
+                      style: ThemeHelper.textTheme.bodySmall!.copyWith(
+                          color: viewModel.selectedOptionList.values.contains(e)
+                              ? AppColors.white
+                              : AppColors.black),
+                    ),
+                  ),
                 ),
-                child: Text(
-                  e,
-                  style: ThemeHelper.textTheme.bodySmall,
-                ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -294,11 +435,10 @@ class ProductDetailsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           textTitle('Description'),
           Text(
-            AppStrings.productDetails,
+            viewModel.productModel.value.description ?? 'N/A',
             style: ThemeHelper.textTheme.bodyMedium,
             //textAlign: TextAlign.,
             maxLines: AppStrings.productDetails.length,
@@ -312,31 +452,19 @@ class ProductDetailsView extends StatelessWidget {
     return DefaultTabController(
         length: 3,
         child: TabBar(
-          tabs: [
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.reviewsKey);
-              },
-              child: const Tab(
-                text: 'Reviews',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.vendorKey);
-              },
-              child: const Tab(
-                text: 'Vendor',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                viewModel.scrollTo(viewModel.similarProductKey);
-              },
-              child: const Tab(
-                text: 'Similar Products',
-              ),
-            )
+          onTap: (index) {
+            if (index == 0) {
+              viewModel.scrollTo(viewModel.reviewsKey);
+            } else if (index == 1) {
+              viewModel.scrollTo(viewModel.vendorKey);
+            } else {
+              viewModel.scrollTo(viewModel.similarProductKey);
+            }
+          },
+          tabs: const [
+            Tab(text: 'Reviews'),
+            Tab(text: 'Vendor'),
+            Tab(text: 'Similar Products')
           ],
         ));
   }
@@ -344,40 +472,42 @@ class ProductDetailsView extends StatelessWidget {
   Widget reviewsAndRatings() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Reviews (${viewModel.reviewsList.length})',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
+      child: Container(
+        key: viewModel.reviewsKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Reviews (${viewModel.reviewsList.length})',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                starWithRatings(),
-              ],
+                  starWithRatings(),
+                ],
+              ),
             ),
-          ),
-          ListView.builder(
-              key: viewModel.reviewsKey,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: viewModel.reviewsList.length,
-              itemBuilder: (_, index) {
-                Review review = viewModel.reviewsList[index];
-                return CustomProfileNameAndRating(
-                  imageUrl: review.user?.image ?? '',
-                  rating: review.rating?.toDouble() ?? 0,
-                  name: review.user?.name,
-                  description: review.description,
-                );
-              }),
-        ],
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: viewModel.reviewsList.length,
+                itemBuilder: (_, index) {
+                  Review review = viewModel.reviewsList[index];
+                  return CustomProfileNameAndRating(
+                    imageUrl: review.user?.image ?? '',
+                    rating: review.rating?.toDouble() ?? 0,
+                    name: review.user?.name,
+                    description: review.description,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
@@ -387,7 +517,7 @@ class ProductDetailsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         //height: Get.height * 0.15,
-        key: viewModel.vendorKey,
+ key: viewModel.vendorKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -399,7 +529,8 @@ class ProductDetailsView extends StatelessWidget {
             ),
             Text(
               'More Products from Techstore',
-              style: ThemeHelper.textTheme.bodySmall,
+              style: ThemeHelper.textTheme.bodySmall!
+                  .copyWith(fontWeight: FontWeight.w600),
             ),
             Padding(
               padding:
@@ -416,21 +547,29 @@ class ProductDetailsView extends StatelessWidget {
                     itemBuilder: (_, index) {
                       Product? storeProducts =
                           viewModel.productModel.value.store?.products![index];
-                      return Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: CustomNetworkImage(
-                          height: 35,
-                          width: 35,
-                          imageUrl: storeProducts!.image ?? '',
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              border: Border.all(color: AppColors.grey2)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: CustomNetworkImage(
+                              height: 35,
+                              width: 35,
+                              imageUrl: storeProducts!.image ?? '',
+                            ),
+                          ),
                         ),
                       );
                     }),
               ),
             ),
             CustomIconTextBtn(
-              onPressed: () {},
+             
+              onPressed: () => Get.toNamed(AppRoutes.vendorStoreRoute),
               backgroundColor: AppColors.white,
               titleColor: AppColors.black,
               radius: 20,
@@ -447,14 +586,50 @@ class ProductDetailsView extends StatelessWidget {
 
   Widget peopleAlsoViewed() {
     return SizedBox(
-      height: Get.height * 0.15,
+      height: Get.height * 0.35,
       key: viewModel.similarProductKey,
-      child: const Column(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('People also Viewed'),
+          textTitle(' People also Viewed'),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount:
+                    viewModel.productModel.value.store!.products?.length ?? 0,
+                itemBuilder: (_, index) {
+                  Product? product =
+                      viewModel.productModel.value.store!.products![index];
+                  num? discount = 0.0;
+                  if (product.discount != null) {
+                    discount = product.discount?.percentage;
+                  }
+                  print("ProductImage: ${product.image}");
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: ProductItem2(
+                        onTap: () {
+                          Get.offNamed(AppRoutes.productDetailsRoute,
+                              preventDuplicates: false,
+                              arguments: {"productId": "${product.id}"});
+                        },
+                        image: product.image!,
+                        discount: discount!,
+                        name: product.name!,
+                        reviews: product.totalReviews!,
+                        rating: product.rating!,
+                        price: 0),
+                  );
+                },
+              ),
+            ),
           ),
+          const SizedBox(height: 10),
         ],
       ),
     );
