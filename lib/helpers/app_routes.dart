@@ -85,8 +85,8 @@ class AppRoutes {
           name: addShippingAddressViewRoute,
           page: () => AddShippingAddressView()),
 
-      GetPage(name: vendorStoreRoute, page: ()=> VendorStoreView()),
-      GetPage(name: subCategory, page: ()=> SubCategoryView()),
+      GetPage(name: vendorStoreRoute, page: () => VendorStoreView()),
+      GetPage(name: subCategory, page: () => SubCategoryView()),
     ];
   }
 }
