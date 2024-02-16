@@ -9,6 +9,8 @@ import '../../helpers/urls.dart';
 import '../product_details/model/product_model.dart';
 
 class SearchDetailViewModel extends GetxController {
+  RxBool showSuffix = false.obs;
+  TextEditingController searchTxtFieldController = TextEditingController();
   String searchTxt = '';
 
   //products
@@ -44,6 +46,7 @@ class SearchDetailViewModel extends GetxController {
   @override
   void onInit() {
     searchTxt = Get.arguments['search_text'];
+    searchTxtFieldController.text = searchTxt;
     super.onInit();
   }
 

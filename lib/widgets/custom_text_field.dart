@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 
 import '../helpers/app_colors.dart';
+import '../helpers/common_function.dart';
 
 //FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {
@@ -93,9 +94,7 @@ class CustomTextField1 extends StatelessWidget {
                   text: TextSpan(
                     text: title,
                     style: ThemeHelper.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.black3,
-                      fontWeight: FontWeight.w600
-                    ),
+                        color: AppColors.black3, fontWeight: FontWeight.w600),
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -1426,3 +1425,84 @@ class CustomTextField5 extends StatelessWidget {
 //     );
 //   }
 // }
+
+class SearchTextField extends StatelessWidget {
+  final String hintText;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final EdgeInsetsGeometry contentPadding;
+  final void Function(String)? onFieldSubmitted;
+  final void Function()? clearTxtFieldOnTap;
+  final bool showSuffix;
+  final void Function()? onTap;
+  final bool readOnly;
+
+  const SearchTextField({
+    super.key,
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 13,
+      vertical: 10,
+    ),
+    this.onChanged,
+    this.hintText = 'Search Products...',
+    this.controller,
+    this.onFieldSubmitted,
+    this.clearTxtFieldOnTap,
+    this.showSuffix = false,
+    this.onTap,
+    this.readOnly = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onTap: onTap,
+      onFieldSubmitted: onFieldSubmitted,
+      controller: controller,
+      onTapOutside: (event) {
+        CommonFunction.closeKeyboard();
+      },
+      onChanged: onChanged,
+      style: const TextStyle(
+        color: AppColors.black3,
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+      ),
+      readOnly: readOnly,
+      showCursor: readOnly ? false : true,
+      decoration: InputDecoration(
+        suffixIcon: showSuffix
+            ? InkWell(
+                onTap: clearTxtFieldOnTap,
+                customBorder: const CircleBorder(),
+                child: const Icon(
+                  Icons.close,
+                  size: 15,
+                  color: AppColors.grey2,
+                ),
+              )
+            : null,
+        suffixIconConstraints: BoxConstraints.tight(const Size(38, 38)),
+        contentPadding: contentPadding,
+        hintText: hintText,
+        hintStyle: const TextStyle(
+          color: AppColors.grey2,
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+        isDense: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.grey1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(width: 1.5, color: AppColors.grey1),
+        ),
+      ),
+    );
+  }
+}

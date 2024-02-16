@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/screens/search_detail/search_detail_view.dart';
 
 class SearchViewModel extends GetxController {
+  RxBool showSuffix = false.obs;
   TextEditingController searchTxtFieldController = TextEditingController();
   List<String> recentSearchesList = <String>[].obs;
 
