@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/api_base_helper.dart';
 import 'package:ismmart_ecommerce/helpers/common_function.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/helpers/urls.dart';
 import 'package:ismmart_ecommerce/screens/product_details/model/product_model.dart';
 import 'package:ismmart_ecommerce/screens/product_details/model/review_model.dart';
@@ -40,8 +44,10 @@ class ProductDetailsViewModel extends GetxController {
   }
 
   Future<void> getProductById() async {
+    GlobalVariable.showLoader.value = true;
+
     Map<String, String> params = {
-      'id': '65bab32422427132d3c17a35',
+      'id': productID,
       'fields[name]': '1',
       'fields[price]': '1',
       'fields[options]': '1',
@@ -57,16 +63,18 @@ class ProductDetailsViewModel extends GetxController {
     await ApiBaseHelper()
         .getMethodQueryParam(url: Urls.getProducts, params: params)
         .then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
 
         ProductResponse productResponse = ProductResponse.fromJson(data);
 
-       
         productModel.value = productResponse.products!.first;
       } else {
         CommonFunction.debugPrint(parsedJson['message']);
       }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
     });
   }
 
@@ -87,6 +95,8 @@ class ProductDetailsViewModel extends GetxController {
       } else {
         CommonFunction.debugPrint(parsedJson['message']);
       }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
     });
   }
 
@@ -109,6 +119,13 @@ class ProductDetailsViewModel extends GetxController {
     if (qtyCount <= 1) return;
     qtyCount--;
     productQtyController.text = "$qtyCount";
+  }
+
+  int getCurrentMediaIndex() {
+    if (productModel.value.media == null || productModel.value.media!.isEmpty) {
+      return 0;
+    }
+    return (carouselIndex.value) + 1;
   }
 
   @override
