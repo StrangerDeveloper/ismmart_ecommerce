@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/screens/change_password/change_password_viewmodel.dart';
