@@ -7,45 +7,43 @@ import '../../widgets/custom_text_field.dart';
 class SearchView extends StatelessWidget {
   SearchView({super.key});
 
-  final SearchViewModel viewModel = Get.put(SearchViewModel());
+  final SearchViewModel viewModel = Get.put(SearchViewModel(), tag: UniqueKey().toString());
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar(),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () => viewModel.recentSearchesList.isNotEmpty
-                          ? titleItem('Recent Searches')
-                          : const SizedBox(),
-                    ),
-                    Obx(
-                      () => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: viewModel.recentSearchesList.map((e) {
-                            return recentSearchItem(e);
-                          }).toList(),
-                        ),
+    return Scaffold(
+      appBar: appBar(),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => viewModel.recentSearchesList.isNotEmpty
+                        ? titleItem('Recent Searches')
+                        : const SizedBox(),
+                  ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: viewModel.recentSearchesList.map((e) {
+                          return recentSearchItem(e);
+                        }).toList(),
                       ),
                     ),
-                    // titleItem('Trending Searches'),
-                    // trendingSearchesListView(),
-                  ],
-                ),
+                  ),
+                  // titleItem('Trending Searches'),
+                  // trendingSearchesListView(),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

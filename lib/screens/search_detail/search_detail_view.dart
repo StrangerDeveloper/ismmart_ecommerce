@@ -16,7 +16,7 @@ import '../search/search_view.dart';
 class SearchDetailView extends StatelessWidget {
   SearchDetailView({super.key});
 
-  final SearchDetailViewModel viewModel = Get.put(SearchDetailViewModel());
+  final SearchDetailViewModel viewModel = Get.put(SearchDetailViewModel(), tag: UniqueKey().toString());
 
   @override
   Widget build(BuildContext context) {

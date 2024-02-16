@@ -8,11 +8,6 @@ class SearchViewModel extends GetxController {
   TextEditingController searchTxtFieldController = TextEditingController();
   List<String> recentSearchesList = <String>[].obs;
 
-  @override
-  void onInit() {
-    print('onInit');
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -23,7 +18,6 @@ class SearchViewModel extends GetxController {
 
   @override
   void onClose() {
-    print('onClose');
     searchTxtFieldController.dispose();
     super.onClose();
   }

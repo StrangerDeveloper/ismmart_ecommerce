@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/screens/cart/cart_view.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/search/search_view.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
@@ -118,7 +119,7 @@ class HomeView extends StatelessWidget {
         pinned: true,
         leading: IconButton(
           onPressed: () {
-            Get.toNamed(AppRoutes.search, preventDuplicates: false);
+            Get.toNamed(AppRoutes.search, preventDuplicates: false,);
           },
           icon: const Icon(
             CupertinoIcons.search,
