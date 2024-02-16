@@ -144,53 +144,57 @@ class SubCategoryView extends StatelessWidget {
   }
 
   Widget topFiltration() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-      child: Row(
-        children: [
-          Obx(
-            () => filterOptionItem2(
-              title: 'Sort by',
-              isSelected: viewModel.sortValue.value == 'ascending' ||
-                  viewModel.sortValue.value == 'descending',
-              icon: Icons.keyboard_arrow_down_rounded,
-              onTap: () {
-                sortBottomSheet();
-              },
-            ),
-          ),
-          Obx(
-            () => filterOptionItem2(
-              title: 'New Arrivals',
-              isSelected: viewModel.newArrivalValue.value,
-              onTap: () {
-                viewModel.newArrivalSelection();
-              },
-            ),
-          ),
-          // filterOptionItem2(
-          //   title: 'Popular',
-          //   isSelected: false,
-          // ),
-          Obx(
-            () => filterOptionItem2(
-              title: 'Top-rated',
-              isSelected: viewModel.topRatedValue.value,
-              onTap: () {
-                viewModel.topRatedSelection();
-              },
-            ),
-          ),
-          filterOptionItem2(
-            title: 'Filter',
-            isSelected: false,
-            icon: Icons.filter_alt_rounded,
-            onTap: () {
-              filterBottomSheet();
-            },
-          )
-        ],
-      ),
+    return Obx(
+      () => viewModel.subCategoriesList.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              child: Row(
+                children: [
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'Sort by',
+                      isSelected: viewModel.sortValue.value == 'ascending' ||
+                          viewModel.sortValue.value == 'descending',
+                      icon: Icons.keyboard_arrow_down_rounded,
+                      onTap: () {
+                        sortBottomSheet();
+                      },
+                    ),
+                  ),
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'New Arrivals',
+                      isSelected: viewModel.newArrivalValue.value,
+                      onTap: () {
+                        viewModel.newArrivalSelection();
+                      },
+                    ),
+                  ),
+                  // filterOptionItem2(
+                  //   title: 'Popular',
+                  //   isSelected: false,
+                  // ),
+                  Obx(
+                    () => filterOptionItem2(
+                      title: 'Top-rated',
+                      isSelected: viewModel.topRatedValue.value,
+                      onTap: () {
+                        viewModel.topRatedSelection();
+                      },
+                    ),
+                  ),
+                  filterOptionItem2(
+                    title: 'Filter',
+                    isSelected: false,
+                    icon: Icons.filter_alt_rounded,
+                    onTap: () {
+                      filterBottomSheet();
+                    },
+                  )
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 
