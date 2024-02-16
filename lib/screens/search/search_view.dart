@@ -38,8 +38,8 @@ class SearchView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    titleItem('Trending Searches'),
-                    trendingSearchesListView(),
+                    // titleItem('Trending Searches'),
+                    // trendingSearchesListView(),
                   ],
                 ),
               ),
@@ -50,7 +50,7 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  AppBar appBar(){
+  AppBar appBar() {
     return AppBar(
       elevation: 0,
       titleSpacing: 0,
@@ -70,7 +70,7 @@ class SearchView extends StatelessWidget {
             viewModel.showSuffix.value = value.isNotEmpty ? true : false;
           },
           onFieldSubmitted: (value) {
-            viewModel.searchTheText(value);
+            viewModel.searchTheText(value, saveRecentSearch: true);
           },
           clearTxtFieldOnTap: () {
             viewModel.searchTxtFieldController.clear();

@@ -7,9 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
-import 'package:ismmart_ecommerce/screens/search/search_view.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
@@ -76,7 +76,6 @@ class HomeView extends StatelessWidget {
                     flashSaleProductList(),
                     const Divider(),
                     allProductsTitle(),
-                    const SizedBox(height: 80),
                   ],
                 ),
               ),
@@ -90,6 +89,9 @@ class HomeView extends StatelessWidget {
                         )
                       : const SizedBox(),
                 ),
+              ),
+              const SliverPadding(
+                padding: EdgeInsets.only(bottom: 60),
               ),
             ],
           ),
@@ -119,7 +121,7 @@ class HomeView extends StatelessWidget {
         pinned: true,
         leading: IconButton(
           onPressed: () {
-            Get.to(() => SearchView());
+            Get.toNamed(AppRoutes.search, preventDuplicates: false);
           },
           icon: const Icon(
             CupertinoIcons.search,
@@ -749,30 +751,35 @@ class HomeView extends StatelessWidget {
   Widget allProductList() {
     return Obx(
       () => viewModel.allProductList.isNotEmpty
-          ? SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 25,
-                childAspectRatio: 0.62,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return ProductItem2(
-                    product: viewModel.productList[index],
-                    //onTap: () {},
-                    image: viewModel.allProductList[index].image ?? '',
-                    name: viewModel.allProductList[index].name ?? '',
-                    category: viewModel.allProductList[index].store?.name ?? '',
-                    rating: viewModel.allProductList[index].rating ?? 0,
-                    reviews: viewModel.allProductList[index].totalReviews ?? 0,
-                    discount:
-                        viewModel.allProductList[index].discount?.percentage ??
-                            0,
-                    price: viewModel.allProductList[index].price ?? 0,
-                  );
-                },
-                childCount: viewModel.allProductList.length,
+          ? SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 25,
+                  childAspectRatio: 0.62,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return ProductItem2(
+                      product: viewModel.productList[index],
+                      //onTap: () {},
+                      image: viewModel.allProductList[index].image ?? '',
+                      name: viewModel.allProductList[index].name ?? '',
+                      category:
+                          viewModel.allProductList[index].store?.name ?? '',
+                      rating: viewModel.allProductList[index].rating ?? 0,
+                      reviews:
+                          viewModel.allProductList[index].totalReviews ?? 0,
+                      discount: viewModel
+                              .allProductList[index].discount?.percentage ??
+                          0,
+                      price: viewModel.allProductList[index].price ?? 0,
+                    );
+                  },
+                  childCount: viewModel.allProductList.length,
+                ),
               ),
             )
           : const SliverToBoxAdapter(

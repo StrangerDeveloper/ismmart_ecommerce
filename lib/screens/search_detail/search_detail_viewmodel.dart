@@ -50,6 +50,8 @@ class SearchDetailViewModel extends GetxController {
     super.onInit();
   }
 
+
+
   @override
   void onReady() {
     getFilterSetting();

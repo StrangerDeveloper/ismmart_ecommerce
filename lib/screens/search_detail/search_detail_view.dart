@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/screens/search_detail/search_detail_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
@@ -50,7 +51,7 @@ class SearchDetailView extends StatelessWidget {
       child: SearchTextField(
         controller: viewModel.searchTxtFieldController,
         onTap: () {
-          Get.to(() => SearchView());
+          Get.toNamed(AppRoutes.search, preventDuplicates: false);
         },
         readOnly: true,
       ),
