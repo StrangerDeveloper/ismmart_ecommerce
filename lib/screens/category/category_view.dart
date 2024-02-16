@@ -43,9 +43,7 @@ class CategoryView extends StatelessWidget {
                                 Get.toNamed(AppRoutes.subCategory, arguments: {
                                   'id':
                                       viewModel.categoriesList[index].sId ?? ''
-                                }
-
-                                );
+                                });
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(

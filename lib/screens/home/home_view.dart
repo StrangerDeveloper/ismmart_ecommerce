@@ -6,14 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
-import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
-import 'package:marquee/marquee.dart';
 
 import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_network_image.dart';
@@ -328,7 +325,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-
   Widget appBarBackgroundImage() {
     return Obx(
       () => Stack(
@@ -485,7 +481,7 @@ class HomeView extends StatelessWidget {
 
   Widget flashSaleCountDown() {
     return Obx(
-      () => viewModel.discountModel?.value.name != null
+      () => viewModel.discountModel.value.name != null
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -495,7 +491,7 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.discountModel?.value.name ?? '',
+                          viewModel.discountModel.value.name ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -603,26 +599,35 @@ class HomeView extends StatelessWidget {
                 ),
                 itemCount: viewModel.categoriesList.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      const Expanded(
-                        child: CustomNetworkImage(
-                          imageUrl: '',
-                          shape: BoxShape.circle,
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.subCategory, arguments: {
+                        'id': viewModel.categoriesList[index].sId ?? ''
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: CustomNetworkImage(
+                            imageUrl:
+                                viewModel.categoriesList[index].media?.first ??
+                                    '',
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        viewModel.categoriesList[index].name ?? '',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.black,
-                        ),
-                      )
-                    ],
+                        const SizedBox(height: 8),
+                        Text(
+                          viewModel.categoriesList[index].name ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 },
               ),

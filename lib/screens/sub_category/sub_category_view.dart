@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -37,18 +36,11 @@ class SubCategoryView extends StatelessWidget {
     );
   }
 
-  AppBar appBar() {
+  appBar() {
     return AppBar(
       elevation: 0,
       iconTheme: const IconThemeData(
         color: Colors.black,
-      ),
-      // pinned: true,
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          CupertinoIcons.search,
-        ),
       ),
       title: const Text(
         'ISMMART',
@@ -492,7 +484,6 @@ class SubCategoryView extends StatelessWidget {
             viewModel.filterStartPrice.value,
             viewModel.filterEndPrice.value,
           ),
-
           onChanged: (values) {
             viewModel.filterStartPrice.value = values.start.toInt().toDouble();
             viewModel.filterEndPrice.value = values.end.toInt().toDouble();
