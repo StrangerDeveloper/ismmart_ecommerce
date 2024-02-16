@@ -170,7 +170,10 @@ class SearchDetailView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ProductItem2(
                           product: viewModel.productList[index],
-                          //onTap: () {},
+                          // onTap: () {
+                          //       Get.toNamed(AppRoutes.productDetailsRoute, arguments: {'productId': viewModel.productList[index].id ?? ''});
+                
+                          // },
                           image: viewModel.productList[index].image ?? '',
                           name: viewModel.productList[index].name ?? '',
                           category:
