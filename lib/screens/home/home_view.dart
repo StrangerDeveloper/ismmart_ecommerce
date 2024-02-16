@@ -40,7 +40,6 @@ class HomeView extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     carousel(),
-                    marquee(),
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(vertical: 25),
                     //   child: Row(
@@ -361,40 +360,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget marquee() {
-    return Obx(
-      () => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: SizedBox(
-          height: 20,
-          child: viewModel.newsList.isEmpty
-              ? Container()
-              : Marquee(
-                  text: viewModel.newsList
-                      .map((e) =>
-                          "(${e.type}) -> ${e.name}: ${e.description}   ")
-                      .join(),
-                  style: ThemeHelper.textTheme.bodyMedium!.copyWith(
-                    color: AppColors.red700,
-                    fontWeight: FontWeight.w600,
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 12,
-                  ),
-                  scrollAxis: Axis.horizontal,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  blankSpace: 20.0,
-                  velocity: 50.0,
-                  pauseAfterRound: const Duration(milliseconds: 500),
-                  startPadding: 10.0,
-                  accelerationDuration: const Duration(seconds: 1),
-                  accelerationCurve: Curves.linear,
-                  decelerationDuration: const Duration(milliseconds: 500),
-                  decelerationCurve: Curves.easeOut,
-                ),
-        ),
-      ),
-    );
-  }
 
   Widget appBarBackgroundImage() {
     return Obx(
@@ -552,7 +517,7 @@ class HomeView extends StatelessWidget {
 
   Widget flashSaleCountDown() {
     return Obx(
-      () => viewModel.discountModel.value.name != null
+      () => viewModel.discountModel?.value.name != null
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -562,7 +527,7 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          viewModel.discountModel.value.name ?? '',
+                          viewModel.discountModel?.value.name ?? '',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,

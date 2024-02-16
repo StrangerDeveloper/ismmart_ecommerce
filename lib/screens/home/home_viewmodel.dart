@@ -286,7 +286,6 @@ class HomeViewModel extends GetxController {
           allProductList.addAll(data.map((e) => HomeProductModel.fromJson(e)));
           productList.addAll(data.map((e) => Product.fromJson(e)));
 
-          print("ProductList.length ${productList.length}");
         }
       }).catchError((e) {
         CommonFunction.debugPrint(e);
