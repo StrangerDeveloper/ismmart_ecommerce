@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
 
@@ -10,6 +12,8 @@ import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/loader_view.dart';
+import '../order_details/order_detail_view.dart';
 
 class OrderListingView extends StatelessWidget {
   OrderListingView({super.key, this.callingFor = 'All'});
@@ -40,43 +44,47 @@ class OrderListingView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20.0, bottom: 2.0),
                   child: _buildSearchRow(),
                 ),
-                Obx(() =>
-                        // viewModel.orderItemList.isNotEmpty
-                        //     ?
-                        Padding(
+                Obx(
+                  () => viewModel.orderItemList.isNotEmpty
+                      ? Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ListView.builder(
                             controller: viewModel.scrollController,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            //itemCount: viewModel.orderItemList.length,
-                            itemCount: viewModel
-                                    .orderItemModel.value.lineitems?.length ??
-                                2,
+                            itemCount: viewModel.orderItemList.length,
+                            // itemCount: viewModel
+                            //         .orderItemModel.value.lineitems?.length ??
+                            //     2,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
+                              return InkWell(
                                 onTap: () {
-                                  Get.toNamed('/orderDetailView');
-                                  // Get.to(
-                                  //   () => OrderDetailView(),
-                                  //   arguments: {
-                                  //     'model': viewModel.orderItemList[index],
-                                  //   },
-                                  // );
+                                  // viewModel.orderIdSelection(viewModel
+                                  //     .orderItemList[index].sId
+                                  //     .toString());
+                                  // Get.toNamed(
+                                  // DetailView');
+                                  Get.toNamed(
+                                    AppRoutes.orderDetailViewRoute,
+                                    arguments: {
+                                      'itemId':
+                                          viewModel.orderItemList[index].sId,
+                                    },
+                                  );
                                 },
                                 child: _buildOrderCard(index),
                               );
                             },
                           ),
                         )
-                    // : const Center(
-                    //     child: Text('No Data Found'),
-                    //   ),
-                    ),
+                      : const Center(
+                          child: Text('No Data Found'),
+                        ),
+                ),
               ],
             ),
           ),
-          //const LoaderView(),
+          const LoaderView(),
         ],
       ),
     );
@@ -124,16 +132,17 @@ class OrderListingView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _customField1(
-                        //"Order No ${viewModel.orderItemList[index].orderId ?? "id"}"
-                        "Order No ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "123456"}"),
+                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"
+                        //"Order No ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "123456"}",
+                        ),
                   ),
                   _customField2(
-                    viewModel.orderItemModel.value.createdAt ?? "date",
-                    // DateFormat("d MMM y").format(
-                    //   DateTime.parse(
-                    //       // viewModel.orderItemList[index].createdAt ?? "now"
-                    //       viewModel.orderItemModel.value.createdAt ?? "now"),
-                    // ),
+                    //viewModel.orderItemModel.value.createdAt ?? "date",
+                    DateFormat("d MMM y").format(
+                      DateTime.parse(
+                          viewModel.orderItemList[index].createdAt ?? "now"),
+                      //viewModel.orderItemModel.value.createdAt ?? "now"),
+                    ),
                   ),
                 ],
               ),
@@ -141,24 +150,23 @@ class OrderListingView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(
-                    () => _customRichText(
-                      text1: "Tracking number: ",
-                      text2: viewModel
-                              .orderItemModel.value.lineitems?[index].sId ??
-                          "IW3475453455",
-                    ),
+                  // Obx(
+                  //   () => _customRichText(
+                  //     text1: "Tracking number: ",
+                  //     text2: viewModel
+                  //             .orderItemModel.value.lineitems?[index].sId ??
+                  //         "IW3475453455",
+                  //   ),
 
-                    // _customField2(
-                    //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
-                  ),
+                  //   // _customField2(
+                  //   //     "Tracking number: ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "IW3475453455"}"),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
                     child: Obx(
                       () => _customRichText(
                         text1: "Quantity: ",
-                        text2: viewModel
-                                .orderItemModel.value.lineitems?[index].qty
+                        text2: viewModel.orderItemList[index].quantity
                                 .toString() ??
                             "qty",
                       ),
@@ -194,9 +202,10 @@ class OrderListingView extends StatelessWidget {
                         padding: const EdgeInsets.all(5),
                       ),
                       Obx(
-                        () => _customField2(
-                            viewModel.orderItemModel.value.fulfilmentStatus ??
-                                "status"),
+                        () => _status(
+                            //viewModel.orderItemModel.value.status ?? "Pending",
+                            viewModel.orderItemList[index].deliveryStatus ??
+                                "Pending"),
                       ),
                     ],
                   )
@@ -251,34 +260,13 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  Widget _status(
-    String text,
-  ) {
-    Color color = statusColor(text);
-    return FittedBox(
-      fit: BoxFit.contain,
-      child: Container(
-        padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
-        decoration: BoxDecoration(
-            color: color.withOpacity(0.25),
-            borderRadius: BorderRadius.circular(30)),
-        child: Row(
-          children: [
-            Icon(
-              Icons.circle_outlined,
-              color: color,
-              size: 10,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-              ),
-            ),
-          ],
-        ),
+  Widget _status(String value) {
+    Color color = statusColor(value);
+    return Text(
+      value.toString(),
+      style: ThemeHelper.textTheme.bodySmall?.copyWith(
+        color: color,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

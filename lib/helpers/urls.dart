@@ -9,6 +9,7 @@ class Urls {
   static String register = "/customer/auth/register";
   static String forgetPassword = "/auth/forgot";
   static String resetPassword = "/auth/reset";
+  static String getOrders = "/customer/order";
 
   //profile
   static String getProfile = "/auth/profile";
