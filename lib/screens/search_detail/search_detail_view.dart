@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -10,8 +9,9 @@ import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_range_shape.dart';
+import '../../widgets/custom_text_field.dart';
 import '../../widgets/product_item.dart';
-import '../wishlist/wishlist_view.dart';
+import '../search/search_view.dart';
 
 class SearchDetailView extends StatelessWidget {
   SearchDetailView({super.key});
@@ -39,41 +39,22 @@ class SearchDetailView extends StatelessWidget {
   AppBar appBar() {
     return AppBar(
       elevation: 0,
-      iconTheme: const IconThemeData(
-        color: Colors.black,
+      titleSpacing: 0,
+      iconTheme: const IconThemeData(color: Colors.black),
+      title: searchTxtField(),
+    );
+  }
+
+  Widget searchTxtField() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: SearchTextField(
+        controller: viewModel.searchTxtFieldController,
+        onTap: () {
+          Get.to(() => SearchView());
+        },
+        readOnly: true,
       ),
-      // pinned: true,
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          CupertinoIcons.search,
-        ),
-      ),
-      title: const Text(
-        'ISMMART',
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w700,
-          color: Colors.black,
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Get.to(() => WishlistView());
-          },
-          icon: const Icon(
-            Icons.favorite_border_sharp,
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.shopping_cart_outlined,
-          ),
-        ),
-      ],
     );
   }
 

@@ -10,6 +10,7 @@ import 'package:ismmart_ecommerce/helpers/app_colors.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
 import 'package:ismmart_ecommerce/screens/home/home_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/search/search_view.dart';
 import 'package:ismmart_ecommerce/screens/wishlist/wishlist_viewModel.dart';
 import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 import 'package:ismmart_ecommerce/widgets/product_item.dart';
@@ -39,7 +40,7 @@ class HomeView extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     carousel(),
-
+                    marquee(),
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(vertical: 25),
                     //   child: Row(
@@ -151,7 +152,9 @@ class HomeView extends StatelessWidget {
         ),
         pinned: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => SearchView());
+          },
           icon: const Icon(
             CupertinoIcons.search,
           ),
@@ -358,6 +361,41 @@ class HomeView extends StatelessWidget {
     );
   }
 
+  Widget marquee() {
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: SizedBox(
+          height: 20,
+          child: viewModel.newsList.isEmpty
+              ? Container()
+              : Marquee(
+                  text: viewModel.newsList
+                      .map((e) =>
+                          "(${e.type}) -> ${e.name}: ${e.description}   ")
+                      .join(),
+                  style: ThemeHelper.textTheme.bodyMedium!.copyWith(
+                    color: AppColors.red700,
+                    fontWeight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                    fontSize: 12,
+                  ),
+                  scrollAxis: Axis.horizontal,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  blankSpace: 20.0,
+                  velocity: 50.0,
+                  pauseAfterRound: const Duration(milliseconds: 500),
+                  startPadding: 10.0,
+                  accelerationDuration: const Duration(seconds: 1),
+                  accelerationCurve: Curves.linear,
+                  decelerationDuration: const Duration(milliseconds: 500),
+                  decelerationCurve: Curves.easeOut,
+                ),
+        ),
+      ),
+    );
+  }
+
   Widget appBarBackgroundImage() {
     return Obx(
       () => Stack(
@@ -384,55 +422,53 @@ class HomeView extends StatelessWidget {
     required String description,
     required dynamic icon, // image or icon
   }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6, right: 8),
-        decoration: const BoxDecoration(
-          color: Color(0xff262626),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6, right: 8),
+      decoration: const BoxDecoration(
+        color: Color(0xff262626),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(height: 2),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Color(0xFFD9D9D9),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                    ),
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFFD9D9D9),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                icon.runtimeType == IconData
-                    ? Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 12,
-                      )
-                    : SvgPicture.asset(
-                        'assets/images/sale_percent.svg',
-                        height: 12,
-                        width: 12,
-                      )
-              ],
-            )
-          ],
-        ),
+              ),
+              icon.runtimeType == IconData
+                  ? Icon(
+                      icon,
+                      color: Colors.white,
+                      size: 12,
+                    )
+                  : SvgPicture.asset(
+                      'assets/images/sale_percent.svg',
+                      height: 12,
+                      width: 12,
+                    )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/screens/search/search_viewmodel.dart';
@@ -14,25 +13,9 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(),
         body: Column(
           children: [
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                searchTxtField(),
-              ],
-            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -67,28 +50,30 @@ class SearchView extends StatelessWidget {
     );
   }
 
+  AppBar appBar(){
+    return AppBar(
+      elevation: 0,
+      titleSpacing: 0,
+      iconTheme: const IconThemeData(color: Colors.black),
+      title: searchTxtField(),
+    );
+  }
+
   Widget searchTxtField() {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
-        child: CustomTextField1(
+    return Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: Obx(
+        () => SearchTextField(
           controller: viewModel.searchTxtFieldController,
-          filled: false,
-          prefixIcon: CupertinoIcons.search,
-          hintText: 'Search ...',
-          suffixIconButton: IconButton(
-            visualDensity: VisualDensity.compact,
-            onPressed: () {
-              if (viewModel.searchTxtFieldController.text.isEmpty) return;
-              viewModel.searchTxtFieldController.clear();
-            },
-            icon: const Icon(
-              Icons.close,
-              color: Color(0xFF949494),
-            ),
-          ),
+          showSuffix: viewModel.showSuffix.value,
+          onChanged: (value) {
+            viewModel.showSuffix.value = value.isNotEmpty ? true : false;
+          },
           onFieldSubmitted: (value) {
             viewModel.searchTheText(value);
+          },
+          clearTxtFieldOnTap: () {
+            viewModel.searchTxtFieldController.clear();
           },
         ),
       ),
