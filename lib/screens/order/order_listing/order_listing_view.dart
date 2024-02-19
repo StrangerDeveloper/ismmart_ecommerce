@@ -361,22 +361,6 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  //     builder: (BuildContext context) {
-  //       return Padding(
-  //         padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 const Icon(
-  //                   Icons.menu,
-  //                   //color: ThemeHelper.blue1,
-  //                 ),
-  //                 const SizedBox(width: 10),
-  //                 const Text(
   //                   'Sort',
   //                   style: TextStyle(
   //                     fontWeight: FontWeight.w600,
