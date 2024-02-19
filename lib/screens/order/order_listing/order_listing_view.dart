@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_ecommerce/helpers/app_colors.dart';
-import 'package:ismmart_ecommerce/helpers/app_routes.dart';
-import 'package:ismmart_ecommerce/helpers/theme_helper.dart';
-import 'package:ismmart_ecommerce/screens/order/order_listing/order_listing_viewmodel.dart';
+import '../../../helpers/app_colors.dart';
+import '../../../helpers/app_routes.dart';
+import '../../../helpers/theme_helper.dart';
+import '../../../screens/order/order_listing/order_listing_viewmodel.dart';
 
 import '../../../helpers/global_variables.dart';
 import '../../../widgets/custom_appbar.dart';
