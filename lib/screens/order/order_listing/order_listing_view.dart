@@ -13,7 +13,6 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/loader_view.dart';
-import '../order_details/order_detail_view.dart';
 
 class OrderListingView extends StatelessWidget {
   OrderListingView({super.key, this.callingFor = 'All'});
