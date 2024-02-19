@@ -361,34 +361,6 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  //             Obx(
-  //               () => CustomRadioButton2(
-  //                 title: 'All',
-  //                 groupValue: viewModel.filterRadioBtn.value,
-  //                 value: 'all',
-  //                 onChanged: (value) {
-  //                   viewModel.radioBtnSelection(value);
-  //                 },
-  //               ),
-  //             ),
-  //             Obx(
-  //               () => CustomRadioButton2(
-  //                 title: 'Date, old to new',
-  //                 groupValue: viewModel.filterRadioBtn.value,
-  //                 value: 'oldToNew',
-  //                 onChanged: (value) {
-  //                   viewModel.radioBtnSelection(value);
-  //                 },
-  //               ),
-  //             ),
-  //             Obx(
-  //               () => CustomRadioButton2(
-  //                 title: 'Date, new to old',
-  //                 groupValue: viewModel.filterRadioBtn.value,
-  //                 value: 'newToOld',
-  //                 onChanged: (value) {
-  //                   viewModel.radioBtnSelection(value);
-  //                 },
   //               ),
   //             ),
   //             const SizedBox(height: 10),
