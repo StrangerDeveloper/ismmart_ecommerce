@@ -358,7 +358,6 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget _buildOrderInfo(BuildContext ctx) {
-    print("orderItemModel: ${viewModel.orderItemModel.value.toJson()}");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
