@@ -158,7 +158,6 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget _listViewItem(BuildContext context, Lineitems? model) {
-    // print("modelcvbv: ${model!.toJson()} ");
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
