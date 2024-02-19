@@ -20,14 +20,10 @@ class OrderDetailViewModel extends GetxController {
       print("itemId: ${itemId.value}");
     }
     getaorderById();
-    // orderItemModel.value = Get.arguments['model'];
-    // lineItemList.addAll(orderItemModel.value.lineitems ?? []);
     super.onInit();
   }
 
   Future<void> getaorderById() async {
-    // GlobalVariable.showLoader.value = true;
-
     Map<String, String> params = {
       "id": itemId.value,
     };
