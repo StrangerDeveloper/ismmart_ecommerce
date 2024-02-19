@@ -361,17 +361,6 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  // filterBottomSheet() {
-  //   showModalBottomSheet(
-  //     context: Get.context!,
-  //     isScrollControlled: true,
-  //     backgroundColor: Colors.white,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.only(
-  //         topLeft: Radius.circular(20),
-  //         topRight: Radius.circular(20),
-  //       ),
-  //     ),
   //     builder: (BuildContext context) {
   //       return Padding(
   //         padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
