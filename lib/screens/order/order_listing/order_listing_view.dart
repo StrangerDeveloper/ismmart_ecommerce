@@ -361,26 +361,6 @@ class OrderListingView extends StatelessWidget {
     );
   }
 
-  //                   'Sort',
-  //                   style: TextStyle(
-  //                     fontWeight: FontWeight.w600,
-  //                     //color: ThemeHelper.blue1,
-  //                     fontSize: 16,
-  //                   ),
-  //                 ),
-  //                 const Spacer(),
-  //                 IconButton(
-  //                   visualDensity: VisualDensity.compact,
-  //                   onPressed: () {
-  //                     Get.back();
-  //                   },
-  //                   icon: const Icon(
-  //                     Icons.close,
-  //                     color: Colors.red,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
   //             Obx(
   //               () => CustomRadioButton2(
   //                 title: 'All',
