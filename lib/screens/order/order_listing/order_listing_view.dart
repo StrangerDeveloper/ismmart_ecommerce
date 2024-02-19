@@ -360,20 +360,4 @@ class OrderListingView extends StatelessWidget {
       },
     );
   }
-
-  //               ),
-  //             ),
-  //             const SizedBox(height: 10),
-  //             CustomTextBtn(
-  //               title: 'Done',
-  //               onPressed: () {
-  //                 Get.back();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }
