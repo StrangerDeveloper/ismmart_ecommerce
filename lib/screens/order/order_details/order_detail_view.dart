@@ -158,7 +158,7 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget _listViewItem(BuildContext context, Lineitems? model) {
-    print("modelcvbv: ${model!.toJson()} ");
+    // print("modelcvbv: ${model!.toJson()} ");
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -177,7 +177,7 @@ class OrderDetailView extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: _status(model.deliveryStatus ?? "status"),
+              child: _status(model?.deliveryStatus ?? "status"),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +187,7 @@ class OrderDetailView extends StatelessWidget {
                     CustomNetworkImage(
                       width: 40,
                       height: 40,
-                      imageUrl: model.media?[0].url ??
+                      imageUrl: model?.media?[0].url ??
                           'assets/images/image_not_found.png',
                       shape: BoxShape.rectangle,
                     ),
@@ -197,14 +197,14 @@ class OrderDetailView extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _customField2(model.name ?? "product name"),
+                        _customField2(model?.name ?? "product name"),
                         Padding(
                           padding:
                               const EdgeInsets.only(top: 6.0, bottom: 12.0),
-                          child: _customField1(model.storeName ?? "Vendor"),
+                          child: _customField1(model?.storeName ?? "Vendor"),
                         ),
                         Row(
-                          children: model.options?.map((e) {
+                          children: model?.options?.map((e) {
                                 return Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: RichText(
@@ -307,9 +307,9 @@ class OrderDetailView extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: _customField2(
-                      "Rs. ${model.lineItemTotals?.total?.toStringAsFixed(2) ?? "total"}"),
+                      "Rs. ${model?.lineItemTotals?.total?.toStringAsFixed(2) ?? "total"}"),
                 ),
-                if (model.fulfilmentStatus == "delivered")
+                if (model?.fulfilmentStatus == "delivered")
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 16.0,
