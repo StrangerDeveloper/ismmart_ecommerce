@@ -115,7 +115,9 @@ class CheckoutView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Get.to(() => ShippingAddressListView());
+              Get.to(
+                () => ShippingAddressListView(),
+              );
             },
             child: const Text(
               'Change',

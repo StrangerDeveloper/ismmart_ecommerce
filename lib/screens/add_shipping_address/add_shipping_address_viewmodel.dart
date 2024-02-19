@@ -4,6 +4,7 @@ import '../../helpers/api_base_helper.dart';
 import '../../helpers/common_function.dart';
 import '../../helpers/global_variables.dart';
 import '../../helpers/urls.dart';
+import '../shipping_address_list/shipingAdress_model.dart';
 import '../shipping_address_list/shipping_address_list_viewmodel.dart';
 import 'cities_model.dart';
 import 'countries_model.dart';
@@ -11,7 +12,7 @@ import 'location_model.dart';
 
 class AddLocationViewModel extends GetxController {
   bool isEdit = false;
-  LocationModel locationModel = LocationModel();
+  ShippingAdressModel locationModel = ShippingAdressModel();
   GlobalKey<FormState> addLocationFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController countryController = TextEditingController();
@@ -109,14 +110,18 @@ class AddLocationViewModel extends GetxController {
   }
 
   saveAndCreateBtn() async {
+    // print("user id ======>>> ${locationModel.sId}");
     if (isFormChanged() == false) {
+      print("no change in data ====>>>");
       Get.back();
       return;
     }
+    GlobalVariable.showLoader.value = true;
 
     if ((addLocationFormKey.currentState?.validate() ?? false) &&
         selectedCityId != '' &&
         selectedCountryId != '') {
+      print("validation true=====>>>>");
       GlobalVariable.showLoader.value = true;
       Map<String, String> param = {
         "name": nameController.text,
@@ -128,42 +133,25 @@ class AddLocationViewModel extends GetxController {
         // "phone": nameController.text,
       };
 
-      if (isEdit) {
-        await ApiBaseHelper()
-            .putMethod(
-                url: '${Urls.updateLocation}${locationModel.sId}', body: param)
-            .then((parsedJson) {
-          GlobalVariable.showLoader.value = false;
-          if (parsedJson['success'] == true &&
-              parsedJson['message'] == 'Location Updated Successfully') {
-            ShippingAddressListViewModel viewModel = Get.find();
-            viewModel.getLocationListApi();
-            Get.back();
-            // AppConstant.displaySnackBar('Success', parsedJson['message']);
-          } else {
-            // AppConstant.displaySnackBar('Error', parsedJson['message']);
-          }
-        }).catchError((e) {
-          CommonFunction.debugPrint(e);
-        });
-      } else {
-        await ApiBaseHelper()
-            .postMethod(url: Urls.addLocation, body: param)
-            .then((parsedJson) {
-          GlobalVariable.showLoader.value = false;
-          if (parsedJson['success'] == true &&
-              parsedJson['message'] == 'Location added successfully') {
-            ShippingAddressListViewModel viewModel = Get.find();
-            viewModel.getLocationListApi();
-            Get.back();
-            // AppConstant.displaySnackBar('Success', parsedJson['message']);
-          } else {
-            // AppConstant.displaySnackBar('Error', parsedJson['message']);
-          }
-        }).catchError((e) {
-          CommonFunction.debugPrint(e);
-        });
-      }
+      await ApiBaseHelper()
+          .postMethod(url: Urls.addLocation, body: param)
+          .then((parsedJson) {
+        GlobalVariable.showLoader.value = false;
+        if (parsedJson['success'] == true &&
+            parsedJson['message'] == 'Location added successfully') {
+          ShippingAddressListViewModel viewModel = Get.find();
+          viewModel.getLocationListApi();
+          Get.back();
+          CommonFunction.showSnackBar(
+              title: 'Success', message: parsedJson['message']);
+        } else {
+          CommonFunction.showSnackBar(
+              title: 'Error', message: parsedJson['message']);
+        }
+      }).catchError((e) {
+        GlobalVariable.showLoader.value = false;
+        CommonFunction.debugPrint(e);
+      });
     }
   }
 
@@ -201,5 +189,45 @@ class AddLocationViewModel extends GetxController {
     }).catchError((e) {
       CommonFunction.debugPrint(e);
     });
+  }
+
+  Future<void> updateShippingAdrrApi() async {
+    print("edit api call ----");
+    if (isFormChanged() == false) {
+      print("no change in data ====>>>");
+      Get.back();
+      return;
+    } else {
+      GlobalVariable.showLoader.value = true;
+      Map<String, String> param = {
+        "name": nameController.text,
+        "country": selectedCountryId,
+        "city": selectedCityId,
+        "address": addressController.text,
+        "province": provinceController.text,
+        "status": statusList[statusSelectedIndex.value],
+        // "phone": nameController.text,
+      };
+      await ApiBaseHelper()
+          .putMethod(
+              url: '${Urls.updateLocation}${locationModel.sId}', body: param)
+          .then((parsedJson) {
+        GlobalVariable.showLoader.value = false;
+        if (parsedJson['success'] == true &&
+            parsedJson['message'] == 'Location Updated Successfully') {
+          print("edited success -----");
+          ShippingAddressListViewModel viewModel = Get.find();
+          viewModel.getLocationListApi();
+          Get.back();
+          CommonFunction.showSnackBar(
+              title: 'Success', message: parsedJson['message']);
+        } else {
+          CommonFunction.showSnackBar(
+              title: 'Error', message: parsedJson['message']);
+        }
+      }).catchError((e) {
+        CommonFunction.debugPrint(e);
+      });
+    }
   }
 }

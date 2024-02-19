@@ -38,7 +38,8 @@ class ShippingAddressListView extends StatelessWidget {
                   title: 'Add More Addresses',
                   onPressed: () {
                     // Get.toNamed(AppRoutes.addShippingAddressViewRoute);
-                    Get.to(AddShippingAddressView());
+                    Get.to(() => AddShippingAddressView(),
+                        arguments: {'editData': false});
                   },
                   icon: Icons.add,
                   width: double.infinity,
@@ -97,8 +98,15 @@ class ShippingAddressListView extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkWell(
                 onTap: () {
-                  Get.to(AddShippingAddressView(),
-                      arguments: {'editData': false});
+                  viewModel.isEditShippingAdrr.value = true;
+                  var model = viewModel.shippingAddrList[index];
+                  Get.to(
+                    () => AddShippingAddressView(),
+                    arguments: {
+                      'editData': true,
+                      'model': model,
+                    },
+                  );
                 },
                 child: Text(
                   'Edit',

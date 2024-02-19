@@ -15,7 +15,7 @@ class Urls {
   static String getProfile = "/auth/profile";
   static String editProfile = "/customer/auth/update";
 
-  static String getOrders = "/vendor/order";
+  // static String getOrders = "/vendor/order";
   static String getVendorStoreDetails = '/public/store?';
 
   //HomeViewModel
@@ -38,5 +38,5 @@ class Urls {
   static String getCountries = "/places/countries?limit=0";
   static String getCities = "/places/cities?limit=0&country=";
   static String addLocation = "/customer/location/add";
-  static String updateLocation = "/customer/location/update/:id";
+  static String updateLocation = "/customer/location/update/";
 }

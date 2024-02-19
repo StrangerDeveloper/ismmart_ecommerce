@@ -44,7 +44,9 @@ class AddShippingAddressView extends StatelessWidget {
                     child: CustomTextBtn(
                       title: viewModel.isEdit ? 'Update' : 'Save & Add',
                       onPressed: () {
-                        viewModel.saveAndCreateBtn();
+                        viewModel.isEdit
+                            ? viewModel.updateShippingAdrrApi()
+                            : viewModel.saveAndCreateBtn();
                       },
                     ),
                   ),

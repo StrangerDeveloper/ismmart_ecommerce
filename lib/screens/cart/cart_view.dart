@@ -4,6 +4,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_routes.dart';
 import 'package:ismmart_ecommerce/screens/cart/cart_viewmodel.dart';
+import 'package:ismmart_ecommerce/screens/checkout/checkout_view.dart';
 import 'package:ismmart_ecommerce/widgets/custom_appbar.dart';
 import 'package:ismmart_ecommerce/widgets/custom_network_image.dart';
 
@@ -50,7 +51,8 @@ class CartView extends StatelessWidget {
                 height: 45,
                 title: 'Check OUt',
                 onPressed: () {
-                  Get.to(AppRoutes.checkoutViewRoute);
+                  // Get.to(AppRoutes.checkoutViewRoute);
+                  Get.to(() => CheckoutView());
                 },
               ),
             ),

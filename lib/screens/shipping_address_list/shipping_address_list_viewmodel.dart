@@ -7,23 +7,34 @@ import 'package:ismmart_ecommerce/screens/shipping_address_list/shipingAdress_mo
 import '../../helpers/common_function.dart';
 
 class ShippingAddressListViewModel extends GetxController {
+  @override
+  void onReady() {
+    getLocationListApi();
+
+    // TODO: implement onReady
+    super.onReady();
+  }
+
   RxList<ShippingAdressModel> shippingAddrList = <ShippingAdressModel>[].obs;
   RxInt checkIndex = 0.obs;
+  RxBool isEditShippingAdrr = false.obs;
   RxMap<String, String> selectedAdress =
       {"name": "test", "adress": "adr", "country": "c"}.obs;
 
   //------Get location List-----------
   var _parsedJson;
   Future<void> getLocationListApi() async {
+    shippingAddrList.clear();
+    print("location List Api Call  -------- >>>> $shippingAddrList");
     GlobalVariable.showLoader.value = true;
     ApiBaseHelper().getMethod(url: Urls.getShippingAdress).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
       _parsedJson = parsedJson;
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         shippingAddrList
             .addAll(data.map((e) => ShippingAdressModel.fromJson(e)));
-        GlobalVariable.showLoader.value = false;
       } else {
         error();
       }
@@ -37,13 +48,5 @@ class ShippingAddressListViewModel extends GetxController {
     );
 
     GlobalVariable.showLoader.value = false;
-  }
-
-  @override
-  void onReady() {
-    getLocationListApi();
-
-    // TODO: implement onReady
-    super.onReady();
   }
 }
