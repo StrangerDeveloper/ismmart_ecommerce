@@ -163,9 +163,6 @@ class OrderListingView extends StatelessWidget {
                         text2:
                             viewModel.orderItemList[index].quantity.toString(),
                       ),
-
-                      // _customField2(
-                      //     "Quantity: ${(viewModel.orderItemModel.value.lineitems?[index].qty) ?? "teeen"}")
                     ),
                   ),
                   Obx(
