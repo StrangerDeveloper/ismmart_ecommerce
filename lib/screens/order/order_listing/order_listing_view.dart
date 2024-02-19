@@ -165,9 +165,8 @@ class OrderListingView extends StatelessWidget {
                     child: Obx(
                       () => _customRichText(
                         text1: "Quantity: ",
-                        text2: viewModel.orderItemList[index].quantity
-                                .toString() ??
-                            "qty",
+                        text2:
+                            viewModel.orderItemList[index].quantity.toString(),
                       ),
 
                       // _customField2(
