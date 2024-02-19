@@ -58,11 +58,6 @@ class OrderListingView extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  // viewModel.orderIdSelection(viewModel
-                                  //     .orderItemList[index].sId
-                                  //     .toString());
-                                  // Get.toNamed(
-                                  // DetailView');
                                   Get.toNamed(
                                     AppRoutes.orderDetailViewRoute,
                                     arguments: {
