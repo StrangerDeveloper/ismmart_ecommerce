@@ -159,9 +159,6 @@ class OrderListingView extends StatelessWidget {
                       text1: "Total Amount: ",
                       text2: viewModel.orderItemModel.value.totals.toString(),
                     ),
-
-                    // _customField2(
-                    //     "Total Amount: ${(viewModel.orderItemModel.value.totals) ?? "zero"}")
                   ),
                   const SizedBox(height: 15),
                   Row(
