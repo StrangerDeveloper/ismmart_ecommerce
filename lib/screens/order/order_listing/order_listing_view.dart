@@ -179,7 +179,6 @@ class OrderListingView extends StatelessWidget {
                       ),
                       Obx(
                         () => _status(
-                            //viewModel.orderItemModel.value.status ?? "Pending",
                             viewModel.orderItemList[index].deliveryStatus ??
                                 "Pending"),
                       ),
