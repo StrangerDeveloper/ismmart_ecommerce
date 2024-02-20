@@ -11,8 +11,7 @@ import '../../widgets/loader_view.dart';
 class AddShippingAddressView extends StatelessWidget {
   AddShippingAddressView({super.key});
 
-  final AddShippingAddressViewModel viewModel =
-      Get.put(AddShippingAddressViewModel());
+  final AddLocationViewModel viewModel = Get.put(AddLocationViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +21,7 @@ class AddShippingAddressView extends StatelessWidget {
         title: viewModel.isEdit
             ? 'Update Shipping Address'
             : 'Add Shipping Address',
+        containsLeading: true,
       ),
       body: Stack(
         children: [
@@ -44,7 +44,9 @@ class AddShippingAddressView extends StatelessWidget {
                     child: CustomTextBtn(
                       title: viewModel.isEdit ? 'Update' : 'Save & Add',
                       onPressed: () {
-                        // viewModel.saveAndCreateBtn();
+                        viewModel.isEdit
+                            ? viewModel.updateShippingAdrrApi()
+                            : viewModel.saveAndCreateBtn();
                       },
                     ),
                   ),
@@ -82,14 +84,9 @@ class AddShippingAddressView extends StatelessWidget {
 
   Widget provinceTxtField() {
     return CustomTextField1(
-      controller: viewModel.nameController,
+      controller: viewModel.provinceController,
       title: 'Province',
       hintText: 'Select the province',
-      onTap: () {
-        // viewModel.resetForCitiesCountryValue();
-        // itemsBottomSheet();
-      },
-      isDropDown: true,
       validator: (value) {
         return Validator.validateDefaultField(value,
             errorMessage: 'Name is required');
@@ -106,8 +103,8 @@ class AddShippingAddressView extends StatelessWidget {
         controller: viewModel.countryController,
         hintText: 'Select the country',
         onTap: () {
-          // viewModel.resetForCitiesCountryValue();
-          // itemsBottomSheet();
+          viewModel.resetForCitiesCountryValue();
+          itemsBottomSheet();
         },
         isDropDown: true,
         validator: (value) {
@@ -126,8 +123,8 @@ class AddShippingAddressView extends StatelessWidget {
       controller: viewModel.cityController,
       isDropDown: true,
       onTap: () {
-        // viewModel.resetForCitiesCountryValue(isCity: true);
-        // itemsBottomSheet(isCity: true);
+        viewModel.resetForCitiesCountryValue(isCity: true);
+        itemsBottomSheet(isCity: true);
       },
       validator: (value) {
         return Validator.validateDefaultField(value,
@@ -218,7 +215,7 @@ class AddShippingAddressView extends StatelessWidget {
                 hintText: 'Search ${isCity ? 'City' : 'Country'}...',
                 controller: viewModel.searchController,
                 onChanged: (value) {
-                  // viewModel.onSearchForCitiesCountries(value, isCity: isCity);
+                  viewModel.onSearchForCitiesCountries(value, isCity: isCity);
                 },
               ),
               Obx(

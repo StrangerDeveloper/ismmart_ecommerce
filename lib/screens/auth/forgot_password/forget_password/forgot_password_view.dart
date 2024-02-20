@@ -50,6 +50,7 @@ class ForgotPasswordView1 extends StatelessWidget {
 
   PreferredSizeWidget appbar() {
     return CustomAppBar2(
+      containsLeading: true,
       title: 'Forget Password',
       titleTextStyle: ThemeHelper.textTheme.titleMedium,
       centerTitle: true,
@@ -131,14 +132,14 @@ class ForgotPasswordView1 extends StatelessWidget {
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               CustomText(
+              CustomText(
                 title: "Reset",
                 size: 14,
                 color: AppColors.white,
                 weight: FontWeight.w500,
               ),
               SizedBox(width: 2),
-               Icon(
+              Icon(
                 Icons.arrow_forward,
                 size: 20,
               ),

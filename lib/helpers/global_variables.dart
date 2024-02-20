@@ -9,6 +9,7 @@ class GlobalVariable {
   static RxBool showLoader = false.obs;
   static RxBool noInternet = false.obs;
   static RxInt selectedIndex = 0.obs;
+  static RxBool auth_From_CheckOut = false.obs;
   static String notificationsToken = '';
   static Rx<UserProfileModel> userModel = UserProfileModel().obs;
 

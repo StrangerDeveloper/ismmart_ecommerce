@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/screens/checkout/checkout_viewmodel.dart';
 import 'package:ismmart_ecommerce/widgets/custom_button.dart';
 
+import '../../helpers/theme_helper.dart';
 import '../../widgets/custom_appbar.dart';
+import '../../widgets/custom_network_image.dart';
 import '../../widgets/custom_radiobtn.dart';
+import '../shipping_address_list/shipping_address_list_view.dart';
+import '../shipping_address_list/shipping_address_list_viewmodel.dart';
 
 class CheckoutView extends StatelessWidget {
   CheckoutView({super.key});
 
   final CheckoutViewModel viewModel = Get.put(CheckoutViewModel());
+  final ShippingAddressListViewModel viewModel1 =
+      Get.put(ShippingAddressListViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar2(
+        containsLeading: true,
         title: 'Checkout',
       ),
       body: SingleChildScrollView(
@@ -25,7 +34,7 @@ class CheckoutView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             changeShippingAddress(),
-            shippingAddress(),
+            GlobalVariable.token == '' ? if_Not_Login() : shippingAddress(),
             headingItem('Payment'),
             Obx(
               () => Padding(
@@ -104,12 +113,19 @@ class CheckoutView extends StatelessWidget {
           headingItem(
             'Shipping Address',
           ),
-          const Text(
-            'Change',
-            style: TextStyle(
-              color: Color(0xFFFE3A30),
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+          InkWell(
+            onTap: () {
+              Get.to(
+                () => ShippingAddressListView(),
+              );
+            },
+            child: const Text(
+              'Change',
+              style: TextStyle(
+                color: Color(0xFFFE3A30),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           )
         ],
@@ -134,26 +150,29 @@ class CheckoutView extends StatelessWidget {
           ),
         ],
       ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Home',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 2, bottom: 8),
-            child: Text(
-              'Chino Hills, CA 91709, United States',
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              viewModel1.selectedAdress['name'] ?? '',
               style: TextStyle(
                 fontSize: 12,
+                fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(top: 2, bottom: 8),
+              child: Text(
+                "${viewModel1.selectedAdress['adress']} ${viewModel1.selectedAdress['country']}" ??
+                    '',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -242,6 +261,42 @@ class CheckoutView extends StatelessWidget {
       child: CustomTextBtn(
         title: 'Place Order',
         onPressed: () {},
+      ),
+    );
+  }
+
+  Widget if_Not_Login() {
+    return accountWidget(
+        Icons.person, '', "Login / Sing Up", 'Login or Sign Up to continue...');
+  }
+
+  Widget accountWidget(icon, imageUrl, title, subTitle) {
+    return ListTile(
+      onTap: () {
+        GlobalVariable.auth_From_CheckOut.value == true;
+        Get.toNamed(AppRoutes.loginViewRoute);
+      },
+      leading: Container(
+        width: 70,
+        height: 70,
+        padding: const EdgeInsets.all(5),
+        decoration:
+            const BoxDecoration(color: AppColors.grey6, shape: BoxShape.circle
+                //borderRadius: BorderRadius.circular(30),
+                ),
+        child: const Icon(
+          Icons.person_rounded,
+          size: 30,
+        ),
+      ),
+      title: Text(
+        title,
+        style: ThemeHelper.textTheme.bodyMedium!
+            .copyWith(fontWeight: FontWeight.w600),
+      ),
+      subtitle: Text(
+        subTitle,
+        style: ThemeHelper.textTheme.bodySmall,
       ),
     );
   }

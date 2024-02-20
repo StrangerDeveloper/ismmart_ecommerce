@@ -102,9 +102,14 @@ class SignupMehtodViewModel extends GetxController {
   void gotoNextPage() {
     GlobalVariable.showLoader.value = false;
     GetStorage().write('token', _parsedJson['data']['token']);
-   // var a = GetStorage().read('token');
+    // var a = GetStorage().read('token');
     GlobalVariable.token = _parsedJson['data']['token'];
-    Get.offAllNamed(AppRoutes.bottomNavViewRoute);
+    if (GlobalVariable.auth_From_CheckOut.value == true) {
+      GlobalVariable.auth_From_CheckOut.value = false;
+      Get.offAllNamed(AppRoutes.checkoutViewRoute);
+    } else {
+      Get.offAllNamed(AppRoutes.bottomNavViewRoute);
+    }
   }
 
   void error() {

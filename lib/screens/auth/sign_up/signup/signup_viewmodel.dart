@@ -24,16 +24,9 @@ class SignUpViewModel extends GetxController {
   RxBool isChecked = false.obs;
   FocusNode myfocus = FocusNode();
 
-  final SignupMehtodViewModel _socialviewModel =
-      Get.put(SignupMehtodViewModel());
-  String socialToken = '';
   @override
   void onReady() {
     GlobalVariable.showLoader.value = false;
-    nameController.text = _socialviewModel.socialName.value;
-    emailController.text = _socialviewModel.socialEmail.value;
-    emailController.text = _socialviewModel.socialEmail.value;
-    socialToken = _socialviewModel.socialToken.value;
 
     super.onReady();
   }
@@ -54,42 +47,25 @@ class SignUpViewModel extends GetxController {
     fileList.clear();
     if (signUpFormKey.currentState?.validate() ?? false) {
       if (isChecked.value == true) {
-        String regex =
-            r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
-        final String cnicNo =
-            cnicController.text.replaceAll(RegExp(regex, unicode: true), '');
-
-        Map<String, String> param = {};
-        if (_socialviewModel.socialPlatform.value != "" &&
-            _socialviewModel.socialToken.value != "") {
-          param = {
-            "name": nameController.text,
-            "email": emailController.text,
-            "gender": genderList[genderSelectedIndex.value],
-            "cnic": cnicNo,
-            "phone": countryCode.value + phoneNumberController.text,
-            "password": passwordController.text,
-            "confirmPassword": confirmPasswordController.text,
-            "social":
-                "{ social[name]: ${_socialviewModel.socialPlatform.value}, social[token]: ${_socialviewModel.socialToken.value}   }",
-          };
-        } else {
-          param = {
-            "name": nameController.text,
-            "email": emailController.text,
-            "gender": genderList[genderSelectedIndex.value],
-            "cnic": cnicNo,
-            "phone": countryCode.value + phoneNumberController.text,
-            "password": passwordController.text,
-            "confirmPassword": confirmPasswordController.text,
-          };
-        }
+        Map<String, String> param = {
+          "name": nameController.text,
+          "email": emailController.text,
+          "gender": genderList[genderSelectedIndex.value],
+          "phone": countryCode.value + phoneNumberController.text,
+          "password": passwordController.text,
+        };
         GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
             .postMethod(url: Urls.register, body: param)
             .then((parsedJson) {
           if (parsedJson['success'] == true) {
             GlobalVariable.showLoader.value = false;
+            if (GlobalVariable.auth_From_CheckOut.value == true) {
+              GlobalVariable.auth_From_CheckOut.value = false;
+              Get.offAllNamed(AppRoutes.checkoutViewRoute);
+            } else {
+              Get.offAllNamed(AppRoutes.bottomNavViewRoute);
+            }
             Get.toNamed(AppRoutes.loginViewRoute);
           } else {
             GlobalVariable.showLoader(false);

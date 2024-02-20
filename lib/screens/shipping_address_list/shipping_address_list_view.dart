@@ -1,11 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_ecommerce/helpers/app_colors.dart';
+import 'package:ismmart_ecommerce/helpers/app_routes.dart';
+import 'package:ismmart_ecommerce/helpers/global_variables.dart';
 import 'package:ismmart_ecommerce/screens/shipping_address_list/shipping_address_list_viewmodel.dart';
+import 'package:ismmart_ecommerce/widgets/loader_view.dart';
 
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_checkbox.dart';
+import '../add_shipping_address/add_shipping_address_view.dart';
+import '../add_shipping_address/add_shipping_address_view.dart';
 
 class ShippingAddressListView extends StatelessWidget {
   ShippingAddressListView({super.key});
@@ -16,20 +23,31 @@ class ShippingAddressListView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const CustomAppBar2(
+        containsLeading: true,
         title: 'Shipping Addresses',
       ),
-      body: Column(
+      body: Stack(
         children: [
-          listView(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: CustomIconTextBtn(
-              title: 'Add More Addresses',
-              onPressed: () {},
-              icon: Icons.add,
-              width: double.infinity,
-            ),
+          Column(
+            children: [
+              listView(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: CustomIconTextBtn(
+                  title: 'Add More Addresses',
+                  onPressed: () {
+                    // Get.toNamed(AppRoutes.addShippingAddressViewRoute);
+                    Get.to(() => AddShippingAddressView(),
+                        arguments: {'editData': false});
+                  },
+                  icon: Icons.add,
+                  width: double.infinity,
+                ),
+              ),
+            ],
           ),
+          LoaderView()
         ],
       ),
     );
@@ -37,66 +55,94 @@ class ShippingAddressListView extends StatelessWidget {
 
   Widget listView() {
     return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        itemCount: 3,
-        itemBuilder: (context, int index) {
-          return listViewItem(index);
-        },
+      child: Obx(
+        () => ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          itemCount: viewModel.shippingAddrList.length,
+          itemBuilder: (context, int index) {
+            return listViewItem(index);
+          },
+        ),
       ),
     );
   }
 
   Widget listViewItem(int index) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: AppColors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x14000000),
-              blurRadius: 25,
-              offset: Offset(0, 1),
-              spreadRadius: 0,
-            ),
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'Edit',
-              style: TextStyle(
-                color: AppColors.red,
-                fontWeight: FontWeight.w500,
+    var adress = viewModel.shippingAddrList[index];
+
+    return InkWell(
+      onTap: () {
+        viewModel.checkIndex.value = index;
+        viewModel.selectedAdress['name'] = "${adress.name}";
+        viewModel.selectedAdress['country'] = "${adress.country?.name}";
+        viewModel.selectedAdress['adress'] = "${adress.address}";
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: AppColors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x14000000),
+                blurRadius: 25,
+                offset: Offset(0, 1),
+                spreadRadius: 0,
+              ),
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: () {
+                  viewModel.isEditShippingAdrr.value = true;
+                  var model = viewModel.shippingAddrList[index];
+                  Get.to(
+                    () => AddShippingAddressView(),
+                    arguments: {
+                      'editData': true,
+                      'model': model,
+                    },
+                  );
+                },
+                child: Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: AppColors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
-          ),
-          const Text(
-            'Home',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 2, bottom: 8),
-            child: Text(
-              'Chino Hills, CA 91709, United States',
+            Text(
+              "    ${adress.name} ",
               style: TextStyle(
                 fontSize: 12,
+                fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-          CustomCheckBox(
-            title: 'Use as the shipping address',
-            value: false.obs,
-            onChanged: (value) {},
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(top: 2, bottom: 8),
+              child: Text(
+                "${adress.address} ${adress.country?.name}",
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+            ),
+            Obx(
+              () => CustomCheckBox(
+                title: 'Use as the shipping address',
+                value:
+                    viewModel.checkIndex.value == index ? true.obs : false.obs,
+                onChanged: (value) {},
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
