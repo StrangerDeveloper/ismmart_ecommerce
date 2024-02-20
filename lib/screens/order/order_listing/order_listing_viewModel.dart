@@ -54,7 +54,6 @@ class OrderListingViewModel extends GetxController {
         .then((response) {
       var data = response['data']['items'] as List;
       if (response['success'] == true) {
-        print("Api called");
         GlobalVariable.showLoader.value = false;
         orderItemList.clear();
         orderItemList.addAll(data.map((e) => OrderItemIdModel.fromJson(e)));
