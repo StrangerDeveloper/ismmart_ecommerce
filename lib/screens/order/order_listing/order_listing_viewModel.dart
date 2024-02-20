@@ -52,7 +52,6 @@ class OrderListingViewModel extends GetxController {
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
-      print("Responseeeee: $response");
       var data = response['data']['items'] as List;
       print("Dataaaaa: $data");
       if (response['success'] == true) {
