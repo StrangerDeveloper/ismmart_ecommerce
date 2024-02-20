@@ -144,8 +144,6 @@ class OrderListingView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //     text1: "Tracking number: ",
-                  //     text2: viewModel
                   //             .orderItemModel.value.lineitems?[index].sId ??
                   //         "IW3475453455",
                   //   ),
