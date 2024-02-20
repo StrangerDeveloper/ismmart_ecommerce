@@ -87,9 +87,4 @@ class OrderListingViewModel extends GetxController {
     }
     getOrderListing();
   }
-
-  //     searchUrlValue = '';
-  //   }
-  //   getOrderListing();
-  // }
 }
