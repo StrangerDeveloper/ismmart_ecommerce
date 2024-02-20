@@ -70,7 +70,6 @@ class OrderListingViewModel extends GetxController {
         title: "Error2222222222",
         message: error.toString(),
       );
-      print("Errorrrr22: $error");
       GlobalVariable.showLoader.value = false;
     });
   }
