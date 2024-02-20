@@ -5,8 +5,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_ecommerce/helpers/app_strings.dart';
-import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_model.dart';
+import '../../../helpers/app_strings.dart';
+import '../../../screens/order/order_details/order_detail_model.dart';
 
 import '../../../helpers/app_colors.dart';
 import '../../../widgets/custom_popup.dart';
