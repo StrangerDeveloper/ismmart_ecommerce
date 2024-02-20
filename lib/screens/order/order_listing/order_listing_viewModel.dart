@@ -57,7 +57,6 @@ class OrderListingViewModel extends GetxController {
         GlobalVariable.showLoader.value = false;
         orderItemList.clear();
         orderItemList.addAll(data.map((e) => OrderItemIdModel.fromJson(e)));
-        print("OrderItemList: ${orderItemList.length}");
       } else {
         CommonFunction.showSnackBar(
           title: "Error1111111",
