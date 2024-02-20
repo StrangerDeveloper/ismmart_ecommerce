@@ -88,10 +88,6 @@ class OrderListingViewModel extends GetxController {
     getOrderListing();
   }
 
-  // orderIdSelection(String value) {
-  //   if (value.isNotEmpty) {
-  //     searchUrlValue = '?id=$value';
-  //   } else {
   //     searchUrlValue = '';
   //   }
   //   getOrderListing();
