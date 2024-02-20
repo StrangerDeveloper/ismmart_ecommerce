@@ -53,7 +53,6 @@ class OrderListingViewModel extends GetxController {
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
       var data = response['data']['items'] as List;
-      print("Dataaaaa: $data");
       if (response['success'] == true) {
         print("Api called");
         GlobalVariable.showLoader.value = false;
