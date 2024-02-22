@@ -106,7 +106,7 @@ class OrderDetailView extends StatelessWidget {
                     ),
                   ],
                 ),
-                // child: _customField2(
+
                 //     "Tracking Number: ${viewModel.orderItemModel.value.orderId ?? "TN"}"),
               ),
               _status(
