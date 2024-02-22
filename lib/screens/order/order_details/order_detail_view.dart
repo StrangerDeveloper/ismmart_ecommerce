@@ -230,8 +230,6 @@ class OrderDetailView extends StatelessWidget {
                               }).toList() ??
                               [],
 
-                          //     width: 16,
-                          //   ),
                           //   _customField2(
                           //       "Rs. ${model.totals?.total?.toStringAsFixed(2) ?? "total"}"),
                           // ],
