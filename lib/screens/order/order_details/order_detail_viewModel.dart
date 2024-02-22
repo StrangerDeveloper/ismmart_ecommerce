@@ -17,7 +17,7 @@ class OrderDetailViewModel extends GetxController {
   void onInit() {
     if (Get.arguments['itemId'] != null) {
       itemId.value = Get.arguments['itemId'];
-      print("itemId: ${itemId.value}");
+      //print("itemId: ${itemId.value}");
     }
     getaorderById();
     super.onInit();
