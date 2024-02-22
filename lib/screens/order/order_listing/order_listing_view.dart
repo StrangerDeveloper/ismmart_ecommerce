@@ -126,9 +126,7 @@ class OrderListingView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _customField1(
-                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"
-                        //"Order No ${viewModel.orderItemModel.value.lineitems?[index].sId ?? "123456"}",
-                        ),
+                        "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
                   ),
                   _customField2(
                     //viewModel.orderItemModel.value.createdAt ?? "date",
