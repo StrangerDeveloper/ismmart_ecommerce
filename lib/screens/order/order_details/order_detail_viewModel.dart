@@ -39,7 +39,7 @@ class OrderDetailViewModel extends GetxController {
         lineItemList.addAll(data.map((e) => Lineitems.fromJson(e)));
         orderItemModel.value =
             OrderItemIdModel.fromJson(response['data']['items'][0]);
-        print("lineItemList: ${lineItemList.length}");
+        //print("lineItemList: ${lineItemList.length}");
       } else {
         CommonFunction.showSnackBar(
             title: 'Error', message: response['message']);
