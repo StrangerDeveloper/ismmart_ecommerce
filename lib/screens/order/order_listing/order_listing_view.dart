@@ -129,7 +129,6 @@ class OrderListingView extends StatelessWidget {
                         "Order No ${viewModel.orderItemList[index].orderId ?? "id"}"),
                   ),
                   _customField2(
-                    //viewModel.orderItemModel.value.createdAt ?? "date",
                     DateFormat("d MMM y").format(
                       DateTime.parse(
                           viewModel.orderItemList[index].createdAt ?? "now"),
