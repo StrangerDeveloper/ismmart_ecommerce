@@ -132,7 +132,6 @@ class OrderListingView extends StatelessWidget {
                     DateFormat("d MMM y").format(
                       DateTime.parse(
                           viewModel.orderItemList[index].createdAt ?? "now"),
-                      //viewModel.orderItemModel.value.createdAt ?? "now"),
                     ),
                   ),
                 ],
