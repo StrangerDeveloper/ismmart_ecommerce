@@ -230,8 +230,6 @@ class OrderDetailView extends StatelessWidget {
                               }).toList() ??
                               [],
 
-                          //       "Qty: ${model.quantity?.toString() ?? "qty"}"),
-                          //   const SizedBox(
                           //     width: 16,
                           //   ),
                           //   _customField2(
