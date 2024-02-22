@@ -32,7 +32,6 @@ class OrderDetailViewModel extends GetxController {
         .then((response) {
       var data = response['data']['items'][0]['lineitems'] as List;
 
-      //print("items data: $data");
       if (response['success'] == true) {
         print("id api called: $response");
         GlobalVariable.showLoader.value = false;
