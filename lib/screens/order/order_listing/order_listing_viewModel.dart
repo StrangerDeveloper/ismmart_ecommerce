@@ -62,7 +62,6 @@ class OrderListingViewModel extends GetxController {
           title: "Error1111111",
           message: response['message'],
         );
-        // print("Errorrrr11: ${response['message']}");
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
