@@ -230,10 +230,6 @@ class OrderDetailView extends StatelessWidget {
                               }).toList() ??
                               [],
                         ),
-
-                        //         "Rs. ${model.lineItemTotals?.total?.toStringAsFixed(2) ?? "total"}"),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ],
