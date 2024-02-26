@@ -231,10 +231,6 @@ class OrderDetailView extends StatelessWidget {
                               [],
                         ),
 
-                        //       TextSpan(
-                        //         text: "Color: ",
-                        //         style: ThemeHelper.textTheme.bodySmall
-                        //             ?.copyWith(
                         //           color: AppColors.grey2,
                         //         ),
                         //       ),
