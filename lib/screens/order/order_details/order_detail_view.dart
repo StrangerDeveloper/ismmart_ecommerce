@@ -230,9 +230,7 @@ class OrderDetailView extends StatelessWidget {
                               }).toList() ??
                               [],
                         ),
-                        // RichText(
-                        //   text: TextSpan(
-                        //     children: [
+
                         //       TextSpan(
                         //         text: "Color: ",
                         //         style: ThemeHelper.textTheme.bodySmall
