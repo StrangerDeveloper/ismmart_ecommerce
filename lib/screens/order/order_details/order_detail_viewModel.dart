@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:get/get.dart';
-import 'package:ismmart_ecommerce/screens/order/order_details/order_detail_model.dart';
 
+import '../../../screens/order/order_details/order_detail_model.dart';
 import '../../../helpers/api_base_helper.dart';
 import '../../../helpers/common_function.dart';
 import '../../../helpers/global_variables.dart';
