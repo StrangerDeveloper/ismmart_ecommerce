@@ -231,13 +231,6 @@ class OrderDetailView extends StatelessWidget {
                               [],
                         ),
 
-                        //           color: AppColors.grey2,
-                        //         ),
-                        //       ),
-                        //       TextSpan(
-                        //         text: viewModel.orderItemModel.value
-                        //                 .lineitems?[index].options
-                        //                 ?.toString() ??
                         //             "color",
                         //         style: ThemeHelper.textTheme.bodySmall
                         //             ?.copyWith(
