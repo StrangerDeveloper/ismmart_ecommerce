@@ -231,17 +231,6 @@ class OrderDetailView extends StatelessWidget {
                               [],
                         ),
 
-                        //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     RichText(
-                        //       text: TextSpan(
-                        //         children: [
-                        //           TextSpan(
-                        //             text: "Size: ",
-                        //             style: ThemeHelper.textTheme.bodySmall
-                        //                 ?.copyWith(
-                        //               color: AppColors.grey2,
-                        //             ),
                         //           ),
                         //           TextSpan(
                         //             text: model.options?.toString() ?? "size",
