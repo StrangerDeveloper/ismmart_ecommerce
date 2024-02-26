@@ -231,16 +231,6 @@ class OrderDetailView extends StatelessWidget {
                               [],
                         ),
 
-                        //             "color",
-                        //         style: ThemeHelper.textTheme.bodySmall
-                        //             ?.copyWith(
-                        //           color: AppColors.black,
-                        //           fontWeight: FontWeight.bold,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         // _customField1(
                         //     "Color: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "color"}"),
                         // _customField1(
