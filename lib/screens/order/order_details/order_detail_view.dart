@@ -231,11 +231,6 @@ class OrderDetailView extends StatelessWidget {
                               [],
                         ),
 
-                        // _customField1(
-                        //     "Color: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "color"}"),
-                        // _customField1(
-                        //     "Size: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "size"}"),
-                        // Row(
                         //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         //   children: [
                         //     RichText(
