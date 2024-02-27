@@ -249,7 +249,7 @@ class OrderListingView extends StatelessWidget {
       case "Refunded":
       case "Unfulfilled":
         return const Color(0xFFFDBA8C);
-      case "Partially Paid":
+      //case "Partially Paid":
       case "Processing":
       case "Returned":
       case "In Transit":
