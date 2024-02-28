@@ -544,7 +544,7 @@ class OrderDetailView extends StatelessWidget {
       case "Cancelled":
       case "Failed":
         return const Color(0xFFFE3A30);
-      //case "Shipped":
+      case "Shipped":
       case "Fulfilled":
       case "Delivered":
       case "COD Verified":
