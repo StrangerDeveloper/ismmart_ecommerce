@@ -253,7 +253,7 @@ class OrderListingView extends StatelessWidget {
       case "Processing":
       case "Returned":
       case "In Transit":
-        //case "Out for Delivery":
+      case "Out for Delivery":
         return const Color(0xFFFFE5A0);
       case "Cancelled":
       case "Failed":
